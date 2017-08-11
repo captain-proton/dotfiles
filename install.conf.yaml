@@ -1,0 +1,15 @@
+- defaults:
+    link:
+      create: true
+      relink: true
+
+- clean: ['~']
+
+- link:
+    ~/.dotfiles: ''
+    ~/.vimrc: vimrc
+    ~/.vimrc.bundles: vim/bundle.vim
+
+- shell:
+  - [git submodule update --init --recursive, Installing submodules]
+  - [vim +PluginInstall +qall, Installing vim plugins]
