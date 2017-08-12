@@ -3,7 +3,9 @@ if !isdirectory(expand("~/.vim/bundle/Vundle.vim"))
     silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 endif
 
+
 " Required Vundle setup
+set nocompatible
 filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -48,4 +50,5 @@ Plugin 'terryma/vim-multiple-cursors'
 " All of your Plugins must be added before the following line
 call vundle#end()
 
+" required
 filetype plugin indent on

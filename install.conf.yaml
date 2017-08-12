@@ -12,4 +12,9 @@
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  - [vim +PluginInstall +qall, Installing vim plugins]
+  -
+    command: vim -u ~/.vimrc.bundles +PluginInstall +qall
+    stdin: true
+    stdout: true
+    stderr: true
+    description: Installing vim plugins
