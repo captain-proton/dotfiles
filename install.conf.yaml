@@ -9,6 +9,7 @@
     ~/.dotfiles: ''
     ~/.vimrc: vimrc
     ~/.vimrc.bundles: vim/bundle.vim
+    ~/.zshrc: zshrc
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
