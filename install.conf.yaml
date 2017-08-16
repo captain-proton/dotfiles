@@ -11,6 +11,7 @@
     ~/.vimrc.bundles: vim/bundle.vim
     ~/.zshrc: zshrc
     ~/.zsh: zsh
+    ~/.gitconfig: gitconfig
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
