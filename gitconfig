@@ -1,0 +1,12 @@
+[color]
+	ui = true
+[merge]
+	tool = meld
+[alias]
+    lol = log --pretty=oneline --graph --decorate --abbrev-commit --all
+[push]
+    default = matching
+
+[include]
+    path = ~/.gitconfig_local
+
