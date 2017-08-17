@@ -64,6 +64,13 @@ set incsearch
 set ignorecase
 set smartcase
 
+" Map <C-g> (redraw screen) to also turn off search highlighting until the
+" next search
+nnoremap <C-g> :nohl<CR><C-g>
+
+" Allow backspacing over autoindent, line breaks and start of insert action
+set backspace=indent,eol,start
+
 " copy and paste
 vmap <C-c> "+yi
 vmap <C-x> "+c
@@ -92,7 +99,11 @@ nnoremap <C-k> <C-w>k
 nnoremap <C-h> <C-w>h
 nnoremap <C-l> <C-w>l
 
-"""" plugin settings
+" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
+" which is the default
+map Y y$
+
+"""" plugin settingns
 
 " airline plugin
 let g:airline_powerline_fonts = 1
