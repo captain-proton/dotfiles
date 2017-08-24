@@ -9,6 +9,7 @@
     ~/.dotfiles: ''
     ~/.vimrc: vimrc
     ~/.vimrc.bundles: vim/bundle.vim
+    ~/.vimrc.map: vim/map.vim
     ~/.zshrc: zshrc
     ~/.zsh: zsh
     ~/.gitconfig: gitconfig

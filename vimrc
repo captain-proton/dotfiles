@@ -30,7 +30,7 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 " show line numbers
-set number
+set relativenumber
 set tw=79   " document width
 set nowrap  " do not automatically wrap
 set fo-=t   " do not automatically wrap text when typing
@@ -64,25 +64,8 @@ set incsearch
 set ignorecase
 set smartcase
 
-" Map <C-g> (redraw screen) to also turn off search highlighting until the
-" next search
-nnoremap <C-g> :nohl<CR><C-g>
-
 " Allow backspacing over autoindent, line breaks and start of insert action
 set backspace=indent,eol,start
-
-" copy and paste
-vmap <C-c> "+yi
-vmap <C-x> "+c
-vmap <C-v> c<ESC>"+p
-imap <C-v> <ESC>"+pa
-
-nnoremap <A-j> :m .+1<CR>==
-nnoremap <A-k> :m .-2<CR>==
-inoremap <A-j> <Esc>:m .+1<CR>==gi
-inoremap <A-k> <Esc>:m .-2<CR>==gi
-vnoremap <A-j> :m '>+1<CR>gv=gv
-vnoremap <A-k> :m '<-2<CR>gv=gv
 
 " autoclose brackets
 ino " ""<left>
@@ -92,16 +75,6 @@ ino ( ()<left>
 ino [ []<left>
 ino { {}<left>
 ino {<CR> {<CR>}<ESC>0
-
-" Quicker window movement
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-h> <C-w>h
-nnoremap <C-l> <C-w>l
-
-" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-" which is the default
-map Y y$
 
 """" plugin settingns
 
@@ -117,7 +90,9 @@ endif
 
 " CtrlP
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
 
-" NERDTree
-map <Leader>n :NERDTreeToggle<CR>
-
+if filereadable(expand("~/.vimrc.map"))
+  source ~/.vimrc.map
+endif
