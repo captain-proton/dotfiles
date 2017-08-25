@@ -67,15 +67,6 @@ set smartcase
 " Allow backspacing over autoindent, line breaks and start of insert action
 set backspace=indent,eol,start
 
-" autoclose brackets
-ino " ""<left>
-ino ' ''<left>
-ino < <><left>
-ino ( ()<left>
-ino [ []<left>
-ino { {}<left>
-ino {<CR> {<CR>}<ESC>0
-
 """" plugin settingns
 
 " airline plugin
