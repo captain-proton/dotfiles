@@ -15,8 +15,8 @@
     ~/.gitconfig: gitconfig
 
 - shell:
-  - [sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)", Installing oh-my-zsh]
-  - [git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k, Installing powerlevel9k]
+  - ['sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"', Installing oh-my-zsh]
+  - ['git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k', Installing powerlevel9k]
   - [git submodule update --init --recursive, Installing submodules]
   -
     command: vim -u ~/.vimrc.bundles +PluginInstall +qall
