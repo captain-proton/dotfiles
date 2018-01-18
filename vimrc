@@ -30,7 +30,7 @@ set pastetoggle=<F2>
 set clipboard=unnamed
 
 " show line numbers
-set relativenumber
+set number relativenumber
 set tw=79   " document width
 set nowrap  " do not automatically wrap
 set fo-=t   " do not automatically wrap text when typing
