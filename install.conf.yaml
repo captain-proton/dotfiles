@@ -14,7 +14,6 @@
     ~/.zsh: zsh
     ~/.gitconfig: gitconfig
     ~/.oh-my-zsh: oh-my-zsh
-    ~/.oh-my-zsh/custom/themes/powerlevel9k: powerlevel9k
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
