@@ -47,6 +47,7 @@ _load_settings() {
 _load_settings "$HOME/.zsh/configs"
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
+[[ ! -L ~/.oh-my-zsh/custom/themes/powerlevel10k ]] && ln -s ~/.dotfiles/powerlevel10k ~/.oh-my-zsh/custom/themes
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
