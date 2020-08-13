@@ -10,3 +10,5 @@
 [include]
     path = ~/.gitconfig.local
 
+[remote "origin"]
+	prune = true
