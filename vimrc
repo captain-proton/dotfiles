@@ -23,7 +23,7 @@ filetype plugin indent on
 
 " color scheme
 set background=dark
-colorscheme solarized
+colorscheme slate
 
 " better copy & paste
 set pastetoggle=<F2>
