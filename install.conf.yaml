@@ -1,3 +1,4 @@
+---
 - defaults:
     link:
       create: true
@@ -14,11 +15,11 @@
     ~/.zsh: zsh
     ~/.gitconfig: gitconfig
     ~/.oh-my-zsh: oh-my-zsh
+    ~/.config/kitty: kitty
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
-  -
-    command: vim -u ~/.vimrc.bundles +PluginInstall +qall
+  - command: vim -u ~/.vimrc.bundles +PluginInstall +qall
     stdin: true
     stdout: true
     stderr: true
