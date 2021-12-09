@@ -31,6 +31,9 @@ Plugin 'vim-airline/vim-airline-themes'
 " precision colorscheme for the vim text editor
 Plugin 'altercation/vim-colors-solarized'
 
+" Tender color scheme
+Plugin 'jacoborus/tender.vim'
+
 " Vastly improved Javascript indentation and syntax support in Vim.
 Plugin 'pangloss/vim-javascript'
 

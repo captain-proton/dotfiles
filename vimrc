@@ -22,8 +22,11 @@ syntax on
 filetype plugin indent on
 
 " color scheme
+if (has("termguicolors"))
+ set termguicolors
+endif
 set background=dark
-colorscheme slate
+colorscheme tender
 
 " better copy & paste
 set pastetoggle=<F2>
