@@ -15,7 +15,6 @@
     ~/.zsh: zsh
     ~/.gitconfig: gitconfig
     ~/.oh-my-zsh: oh-my-zsh
-    ~/.config/kitty: kitty
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
