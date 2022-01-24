@@ -1,10 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # .zshrc
 ZSH_BASE=$HOME/dotfiles/zsh # Base directory for ZSH configuration
 source $ZSH_BASE/antigen/antigen.zsh # Load Antigen
@@ -12,14 +5,13 @@ source $ZSH_BASE/antigen/antigen.zsh # Load Antigen
 # Load the oh-my-zsh's library.
 antigen use oh-my-zsh
 
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-autosuggestions
+
 antigen theme romkatv/powerlevel10k
 
 antigen apply
-
-# load custom executable functions
-for function in ~/.zsh/functions/*; do
-  source $function
-done
 
 # extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
 # these are loaded first, second, and third, respectively.
