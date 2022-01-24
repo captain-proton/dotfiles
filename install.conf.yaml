@@ -10,7 +10,6 @@
   - [sh pre-install.sh, Running pre installation script]
 
 - link:
-    ~/.dotfiles: ''
     ~/.vimrc: vimrc
     ~/.vimrc.bundles: vim/bundle.vim
     ~/.vimrc.map: vim/map.vim
