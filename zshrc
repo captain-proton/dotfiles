@@ -5,6 +5,17 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# .zshrc
+ZSH_BASE=$HOME/dotfiles/zsh # Base directory for ZSH configuration
+source $ZSH_BASE/antigen/antigen.zsh # Load Antigen
+
+# Load the oh-my-zsh's library.
+antigen use oh-my-zsh
+
+antigen theme romkatv/powerlevel10k
+
+antigen apply
+
 # load custom executable functions
 for function in ~/.zsh/functions/*; do
   source $function
@@ -45,9 +56,6 @@ _load_settings() {
   fi
 }
 _load_settings "$HOME/.zsh/configs"
-
-ZSH_THEME="powerlevel10k/powerlevel10k"
-[[ ! -L ~/.oh-my-zsh/custom/themes/powerlevel10k ]] && ln -s ~/.dotfiles/powerlevel10k ~/.oh-my-zsh/custom/themes
 
 # Local config
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
