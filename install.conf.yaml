@@ -6,15 +6,19 @@
 
 - clean: ['~']
 
+- shell:
+  - [sh pre-install.sh, Running pre installation script]
+
 - link:
     ~/.dotfiles: ''
     ~/.vimrc: vimrc
     ~/.vimrc.bundles: vim/bundle.vim
     ~/.vimrc.map: vim/map.vim
-    ~/.zshrc: zshrc
+    ~/.zshrc: 
+      force: true
+      path: zshrc
     ~/.zsh: zsh
     ~/.gitconfig: gitconfig
-    ~/.oh-my-zsh: oh-my-zsh
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]
