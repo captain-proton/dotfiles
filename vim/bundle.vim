@@ -49,6 +49,9 @@ Plugin 'chiel92/vim-autoformat'
 " Multiple cursors
 Plugin 'terryma/vim-multiple-cursors'
 
+" PaperColor theme
+Plugin 'NLKNguyen/papercolor-theme'
+
 
 " All of your Plugins must be added before the following line
 call vundle#end()
