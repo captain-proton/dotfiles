@@ -1,9 +1,4 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_BASE=$HOME/dotfiles/zsh # Base directory for ZSH configuration
 source $ZSH_BASE/antigen/antigen.zsh # Load Antigen
@@ -17,9 +12,8 @@ antigen bundle zsh-users/zsh-autosuggestions
 
 antigen theme romkatv/powerlevel10k
 
-antigen apply
 
-# extra files in ~/.zsh/configs/pre , ~/.zsh/configs , and ~/.zsh/configs/post
+# extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
 # these are loaded first, second, and third, respectively.
 _load_settings() {
   _dir="$1"
@@ -56,10 +50,13 @@ _load_settings() {
 _load_settings "$HOME/.zsh/configs"
 
 # Local config
-[[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
+[[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
+
+antigen apply
 
 # aliases
-[[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f $HOME/.aliases ]] && source $HOME/.aliases
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
