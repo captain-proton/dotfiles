@@ -1,0 +1,91 @@
+---
+- name: Deploy dotfiles
+  hosts: all
+
+  vars:
+    # Customize these if you want to
+    dotfiles_path: "{{ ansible_env.HOME }}/dotfiles"
+
+    # Necessary for a system that uses gui terminal applications
+    # These fonts must be set inside the terminal app, which is a
+    # setting that this playbook does NOT cover
+    install_custom_font: true
+    font_download_path: "{{ ansible_env.HOME }}/.fonts"
+    
+    # Change only in case the url changed
+    font_base_url: https://github.com/romkatv/powerlevel10k-media/raw/master
+    font_files:
+    - "MesloLGS NF Regular.ttf"
+    - "MesloLGS NF Bold.ttf"
+    - "MesloLGS NF Italic.ttf"
+    - "MesloLGS NF Bold Italic.ttf"
+
+  tasks:
+  # PACKAGE INSTALLATION
+  - name: Install necessary debian packages
+    become: true
+    apt:
+      update_cache: true
+      cache_valid_time: 3600
+      name: "{{ item }}"
+      state: present
+    loop: ["build-essential", "cmake", "vim-nox", "python3-dev", "zsh"]
+    when: ansible_os_family == "Debian"
+
+  - name: Install necessary redhat packages
+    become: true
+    yum:
+      name: "{{ item }}"
+      state: present
+    loop: ["python3-devel", "cmake", "gcc-c++", "make", "vim-enhanced", "zsh"]
+    when: ansible_os_family == "RedHat"
+  # END PACKAGE INSTALLATION
+
+  # DOTFILES DEPLOYMENT
+  - name: Clone dotfiles
+    git:
+      repo: https://github.com/captain-proton/dotfiles.git
+      dest: "{{ dotfiles_path }}"
+
+  - name: Check if dotbot installation file exists
+    stat:
+      path: "{{ dotfiles_path }}/install"
+    register: dotbot_install
+
+  - name: Install dotfiles
+    command:
+      cmd: './install'
+      chdir: "{{ dotfiles_path }}"
+    when: dotbot_install.stat.exists
+    register: installed_dotfiles
+
+  - name: Install YouCompleteMe
+    command:
+      cmd: 'python3 install.py'
+      chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
+    when: installed_dotfiles['rc'] == 0
+  # END DOTFILES DEPLOYMENT
+
+  # SHELL CONFIGURATION
+  - name: Set zsh as shell
+    become: true
+    user:
+      name: "{{ ansible_env.USER }}"
+      shell: /bin/zsh
+
+  # FONT INSTALLATION
+  - name: Install custom fonts
+    block:
+      - name: Create download folder
+        file:
+          path: "{{ font_download_path }}"
+          mode: 0755
+          state: directory
+
+      - name: Download the files
+        get_url:
+          url: "{{ font_base_url }}/{{ item | urlencode() }}"
+          dest: "{{ font_download_path }}/{{ item }}"
+        loop: "{{ font_files }}"
+    when: install_custom_font
+    
