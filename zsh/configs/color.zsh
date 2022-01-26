@@ -5,4 +5,4 @@ colors
 # enable colored output from ls, etc. on FreeBSD-based systems
 export CLICOLOR=1
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=3"
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=214"
