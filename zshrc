@@ -54,11 +54,11 @@ _load_settings "$HOME/.zsh/configs"
 # Local config
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
 
-antigen apply
-
 # aliases
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
 
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
+antigen apply
 
