@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install discord
+      become: true
+      pacman:
+        name: discord
+        state: present

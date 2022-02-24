@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install wine-staging
+      become: true
+      pacman:
+        name: wine-staging
+        state: present

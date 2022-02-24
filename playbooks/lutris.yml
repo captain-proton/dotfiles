@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install lutris
+      become: true
+      pacman:
+        name: lutris
+        state: present
