@@ -29,7 +29,7 @@
   tasks:
     - name: See if dotfiles exists
       stat:
-        path: dotfiles_path
+        path: "{{ dotfiles_path }}"
       register: dotfiles_exists
 
     # PACKAGE INSTALLATION
