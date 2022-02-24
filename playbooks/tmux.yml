@@ -1,0 +1,31 @@
+---
+- hosts: all
+  tags: tmux
+  vars:
+    user_home: "{{ lookup('env', 'HOME') }}" 
+    tmux_home: "{{ user_home }}/.tmux"
+
+  tasks:
+    - name: Install tmux
+      become: true
+      pacman:
+        name: tmux
+        state: present
+
+    - name: Clone gpakosz tmux settings
+      git:
+        repo: git@github.com:gpakosz/.tmux.git
+        dest: "{{ tmux_home }}"
+        version: master
+    
+    - name: Link tmux configuration
+      ansible.builtin.file:
+        src: "{{ tmux_home }}/.tmux.conf"
+        dest: "{{ user_home }}/.tmux.conf"
+        state: link
+    
+    - name: Link tmux local configuration
+      ansible.builtin.file:
+        src: "{{ tmux_home }}/.tmux.conf.local"
+        dest: "{{ user_home }}/.tmux.conf.local"
+        state: link

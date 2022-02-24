@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+    - name: Install yay
+      become: true
+      pacman:
+        name: yay
+        state: present
+
+    - name: Install ansible yay module
+      git:
+        repo: git@github.com:mnussbaum/ansible-yay.git
+        dest: ./library
+        version: master

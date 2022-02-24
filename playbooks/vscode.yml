@@ -3,6 +3,6 @@
   tasks:
     - name: Install visual studio code from aur
       become: true
-      pacman:
+      yay:
         name: visual-studio-code-bin
         state: present

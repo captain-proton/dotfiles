@@ -1,2 +1,6 @@
 ---
-- hosts: all
+- import_playbook: ../playbooks/dotfiles.yml
+- import_playbook: ../playbooks/yay.yml
+- import_playbook: ../playbooks/vscode.yml
+- import_playbook: ../playbooks/vim.yml
+- import_playbook: ../playbooks/tmux.yml
