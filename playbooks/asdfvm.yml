@@ -1,15 +1,20 @@
 ---
 - hosts: all
+
+  vars:
+    asdf_home: "{{ lookup('env', 'HOME') }}/.asdf"
+
   tasks:
     - name: Check if asdf-vm is already installed
       ansible.builtin.stat:
-        path: "{{ lookup('env', 'HOME') }}/.asdf"
+        path: "{{ asdf_home }}"
       register: asdfvm
 
     - name: Clone the asdf-vm repo
       git:
-        repo: git@github.com/asdf-vm/asdf.git
-        branch: v0.9.0
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: "{{ asdf_home }}"
+        version: release-v0.10.0
       when: not asdfvm.stat.exists
 
     
