@@ -11,6 +11,7 @@ antigen bundle zsh-users/zsh-completions
 antigen bundle zsh-users/zsh-autosuggestions
 
 antigen bundle git
+antigen bundle asdf
 
 antigen theme romkatv/powerlevel10k
 

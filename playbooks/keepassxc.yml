@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install keepassxc
+      become: true
+      pacman:
+        name: keepassxc
+        state: present

@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install autofs
+      become: true
+      yay:
+        name: autofs
+        state: present

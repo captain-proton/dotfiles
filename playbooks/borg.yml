@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install borg
+      become: true
+      pacman:
+        name: borg
+        state: present

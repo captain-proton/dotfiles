@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install vlc
+      become: true
+      pacman:
+        name: vlc
+        state: present

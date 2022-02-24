@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install thunderbird
+      become: true
+      pacman:
+        name: thunderbird
+        state: present

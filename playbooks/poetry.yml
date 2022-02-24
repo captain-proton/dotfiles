@@ -1,0 +1,30 @@
+---
+- hosts: all
+  tasks:
+    - name: Check if poetry is already installed
+      ansible.builtin.stat:
+        path: "{{ lookup('env', 'HOME') }}/.local/bin/poetry"
+      register: poetry_bin
+
+    - name: Install poetry
+      block:
+        - name: Create temporary file
+          ansible.builtin.tempfile:
+            state: file
+            prefix: poetry
+            suffix: .py
+          register: tempfile
+
+        - name: Download poetry installation script
+          ansible.builtin.get_url:
+            url: https://install.python-poetry.org
+            dest: "{{ tempfile.path }}"
+            checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
+
+        - name: Run poetry installation script
+          command:
+            cmd: "python {{ tempfile.path }}"
+
+      when: not poetry_bin.stat.exists
+
+    

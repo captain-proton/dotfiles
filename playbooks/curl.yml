@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install curl
+      become: true
+      pacman:
+        name: curl
+        state: present

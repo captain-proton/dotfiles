@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install konsole
+      become: true
+      pacman:
+        name: konsole
+        state: present

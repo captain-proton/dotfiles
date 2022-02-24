@@ -1,6 +1,22 @@
 ---
 - import_playbook: ../playbooks/dotfiles.yml
 - import_playbook: ../playbooks/yay.yml
+- import_playbook: ../playbooks/git.yml
+- import_playbook: ../playbooks/curl.yml
 - import_playbook: ../playbooks/vscode.yml
 - import_playbook: ../playbooks/vim.yml
 - import_playbook: ../playbooks/tmux.yml
+- import_playbook: ../playbooks/autofs.yml
+- import_playbook: ../playbooks/fzf.yml
+- import_playbook: ../playbooks/borg.yml
+- import_playbook: ../playbooks/poetry.yml
+- import_playbook: ../playbooks/asdfvm.yml
+
+- import_playbook: ../playbooks/chromium.yml
+- import_playbook: ../playbooks/brave-browser.yml
+- import_playbook: ../playbooks/keepassxc.yml
+- import_playbook: ../playbooks/konsole.yml
+- import_playbook: ../playbooks/okular.yml
+- import_playbook: ../playbooks/thunderbird.yml
+- import_playbook: ../playbooks/inkscape.yml
+- import_playbook: ../playbooks/vlc.yml

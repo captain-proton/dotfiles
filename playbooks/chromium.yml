@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install chromium
+      become: true
+      pacman:
+        name: chromium
+        state: present

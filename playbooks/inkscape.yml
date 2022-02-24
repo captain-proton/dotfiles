@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install inkscape
+      become: true
+      pacman:
+        name: inkscape
+        state: present
