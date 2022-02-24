@@ -1,0 +1,4 @@
+---
+- import_playbook: ../playbooks/dotfiles.yml
+- import_playbook: ../playbooks/vscode.yml
+- import_playbook: ../playbooks/vim.yml

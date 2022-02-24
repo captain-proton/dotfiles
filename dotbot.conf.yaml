@@ -7,18 +7,18 @@
 - clean: ['~']
 
 - shell:
-  - [sh pre-install.sh, Running pre installation script]
+  - [sh omz.sh, Install/Update oh-my-zsh]
 
 - link:
-    ~/.vimrc: vimrc
-    ~/.vimrc.bundles: vim/bundle.vim
-    ~/.vimrc.map: vim/map.vim
+    ~/.vimrc: ../vimrc
+    ~/.vimrc.bundles: ../vim/bundle.vim
+    ~/.vimrc.map: ../vim/map.vim
     ~/.zshrc: 
       force: true
-      path: zshrc
-    ~/.zsh: zsh
-    ~/.p10k.zsh: zsh/configs/p10k.zsh
-    ~/.gitconfig: gitconfig
+      path: ../zshrc
+    ~/.zsh: ../zsh
+    ~/.p10k.zsh: ../zsh/configs/p10k.zsh
+    ~/.gitconfig: ../gitconfig
 
 - shell:
   - [git submodule update --init --recursive, Installing submodules]

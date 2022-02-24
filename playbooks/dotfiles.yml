@@ -1,0 +1,90 @@
+---
+- name: Deploy dotfiles
+  hosts: all
+
+  vars:
+    # Customize these if you want to
+    dotfiles_path: "{{ ansible_env.HOME }}/dotfiles"
+
+    # Necessary for a system that uses gui terminal applications
+    # These fonts must be set inside the terminal app, which is a
+    # setting that this playbook does NOT cover
+    install_custom_font: true
+    font_download_path: "{{ ansible_env.HOME }}/.fonts"
+
+    # Change only in case the url changed
+    font_base_url: https://github.com/romkatv/powerlevel10k-media/raw/master
+    font_files:
+      - "MesloLGS NF Regular.ttf"
+      - "MesloLGS NF Bold.ttf"
+      - "MesloLGS NF Italic.ttf"
+      - "MesloLGS NF Bold Italic.ttf"
+  
+  handlers:
+    - name: install you complete me
+      command:
+        cmd: 'python install.py'
+        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
+
+  tasks:
+    - name: See if dotfiles exists
+      stat:
+        path: dotfiles_path
+      register: dotfiles_exists
+
+    # PACKAGE INSTALLATION
+    - name: Install necessary packages
+      become: true
+      package:
+        name: "{{ item }}"
+        state: present
+      loop: ["cmake", "gcc", "vim", "zsh", "curl"]
+    # END PACKAGE INSTALLATION
+
+    # OH MY ZSH
+    - name: Check oh my zsh installation
+      ansible.builtin.stat:
+        path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
+      register: omz_home
+
+    - name: Install oh my zsh
+      command:
+        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      when: not omz_home.stat.exists
+      register: omz_install
+    # END OH MY ZSH
+
+    # DOTBOT
+    - name: run dotbot
+      command:
+        cmd: './run_dotbot.sh'
+        chdir: ../scripts
+      register: installed_dotfiles
+      when: dotfiles_exists.stat.exists
+      notify: install you complete me
+    # END DOTFILES DEPLOYMENT
+
+    # SHELL CONFIGURATION
+    - name: Set zsh as shell
+      become: true
+      user:
+        name: "{{ ansible_env.USER }}"
+        shell: /bin/zsh
+    # END SHELL CONFIGURATION
+
+    # FONT INSTALLATION
+    - name: Install custom fonts
+      block:
+        - name: Create download folder
+          file:
+            path: "{{ font_download_path }}"
+            mode: 0755
+            state: directory
+
+        - name: Download the files
+          get_url:
+            url: "{{ font_base_url }}/{{ item | urlencode() }}"
+            dest: "{{ font_download_path }}/{{ item }}"
+          loop: "{{ font_files }}"
+      when: install_custom_font
+    # END FONT INSTALLATION

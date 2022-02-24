@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install visual studio code from aur
+      become: true
+      pacman:
+        name: visual-studio-code-bin
+        state: present
