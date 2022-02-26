@@ -6,9 +6,6 @@
 
 - clean: ['~']
 
-- shell:
-  - [sh omz.sh, Install/Update oh-my-zsh]
-
 - link:
     ~/.vimrc: ../vimrc
     ~/.vimrc.bundles: ../vim/bundle.vim
