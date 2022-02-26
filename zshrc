@@ -1,19 +1,16 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_BASE=$HOME/dotfiles/zsh # Base directory for ZSH configuration
-source $ZSH_BASE/antigen/antigen.zsh # Load Antigen
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# Load the oh-my-zsh's library.
-antigen use oh-my-zsh
-
-antigen bundle zsh-users/zsh-syntax-highlighting
-antigen bundle zsh-users/zsh-completions
-antigen bundle zsh-users/zsh-autosuggestions
-
-antigen bundle git
-antigen bundle asdf
-
-antigen theme romkatv/powerlevel10k
+plugins=(git 
+  asdf
+  tmux
+  systemd
+  poetry
+  zsh-syntax-highlighting
+  zsh-completions
+  zsh-autosuggestions
+)
 
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
@@ -61,5 +58,4 @@ _load_settings "$HOME/.zsh/configs"
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
-antigen apply
-
+source $ZSH/oh-my-zsh.sh

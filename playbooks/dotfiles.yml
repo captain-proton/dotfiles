@@ -54,6 +54,28 @@
       register: omz_install
     # END OH MY ZSH
 
+    # ZSH THEME
+    - name: Get powerlevel10k theme
+      git:
+        repo: https://github.com/romkatv/powerlevel10k.git
+        depth: 1
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        version: master
+    # END ZSH THEME
+
+    # ZSH USER PLUGINS
+    - name: Get zsh-users plugins
+      git:
+        repo: "git@github.com:zsh-users/{{ item }}.git"
+        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/{{ item }}"
+        version: master
+      loop:
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
+      - zsh-completions
+
+    # END ZSH USER PLUGINS
+
     # DOTBOT
     - name: run dotbot
       command:
