@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+    - name: Install freecad
+      become: true
+      pacman:
+        name: freecad
+        state: present
