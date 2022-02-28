@@ -19,6 +19,7 @@
       - "MesloLGS NF Bold.ttf"
       - "MesloLGS NF Italic.ttf"
       - "MesloLGS NF Bold Italic.ttf"
+    home: "{{ lookup('env', 'HOME') }}"
   
   handlers:
     - name: install you complete me
@@ -44,7 +45,7 @@
     # OH MY ZSH
     - name: Check oh my zsh installation
       ansible.builtin.stat:
-        path: "{{ lookup('env', 'HOME') }}/.oh-my-zsh"
+        path: "{{ home }}/.oh-my-zsh"
       register: omz_home
 
     - name: Install oh my zsh
@@ -59,7 +60,7 @@
       git:
         repo: https://github.com/romkatv/powerlevel10k.git
         depth: 1
-        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        dest: "{{ home }}/.oh-my-zsh/custom/themes/powerlevel10k"
         version: master
     # END ZSH THEME
 
@@ -67,7 +68,7 @@
     - name: Get zsh-users plugins
       git:
         repo: "git@github.com:zsh-users/{{ item }}.git"
-        dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/plugins/{{ item }}"
+        dest: "{{ home }}/.oh-my-zsh/custom/plugins/{{ item }}"
         version: master
       loop:
       - zsh-autosuggestions
@@ -76,15 +77,35 @@
 
     # END ZSH USER PLUGINS
 
-    # DOTBOT
-    - name: run dotbot
+    # CONFIGURATION LINKS
+    - name: Link configuration files
+      file:
+        state: link
+        src: "{{ item.src }}"
+        path: "{{ item.path }}"
+      loop:
+      - src: "{{ home }}/dotfiles/vimrc"
+        path: "{{ home }}/.vimrc"
+      - src: "{{ home }}/dotfiles/zshrc"
+        path: "{{ home }}/.zshrc"
+      - src: "{{ home }}/dotfiles/zsh"
+        path: "{{ home }}/.zsh"
+      - src: "{{ home }}/dotfiles/vim/bundle.vim"
+        path: "{{ home }}/.vimrc.bundles"
+      - src: "{{ home }}/dotfiles/vim/map.vim"
+        path: "{{ home }}/.vimrc.map"
+      - src: "{{ home }}/dotfiles/gitconfig"
+        path: "{{ home }}/.gitconfig"
+      - src: "{{ home }}/dotfiles/zsh/configs/p10k.zsh"
+        path: "{{ home }}/.p10k.zsh"
+    # END CONFIGURATION LINKS
+
+    # VIM PLUGINS
+    - name: Install vim plugins
       command:
-        cmd: './run_dotbot.sh'
-        chdir: ../scripts
-      register: installed_dotfiles
-      when: dotfiles_exists.stat.exists
-      notify: install you complete me
-    # END DOTFILES DEPLOYMENT
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
+    # END VIM PLUGINS
+
 
     # SHELL CONFIGURATION
     - name: Set zsh as shell
