@@ -20,4 +20,5 @@
 - import_playbook: ../playbooks/steam-manjaro.yml
 - import_playbook: ../playbooks/wine-staging.yml
 - import_playbook: ../playbooks/lutris.yml
+- import_playbook: ../playbooks/dxvk_aur.yml
 - import_playbook: ../playbooks/discord.yml
