@@ -1,8 +1,56 @@
 ---
 - hosts: all
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+  
+  handlers:
+    - name: install you complete me
+      command:
+        cmd: 'python install.py'
+        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
+    
+    - name: install vim plugins
+      command:
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
+
   tasks:
-    - name: Install vim
+    - name: Install vim and required packages
       become: true
       pacman:
-        name: vim
+        name: "{{ item }}"
         state: present
+      loop: ["cmake", "gcc", "vim"]
+
+    - name: Link configuration files
+      file:
+        state: link
+        src: "{{ item.src }}"
+        path: "{{ item.path }}"
+      loop:
+      - src: "{{ home }}/dotfiles/vimrc"
+        path: "{{ home }}/.vimrc"
+      - src: "{{ home }}/dotfiles/vim/bundle.vim"
+        path: "{{ home }}/.vimrc.bundles"
+      - src: "{{ home }}/dotfiles/vim/map.vim"
+        path: "{{ home }}/.vimrc.map"
+      notify: install vim plugins
+      register: vim_links
+    
+    - name: Update vim plugins
+      command:
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginUpdate +qall"
+      when: not vim_links.changed
+
+    - name: Get YouCompleteMe
+      ansible.builtin.git:
+        repo: git@github.com:ycm-core/YouCompleteMe.git
+        dest: "{{ home }}/.vim/bundle/YouCompleteMe"
+        version: master
+      register: ycm
+    
+    - name: Install YouCompleteMe
+      debug:
+        msg: YouCompleteMe sources changed -> run installation
+      when: ycm.after != ycm.before
+      notify: install you complete me

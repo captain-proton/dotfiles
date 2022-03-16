@@ -20,12 +20,6 @@
       - "MesloLGS NF Italic.ttf"
       - "MesloLGS NF Bold Italic.ttf"
     home: "{{ lookup('env', 'HOME') }}"
-  
-  handlers:
-    - name: install you complete me
-      command:
-        cmd: 'python install.py'
-        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
 
   tasks:
     - name: See if dotfiles exists
@@ -39,7 +33,7 @@
       package:
         name: "{{ item }}"
         state: present
-      loop: ["cmake", "gcc", "vim", "zsh", "curl"]
+      loop: ["zsh", "curl"]
     # END PACKAGE INSTALLATION
 
     # OH MY ZSH
@@ -84,27 +78,15 @@
         src: "{{ item.src }}"
         path: "{{ item.path }}"
       loop:
-      - src: "{{ home }}/dotfiles/vimrc"
-        path: "{{ home }}/.vimrc"
       - src: "{{ home }}/dotfiles/zshrc"
         path: "{{ home }}/.zshrc"
       - src: "{{ home }}/dotfiles/zsh"
         path: "{{ home }}/.zsh"
-      - src: "{{ home }}/dotfiles/vim/bundle.vim"
-        path: "{{ home }}/.vimrc.bundles"
-      - src: "{{ home }}/dotfiles/vim/map.vim"
-        path: "{{ home }}/.vimrc.map"
       - src: "{{ home }}/dotfiles/gitconfig"
         path: "{{ home }}/.gitconfig"
       - src: "{{ home }}/dotfiles/zsh/configs/p10k.zsh"
         path: "{{ home }}/.p10k.zsh"
     # END CONFIGURATION LINKS
-
-    # VIM PLUGINS
-    - name: Install vim plugins
-      command:
-        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
-    # END VIM PLUGINS
 
 
     # SHELL CONFIGURATION
