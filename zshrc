@@ -7,6 +7,7 @@ plugins=(git
   tmux
   systemd
   poetry
+  ansible
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
