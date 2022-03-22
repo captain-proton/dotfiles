@@ -5,14 +5,14 @@
     home: "{{ lookup('env', 'HOME') }}"
   
   handlers:
+    - name: install vim plugins
+      command:
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
+
     - name: install you complete me
       command:
         cmd: 'python install.py'
         chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
-    
-    - name: install vim plugins
-      command:
-        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
 
   tasks:
     - name: Install vim and required packages
@@ -36,11 +36,6 @@
         path: "{{ home }}/.vimrc.map"
       notify: install vim plugins
       register: vim_links
-    
-    - name: Update vim plugins
-      command:
-        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginUpdate +qall"
-      when: not vim_links.changed
 
     - name: Get YouCompleteMe
       ansible.builtin.git:
@@ -49,8 +44,13 @@
         version: master
       register: ycm
     
-    - name: Install YouCompleteMe
+    - name: Detect YouCompleteMe changes
       debug:
         msg: YouCompleteMe sources changed -> run installation
       when: ycm.after != ycm.before
       notify: install you complete me
+    
+    - name: Update vim plugins
+      command:
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginUpdate +qall"
+      when: not vim_links.changed
