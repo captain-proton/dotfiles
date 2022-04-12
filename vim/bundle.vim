@@ -38,7 +38,7 @@ Plugin 'jacoborus/tender.vim'
 Plugin 'pangloss/vim-javascript'
 
 " Markdown Vim Mode
-Plugin 'plasticboy/vim-markdown'
+Plugin 'preservim/vim-markdown'
 
 " a Git wrapper so awesome, it should be illegal
 Plugin 'tpope/vim-fugitive'
