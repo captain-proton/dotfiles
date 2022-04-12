@@ -89,3 +89,9 @@ let g:ctrlp_cmd = 'CtrlP'
 if filereadable(expand("~/.vimrc.map"))
   source ~/.vimrc.map
 endif
+
+" Python black formatter
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end

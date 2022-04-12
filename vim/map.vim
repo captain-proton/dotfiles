@@ -31,3 +31,6 @@ map Y y$
 
 " NERDTree
 map <Leader>n :NERDTreeToggle<CR>
+
+" Black formatting
+nnoremap <C-I> :Black<CR>
