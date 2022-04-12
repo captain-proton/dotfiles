@@ -31,9 +31,11 @@ set clipboard=unnamed
 
 " show line numbers
 set number relativenumber
-set tw=79   " document width
-set nowrap  " do not automatically wrap
-set fo-=t   " do not automatically wrap text when typing
+set tw=79       " document width
+set wrap        " enable soft wrap
+set linebreak   " do not break at the middle of a word
+set fo-=t       " do not automatically wrap text when typing
+set fo+=c       " auto wrap comments when typing
 
 " set tabs to have 4 spaces
 set tabstop=4
@@ -67,7 +69,7 @@ set smartcase
 " Allow backspacing over autoindent, line breaks and start of insert action
 set backspace=indent,eol,start
 
-"""" plugin settingns
+"""" plugin settings
 
 " airline plugin
 let g:airline_powerline_fonts = 1
