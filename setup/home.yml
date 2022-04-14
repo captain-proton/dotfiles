@@ -17,6 +17,7 @@
 - import_playbook: ../playbooks/thunderbird.yml
 - import_playbook: ../playbooks/inkscape.yml
 - import_playbook: ../playbooks/vlc.yml
+- import_playbook: ../playbooks/geogebra.yml
 - import_playbook: ../playbooks/steam-manjaro.yml
 - import_playbook: ../playbooks/wine-staging.yml
 - import_playbook: ../playbooks/lutris.yml

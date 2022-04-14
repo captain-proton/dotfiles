@@ -1,0 +1,8 @@
+---
+- hosts: all
+  tasks:
+  - name: Install geogebra
+    become: true
+    community.general.pacman:
+      name: geogebra
+      state: present
