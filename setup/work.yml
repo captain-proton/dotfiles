@@ -1,5 +1,6 @@
 ---
 - import_playbook: ../playbooks/dotfiles.yml
+- import_playbook: ../playbooks/alacritty.yml
 - import_playbook: ../playbooks/git.yml
 - import_playbook: ../playbooks/curl.yml
 - import_playbook: ../playbooks/vscode.yml
@@ -14,7 +15,6 @@
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
 - import_playbook: ../playbooks/keepassxc.yml
-- import_playbook: ../playbooks/konsole.yml
 - import_playbook: ../playbooks/okular.yml
 - import_playbook: ../playbooks/thunderbird.yml
 - import_playbook: ../playbooks/inkscape.yml

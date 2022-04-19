@@ -1,0 +1,23 @@
+---
+- hosts: all
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    - name: Install alacritty
+      pacman:
+        name: alacritty
+        state: present
+
+    - name: Create alacritty config directory
+      file:
+        path: "{{ home }}/.config/alacritty"
+        state: directory
+
+    - name: Link configuration file alacritty.yml
+      file:
+        src: "{{ home }}/dotfiles/alacritty/alacritty.yml"
+        path: "{{ home }}/.config/alacritty/alacritty.yml"
+        state: link
+
