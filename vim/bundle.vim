@@ -47,7 +47,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'chiel92/vim-autoformat'
 
 " Multiple cursors
-Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mg979/vim-visual-multi'
 
 " PaperColor theme
 Plugin 'NLKNguyen/papercolor-theme'
