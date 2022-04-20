@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,vim
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,vim
+# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,vim,virtualenv
+# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,vim,virtualenv
 
 ### Vim ###
 # Swap
@@ -22,6 +22,20 @@ tags
 # Persistent undo
 [._]*.un~
 
+### VirtualEnv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+.Python
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+.venv
+pip-selfcheck.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -43,7 +57,4 @@ tags
 
 # Support for Project snippet scope
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,vim
-
-# Custom ansible modules are located in library directories
-library/
+# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,vim,virtualenv
