@@ -44,3 +44,8 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     family: Meslo LGS NF
+
+  # Point size
+  size: 10.0
+
+
