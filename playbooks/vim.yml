@@ -9,11 +9,6 @@
       command:
         cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
 
-    - name: install you complete me
-      command:
-        cmd: 'python install.py'
-        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
-
   tasks:
     - name: Install vim and required packages
       become: true
@@ -44,11 +39,11 @@
         version: master
       register: ycm
     
-    - name: Detect YouCompleteMe changes
-      debug:
-        msg: YouCompleteMe sources changed -> run installation
+    - name: Run YouCompleteMe installation
+      command:
+        cmd: 'python install.py'
+        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
       when: ycm.after != ycm.before
-      notify: install you complete me
     
     - name: Update vim plugins
       command:
