@@ -1,0 +1,24 @@
+---
+# path to the borg repo directory
+# example:
+# borg_repo: /var/local/backups
+borg_repo: "{{ local_borg_repo }}"
+
+# https://borgbackup.readthedocs.io/en/stable/quickstart.html
+# https://borgbackup.readthedocs.io/en/stable/usage/help.html#borg-patterns
+
+# list of borg patterns with paths that must be exluded
+# example:
+# borg_excludes:
+# - '/home/*/.cache/*'
+# - '/var/tmp/*'
+borg_excludes: "{{ local_borg_excludes }}"
+
+# list of borg patterns with paths that must be included
+# example:
+# borg_includes:
+# - /etc
+# - /home
+# - /root
+# - /var
+borg_includes: "{{ local_borg_includes }}"

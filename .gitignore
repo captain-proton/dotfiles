@@ -61,3 +61,5 @@ pip-selfcheck.json
 
 # Custom ansible modules are located in library directories
 library/
+
+vault*
