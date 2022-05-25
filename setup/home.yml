@@ -10,6 +10,7 @@
 - import_playbook: ../playbooks/borg.yml
 - import_playbook: ../playbooks/poetry.yml
 - import_playbook: ../playbooks/asdfvm.yml
+- import_playbook: ../playbooks/i3-gaps.yml
 
 - import_playbook: ../playbooks/brave-browser.yml
 - import_playbook: ../playbooks/keepassxc.yml

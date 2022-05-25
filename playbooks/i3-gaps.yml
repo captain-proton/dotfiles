@@ -2,6 +2,7 @@
 - hosts: all
   tasks:
     - name: Install i3-gaps and some optional
+      become: true
       pacman:
         name: "{{ item }}"
         state: present
