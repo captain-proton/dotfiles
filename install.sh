@@ -3,11 +3,27 @@
 case $1 in
   work|home)
     echo "Setting up dotfiles for $1"
-    ansible=`pacman -Q ansible`
     python=`pacman -Q python`
-    if [[ $ansible != ansible* ]] || [[ $python != python* ]]
+    if [[ $python != python* ]]
     then
-      sudo pacman -S --needed ansible python
+      sudo pacman -S --needed python
+    fi
+
+    # Create a python virtual environment if necessary
+    if [ ! -f '.venv/bin/python' ]; then
+      # This python executable points to the system installed version
+      # asdf-vm will be installed later on
+      echo "Creating virtual env"
+      python -m venv .venv
+    fi
+
+    # There is also a ansible playbook used to manage poetry.
+    # Without poetry and the virtual env all further installation
+    # tasks can not be executed. Therefore poetry must be present.
+    POETRY_BIN="$HOME/.local/bin/poetry"
+    if [ ! -L "$POETRY_BIN" ]; then
+      curl -sSL https://install.python-poetry.org | python3 -
+      poetry install
     fi
 
     # this needs to be done beforehand, so the yay module is available
@@ -15,11 +31,11 @@ case $1 in
     if [[ $yay != yay* ]] && [[ ! -f playbooks/library/yay ]]
     then
       echo "Installing yay and necessary plugins"
-      ansible-playbook --ask-become-pass playbooks/yay.yml
+      poetry run ansible-playbook playbooks/yay.yml
     fi
 
     echo "Executing setup"
-    ansible-playbook --ask-become-pass setup/$1.yml ;;
+    poetry run ansible-playbook setup/$1.yml ;;
   *)
     echo "Enter $0 work|home" ;;
 esac
