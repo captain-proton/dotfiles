@@ -1,9 +1,24 @@
 ---
 - hosts: all
+  gather_facts: false
+
+  vars:
+    poetry_script: "{{ lookup('env', 'HOME') }}/.local/bin/poetry"
+    poetry_venv: "{{ lookup('env', 'HOME') }}/.local/share/pypoetry"
+
   tasks:
+    - name: Remove current poetry script
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+      - "{{ poetry_script }}"
+      - "{{ poetry_venv }}"
+      when: poetry_update | bool
+
     - name: Check if poetry is already installed
       ansible.builtin.stat:
-        path: "{{ lookup('env', 'HOME') }}/.local/bin/poetry"
+        path: "{{ poetry_script }}"
       register: poetry_bin
 
     - name: Install poetry
@@ -21,9 +36,10 @@
             dest: "{{ tempfile.path }}"
             checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
 
-        - name: Run poetry installation script
-          command:
-            cmd: "python {{ tempfile.path }}"
+        - name: Run the installation script
+          shell: "cat {{ tempfile.path }} | /usr/bin/python3 -"
+          args:
+            warn: no
 
       when: not poetry_bin.stat.exists
 

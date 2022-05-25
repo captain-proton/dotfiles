@@ -22,3 +22,9 @@ borg_excludes: "{{ local_borg_excludes }}"
 # - /root
 # - /var
 borg_includes: "{{ local_borg_includes }}"
+
+# Set to true to remove the current poetry
+# script (~/.local/bin/poetry) and perform
+# the installation progress again
+# https://python-poetry.org/docs/master/#installing-with-the-official-installer
+poetry_update: false
