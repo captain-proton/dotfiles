@@ -1,0 +1,37 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    config_dir: "{{ home }}/.config/herbstluftwm"
+
+  tasks:
+
+  - name: Install herbstluftwm
+    become: true
+    yay:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - herbstluftwm
+      - dzen2
+      - picom
+      - dmenu
+
+  - name: Make configuration directory
+    file:
+      path: "{{ config_dir }}"
+      state: directory
+      mode: 0755
+
+  - name: Link configurations
+    file:
+      path: "{{ item.dest }}"
+      src: "{{ item.src }}"
+      state: link
+    loop:
+    - src: "{{ home }}/dotfiles/herbstluftwm/autostart"
+      dest: "{{ config_dir }}/autostart"
+    - src: "{{ home }}/dotfiles/herbstluftwm/panel.sh"
+      dest: "{{ config_dir }}/panel.sh"
