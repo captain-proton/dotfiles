@@ -20,3 +20,4 @@
 - import_playbook: ../playbooks/thunderbird.yml
 - import_playbook: ../playbooks/inkscape.yml
 - import_playbook: ../playbooks/vlc.yml
+- import_playbook: ../playbooks/joplin.yml
