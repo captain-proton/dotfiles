@@ -1,0 +1,38 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    zprofile: "{{ home }}/.zprofile"
+    ssh_config: "{{ home }}/.ssh/config"
+    ssh_agent_service: "{{ home }}/.config/systemd/user/ssh-agent.service"
+
+  tasks:
+  - name: Set SSH_AUTH_SOCK environment variable in login shell
+    ansible.builtin.blockinfile:
+      path: "{{ zprofile }}"
+      create: true
+      marker: "# {mark} ANSIBLE MANAGED BLOCK"
+      block: |
+        # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
+        SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+  - name: Configure user ssh settings
+    ansible.builtin.lineinfile:
+      path: "{{ ssh_config }}"
+      create: true
+      line: AddKeysToAgent yes
+
+  - name: Add ssh-agent as systemd user service
+    ansible.builtin.template:
+      src: ../templates/ssh-agent.service.j2
+      dest: "{{ ssh_agent_service }}"
+      mode: 0644
+
+  - name: Enable ssh-agent service
+    ansible.builtin.systemd:
+      name: ssh-agent.service
+      state: started
+      enabled: true
+      scope: user
