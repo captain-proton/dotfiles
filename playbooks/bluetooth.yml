@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: false
+
+  tasks:
+  - name: Install bluez-utils
+    become: true
+    ansible.builtin.pacman:
+      name: bluez-utils
+      state: present
