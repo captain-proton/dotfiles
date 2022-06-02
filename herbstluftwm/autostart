@@ -164,7 +164,7 @@ done
 hc attr theme.tiling.outer_width 1
 hc attr theme.background_color '#141414'
 
-hc set window_gap 16
+hc set window_gap 8
 hc set frame_padding 0
 hc set smart_window_surroundings off
 hc set smart_frame_surroundings on
@@ -195,7 +195,7 @@ $HOME/dotfiles/herbstluftwm/configure_displays.sh
 # set the wallpaper display and monitor setup has
 # been executed
 if [ -L $Wallpaper ]; then
-	feh --bg-fill ${HOME}/.config/wallpaper
+    feh --bg-fill ${HOME}/.config/wallpaper
 fi
 
 # unlock, just to be sure
