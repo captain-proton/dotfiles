@@ -18,6 +18,7 @@
       - dzen2
       - picom
       - dmenu
+      - feh
 
   - name: Make configuration directory
     file:
