@@ -4,19 +4,20 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    zprofile: "{{ home }}/.zprofile"
+    ssh_unlock_script: "/etc/profile.d/ssh_unlock.sh"
     ssh_config: "{{ home }}/.ssh/config"
     ssh_agent_service: "{{ home }}/.config/systemd/user/ssh-agent.service"
 
   tasks:
-  - name: Set SSH_AUTH_SOCK environment variable in login shell
+  - name: Export SSH_AUTH_SOCK environment variable
+    become: true
     ansible.builtin.blockinfile:
-      path: "{{ zprofile }}"
+      path: "{{ ssh_unlock_script }}"
       create: true
       marker: "# {mark} ANSIBLE MANAGED BLOCK"
       block: |
         # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
-        SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
   - name: Configure user ssh settings
     ansible.builtin.lineinfile:
