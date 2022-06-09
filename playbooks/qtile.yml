@@ -1,0 +1,30 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    config_dir: "{{ home }}/.config/qtile"
+
+  tasks:
+  - name: Ensure qtile and additional components are installed
+    become: true
+    community.general.pacman:
+      name: "{{ item }}"
+      state: present
+    loop:
+      - qtile
+      - picom
+      - dmenu
+
+  - name: Make configuration directory
+    ansible.builtin.file:
+      path: "{{ config_dir }}"
+      state: directory
+      mode: 0755
+
+  - name: Link qtile config
+    ansible.builtin.file:
+      path: "{{ config_dir }}/config.py"
+      src: "{{ home }}/dotfiles/qtile/config.py"
+      state: link

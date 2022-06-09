@@ -2,5 +2,8 @@
     "files.associations": {
         "*.yml": "ansible"
     },
-    "ansible.python.interpreterPath": ".venv/bin/python"
+    "ansible.python.interpreterPath": ".venv/bin/python",
+    "python.linting.pylintArgs": [
+        "--disable", "C0103"
+    ]
 }

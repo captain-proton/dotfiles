@@ -15,6 +15,7 @@
 - import_playbook: ../playbooks/herbstluftwm.yml
 - import_playbook: ../playbooks/ssh_unlock.yml
 - import_playbook: ../playbooks/bluetooth.yml
+- import_playbook: ../playbooks/qtile.yml
 
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
