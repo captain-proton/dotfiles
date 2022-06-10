@@ -13,7 +13,6 @@ plugins=(git
   zsh-autosuggestions
 )
 
-
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
 # these are loaded first, second, and third, respectively.
 _load_settings() {
@@ -49,6 +48,9 @@ _load_settings() {
   fi
 }
 _load_settings "$HOME/.zsh/configs"
+
+# Add ssh private key to the agent
+[[ -f $HOME/.ssh/id_rsa ]] && ssh-add -l |grep -q `ssh-keygen -lf ~/.ssh/id_rsa  | awk '{print $2}'` || ssh-add ~/.ssh/id_rsa
 
 # Local config
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
