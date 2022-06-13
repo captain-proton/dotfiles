@@ -66,23 +66,9 @@
       cmd: "{{ emacsd }}/bin/doom sync"
     when: doom_install.skipped is defined and doom_install.skipped
 
-  - name: Add emacs-daemon as systemd user service
-    ansible.builtin.template:
-      src: ../templates/emacs-daemon.service.j2
-      dest: "{{ emacs_daemon_service }}"
-      mode: 0644
-  
-  - name: Setup a emacs daemon
+  - name: Enable doom systemd service
     ansible.builtin.systemd:
-      name: emacs-daemon.service
+      name: emacs
       state: started
-      enabled: true
-      scope: user
       daemon_reload: true
-  
-  - name: Place a .desktop file to launch the emacs client
-    ansible.builtin.template:
-      src: ../templates/emacs-client.desktop.j2
-      dest: "{{ home }}/.local/share/applications/emacs-client.desktop"
-      mode: 0644
-
+      scope: user
