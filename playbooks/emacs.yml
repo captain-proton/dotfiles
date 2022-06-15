@@ -19,6 +19,7 @@
     - ripgrep
     - findutils
     - fd
+    - maim
 
   - name: Clone doom emacs
     ansible.builtin.git:

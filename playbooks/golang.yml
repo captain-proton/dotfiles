@@ -1,0 +1,74 @@
+
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    gopath: "{{ home }}/.gopath"
+    gotools:
+    - cmd: go install github.com/x-motemen/gore/cmd/gore@latest
+      bin: gore
+    - cmd: go install github.com/stamblerre/gocode@latest
+      bin: gocode
+    - cmd: go install golang.org/x/tools/cmd/godoc@latest
+      bin: godoc
+    - cmd: go install golang.org/x/tools/cmd/goimports@latest
+      bin: goimports
+    - cmd: go install golang.org/x/tools/cmd/gorename@latest
+      bin: gorename
+    - cmd: go install golang.org/x/tools/cmd/guru@latest
+      bin: guru
+    - cmd: go install github.com/cweill/gotests/gotests@latest
+      bin: gotests
+    - cmd: go install github.com/fatih/gomodifytags@latest
+      bin: gomodifytags
+
+  tasks:
+  - name: Ensure golang is installed
+    become: true
+    community.general.pacman:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - go
+    - gopls
+
+  - name: Ensure gopath is present
+    ansible.builtin.file:
+      path: "{{ gopath }}"
+      state: directory
+      mode: 0755
+
+  - name: Export GOPATH
+    ansible.builtin.lineinfile:
+      path: "{{ home }}/.path"
+      line: "{{ item }}"
+    loop:
+    - "export GOPATH={{ gopath }}"
+    - "export PATH={{ gopath }}/bin:$PATH"
+
+  - name: Collect stats for gopath inventory
+    ansible.builtin.stat:
+      path: "{{ gopath }}/bin/{{ item.bin }}"
+    register: go_bin
+    loop: "{{ gotools }}"
+    loop_control: 
+      label: "{{ item.bin }}"
+
+  - name: Set fact of installed go tool binaries
+    ansible.builtin.set_fact:
+      gobinaries: "{{ go_bin.results 
+        | map(attribute='stat') 
+        | selectattr('exists', 'true') 
+        | map(attribute='path')
+        | map('basename') }}"
+
+  - name: Install necessary tool if it is not present
+    ansible.builtin.command:
+      cmd: "{{ item.cmd }}"
+    when: item.bin not in gobinaries
+    loop: "{{ gotools }}"
+    loop_control: 
+      label: "{{ item.bin }}"
+    
