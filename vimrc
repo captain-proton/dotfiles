@@ -95,3 +95,6 @@ augroup black_on_save
   autocmd!
   autocmd BufWritePre *.py Black
 augroup end
+
+" preservim/vim-markdown
+set nofoldenable
