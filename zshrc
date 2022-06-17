@@ -6,6 +6,7 @@ plugins=(git
   asdf
   tmux
   systemd
+  direnv
   poetry
   ansible
   zsh-syntax-highlighting

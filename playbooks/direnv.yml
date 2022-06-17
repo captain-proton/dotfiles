@@ -1,0 +1,19 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+  - name: Ensure direnv is present
+    become: true
+    ansible.builtin.pacman:
+      name: direnv
+      state: present
+
+  - name: Put direnvrc into place
+    ansible.builtin.template:
+      src: ../templates/direnvrc.j2
+      dest: "{{ home }}/.direnvrc"
+      mode: 0644

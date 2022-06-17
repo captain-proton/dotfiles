@@ -1,0 +1,64 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    poetry_script: "{{ lookup('env', 'HOME') }}/.local/bin/poetry"
+    poetry_venv: "{{ lookup('env', 'HOME') }}/.local/share/pypoetry"
+
+  tasks:
+  - name: Ensure python and python development packages are installed
+    become: true
+    pacman:
+      name: "{{ item }}"
+      state: present
+    loop:
+    - python
+    - python-lsp-server
+    - python-black
+    - python-lsp-black
+    - python-nose
+    - python-isort
+    - python-pyflakes
+    - python-pytest
+    - flake8
+    - python-pycodestyle
+    - python-pylint
+    - python-mccabe
+    - python-rope
+  
+  - name: Remove current poetry script
+    ansible.builtin.file:
+      path: "{{ item }}"
+      state: absent
+    loop:
+    - "{{ poetry_script }}"
+    - "{{ poetry_venv }}"
+    when: poetry_update | bool
+
+  - name: Check if poetry is already installed
+    ansible.builtin.stat:
+      path: "{{ poetry_script }}"
+    register: poetry_bin
+
+  - name: Install poetry
+    block:
+      - name: Create temporary file
+        ansible.builtin.tempfile:
+          state: file
+          prefix: poetry
+          suffix: .py
+        register: tempfile
+
+      - name: Download poetry installation script
+        ansible.builtin.get_url:
+          url: https://install.python-poetry.org
+          dest: "{{ tempfile.path }}"
+          checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
+
+      - name: Run the installation script
+        shell: "cat {{ tempfile.path }} | /usr/bin/python3 -"
+        args:
+          warn: no
+
+    when: not poetry_bin.stat.exists
