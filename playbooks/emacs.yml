@@ -6,7 +6,6 @@
     home: "{{ lookup('env', 'HOME') }}"
     emacsd: "{{ home }}/.emacs.d"
     doomd: "{{ home }}/.doom.d"
-    emacs_daemon_service: "{{ home }}/.config/systemd/user/emacs-daemon.service"
 
   tasks:
   - name: Ensure emacs and doom required software is installed
