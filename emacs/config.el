@@ -76,4 +76,9 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; Allow neotree to be resized
 (setq neo-window-fixed-size nil)
+
+;; Increase space between lines
+(setq-default line-spacing 4)
