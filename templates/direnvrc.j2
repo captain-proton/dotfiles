@@ -1,20 +1,15 @@
 #!/usr/bin/env zsh
-use_python() {
+use_asdf-venv() {
   # check if python version is set in current dir
   if [ -f ".tool-versions " ] ; then
+      echo "Found asdf-vm config file"
       if [ ! -d ".venv" ] ; then
           echo "Installing virtualenv for $(python -V)"
           # if we didn't install `py2venv` for python 2.x, we would need to use
           # `virtualenv`, which you would have to install separately.
           python -m venv .venv
       fi
-      echo "Activating $(python -V) virtualenv"
-      . .venv/bin/activate
   fi
-  # announce python version and show the path of the current python in ${PATH}
-  python_path=`python -c 'import sys; print(sys.executable)'`
-  echo "Virtualenv has been activated for $(python -V)"
-  echo "python @ $python_path"
 }
 
 layout_poetry() {
