@@ -11,6 +11,7 @@
 - import_playbook: ../playbooks/borg.yml
 - import_playbook: ../playbooks/python.yml
 - import_playbook: ../playbooks/asdfvm.yml
+- import_playbook: ../playbooks/direnv.yml
 - import_playbook: ../playbooks/arandr.yml
 - import_playbook: ../playbooks/herbstluftwm.yml
 - import_playbook: ../playbooks/ssh_unlock.yml
