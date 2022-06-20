@@ -62,4 +62,8 @@ pip-selfcheck.json
 # Custom ansible modules are located in library directories
 library/
 
+# used for ansible
 vault*
+
+# direnv configuration
+.envrc
