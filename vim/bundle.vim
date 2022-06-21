@@ -49,9 +49,6 @@ Plugin 'chiel92/vim-autoformat'
 " Multiple cursors
 Plugin 'mg979/vim-visual-multi'
 
-" PaperColor theme
-Plugin 'NLKNguyen/papercolor-theme'
-
 " Python black formatter
 Plugin 'psf/black'
 
