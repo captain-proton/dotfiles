@@ -79,6 +79,7 @@
 
 ;; Allow neotree to be resized
 (setq neo-window-fixed-size nil)
+(setq neo-window-width 40)
 
 ;; Increase space between lines
 (setq-default line-spacing 4)
