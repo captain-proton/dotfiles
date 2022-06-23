@@ -8,67 +8,67 @@
     doomd: "{{ home }}/.doom.d"
 
   tasks:
-  - name: Ensure emacs and doom required software is installed
-    become: true
-    community.general.pacman:
-      name: "{{ item }}"
-      state: present
-    loop:
-    - emacs
-    - ripgrep
-    - findutils
-    - fd
-    - maim
+    - name: Ensure emacs and doom required software is installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - emacs
+        - ripgrep
+        - findutils
+        - fd
+        - maim
 
-  - name: Clone doom emacs
-    ansible.builtin.git:
-      repo: https://github.com/doomemacs/doomemacs
-      dest: "{{ emacsd }}"
-      version: master
+    - name: Clone doom emacs
+      ansible.builtin.git:
+        repo: https://github.com/doomemacs/doomemacs
+        dest: "{{ emacsd }}"
+        version: master
 
-  - name: Export emacs.d/bin to path
-    ansible.builtin.lineinfile:
-      path: "{{ home }}/.path"
-      line: "export PATH={{ emacsd }}/bin:$PATH"
+    - name: Export emacs.d/bin to path
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.path"
+        line: "export PATH={{ emacsd }}/bin:$PATH"
 
-  - name: Ensure ~/.doom.d exists
-    ansible.builtin.file:
-      path: "{{ doomd }}"
-      state: directory
-      mode: 0755
+    - name: Ensure ~/.doom.d exists
+      ansible.builtin.file:
+        path: "{{ doomd }}"
+        state: directory
+        mode: 0755
 
-  - name: Check stats for doom.d/init.el
-    ansible.builtin.stat:
-      path: "{{ doomd }}/init.el"
-    register: initel
+    - name: Check stats for doom.d/init.el
+      ansible.builtin.stat:
+        path: "{{ doomd }}/init.el"
+      register: initel
 
-  - name: Link doom configuration files
-    ansible.builtin.file:
-      path: "{{ doomd }}/{{ item.linkname }}"
-      src: "{{ item.src }}"
-      state: link
-    loop:
-    - src: "{{ home }}/dotfiles/emacs/init.el"
-      linkname: "init.el"
-    - src: "{{ home }}/dotfiles/emacs/config.el"
-      linkname: "config.el"
-    - src: "{{ home }}/dotfiles/emacs/packages.el"
-      linkname: "packages.el"
+    - name: Link doom configuration files
+      ansible.builtin.file:
+        path: "{{ doomd }}/{{ item.linkname }}"
+        src: "{{ item.src }}"
+        state: link
+      loop:
+        - src: "{{ home }}/dotfiles/emacs/init.el"
+          linkname: "init.el"
+        - src: "{{ home }}/dotfiles/emacs/config.el"
+          linkname: "config.el"
+        - src: "{{ home }}/dotfiles/emacs/packages.el"
+          linkname: "packages.el"
 
-  - name: Install doom emacs if necessary
-    ansible.builtin.command:
-      cmd: "{{ emacsd }}/bin/doom -y install"
-    when: initel.stat.islnk is not defined or not initel.stat.exists
-    register: doom_install
+    - name: Install doom emacs if necessary
+      ansible.builtin.command:
+        cmd: "{{ emacsd }}/bin/doom -y install"
+      when: initel.stat.islnk is not defined or not initel.stat.exists
+      register: doom_install
 
-  - name: Sync doom emacs
-    ansible.builtin.command:
-      cmd: "{{ emacsd }}/bin/doom sync"
-    when: doom_install.skipped is defined and doom_install.skipped
+    - name: Sync doom emacs
+      ansible.builtin.command:
+        cmd: "{{ emacsd }}/bin/doom sync"
+      when: doom_install.skipped is defined and doom_install.skipped
 
-  - name: Enable doom systemd service
-    ansible.builtin.systemd:
-      name: emacs
-      state: started
-      daemon_reload: true
-      scope: user
+    - name: Enable doom systemd service
+      ansible.builtin.systemd:
+        name: emacs
+        state: started
+        daemon_reload: true
+        scope: user
