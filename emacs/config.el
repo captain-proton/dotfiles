@@ -28,8 +28,8 @@
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
 ;; wasn't installed correctly. Font issues are rarely Doom issues!
-(setq doom-font (font-spec :family "MesloLGS NF" :size 14 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "MesloLGS NF" :size 14))
+(setq doom-font (font-spec :family "MesloLGS NF" :size 13 :weight 'normal)
+      doom-variable-pitch-font (font-spec :family "MesloLGS NF" :size 13))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -83,3 +83,18 @@
 
 ;; Increase space between lines
 (setq-default line-spacing 4)
+
+(with-temp-buffer
+  (insert-file-contents "~/dotfiles/ansible.cfg")
+  (keep-lines "vault_password_file" (point-min) (point-max))
+  (setq ansible-vault-password-file (when (string-match "vault_password_file\s+=\s+\\(.*\\)" (buffer-string))
+                        (match-string 1 (buffer-string)))))
+
+(def-project-mode! +ansible-yaml-mode
+  :modes '(yaml-mode)
+  :add-hooks '(ansible ansible-auto-decrypt-encrypt ansible-doc-mode)
+  :files (or "playbooks/" "roles/" "tasks/" "handlers/"))
+
+(setq local-settings-file (format "%s/.doom.d/local.el" (getenv "HOME")))
+(when (file-exists-p local-settings-file)
+  (load local-settings-file))

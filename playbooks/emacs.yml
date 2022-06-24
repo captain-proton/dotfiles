@@ -20,11 +20,18 @@
         - fd
         - maim
 
+    - name: Check for emacs.d directory
+      ansible.builtin.stat:
+        path: "{{ emacsd }}"
+      register: emacs_repo
+
     - name: Clone doom emacs
       ansible.builtin.git:
         repo: https://github.com/doomemacs/doomemacs
         dest: "{{ emacsd }}"
         version: master
+      when: not emacs_repo.stat.isdir
+      register: doom_cloned
 
     - name: Export emacs.d/bin to path
       ansible.builtin.lineinfile:
@@ -36,11 +43,6 @@
         path: "{{ doomd }}"
         state: directory
         mode: 0755
-
-    - name: Check stats for doom.d/init.el
-      ansible.builtin.stat:
-        path: "{{ doomd }}/init.el"
-      register: initel
 
     - name: Link doom configuration files
       ansible.builtin.file:
@@ -55,16 +57,23 @@
         - src: "{{ home }}/dotfiles/emacs/packages.el"
           linkname: "packages.el"
 
+    - name: Check for emacs custom configuration
+      ansible.builtin.stat:
+        path: "{{ home }}/dotfiles/emacs/local.el"
+      register: emacs_local
+
+    - name: Link custom emacs configuration
+      ansible.builtin.file:
+        path: "{{ doomd }}/local.el"
+        src: "{{ emacs_local.stat.path }}"
+        state: link
+      when: emacs_local.stat.isreg is defined and emacs_local.stat.isreg
+
+
     - name: Install doom emacs if necessary
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom -y install"
-      when: initel.stat.islnk is not defined or not initel.stat.exists
-      register: doom_install
-
-    - name: Sync doom emacs
-      ansible.builtin.command:
-        cmd: "{{ emacsd }}/bin/doom sync"
-      when: doom_install.skipped is defined and doom_install.skipped
+      when: not doom_cloned.skipped
 
     - name: Enable doom systemd service
       ansible.builtin.systemd:

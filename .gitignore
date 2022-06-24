@@ -284,3 +284,5 @@ library/
 # used for ansible
 vault*
 
+# custom emacs configuration
+*local.el
