@@ -26,6 +26,7 @@
     - python-pylint
     - python-mccabe
     - python-rope
+    - python-debugpy
   
   - name: Remove current poetry script
     ansible.builtin.file:
