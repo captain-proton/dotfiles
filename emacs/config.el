@@ -98,3 +98,8 @@
 (setq local-settings-file (format "%s/.doom.d/local.el" (getenv "HOME")))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
+
+(require 'org-tempo)
+(add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
+(add-to-list 'org-structure-template-alist '("sh" . "src sh"))
+(add-to-list 'org-structure-template-alist '("py" . "src python"))
