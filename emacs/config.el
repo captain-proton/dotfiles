@@ -10,6 +10,8 @@
 
 (setq org-directory "~/Dokumente/Org/")
 
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (after! neotree
     (setq neo-window-fixed-size nil)
     (setq neo-window-width 40))

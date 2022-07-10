@@ -93,6 +93,10 @@ etc).
 You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 they are implemented.
 
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
 * Allow neotree to be resized
 
 #+begin_src emacs-lisp
