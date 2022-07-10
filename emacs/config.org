@@ -166,3 +166,20 @@ Configure structure templates for org mode ~begin_src~ blocks.
   :config
   (setq org-auto-tangle-default t))
 #+end_src
+
+* Python
+
+Enable debugging support for python
+
+#+begin_src emacs-lisp
+(require 'dap-python)
+#+end_src
+
+Set ~debugpy~ as default debugger. ~debugpy~ should be installed
+as a dev dependency inside projects that use virtual envs, therefor
+all of them.
+
+#+begin_src emacs-lisp
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
+#+end_src

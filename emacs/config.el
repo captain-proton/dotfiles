@@ -43,3 +43,8 @@
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+
+(require 'dap-python)
+
+(after! dap-mode
+  (setq dap-python-debugger 'debugpy))
