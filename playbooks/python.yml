@@ -14,20 +14,7 @@
       state: present
     loop:
     - python
-    - python-lsp-server
-    - python-black
-    - python-lsp-black
-    - python-nose
-    - python-isort
-    - python-pyflakes
-    - python-pytest
-    - flake8
-    - python-pycodestyle
-    - python-pylint
-    - python-mccabe
-    - python-rope
-    - python-debugpy
-  
+
   - name: Remove current poetry script
     ansible.builtin.file:
       path: "{{ item }}"
