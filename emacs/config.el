@@ -44,6 +44,7 @@
   :config
   (setq org-auto-tangle-default t))
 
+(setq dap-auto-configure-mode t)
 (require 'dap-python)
 
 (after! dap-mode

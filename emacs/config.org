@@ -172,6 +172,7 @@ Configure structure templates for org mode ~begin_src~ blocks.
 Enable debugging support for python
 
 #+begin_src emacs-lisp
+(setq dap-auto-configure-mode t)
 (require 'dap-python)
 #+end_src
 
