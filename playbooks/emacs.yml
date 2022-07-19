@@ -19,6 +19,7 @@
         - findutils
         - fd
         - maim
+        - libvterm
 
     - name: Check for emacs.d directory
       ansible.builtin.stat:
