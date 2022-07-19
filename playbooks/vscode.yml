@@ -1,8 +1,66 @@
 ---
 - hosts: all
+
+  vars:
+    extensions:
+      present:
+        - coolbear.systemd-unit-file
+        - DotJoshJohnson.xml
+        - eamodio.gitlens
+        - golang.go
+        - jebbs.plantuml
+        - jmreicha.tender
+        - mechatroner.rainbow-csv
+        - ms-azuretools.vscode-docker
+        - MS-CEINTL.vscode-language-pack-de
+        - ms-python.python
+        - ms-python.vscode-pylance
+        - ms-vscode-remote.remote-containers
+        - ms-vscode.cpptools
+        - njpwerner.autodocstring
+        - psioniq.psi-header
+        - redhat.ansible
+        - redhat.vscode-yaml
+        - shuworks.vscode-table-formatter
+        - stkb.rewrap
+        - TabNine.tabnine-vscode
+        - tamasfe.even-better-toml
+        - yzhang.markdown-all-in-one
+      absent: []
+
   tasks:
     - name: Install visual studio code from aur
       become: true
       yay:
         name: visual-studio-code-bin
         state: present
+
+    - name: Select installed extensions
+      ansible.builtin.command:
+        cmd: "code --list-extensions | sort"
+      register: ext_list_result
+      changed_when: ext_list_result.stdout_lines != extensions.present
+
+    - name: Set fact of installed extensions
+      ansible.builtin.set_fact:
+        current_ext: "{{ ext_list_result.stdout_lines | sort }}"
+
+    - name: Set extensions that should be installed
+      ansible.builtin.set_fact:
+        install_ext: "{{ extensions.present | difference(current_ext) }}"
+
+    - name: Install extensions
+      ansible.builtin.command:
+        cmd: "code --install-extension {{ item }}"
+      loop: "{{ install_ext }}"
+      when: install_ext != []
+
+    - name: Set extensions that should be removed
+      ansible.builtin.set_fact:
+        uninstall_ext: "{{ extensions.absent | intersect(current_ext) }}"
+
+    - name: Uninstall extensions
+      ansible.builtin.command:
+        cmd: "code --uninstall-extension {{ item }}"
+      loop: "{{ uninstall_ext }}"
+      when: uninstall_ext != []
