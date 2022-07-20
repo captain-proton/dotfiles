@@ -6,6 +6,19 @@
 Place your private configuration here! Remember, you do not need to run 'doom
 sync' after modifying this file!
 
+* Environment
+
+The Doom emacs server is started using a user systemd service file. Some
+environment variables are set after the daemon has started, for example
+files in ~/etc/profile.d/~. In order for emacs to work properly doom should
+load a envvars file that can be generated using the command ~doom env~.
+This command is executed at the end of the emacs.yml playbook in this
+repository.
+
+#+begin_src emacs-lisp
+(doom-load-envvars-file "~/.emacs.d/.local/env")
+#+end_src
+
 * Identity
 
 Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -165,6 +178,32 @@ Configure structure templates for org mode ~begin_src~ blocks.
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+#+end_src
+
+* TabNine
+
+#+begin_src emacs-lisp
+(after! company
+  (add-to-list 'company-backends #'company-tabnine)
+
+  (set-company-backend! '(emacs-lisp-mode
+                          conf-mode
+                          lisp-mode
+                          sh-mode
+                          python-mode
+                          go-mode
+                          json-mode
+                          yaml-mode
+                          )
+    '(company-tabnine
+      :separate company-capf
+      )
+    )
+
+  (setq +lsp-company-backends '(company-tabnine :separate company-capf))
+  (setq company-show-numbers t)
+  (setq company-idle-delay 0)
+  )
 #+end_src
 
 * Python

@@ -1,3 +1,5 @@
+(doom-load-envvars-file "~/.emacs.d/.local/env")
+
 (setq user-full-name "Nils Verheyen"
       user-mail-address "nils@ungerichtet.de")
 
@@ -43,6 +45,28 @@
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+
+(after! company
+  (add-to-list 'company-backends #'company-tabnine)
+
+  (set-company-backend! '(emacs-lisp-mode
+                          conf-mode
+                          lisp-mode
+                          sh-mode
+                          python-mode
+                          go-mode
+                          json-mode
+                          yaml-mode
+                          )
+    '(company-tabnine
+      :separate company-capf
+      )
+    )
+
+  (setq +lsp-company-backends '(company-tabnine :separate company-capf))
+  (setq company-show-numbers t)
+  (setq company-idle-delay 0)
+  )
 
 (setq dap-auto-configure-mode t)
 (require 'dap-python)

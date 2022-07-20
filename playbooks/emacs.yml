@@ -6,6 +6,7 @@
     home: "{{ lookup('env', 'HOME') }}"
     emacsd: "{{ home }}/.emacs.d"
     doomd: "{{ home }}/.doom.d"
+    envvars: "{{ emacsd }}/.local/env"
 
   tasks:
     - name: Ensure emacs and doom required software is installed
@@ -70,7 +71,6 @@
         state: link
       when: emacs_local.stat.isreg is defined and emacs_local.stat.isreg
 
-
     - name: Install doom emacs if necessary
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom -y install"
@@ -82,3 +82,7 @@
         state: started
         daemon_reload: true
         scope: user
+
+    - name: Generate envvars file
+      ansible.builtin.command:
+        cmd: "{{ emacsd }}/bin/doom env -o {{ envvars }}"
