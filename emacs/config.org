@@ -19,6 +19,11 @@ repository.
 (doom-load-envvars-file "~/.emacs.d/.local/env")
 #+end_src
 
+** References
+
+- [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
+- [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
+
 * Identity
 
 Some functionality uses this to identify you, e.g. GPG configuration, email
