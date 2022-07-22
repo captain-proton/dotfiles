@@ -24,6 +24,36 @@ repository.
 - [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
 - [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
 
+* Dired
+
+Dired opens a new buffer when entering a new directory by default. Set this
+insane named variable to prevent this behaviour.
+
+#+begin_src emacs-lisp
+(setq dired-kill-when-opening-new-dired-buffer t)
+#+end_src
+
+* Treemacs
+
+Treemacs does some weird things opening folders inside a workspace. Set
+treemacs to only display the current project until I understand this logic.
+
+#+begin_src emacs-lisp
+(setq treemacs-display-current-project-exclusively t)
+#+end_src
+
+* Editor
+
+Activate whitespace-mode globally except for org-mode.
+
+#+begin_src emacs-lisp
+(setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
+                              lines-tail)
+      whitespace-line-column 140)
+(setq whitespace-global-modes '(not org-mode))
+(global-whitespace-mode +1)
+#+End_src
+
 * Identity
 
 Some functionality uses this to identify you, e.g. GPG configuration, email
@@ -115,14 +145,6 @@ they are implemented.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
-* Allow neotree to be resized
-
-#+begin_src emacs-lisp
-(after! neotree
-    (setq neo-window-fixed-size nil)
-    (setq neo-window-width 40))
-#+end_src
-
 
 * Line spacing
 
@@ -141,8 +163,10 @@ the dotfiles ansible configuration.
 (with-temp-buffer
   (insert-file-contents "~/dotfiles/ansible.cfg")
   (keep-lines "vault_password_file" (point-min) (point-max))
-  (setq ansible-vault-password-file (when (string-match "vault_password_file\s+=\s+\\(.*\\)" (buffer-string))
-                        (match-string 1 (buffer-string)))))
+  (setq ansible-vault-password-file
+        (when (string-match "vault_password_file\s+=\s+\\(.*\\)"
+                            (buffer-string))
+          (match-string 1 (buffer-string)))))
 #+end_src
 
 #+begin_src emacs-lisp

@@ -1,5 +1,15 @@
 (doom-load-envvars-file "~/.emacs.d/.local/env")
 
+(setq dired-kill-when-opening-new-dired-buffer t)
+
+(setq treemacs-display-current-project-exclusively t)
+
+(setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
+                              lines-tail)
+      whitespace-line-column 140)
+(setq whitespace-global-modes '(not org-mode))
+(global-whitespace-mode +1)
+
 (setq user-full-name "Nils Verheyen"
       user-mail-address "nils@ungerichtet.de")
 
@@ -14,17 +24,15 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
-(after! neotree
-    (setq neo-window-fixed-size nil)
-    (setq neo-window-width 40))
-
 (setq-default line-spacing 4)
 
 (with-temp-buffer
   (insert-file-contents "~/dotfiles/ansible.cfg")
   (keep-lines "vault_password_file" (point-min) (point-max))
-  (setq ansible-vault-password-file (when (string-match "vault_password_file\s+=\s+\\(.*\\)" (buffer-string))
-                        (match-string 1 (buffer-string)))))
+  (setq ansible-vault-password-file
+        (when (string-match "vault_password_file\s+=\s+\\(.*\\)"
+                            (buffer-string))
+          (match-string 1 (buffer-string)))))
 
 (def-project-mode! +ansible-yaml-mode
   :modes '(yaml-mode)
