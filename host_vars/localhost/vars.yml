@@ -28,3 +28,14 @@ borg_includes: "{{ local_borg_includes }}"
 # the installation progress again
 # https://python-poetry.org/docs/master/#installing-with-the-official-installer
 poetry_update: false
+
+# Contains a list of all aliases that should be
+# set inside $HOME/.aliases . All aliases are set using
+# the form "alias <name>='<value>'"
+aliases:
+  - name: ll
+    value: ls -alF
+  - name: la
+    value: ls -A
+  - name: l
+    value: ls -CF
