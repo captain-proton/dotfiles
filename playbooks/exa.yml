@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+  vars:
+    aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
+
+  tasks:
+    - name: Install exa (ls replacement)
+      become: true
+      ansible.builtin.pacman:
+        name: exa
+        state: present
+
+    - name: Set the exa alias for ls
+      ansible.builtin.lineinfile:
+        path: "{{ aliases_path }}"
+        line: "alias ls='exa -lh'"
