@@ -1,5 +1,6 @@
 ---
 - import_playbook: ../playbooks/dotfiles.yml
+- import_playbook: ../playbooks/aliases.yml
 - import_playbook: ../playbooks/alacritty.yml
 - import_playbook: ../playbooks/git.yml
 - import_playbook: ../playbooks/curl.yml
