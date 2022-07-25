@@ -10,7 +10,7 @@
       ansible.builtin.file:
         path: "{{ aliases_path }}"
         mode: 0640
-        state: file
+        state: touch
 
     - name: Set all configured aliases
       ansible.builtin.lineinfile:
