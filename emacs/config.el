@@ -7,7 +7,7 @@
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)
       whitespace-line-column 140)
-(setq whitespace-global-modes '(not org-mode))
+(setq whitespace-global-modes '(yaml-mode python-mode go-mode java-mode prog-mode))
 (global-whitespace-mode +1)
 
 (setq user-full-name "Nils Verheyen"
