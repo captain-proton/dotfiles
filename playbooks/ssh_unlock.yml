@@ -7,33 +7,55 @@
     ssh_unlock_script: "/etc/profile.d/ssh_unlock.sh"
     ssh_config: "{{ home }}/.ssh/config"
     ssh_agent_service: "{{ home }}/.config/systemd/user/ssh-agent.service"
+    ssh_autostart: "{{ home }}/.config/autostart/ssh-add.desktop"
 
   tasks:
-  - name: Export SSH_AUTH_SOCK environment variable
-    become: true
-    ansible.builtin.blockinfile:
-      path: "{{ ssh_unlock_script }}"
-      create: true
-      marker: "# {mark} ANSIBLE MANAGED BLOCK"
-      block: |
-        # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
-        export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+    - name: Export SSH_AUTH_SOCK environment variable
+      become: true
+      ansible.builtin.blockinfile:
+        path: "{{ ssh_unlock_script }}"
+        mode: 0644
+        create: true
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
+          export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
-  - name: Configure user ssh settings
-    ansible.builtin.lineinfile:
-      path: "{{ ssh_config }}"
-      create: true
-      line: AddKeysToAgent yes
+    - name: Configure user ssh settings
+      ansible.builtin.lineinfile:
+        path: "{{ ssh_config }}"
+        mode: 0644
+        create: true
+        line: AddKeysToAgent yes
 
-  - name: Add ssh-agent as systemd user service
-    ansible.builtin.template:
-      src: ../templates/ssh-agent.service.j2
-      dest: "{{ ssh_agent_service }}"
-      mode: 0644
+    - name: Add ssh-agent as systemd user service
+      ansible.builtin.template:
+        src: ../templates/ssh-agent.service.j2
+        dest: "{{ ssh_agent_service }}"
+        mode: 0644
 
-  - name: Enable ssh-agent service
-    ansible.builtin.systemd:
-      name: ssh-agent.service
-      state: started
-      enabled: true
-      scope: user
+    - name: Enable ssh-agent service
+      ansible.builtin.systemd:
+        name: ssh-agent.service
+        state: started
+        enabled: true
+        scope: user
+
+    - name: Join all configured ssh keys
+      ansible.builtin.set_fact:
+        ssh_keys_arg: "{{ ssh_keys | join(' ') }}"
+      when: (ssh_keys | length) > 0
+
+    - name: Add contents to ssh-add.desktop file
+      ansible.builtin.blockinfile:
+        path: "{{ ssh_autostart }}"
+        create: true
+        mode: 0640
+        state: present
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          [Desktop Entry]
+          Exec=ssh-add -q {{ ssh_keys_arg }}
+          Name=ssh-add
+          Type=Application
+      when: ssh_keys_arg is defined

@@ -39,3 +39,9 @@ aliases:
     value: ls -A
   - name: l
     value: ls -CF
+
+# The ssh_keys is a list of all paths to
+# private key files that should be added to
+# via ssh-add to the ssh-agent during login
+ssh_keys:
+  - $HOME/.ssh/id_rsa
