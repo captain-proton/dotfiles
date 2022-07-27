@@ -1,8 +1,8 @@
 (doom-load-envvars-file "~/.emacs.d/.local/env")
 
-(setq dired-kill-when-opening-new-dired-buffer t)
+(beacon-mode 1)
 
-(setq treemacs-display-current-project-exclusively t)
+(setq dired-kill-when-opening-new-dired-buffer t)
 
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)

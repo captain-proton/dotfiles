@@ -24,6 +24,14 @@ repository.
 - [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
 - [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
 
+* Beacon
+
+The cursor will shine, when you switch buffers.
+
+#+begin_src emacs-lisp :tangle yes
+(beacon-mode 1)
+#+end_src
+
 * Dired
 
 Dired opens a new buffer when entering a new directory by default. Set this
@@ -31,15 +39,6 @@ insane named variable to prevent this behaviour.
 
 #+begin_src emacs-lisp
 (setq dired-kill-when-opening-new-dired-buffer t)
-#+end_src
-
-* Treemacs
-
-Treemacs does some weird things opening folders inside a workspace. Set
-treemacs to only display the current project until I understand this logic.
-
-#+begin_src emacs-lisp
-(setq treemacs-display-current-project-exclusively t)
 #+end_src
 
 * Editor

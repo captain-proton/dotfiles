@@ -51,3 +51,4 @@
 
 (package! tldr)
 (package! org-auto-tangle)
+(package! beacon)
