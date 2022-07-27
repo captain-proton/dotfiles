@@ -1,0 +1,86 @@
+#+title:     Yet another dotfiles repo
+#+author:    Nils
+#+email:     nils@ungerichtet.de
+#+auto-tangle: f
+
+* About this repo
+
+This repo contains a poetry project with which my personal tools and settings can be deployed on a host machine.
+The automation tool [[https://docs.ansible.com/ansible/latest/index.html][Ansible]] is used to install and configure all packages.
+
+* Requirements
+
+- Arch Linux or any derivate
+- Python >= 3, installed using ~install.sh~ file
+
+* Using
+
+Read the complete chpater before using. The root of using this repo is the ~install.sh~ file.
+
+#+begin_src sh
+./install.sh work
+#+end_src
+
+The install script takes the argument ~work~ or ~home~, which provides the two environments I'm using.
+There is a file inside the setup folder as named as the argument.
+They contain ansible playbooks, that only import playbooks from the playbooks directory.
+These ones contain the actual logic of installing and configuring all packages.
+
+** Direnv
+
+Both work and home use the direnv playbook to install [[https://direnv.net/][direnv]].
+
+#+begin_quote
+direnv is an extension for your shell. It augments existing shells with a new feature that can load and unload environment variables depending on the current directory.
+#+end_quote
+
+Create a file named ~.envrc~ with the following content.
+This will activate thepython virtualenv when navigating to this dir on the terminal.
+
+#+begin_src conf
+use asdf-venv
+layout poetry
+#+end_src
+
+** Custom configuration
+
+Take a look at the file ~host_vars/localhost/vars.yml~.
+This file contains descriptions on variables that are used during the installation process.
+A user specific variable is named ~{{ local_... }}~.
+You can set these variables inside the file ~host_vars/localhost/vault.yml~ to keep them out of git.
+
+*** Ansible vault
+
+You can use ~ansible-vault~ if you wish to encrypt these variables.
+Ansible does need a password with which the file will be encrypted.
+Create a ansible password file to prevent ansible from asking the password everytime.
+
+#+begin_src sh
+export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible/vault_pass
+if [ ! -f "$ANSIBLE_VAULT_PASSWORD_FILE" ]; then
+    openssl rand -base64 21 > $ANSIBLE_VAULT_PASSWORD_FILE
+    chmod 400 $ANSIBLE_VAULT_PASSWORD_FILE
+fi
+#+end_src
+
+Export the environment variable using direnv.
+Add the following line to ~.envrc~.
+
+#+begin_src conf
+export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible/vault_pass
+#+end_src
+
+Finally allow direnv to load the environment file.
+
+#+begin_src sh
+direnv allow
+#+end_src
+
+And create the vault.yml file.
+
+#+begin_src sh
+VAULT_CONF=host_vars/localhost/vault.yml
+if [ ! -f "$VAULT_CONF" ]; then
+    poetry run ansible-vault create $VAULT_CONF
+fi
+#+end_src

@@ -34,8 +34,18 @@ case $1 in
       poetry run ansible-playbook playbooks/yay.yml
     fi
 
+    # Check if a vault password file has been set
+    # inside the environment. Ansible must ask for
+    # a password if not.
+    if [[ -z "$ANSIBLE_VAULT_PASSWORD_FILE" ]]
+    then
+      ASK_VAULT_PASS='--ask-vault-pass'
+    else
+      ASK_VAULT_PASS=''
+    fi
+
     echo "Executing setup"
-    poetry run ansible-playbook setup/$1.yml ;;
+    poetry run ansible-playbook setup/$1.yml $ASK_VAULT_PASS ;;
   *)
     echo "Enter $0 work|home" ;;
 esac
