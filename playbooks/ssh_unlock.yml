@@ -8,6 +8,7 @@
     ssh_config: "{{ home }}/.ssh/config"
     ssh_agent_service: "{{ home }}/.config/systemd/user/ssh-agent.service"
     ssh_autostart: "{{ home }}/.config/autostart/ssh-add.desktop"
+    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
 
   tasks:
     - name: Export SSH_AUTH_SOCK environment variable
@@ -59,3 +60,11 @@
           Name=ssh-add
           Type=Application
       when: ssh_keys_arg is defined
+
+    - name: Export SSH_ASKPASS envrionment variable
+      ansible.builtin.lineinfile:
+        path: "{{ ssh_askpass_envvar_conf }}"
+        mode: 0640
+        state: present
+        create: true
+        line: "SSH_ASKPASS='/usr/bin/ksshaskpass'"
