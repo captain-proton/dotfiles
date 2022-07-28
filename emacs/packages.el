@@ -52,3 +52,4 @@
 (package! tldr)
 (package! org-auto-tangle)
 (package! beacon)
+(package! org-kanban)
