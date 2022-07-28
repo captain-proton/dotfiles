@@ -48,6 +48,19 @@
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 
+(after! org
+  (setq org-log-done 'time
+        org-todo-keywords
+        '((sequence
+           "TODO(t)"            ; Backlog items in kanban that should be executed
+           "DOING(d)"           ; Things that are currently in work (work in progress)
+           "WAIT(w)"            ; A task that can not be set as DOING
+           "|"                  ; Separate active and inactive items
+           "DONE(e)"            ; Finished work ... yeah
+           "CANCELLED(c)"))     ; Cancelled things :(
+        )
+  )
+
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)

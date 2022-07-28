@@ -198,7 +198,26 @@ Configure structure templates for org mode ~begin_src~ blocks.
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 #+end_src
 
-* Org auto tangle
+* ORG
+
+** Org mode settings
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-log-done 'time
+        org-todo-keywords
+        '((sequence
+           "TODO(t)"            ; Backlog items in kanban that should be executed
+           "DOING(d)"           ; Things that are currently in work (work in progress)
+           "WAIT(w)"            ; A task that can not be set as DOING
+           "|"                  ; Separate active and inactive items
+           "DONE(e)"            ; Finished work ... yeah
+           "CANCELLED(c)"))     ; Cancelled things :(
+        )
+  )
+#+end_src
+
+** Org auto tangle
 
 #+begin_src emacs-lisp
 (use-package! org-auto-tangle
