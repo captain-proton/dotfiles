@@ -3,25 +3,23 @@
 
   vars:
     dxvk_dir: "{{ lookup('env', 'HOME') }}/.dxvk"
-    dxvk_version: "v1.10"
+    dxvk_version: "v1.10.2"
     dxvk_build_dir: "{{ lutris_dir }}/runtime/dxvk"
     lutris_dir: "{{ lookup('env', 'HOME') }}/.local/share/lutris"
 
   tasks:
 
-  - name: Install required packages
-    become: true
-    pacman:
-      name: "{{ item }}"
-      state: present
-    loop:
-    - meson
-    - mingw-w64-gcc
-    - mingw-w64-headers
-    - glslang
-    tags: [ "requirements" ]
+    - name: Install required packages
+      become: true
+      ansible.builtin.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - meson
+        - mingw-w64-gcc
+        - mingw-w64-headers
+        - glslang
 
-  - block:
     - name: Clone dxvk repo
       ansible.builtin.git:
         repo: git@github.com:doitsujin/dxvk.git
@@ -34,8 +32,7 @@
       register: lutris
 
     - name: Build dxvk
-      command:
+      ansible.builtin.command:
         cmd: "./package-release.sh {{ dxvk_version }} {{ dxvk_build_dir }} --no-package"
         chdir: "{{ dxvk_dir }}"
       when: not lutris.stat.exists
-    tags: ["build"]
