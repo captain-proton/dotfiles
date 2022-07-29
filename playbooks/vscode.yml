@@ -4,6 +4,7 @@
   vars:
     extensions:
       present:
+        - arcticicestudio.nord-visual-studio-code
         - coolbear.systemd-unit-file
         - DotJoshJohnson.xml
         - eamodio.gitlens
