@@ -6,15 +6,12 @@
     aliases_path: "{{ home }}/.aliases"
 
   tasks:
-    - name: Create ~/.aliases
-      ansible.builtin.file:
-        path: "{{ aliases_path }}"
-        mode: 0640
-        state: touch
 
     - name: Set all configured aliases
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
         line: "alias {{ item.name }}='{{ item.value }}'"
         state: present
+        create: true
+        mode: 0640
       loop: "{{ aliases }}"
