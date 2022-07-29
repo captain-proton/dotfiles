@@ -53,11 +53,12 @@
         org-todo-keywords
         '((sequence
            "TODO(t)"            ; Backlog items in kanban that should be executed
-           "DOING(d)"           ; Things that are currently in work (work in progress)
+           "DOING(o)"           ; Things that are currently in work (work in progress)
            "WAIT(w)"            ; A task that can not be set as DOING
            "|"                  ; Separate active and inactive items
-           "DONE(e)"            ; Finished work ... yeah
+           "DONE(d)"            ; Finished work ... yeah
            "CANCELLED(c)"))     ; Cancelled things :(
+        org-todo-repeat-to-state "TODO"
         )
   )
 
