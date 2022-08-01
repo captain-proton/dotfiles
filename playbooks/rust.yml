@@ -1,0 +1,27 @@
+---
+- hosts: all
+
+  tasks:
+
+    - name: Install rustup
+      become: true
+      ansible.builtin.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - rustup
+
+    - name: check toolchains
+      ansible.builtin.command:
+        cmd: rustup toolchain list
+      register: rustup_toolchains
+      changed_when: false
+
+    - name: Register rustup toolchain list output
+      ansible.builtin.set_fact:
+        rustup_toolchain_list: "{{ rustup_toolchains.stdout }}"
+
+    - name: Install the default toolchain
+      ansible.builtin.command:
+        cmd: rustup default stable
+      when: rustup_toolchain_list == 'no installed toolchains'
