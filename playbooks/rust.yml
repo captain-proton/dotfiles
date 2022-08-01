@@ -1,6 +1,9 @@
 ---
 - hosts: all
 
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+
   tasks:
 
     - name: Install rustup
@@ -10,6 +13,7 @@
         state: present
       loop:
         - rustup
+        - rust-analyzer
 
     - name: check toolchains
       ansible.builtin.command:
@@ -25,3 +29,8 @@
       ansible.builtin.command:
         cmd: rustup default stable
       when: rustup_toolchain_list == 'no installed toolchains'
+
+    - name: Add ~/.cargo/bin to path
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.path"
+        line: "export PATH={{ home }}/.cargo/bin:$PATH"
