@@ -31,3 +31,4 @@
 - import_playbook: ../playbooks/inkscape.yml
 - import_playbook: ../playbooks/vlc.yml
 - import_playbook: ../playbooks/joplin.yml
+- import_playbook: ../playbooks/wallpaper.yml

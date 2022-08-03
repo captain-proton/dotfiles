@@ -34,3 +34,4 @@
 - import_playbook: ../playbooks/lutris.yml
 - import_playbook: ../playbooks/dxvk_aur.yml
 - import_playbook: ../playbooks/discord.yml
+- import_playbook: ../playbooks/wallpaper.yml

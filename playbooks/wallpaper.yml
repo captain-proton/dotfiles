@@ -1,0 +1,31 @@
+---
+- hosts: all
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    dl_wallpaper_service_name: dl-unsplash-wallpaper.service
+    dl_wallpaper_script_name: dl_unsplash_wallpaper.sh
+    dl_wallpaper_script_path: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
+    dl_wallpaper_service: "{{ home }}/.config/systemd/user/{{ dl_wallpaper_service_name }}"
+    unsplash_search_word: nature
+
+  tasks:
+
+    - name: Copy download unsplash wallpaper to local bin
+      ansible.builtin.template:
+        src: ../templates/dl_unsplash_wallpaper.sh.j2
+        dest: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
+        mode: 0750
+
+    - name: Copy download systemd service template
+      ansible.builtin.template:
+        src: ../templates/dl-unsplash-wallpaper.service.j2
+        dest: "{{ dl_wallpaper_service }}"
+        mode: 0644
+
+    - name: Enable download wallpaper service
+      ansible.builtin.systemd:
+        name: "{{ dl_wallpaper_service_name }}"
+        enabled: true
+        scope: user
+        daemon_reload: true

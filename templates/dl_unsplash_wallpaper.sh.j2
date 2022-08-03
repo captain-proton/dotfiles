@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# curl -L 'https://source.unsplash.com/2560x1440/?nature' -o ~/Bilder/wallpaper/nature_`date +%Y-%m-%d_%H:%M`.jpeg
+WORD="{{ unsplash_search_word | default('nature') }}"
+OUTPUT_DIR="$HOME/.local/share/wallpapers"
+
+if [ ! -z "$1" ]; then
+    WORD=$1
+fi
+
+if [ ! -z "$2" ]; then
+    OUTPUT_DIR=$2
+fi
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+    echo "Creating $OUTPUT_DIR"
+    mkdir -p "$OUTPUT_DIR"
+fi
+
+RESOLUTION=$(xrandr --current | grep '*' | uniq | awk '{print $1}'i)
+
+URL="https://source.unsplash.com/${RESOLUTION}/?$WORD"
+SUFFIX="$(date +%Y-%m-%d_%H:%M)"
+FILENAME="${WORD}_${RESOLUTION}_${SUFFIX}.jpeg"
+OUTPUT="${OUTPUT_DIR}/${FILENAME}"
+
+echo "Searching unsplash for $WORD"
+echo "     Writing output to $OUTPUT"
+
+curl -L "$URL" -o "$OUTPUT"
