@@ -57,7 +57,7 @@
            "WAIT(w)"            ; A task that can not be set as DOING
            "|"                  ; Separate active and inactive items
            "DONE(d)"            ; Finished work ... yeah
-           "CANCELLED(c)"))     ; Cancelled things :(
+           "CANCELLED(c@)"))    ; Cancelled things :(
         org-todo-repeat-to-state "TODO"
         )
   )
