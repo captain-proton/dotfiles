@@ -228,32 +228,6 @@ Configure structure templates for org mode ~begin_src~ blocks.
   (setq org-auto-tangle-default t))
 #+end_src
 
-* TabNine
-
-#+begin_src emacs-lisp
-(after! company
-  (add-to-list 'company-backends #'company-tabnine)
-
-  (set-company-backend! '(emacs-lisp-mode
-                          conf-mode
-                          lisp-mode
-                          sh-mode
-                          python-mode
-                          go-mode
-                          json-mode
-                          yaml-mode
-                          )
-    '(company-tabnine
-      :separate company-capf
-      )
-    )
-
-  (setq +lsp-company-backends '(company-tabnine :separate company-capf))
-  (setq company-show-numbers t)
-  (setq company-idle-delay 0)
-  )
-#+end_src
-
 * Python
 
 Enable debugging support for python
