@@ -43,5 +43,4 @@ aliases:
 # The ssh_keys is a list of all paths to
 # private key files that should be added to
 # via ssh-add to the ssh-agent during login
-ssh_keys:
-  - $HOME/.ssh/id_rsa
+ssh_keys: "{{ local_ssh_keys }}"
