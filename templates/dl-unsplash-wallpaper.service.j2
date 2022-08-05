@@ -4,6 +4,7 @@ Description=Download unsplash wallpaper
 
 [Service]
 ExecStart={{ dl_wallpaper_script_path }}
+Environment=XAUTHORITY=%h/.Xauthority
 
 [Install]
 WantedBy=default.target

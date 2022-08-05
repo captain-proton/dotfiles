@@ -9,6 +9,14 @@
     dl_wallpaper_service: "{{ home }}/.config/systemd/user/{{ dl_wallpaper_service_name }}"
     unsplash_search_word: nature
 
+  handlers:
+    - name: reload systemd service
+      ansible.builtin.service:
+        name: "{{ dl_wallpaper_service }}"
+        daemon_reload: true
+        enabled: true
+        state: reloaded
+
   tasks:
 
     - name: Copy download unsplash wallpaper to local bin
