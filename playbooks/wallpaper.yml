@@ -3,10 +3,13 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+
     dl_wallpaper_service_name: dl-unsplash-wallpaper.service
     dl_wallpaper_script_name: dl_unsplash_wallpaper.sh
     dl_wallpaper_script_path: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
     dl_wallpaper_service: "{{ home }}/.config/systemd/user/{{ dl_wallpaper_service_name }}"
+    dl_wallpaper_desktop_path: "{{ home }}/.config/autostart/dl-unsplash-wallpaper.desktop"
+
     unsplash_search_word: nature
 
   handlers:
@@ -22,18 +25,36 @@
     - name: Copy download unsplash wallpaper to local bin
       ansible.builtin.template:
         src: ../templates/dl_unsplash_wallpaper.sh.j2
-        dest: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
+        dest: "{{ dl_wallpaper_script_path }}"
         mode: 0750
 
-    - name: Copy download systemd service template
-      ansible.builtin.template:
-        src: ../templates/dl-unsplash-wallpaper.service.j2
-        dest: "{{ dl_wallpaper_service }}"
-        mode: 0644
+    - name: Get service facts
+      ansible.builtin.service_facts:
 
-    - name: Enable download wallpaper service
+    - name: Disable download wallpaper service
       ansible.builtin.systemd:
         name: "{{ dl_wallpaper_service_name }}"
-        enabled: true
+        enabled: false
         scope: user
+        state: stopped
         daemon_reload: true
+      when: ansible_facts.services[dl_wallpaper_service_name] is defined
+
+
+    - name: Copy download systemd service template
+      ansible.builtin.file:
+        path: "{{ dl_wallpaper_service }}"
+        state: absent
+
+    - name: Add contents to dl-unsplash-wallpaper.desktop file
+      ansible.builtin.blockinfile:
+        path: "{{ dl_wallpaper_desktop_path }}"
+        create: true
+        mode: 0640
+        state: present
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          [Desktop Entry]
+          Exec={{ dl_wallpaper_script_path }}
+          Name=download unsplash wallpaper
+          Type=Application
