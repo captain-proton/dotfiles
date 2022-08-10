@@ -4,21 +4,11 @@
   vars:
     home: "{{ lookup('env', 'HOME') }}"
 
-    dl_wallpaper_service_name: dl-unsplash-wallpaper.service
     dl_wallpaper_script_name: dl_unsplash_wallpaper.sh
     dl_wallpaper_script_path: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
-    dl_wallpaper_service: "{{ home }}/.config/systemd/user/{{ dl_wallpaper_service_name }}"
     dl_wallpaper_desktop_path: "{{ home }}/.config/autostart/dl-unsplash-wallpaper.desktop"
 
     unsplash_search_word: nature
-
-  handlers:
-    - name: reload systemd service
-      ansible.builtin.service:
-        name: "{{ dl_wallpaper_service }}"
-        daemon_reload: true
-        enabled: true
-        state: reloaded
 
   tasks:
 
@@ -27,24 +17,6 @@
         src: ../templates/dl_unsplash_wallpaper.sh.j2
         dest: "{{ dl_wallpaper_script_path }}"
         mode: 0750
-
-    - name: Get service facts
-      ansible.builtin.service_facts:
-
-    - name: Disable download wallpaper service
-      ansible.builtin.systemd:
-        name: "{{ dl_wallpaper_service_name }}"
-        enabled: false
-        scope: user
-        state: stopped
-        daemon_reload: true
-      when: ansible_facts.services[dl_wallpaper_service_name] is defined
-
-
-    - name: Copy download systemd service template
-      ansible.builtin.file:
-        path: "{{ dl_wallpaper_service }}"
-        state: absent
 
     - name: Add contents to dl-unsplash-wallpaper.desktop file
       ansible.builtin.blockinfile:
