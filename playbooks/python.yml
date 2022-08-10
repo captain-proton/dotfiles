@@ -21,6 +21,7 @@
         - python-pyflakes
         - python-pytest
         - python-isort
+        - python-black
 
     - name: Remove current poetry script
       ansible.builtin.file:
