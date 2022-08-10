@@ -1,0 +1,9 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Ensure shfmt is installed
+      become: true
+      ansible.builtin.pacman:
+        name: shfmt
+        state: present

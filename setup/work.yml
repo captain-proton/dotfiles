@@ -22,6 +22,7 @@
 - import_playbook: ../playbooks/bat.yml
 - import_playbook: ../playbooks/exa.yml
 - import_playbook: ../playbooks/rust.yml
+- import_playbook: ../playbooks/shfmt.yml
 
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
