@@ -13,24 +13,37 @@
     font_download_path: "{{ ansible_env.HOME }}/.fonts"
 
     # Change only in case the url changed
-    font_base_url: https://github.com/romkatv/powerlevel10k-media/raw/master
-    font_files:
-      - "MesloLGS NF Regular.ttf"
-      - "MesloLGS NF Bold.ttf"
-      - "MesloLGS NF Italic.ttf"
-      - "MesloLGS NF Bold Italic.ttf"
+    fonts:
+      - font_base_url: https://github.com/romkatv/powerlevel10k-media/raw/master
+        font_files:
+          - "MesloLGS NF Regular.ttf"
+          - "MesloLGS NF Bold.ttf"
+          - "MesloLGS NF Italic.ttf"
+          - "MesloLGS NF Bold Italic.ttf"
+      - font_base_url: https://github.com/bBoxType/FiraSans/raw/master/Fira_Sans_4_3/Fonts/Fira_Sans_TTF_4301/Normal/Roman
+        font_files:
+          - "FiraSans-Book.ttf"
+          - "FiraSans-Light.ttf"
+          - "FiraSans-Medium.ttf"
+          - "FiraSans-Regular.ttf"
+      - font_base_url: https://github.com/bBoxType/FiraSans/raw/master/Fira_Sans_4_3/Fonts/Fira_Sans_TTF_4301/Normal/Italic
+        font_files:
+          - "FiraSans-BookItalic.ttf"
+          - "FiraSans-LightItalic.ttf"
+          - "FiraSans-MediumItalic.ttf"
+          - "FiraSans-Italic.ttf"
     home: "{{ lookup('env', 'HOME') }}"
 
   tasks:
     - name: See if dotfiles exists
-      stat:
+      ansible.builtin.stat:
         path: "{{ dotfiles_path }}"
       register: dotfiles_exists
 
     # PACKAGE INSTALLATION
     - name: Install necessary packages
       become: true
-      package:
+      ansible.builtin.package:
         name: "{{ item }}"
         state: present
       loop: ["zsh", "curl"]
@@ -43,7 +56,7 @@
       register: omz_home
 
     - name: Install oh my zsh
-      command:
+      ansible.builtin.command:
         cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       when: not omz_home.stat.exists
       register: omz_install
@@ -51,7 +64,7 @@
 
     # ZSH THEME
     - name: Get powerlevel10k theme
-      git:
+      ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
         depth: 1
         dest: "{{ home }}/.oh-my-zsh/custom/themes/powerlevel10k"
@@ -60,39 +73,39 @@
 
     # ZSH USER PLUGINS
     - name: Get zsh-users plugins
-      git:
+      ansible.builtin.git:
         repo: "git@github.com:zsh-users/{{ item }}.git"
         dest: "{{ home }}/.oh-my-zsh/custom/plugins/{{ item }}"
         version: master
       loop:
-      - zsh-autosuggestions
-      - zsh-syntax-highlighting
-      - zsh-completions
+        - zsh-autosuggestions
+        - zsh-syntax-highlighting
+        - zsh-completions
 
     # END ZSH USER PLUGINS
 
     # CONFIGURATION LINKS
     - name: Link configuration files
-      file:
+      ansible.builtin.file:
         state: link
         src: "{{ item.src }}"
         path: "{{ item.path }}"
       loop:
-      - src: "{{ home }}/dotfiles/zshrc"
-        path: "{{ home }}/.zshrc"
-      - src: "{{ home }}/dotfiles/zsh"
-        path: "{{ home }}/.zsh"
-      - src: "{{ home }}/dotfiles/gitconfig"
-        path: "{{ home }}/.gitconfig"
-      - src: "{{ home }}/dotfiles/zsh/configs/p10k.zsh"
-        path: "{{ home }}/.p10k.zsh"
+        - src: "{{ home }}/dotfiles/zshrc"
+          path: "{{ home }}/.zshrc"
+        - src: "{{ home }}/dotfiles/zsh"
+          path: "{{ home }}/.zsh"
+        - src: "{{ home }}/dotfiles/gitconfig"
+          path: "{{ home }}/.gitconfig"
+        - src: "{{ home }}/dotfiles/zsh/configs/p10k.zsh"
+          path: "{{ home }}/.p10k.zsh"
     # END CONFIGURATION LINKS
 
 
     # SHELL CONFIGURATION
     - name: Set zsh as shell
       become: true
-      user:
+      ansible.builtin.user:
         name: "{{ ansible_env.USER }}"
         shell: /bin/zsh
     # END SHELL CONFIGURATION
@@ -101,15 +114,19 @@
     - name: Install custom fonts
       block:
         - name: Create download folder
-          file:
+          ansible.builtin.file:
             path: "{{ font_download_path }}"
             mode: 0755
             state: directory
 
         - name: Download the files
-          get_url:
-            url: "{{ font_base_url }}/{{ item | urlencode() }}"
-            dest: "{{ font_download_path }}/{{ item }}"
-          loop: "{{ font_files }}"
+          ansible.builtin.get_url:
+            url: "{{ item.0.font_base_url }}/{{ item.1 | urlencode() }}"
+            dest: "{{ font_download_path }}/{{ item.1 }}"
+            mode: 0644
+          loop: "{{ fonts | subelements('font_files') }}"
+          loop_control:
+            label: "{{ item.1 }}"
       when: install_custom_font
+      tags: ["fonts"]
     # END FONT INSTALLATION
