@@ -74,6 +74,24 @@
           - "FiraSans-TwoItalic.ttf"
           - "FiraSans-UltraItalic.ttf"
           - "FiraSans-UltraLightItalic.ttf"
+      - font_base_url: https://github.com/cormullion/juliamono/raw/master
+        font_files:
+          - "JuliaMono-Black.ttf"
+          - "JuliaMono-BlackItalic.ttf"
+          - "JuliaMono-Bold.ttf"
+          - "JuliaMono-BoldItalic.ttf"
+          - "JuliaMono-BoldLatin.ttf"
+          - "JuliaMono-ExtraBold.ttf"
+          - "JuliaMono-ExtraBoldItalic.ttf"
+          - "JuliaMono-Light.ttf"
+          - "JuliaMono-LightItalic.ttf"
+          - "JuliaMono-Medium.ttf"
+          - "JuliaMono-MediumItalic.ttf"
+          - "JuliaMono-Regular.ttf"
+          - "JuliaMono-RegularItalic.ttf"
+          - "JuliaMono-RegularLatin.ttf"
+          - "JuliaMono-SemiBold.ttf"
+          - "JuliaMono-SemiBoldItalic.ttf"
     home: "{{ lookup('env', 'HOME') }}"
 
   tasks:

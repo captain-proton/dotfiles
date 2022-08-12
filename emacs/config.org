@@ -87,9 +87,13 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (defvar proton/variable-width-font "Noto Sans"
   "The font to use for variable-pitch (document) text.")
 
+(defvar proton/unicode-font "JuliaMono"
+  "The font to use for displaying unicode characters.")
+
 (setq doom-font (font-spec :family proton/fixed-width-font :size 15)
       doom-variable-pitch-font (font-spec :family proton/variable-width-font :size 15)
       doom-big-font (font-spec :family proton/variable-width-font :size 24)
+      doom-unicode-font (font-spec :family proton/unicode-font)
       doom-font-increment 1)
 
 (after! doom-themes
