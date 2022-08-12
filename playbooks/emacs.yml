@@ -54,8 +54,6 @@
       loop:
         - src: "{{ home }}/dotfiles/emacs/init.el"
           linkname: "init.el"
-        - src: "{{ home }}/dotfiles/emacs/config.el"
-          linkname: "config.el"
         - src: "{{ home }}/dotfiles/emacs/packages.el"
           linkname: "packages.el"
 

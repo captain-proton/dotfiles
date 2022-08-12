@@ -53,3 +53,5 @@
 (package! org-auto-tangle)
 (package! beacon)
 (package! org-kanban)
+(package! org-present)
+(package! visual-fill-column)
