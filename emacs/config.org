@@ -21,12 +21,18 @@ repository.
 - [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
 - [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
 
-* Beacon
+* Cursor settings
 
 The cursor will shine, when you switch buffers.
 
 #+begin_src emacs-lisp
 (beacon-mode 1)
+#+end_src
+
+Let the cursor blink. This is especially useful using the nord color theme in emacs because brackets get a background color that let the cursor nearly dissappear.
+
+#+begin_src emacs-lisp
+(blink-cursor-mode 1)
 #+end_src
 
 * Dired
