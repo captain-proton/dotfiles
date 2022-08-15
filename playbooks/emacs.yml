@@ -81,6 +81,18 @@
         daemon_reload: true
         scope: user
 
+    - name: Ensure ansible is set correctly in the .dir-locals.el
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/dotfiles/.dir-locals.el"
+        create: true
+        mode: 0640
+        state: present
+        marker: ";; {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          ((yaml-mode . ((lsp-ansible-ansible-path . "{{ home }}/dotfiles/.venv/bin/ansible")
+                         (lsp-ansible-ansible-lint-path . "{{ home }}/dotfiles/.venv/bin/ansible-lint")
+                         (lsp-ansible-python-interpreter-path . "{{ home }}/dotfiles/.venv/bin/python"))))
+
     - name: Generate envvars file
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom env -o {{ envvars }}"
