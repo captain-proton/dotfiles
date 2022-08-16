@@ -125,13 +125,6 @@ numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type 'relative)
 #+end_src
 
-If you use `org' and don't want your org files in the default location below,
-change `org-directory'. It must be set before org loads!
-#+begin_src emacs-lisp
-(setq org-directory "~/Dokumente/Org/")
-#+end_src
-
-
 Whenever you reconfigure a package, make sure to wrap your config in an
 `after!' block, otherwise Doom's defaults may override your settings. E.g.
 
@@ -224,6 +217,7 @@ Configure structure templates for org mode ~begin_src~ blocks.
 
 * ORG
 
+
 ** Org Mode Appearance
 
 #+begin_src emacs-lisp
@@ -264,6 +258,15 @@ Configure structure templates for org mode ~begin_src~ blocks.
 
 ** Org mode settings
 
+If you use `org' and don't want your org files in the default location below,
+change `org-directory'. It must be set before org loads!
+
+#+begin_src emacs-lisp
+(setq org-directory (file-truename "~/Org/notes"))
+#+end_src
+
+Anything else at the moment can be set after org was loaded.
+
 #+begin_src emacs-lisp
 (after! org
   (setq org-log-done 'time
@@ -283,6 +286,8 @@ Configure structure templates for org mode ~begin_src~ blocks.
 #+end_src
 
 ** Org auto tangle
+
+Automatically tangle org files on save. This is done by adding the option ~#+auto_tangle: t~ in your org file.
 
 #+begin_src emacs-lisp
 (use-package! org-auto-tangle
@@ -372,6 +377,20 @@ Register hooks with org-present.
 (add-hook 'org-present-mode-hook 'proton/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
+#+end_src
+
+** Personal Knowledge Base using Org roam
+
+Create the ~$HOME/Org/roam~ directory if it does not exists. This
+directory will be used as ~org-roam-directory~.
+
+#+begin_src emacs-lisp
+(setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
+(when (not (file-directory-p proton/org-roam-home))
+  (make-directory proton/org-roam-home))
+
+(setq org-roam-directory (file-truename proton/org-roam-home))
+(org-roam-db-autosync-mode)
 #+end_src
 
 * Python
