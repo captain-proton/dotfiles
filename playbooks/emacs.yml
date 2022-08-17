@@ -21,6 +21,8 @@
         - fd
         - maim
         - libvterm
+        - shellcheck  # required for module sh
+        - prettier  # requires for module json, yaml ...
 
     - name: Check for emacs.d directory
       ansible.builtin.stat:
