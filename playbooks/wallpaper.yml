@@ -7,6 +7,9 @@
     dl_wallpaper_script_name: dl_unsplash_wallpaper.sh
     dl_wallpaper_script_path: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
     dl_wallpaper_desktop_path: "{{ home }}/.config/autostart/dl-unsplash-wallpaper.desktop"
+    delete_wallpaper_script_name: delete_duplicate_wallpaper.sh
+    delete_wallpaper_script_path: "{{ home }}/.local/bin/{{ delete_wallpaper_script_name }}"
+    delete_wallpaper_desktop_path: "{{ home }}/.config/autostart/delete-duplicate-wallpaper.desktop"
 
     unsplash_search_word: nature
 
@@ -14,7 +17,7 @@
 
     - name: Copy download unsplash wallpaper to local bin
       ansible.builtin.template:
-        src: ../templates/dl_unsplash_wallpaper.sh.j2
+        src: ../templates/download_unsplash_wallpaper.sh.j2
         dest: "{{ dl_wallpaper_script_path }}"
         mode: 0750
 
@@ -29,4 +32,23 @@
           [Desktop Entry]
           Exec={{ dl_wallpaper_script_path }}
           Name=download unsplash wallpaper
+          Type=Application
+
+    - name: Copy delete duplicate wallpaper script to local bin
+      ansible.builtin.template:
+        src: ../templates/delete_duplicate_wallpaper.sh.j2
+        dest: "{{ delete_wallpaper_script_path }}"
+        mode: 0750
+
+    - name: Add contents to delete-duplicate-wallpaper.desktop file
+      ansible.builtin.blockinfile:
+        path: "{{ delete_wallpaper_desktop_path }}"
+        create: true
+        mode: 0640
+        state: present
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          [Desktop Entry]
+          Exec={{ delete_wallpaper_script_path }}
+          Name=delete duplicate downloaded unsplash wallpaper
           Type=Application
