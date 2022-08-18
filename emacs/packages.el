@@ -55,3 +55,4 @@
 (package! org-kanban)
 (package! org-present)
 (package! visual-fill-column)
+(package! highlight-thing)
