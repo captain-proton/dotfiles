@@ -73,6 +73,12 @@ Disable fringe-mode on writeroom and activate it again when leaving. This is esp
 (add-hook 'writeroom-mode-hook 'proton/fringe-on-zen)
 #+end_src
 
+#+begin_src emacs-lisp
+(evil-define-key nil evil-visual-state-map
+  (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
+  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+#+end_src
+
 * Identity
 
 Some functionality uses this to identify you, e.g. GPG configuration, email
