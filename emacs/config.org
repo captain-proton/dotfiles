@@ -56,6 +56,16 @@ Activate whitespace-mode globally except for org-mode.
 (global-whitespace-mode +1)
 #+End_src
 
+Disable fringe-mode on writeroom and activate it again when leaving. This is espacially useful when toggling presentations.
+
+#+begin_src emacs-lisp
+(defun proton/fringe-on-zen ()
+  (if (bound-and-true-p writeroom-mode)
+      (fringe-mode 0)
+    (fringe-mode '(nil . nil))))
+(add-hook 'writeroom-mode-hook 'proton/fringe-on-zen)
+#+end_src
+
 * Identity
 
 Some functionality uses this to identify you, e.g. GPG configuration, email
