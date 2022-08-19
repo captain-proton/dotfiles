@@ -240,6 +240,14 @@ Configure structure templates for org mode ~begin_src~ blocks.
 
 * ORG
 
+** Keybindings
+
+#+begin_src emacs-lisp
+(map! :leader
+      :desc "Activate lsp-org" "m L" #'lsp-org
+      :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)
+#+end_src
+
 
 ** Org Mode Appearance
 
