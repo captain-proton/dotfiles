@@ -15,13 +15,13 @@
         state: present
       loop:
         - python
+        - pyright
         - python-debugpy
-        - python-lsp-server
-        - python-nose
         - python-pyflakes
         - python-pytest
         - python-isort
         - python-black
+        - python-cookiecutter
 
     - name: Remove current poetry script
       ansible.builtin.file:

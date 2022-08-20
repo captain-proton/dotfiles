@@ -13,7 +13,8 @@ ansible = "^6.0.0"
 autopep8 = "^1.6.0"
 pylint = "^2.14.0"
 ansible-lint = "^6.3.0"
-pyright = "^1.1.262"
+black = "^22.6.0"
+pyright = "^1.1.267"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
