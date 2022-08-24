@@ -110,7 +110,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 
 #+begin_src emacs-lisp
 ;; Set reusable font name variables
-(defvar proton/fixed-width-font "JetBrains Mono"
+(defvar proton/fixed-width-font "JetBrains Mono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar proton/variable-width-font "Noto Sans"
@@ -119,7 +119,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (defvar proton/unicode-font "JuliaMono"
   "The font to use for displaying unicode characters.")
 
-(setq doom-font (font-spec :family proton/fixed-width-font :size 15)
+(setq doom-font (font-spec :family proton/fixed-width-font :size 15 :weight 'light)
       doom-variable-pitch-font (font-spec :family proton/variable-width-font :size 15)
       doom-big-font (font-spec :family proton/variable-width-font :size 24)
       doom-unicode-font (font-spec :family proton/unicode-font)
@@ -139,7 +139,7 @@ available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. This is the default:
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-nord)
+(setq doom-theme 'doom-zenburn)
 #+end_src
 
 This determines the style of line numbers in effect. If set to `nil', line
