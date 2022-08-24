@@ -4,15 +4,15 @@
   vars:
     home: "{{ lookup('env', 'HOME') }}"
 
-    handlers:
-      - name: run ycm installation
-        ansible.builtin.command:
-          cmd: 'python install.py'
-          chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
+  handlers:
+    - name: run ycm installation
+      ansible.builtin.command:
+        cmd: 'python install.py'
+        chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
 
-      - name: install vim plugins
-        ansible.builtin.command:
-          cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
+    - name: install vim plugins
+      ansible.builtin.command:
+        cmd: "vim -u {{ home }}/.vimrc.bundles +PluginInstall +qall"
 
   tasks:
     - name: Install vim and required packages
