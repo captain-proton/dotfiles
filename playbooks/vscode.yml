@@ -2,6 +2,9 @@
 - hosts: all
 
   vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    vscode_conf_dir: "{{ home }}/.config/Code/User"
+    vscode_user_settings_file: "{{ vscode_conf_dir }}/settings.json"
     extensions:
       present:
         - arcticicestudio.nord-visual-studio-code
@@ -11,6 +14,7 @@
         - golang.go
         - jebbs.plantuml
         - jmreicha.tender
+        - matklad.pale-fire
         - mechatroner.rainbow-csv
         - ms-azuretools.vscode-docker
         - MS-CEINTL.vscode-language-pack-de
@@ -65,3 +69,26 @@
         cmd: "code --uninstall-extension {{ item }}"
       loop: "{{ uninstall_ext }}"
       when: uninstall_ext != []
+
+    - name: Create vs code user dir
+      ansible.builtin.file:
+        path: "{{ vscode_conf_dir }}"
+        state: directory
+        mode: 0750
+
+    - name: Stat of vs code user settings file
+      ansible.builtin.stat:
+        path: "{{ vscode_user_settings_file }}"
+      register: settings
+
+    - name: Delete user settings if necessary
+      ansible.builtin.file:
+        path: "{{ vscode_user_settings_file }}"
+        state: absent
+      when: settings.stat.isreg is defined and settings.stat.isreg
+
+    - name: Link configuration
+      ansible.builtin.file:
+        path: "{{ vscode_user_settings_file }}"
+        src: "{{ home }}/dotfiles/vscode/settings.json"
+        state: link

@@ -1,0 +1,30 @@
+{
+    "breadcrumbs.enabled": true,
+    "editor.fontSize": 15,
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontWeight": "300",
+    "editor.formatOnPaste": true,
+    "editor.renderWhitespace": "all",
+    "editor.lineNumbers": "relative",
+    "editor.lineHeight": 1.5,
+    "keyboard.dispatch": "keyCode",
+    "workbench.tree.indent": 18,
+    "workbench.tree.renderIndentGuides": "always",
+    "workbench.colorCustomizations": {
+        "tree.indentGuidesStroke": "#ff9800"
+    },
+    "explorer.confirmDelete": false,
+    "editor.rulers": [
+        79,
+        120
+    ],
+    "rewrap.wrappingColumn": 78,
+    "python.languageServer": "Pylance",
+    "redhat.telemetry.enabled": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "tabnine.experimentalAutoImports": true,
+    "terminal.integrated.fontFamily": "MesloLGL Nerd Font",
+    "terminal.integrated.fontWeight": "300",
+    "workbench.startupEditor": "none",
+    "workbench.colorTheme": "Pale Fire High Contrast",
+}
