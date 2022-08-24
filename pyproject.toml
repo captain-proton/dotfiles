@@ -7,7 +7,7 @@ authors = ["Nils <nils@ungerichtet.de>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 qtile = "^0.21.0"
-ansible = "^6.0.0"
+ansible = "^6.2.0"
 
 [tool.poetry.dev-dependencies]
 autopep8 = "^1.6.0"
