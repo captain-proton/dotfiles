@@ -286,3 +286,6 @@ vault*
 
 # custom emacs configuration
 *local.el
+
+# generated python type stubs
+.pytypestubs

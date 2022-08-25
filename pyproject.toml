@@ -15,7 +15,19 @@ pylint = "^2.14.0"
 ansible-lint = "^6.3.0"
 black = "^22.6.0"
 pyright = "^1.1.267"
+mypy = "^0.971"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+venvPath = "./.venv"
+include = ["qtile"]
+exclude = [
+    "**/__pycache__",
+    ".pytypestubs"
+]
+stubPath = ".pytypestubs"
+reportMissingImports = true
+reportMissingTypeStubs = true
