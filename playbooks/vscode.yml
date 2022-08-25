@@ -11,10 +11,10 @@
         - coolbear.systemd-unit-file
         - DotJoshJohnson.xml
         - eamodio.gitlens
+        - gerane.Theme-Zenburn
         - golang.go
         - jebbs.plantuml
         - jmreicha.tender
-        - matklad.pale-fire
         - mechatroner.rainbow-csv
         - ms-azuretools.vscode-docker
         - MS-CEINTL.vscode-language-pack-de
@@ -31,7 +31,8 @@
         - TabNine.tabnine-vscode
         - tamasfe.even-better-toml
         - yzhang.markdown-all-in-one
-      absent: []
+      absent:
+        - matklad.pale-fire
 
   tasks:
     - name: Install visual studio code from aur
