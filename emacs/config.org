@@ -23,12 +23,6 @@ repository.
 
 * Cursor settings
 
-The cursor will shine, when you switch buffers.
-
-#+begin_src emacs-lisp
-(beacon-mode 1)
-#+end_src
-
 Let the cursor blink. This is especially useful using the nord color theme in emacs because brackets get a background color that let the cursor nearly dissappear.
 
 #+begin_src emacs-lisp
@@ -375,9 +369,6 @@ org-present.
 
   ;; Display inline images automatically
   (org-display-inline-images)
-
-  ;; deactivate blinking cursors
-  (beacon-mode 0)
   )
 
 (defun proton/org-present-end ()
@@ -396,9 +387,6 @@ org-present.
 
   ;; Stop displaying inline images
   (org-remove-inline-images)
-
-  ;; Activate highlighted cursor
-  (beacon-mode 1)
   )
 #+end_src
 
