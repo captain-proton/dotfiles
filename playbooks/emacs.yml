@@ -58,6 +58,8 @@
           linkname: "init.el"
         - src: "{{ home }}/dotfiles/emacs/packages.el"
           linkname: "packages.el"
+        - src: "{{ home }}/dotfiles/emacs/config.el"
+          linkname: "config.el"
 
     - name: Check for emacs custom configuration
       ansible.builtin.stat:

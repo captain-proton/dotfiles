@@ -1,114 +1,34 @@
-#+TITLE:  DOOM EMACS CONFIGURATION
-#+PROPERTY: header-args :tangle config.el
-#+auto-tangle: t
-#+DATE:    June 28, 2022
-
-* Environment
-
-The Doom emacs server is started using a user systemd service file. Some
-environment variables are set after the daemon has started, for example
-files in ~/etc/profile.d/~. In order for emacs to work properly doom should
-load a envvars file that can be generated using the command ~doom env~.
-This command is executed at the end of the emacs.yml playbook in this
-repository.
-
-#+begin_src emacs-lisp
 (doom-load-envvars-file "~/.emacs.d/.local/env")
-#+end_src
 
-** References
-
-- [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
-- [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
-
-* Cursor settings
-
-Let the cursor blink. This is especially useful using the nord color theme in emacs because brackets get a background color that let the cursor nearly dissappear.
-
-#+begin_src emacs-lisp
 (blink-cursor-mode 1)
-#+end_src
 
-* Dired
-
-Dired opens a new buffer when entering a new directory by default. Set this
-insane named variable to prevent this behaviour.
-
-#+begin_src emacs-lisp
 (setq dired-kill-when-opening-new-dired-buffer t)
-#+end_src
 
-* Editor
+(setq doom-themes-neotree-file-icons t)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
-Activate whitespace-mode globally except for org-mode.
-
-#+begin_src emacs-lisp
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)
       whitespace-line-column 140)
 (setq whitespace-global-modes '(yaml-mode python-mode go-mode java-mode prog-mode))
 (global-whitespace-mode +1)
-#+end_src
 
-** Highlight thing
-
-Activate highlight of current selected word under cursor or selection when in visual.
-
-#+begin_src emacs-lisp
 (global-highlight-thing-mode)
 (setq highlight-thing-what-thing 'word)
-#+end_src
 
-** Fringes
-
-Disable fringe-mode on writeroom and activate it again when leaving. This is espacially useful when toggling presentations.
-
-#+begin_src emacs-lisp
 (defun proton/fringe-on-zen ()
   (if (bound-and-true-p writeroom-mode)
       (fringe-mode 0)
     (fringe-mode '(nil . nil))))
 (add-hook 'writeroom-mode-hook 'proton/fringe-on-zen)
-#+end_src
 
-** Keybindings for evil-mc
-
-#+begin_src emacs-lisp
 (evil-define-key nil evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
   (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
-#+end_src
 
-* Identity
-
-Some functionality uses this to identify you, e.g. GPG configuration, email
-clients, file templates and snippets. It is optional.
-
-#+begin_src emacs-lisp
 (setq user-full-name "Nils Verheyen"
       user-mail-address "nils@ungerichtet.de")
-#+end_src
 
-* Layout
-
-Doom exposes five (optional) variables for controlling fonts in Doom:
-
-- `DOOMu-font' -- the primary font to use
-- `doom-variable-pitch-font' -- a non-monospace font (where applicable)
-- `doom-big-font' -- used for `doom-big-font-mode'; use this for
-   presentations or streaming.
-- `doom-unicode-font' -- for unicode glyphs
-- `doom-serif-font' -- for the `fixed-pitch-serif' face
-
-See 'C-h v doom-font' for documentation and more examples of what they
-accept. For example:
-
-If you or Emacs can't find your font, use 'M-x describe-font' to look them
-up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
-refresh your font settings. If Emacs still can't find your font, it likely
-wasn't installed correctly. Font issues are rarely Doom issues!
-
-#+begin_src emacs-lisp
 ;; Set reusable font name variables
 (defvar proton/fixed-width-font "JetBrains Mono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
@@ -132,73 +52,15 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (custom-set-faces!
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
-#+end_src
 
-There are two ways to load a theme. Both assume the theme is installed and
-available. You can either set `doom-theme' or manually load a theme with the
-`load-theme' function. This is the default:
-
-#+begin_src emacs-lisp
 (setq doom-theme 'doom-zenburn)
-#+end_src
 
-This determines the style of line numbers in effect. If set to `nil', line
-numbers are disabled. For relative line numbers, set this to `relative'.
-#+begin_src emacs-lisp
 (setq display-line-numbers-type 'relative)
-#+end_src
 
-Whenever you reconfigure a package, make sure to wrap your config in an
-`after!' block, otherwise Doom's defaults may override your settings. E.g.
-
-  (after! PACKAGE
-    (setq x y))
-
-The exceptions to this rule:
-
-  - Setting file/directory variables (like `org-directory')
-  - Setting variables which explicitly tell you to set them before their
-    package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-  - Setting doom variables (which start with 'doom-' or '+').
-
-Here are some additional functions/macros that will help you configure Doom.
-
-- `load!' for loading external *.el files relative to this one
-- `use-package!' for configuring packages
-- `after!' for running code after a package has loaded
-- `add-load-path!' for adding directories to the `load-path', relative to
-  this file. Emacs searches the `load-path' when you load packages with
-  `require' or `use-package'.
-- `map!' for binding new keys
-
-To get information about any of these functions/macros, move the cursor over
-the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-This will open documentation for it, including demos of how they are used.
-Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-etc).
-
-You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-they are implemented.
-
-#+begin_src emacs-lisp
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
-#+end_src
 
-
-* Line spacing
-
-Increase space between lines.
-
-#+begin_src emacs-lisp
 (setq-default line-spacing 4)
-#+end_src
 
-* Ansible
-
-Set the ansible vault password file according to the settings inside
-the dotfiles ansible configuration.
-
-#+begin_src emacs-lisp
 (with-temp-buffer
   (insert-file-contents "~/dotfiles/ansible.cfg")
   (keep-lines "vault_password_file" (point-min) (point-max))
@@ -206,52 +68,25 @@ the dotfiles ansible configuration.
         (when (string-match "vault_password_file\s+=\s+\\(.*\\)"
                             (buffer-string))
           (match-string 1 (buffer-string)))))
-#+end_src
 
-#+begin_src emacs-lisp
 (def-project-mode! +ansible-yaml-mode
   :modes '(yaml-mode)
   :add-hooks '(ansible ansible-auto-decrypt-encrypt ansible-doc-mode)
   :files (or "playbooks/" "roles/" "tasks/" "handlers/"))
-#+end_src
 
-* Custom machine settings
-
-All settings that are unique to the machine should be kept inside the
-~$HOME/.doom.d/local.el~ file. Look at the emacs.yml playbook. There should
-be a task that links the ~dotfiles/emacs/local.el~ if one was found.
-
-#+begin_src emacs-lisp
 (setq local-settings-file (format "%s/.doom.d/local.el" (getenv "HOME")))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
-#+end_src
 
-* Structure templates
-
-Configure structure templates for org mode ~begin_src~ blocks.
-
-#+begin_src emacs-lisp
 (require 'org-tempo)
 (add-to-list 'org-structure-template-alist '("el" . "src emacs-lisp"))
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
-#+end_src
 
-* ORG
-
-** Keybindings
-
-#+begin_src emacs-lisp
 (map! :leader
       :desc "Activate lsp-org" "m L" #'lsp-org
       :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)
-#+end_src
 
-
-** Org Mode Appearance
-
-#+begin_src emacs-lisp
 (defun proton/org-colors-nord ()
   "Enable Nord colors for Org headers."
   (interactive)
@@ -277,28 +112,14 @@ Configure structure templates for org mode ~begin_src~ blocks.
                       :foreground "#bfafdf"))
 
 (proton/org-colors-nord)
-#+end_src
 
-#+begin_src emacs-lisp
 (require 'org-faces)
 
 ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
 (set-face-attribute 'org-block nil :foreground nil :font proton/fixed-width-font :height 1.0 :weight 'light)
-#+end_src
 
-
-** Org mode settings
-
-If you use `org' and don't want your org files in the default location below,
-change `org-directory'. It must be set before org loads!
-
-#+begin_src emacs-lisp
 (setq org-directory (file-truename "~/Org/notes"))
-#+end_src
 
-Anything else at the moment can be set after org was loaded.
-
-#+begin_src emacs-lisp
 (after! org
   (setq org-log-done 'time
         org-todo-keywords
@@ -314,35 +135,16 @@ Anything else at the moment can be set after org was loaded.
         org-hide-emphasis-markers t
         org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
   )
-#+end_src
 
-** Org auto tangle
-
-Automatically tangle org files on save. This is done by adding the option ~#+auto_tangle: t~ in your org file.
-
-#+begin_src emacs-lisp
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
-#+end_src
 
-** Presentations with org-present
-
-Use visual-line-mode here to cause lines to be wrapped within the
-centered document, otherwise you will have to horizontally scroll to see
-them all!
-
-#+begin_src emacs-lisp
 (setq visual-fill-column-width 110
       visual-fill-column-center-text t)
-#+end_src
 
-Define functions that should be executed entering and leaving
-org-present.
-
-#+begin_src emacs-lisp
 (defun proton/org-present-prepare-slide (buffer-name heading)
   ;; Show only top-level headlines
   (org-overview)
@@ -394,51 +196,24 @@ org-present.
   ;; Stop displaying inline images
   (org-remove-inline-images)
   )
-#+end_src
 
-Register hooks with org-present.
-
-#+begin_src emacs-lisp
 (add-hook 'org-present-mode-hook 'proton/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
-#+end_src
 
-** Personal Knowledge Base using Org roam
-
-Create the ~$HOME/Org/roam~ directory if it does not exists. This
-directory will be used as ~org-roam-directory~.
-
-#+begin_src emacs-lisp
 (setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
 (when (not (file-directory-p proton/org-roam-home))
   (make-directory proton/org-roam-home))
 
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
-#+end_src
 
-* Python
-
-Enable debugging support for python
-
-#+begin_src emacs-lisp
 (setq dap-auto-configure-mode t)
 (require 'dap-python)
-#+end_src
 
-Set ~debugpy~ as default debugger. ~debugpy~ should be installed
-as a dev dependency inside projects that use virtual envs, therefor
-all of them.
-
-#+begin_src emacs-lisp
 (after! dap-mode
   (setq dap-python-debugger 'debugpy))
-#+end_src
 
-* Snippets
-
-#+begin_src emacs-lisp
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
@@ -451,4 +226,3 @@ all of them.
               100)
          '(97 . 100) '(90 . 90)))))
 (global-set-key (kbd "C-c t") 'toggle-transparency)
-#+end_src
