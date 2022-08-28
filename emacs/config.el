@@ -26,6 +26,15 @@
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
   (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
 
+(defun proton/close-project ()
+  "Close the current frame and delete all buffers associated to the project"
+  (interactive)
+  (projectile-kill-buffers)
+  (doom/delete-frame-with-prompt))
+
+(map! :leader
+      :desc "Quit project" "p q" #'proton/close-project)
+
 (setq user-full-name "Nils Verheyen"
       user-mail-address "nils@ungerichtet.de")
 
@@ -53,7 +62,7 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
-(setq doom-theme 'doom-zenburn)
+(setq doom-theme 'doom-tomorrow-night)
 
 (setq display-line-numbers-type 'relative)
 
