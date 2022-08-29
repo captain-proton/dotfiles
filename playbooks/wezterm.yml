@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+
+  tasks:
+    - name: Install wezterm
+      ansible.builtin.pacman:
+        name: wezterm
+        state: present
+
+    - name: Link configuration file $HOME/.wezterm.lua
+      ansible.builtin.file:
+        src: "{{ home }}/dotfiles/wezterm/wezterm.lua"
+        path: "{{ home }}/.wezterm.lua"
+        state: link
