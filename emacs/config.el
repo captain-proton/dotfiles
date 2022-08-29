@@ -30,7 +30,7 @@
   "Close the current frame and delete all buffers associated to the project"
   (interactive)
   (projectile-kill-buffers)
-  (doom/delete-frame-with-prompt))
+  (delete-frame nil t))
 
 (map! :leader
       :desc "Quit project" "p q" #'proton/close-project)
