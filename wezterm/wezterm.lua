@@ -13,11 +13,11 @@ return {
   use_dead_keys = false,
   -- How many lines of scrollback you want to retain per tab
   scrollback_lines = 5000,
-  -- Enable the scrollbar.
-  -- It will occupy the right window padding space.
-  -- If right padding is set to 0 then it will be increased
-  -- to a single cell width
-  enable_scroll_bar = true,
+
+  -- Controls the appearance of the tab bar
+  window_frame = {
+    font = wezterm.font { family = 'Noto Sans', weight = 'Regular' },
+  },
 
   -- timeout_milliseconds defaults to 1000 and can be omitted
   leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1000 },
@@ -39,6 +39,9 @@ return {
         act.SendKey { key = 'L', mods = 'CTRL' },
       },
     },
+    -- CTRL+b, followed by 'r' will put us in resize-pane
+    -- mode until we cancel that mode.
+    { key = 'r', mods = 'LEADER', action = act.ActivateKeyTable { name = 'resize_pane', one_shot = false, }, },
   },
   key_tables = {
     copy_mode = {
@@ -87,6 +90,22 @@ return {
       -- to navigate search results without conflicting with typing into the search area.
       { key="Enter", mods="NONE", action=act.ActivateCopyMode },
       { key = 'u', mods = 'CTRL', action = act.CopyMode 'ClearPattern' },
+    },
+    resize_pane = {
+      { key = 'LeftArrow', action = act.AdjustPaneSize { 'Left', 1 } },
+      { key = 'h', action = act.AdjustPaneSize { 'Left', 1 } },
+
+      { key = 'RightArrow', action = act.AdjustPaneSize { 'Right', 1 } },
+      { key = 'l', action = act.AdjustPaneSize { 'Right', 1 } },
+
+      { key = 'UpArrow', action = act.AdjustPaneSize { 'Up', 1 } },
+      { key = 'k', action = act.AdjustPaneSize { 'Up', 1 } },
+
+      { key = 'DownArrow', action = act.AdjustPaneSize { 'Down', 1 } },
+      { key = 'j', action = act.AdjustPaneSize { 'Down', 1 } },
+
+      -- Cancel the mode by pressing escape
+      { key = 'Escape', action = 'PopKeyTable' },
     },
   }
 }
