@@ -18,9 +18,6 @@ return {
   -- If right padding is set to 0 then it will be increased
   -- to a single cell width
   enable_scroll_bar = true,
-  -- The color of the scrollbar "thumb"; the portion that represents the current viewport
-  scrollbar_thumb = '#444444',
-
 
   -- timeout_milliseconds defaults to 1000 and can be omitted
   leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1000 },
@@ -45,12 +42,31 @@ return {
   },
   key_tables = {
     copy_mode = {
+      { key = 'Tab', mods = 'NONE', action = act.CopyMode 'MoveForwardWord', },
+      { key = 'Tab', mods = 'SHIFT', action = act.CopyMode 'MoveBackwardWord', },
+      { key = 'Space', mods = 'NONE', action = act.CopyMode { SetSelectionMode = 'Cell' }, },
+      { key = '^', mods = 'NONE', action = act.CopyMode 'MoveToStartOfLineContent', },
+      { key = '$', mods = 'NONE', action = act.CopyMode 'MoveToEndOfLineContent', },
+      { key = '$', mods = 'SHIFT', action = act.CopyMode 'MoveToEndOfLineContent', },
+      { key = 'G', mods = 'NONE', action = act.CopyMode 'MoveToScrollbackBottom', },
+      { key = 'g', mods = 'NONE', action = act.CopyMode 'MoveToScrollbackTop', },
+      { key = 'b', mods = 'NONE', action = act.CopyMode 'MoveBackwardWord' },
+      { key = 'w', mods = 'NONE', action = act.CopyMode 'MoveForwardWord' },
       { key="Escape", mods="NONE", action=act.CopyMode "Close" },
+      { key="q", mods = 'NONE', action = act.CopyMode 'Close' },
       { key="h", mods="NONE", action=act.CopyMode "MoveLeft" },
       { key="j", mods="NONE", action=act.CopyMode "MoveDown" },
       { key="k", mods="NONE", action=act.CopyMode "MoveUp" },
       { key="l", mods="NONE", action=act.CopyMode "MoveRight" },
+      { key = 'PageUp', mods = 'NONE', action = act.CopyMode 'PageUp' },
+      { key = 'PageDown', mods = 'NONE', action = act.CopyMode 'PageDown' },
+      { key = 'LeftArrow', mods = 'NONE', action = act.CopyMode 'MoveLeft' },
+      { key = 'RightArrow', mods = 'NONE', action = act.CopyMode 'MoveRight', },
+      { key = 'UpArrow', mods = 'NONE', action = act.CopyMode 'MoveUp' },
+      { key = 'DownArrow', mods = 'NONE', action = act.CopyMode 'MoveDown' },
       -- { key=" ", mods="NONE", action=act.CopyMode "ToggleSelectionByCell" },
+      { key="v", mods="NONE", action=act.CopyMode { SetSelectionMode = "Cell" } },
+      { key="v", mods="CTRL", action=act.CopyMode { SetSelectionMode = "Block" } },
       -- Enter search mode to edit the pattern.
       -- When the search pattern is an empty string the existing pattern is preserved
       { key="/", mods="SHIFT", action=act.Search { CaseSensitiveString = "" } },
