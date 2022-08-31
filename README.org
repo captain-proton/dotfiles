@@ -84,3 +84,7 @@ if [ ! -f "$VAULT_CONF" ]; then
     poetry run ansible-vault create $VAULT_CONF
 fi
 #+end_src
+
+* Third party
+
+Some ansible playbooks use the [[https://github.com/mnussbaum/ansible-yay][yay module]] of Michael Nussbaum.

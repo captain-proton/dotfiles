@@ -23,7 +23,7 @@ case $1 in
     POETRY_BIN="$HOME/.local/bin/poetry"
     if [ ! -L "$POETRY_BIN" ]; then
       curl -sSL https://install.python-poetry.org | python3 -
-      poetry install
+      $POETRY_BIN install
     fi
 
     # this needs to be done beforehand, so the yay module is available
@@ -31,13 +31,14 @@ case $1 in
     if [[ $yay != yay* ]] && [[ ! -f playbooks/library/yay ]]
     then
       echo "Installing yay and necessary plugins"
-      poetry run ansible-playbook playbooks/yay.yml
+      $POETRY_BIN run ansible-playbook playbooks/yay.yml
     fi
 
     # Check if a vault password file has been set
-    # inside the environment. Ansible must ask for
-    # a password if not.
-    if [[ -z "$ANSIBLE_VAULT_PASSWORD_FILE" ]]
+    # inside the environment and a vault.yml file exists
+    # that must be decrypted.
+    # Ansible must ask for a password if .
+    if compgen 'host_vars/localhost/vault*' > /dev/null && [[ -z "$ANSIBLE_VAULT_PASSWORD_FILE" ]]
     then
       ASK_VAULT_PASS='--ask-vault-pass'
     else
@@ -45,7 +46,7 @@ case $1 in
     fi
 
     echo "Executing setup"
-    poetry run ansible-playbook setup/$1.yml $ASK_VAULT_PASS ;;
+    $POETRY_BIN run ansible-playbook setup/$1.yml $ASK_VAULT_PASS ;;
   *)
     echo "Enter $0 work|home" ;;
 esac

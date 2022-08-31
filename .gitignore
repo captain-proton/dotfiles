@@ -278,9 +278,6 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/vim,virtualenv,visualstudiocode,python,emacs,ansible,direnv
 
-# Custom ansible modules are located in library directories
-library/
-
 # used for ansible
 vault*
 
