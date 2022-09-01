@@ -212,7 +212,7 @@
 
 (setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
 (when (not (file-directory-p proton/org-roam-home))
-  (make-directory proton/org-roam-home))
+  (make-directory proton/org-roam-home 'parents))
 
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
