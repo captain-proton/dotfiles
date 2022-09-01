@@ -8,6 +8,11 @@
     doomd: "{{ home }}/.doom.d"
     envvars: "{{ emacsd }}/.local/env"
 
+  handlers:
+    - name: install doom emacs
+      ansible.builtin.command:
+        cmd: "{{ emacsd }}/bin/doom install"
+
   tasks:
     - name: Ensure emacs and doom required software is installed
       become: true
@@ -34,8 +39,12 @@
         repo: https://github.com/doomemacs/doomemacs
         dest: "{{ emacsd }}"
         version: master
-      when: not emacs_repo.stat.isdir
-      register: doom_cloned
+      when: emacs_repo.stat.isdir is not defined or not emacs_repo.stat.isdir
+      # doom install must be executed by hand because of a bug
+      # that native compiling packages hangs cause
+      # of missing user input
+      # https://github.com/doomemacs/doomemacs/issues/5592
+      # notify: install doom emacs
 
     - name: Export emacs.d/bin to path
       ansible.builtin.lineinfile:
@@ -72,11 +81,6 @@
         src: "{{ emacs_local.stat.path }}"
         state: link
       when: emacs_local.stat.isreg is defined and emacs_local.stat.isreg
-
-    - name: Install doom emacs if necessary
-      ansible.builtin.command:
-        cmd: "{{ emacsd }}/bin/doom -y install"
-      when: not doom_cloned.skipped
 
     - name: Enable doom systemd service
       ansible.builtin.systemd:
