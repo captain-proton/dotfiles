@@ -11,10 +11,10 @@
       register: asdfvm
 
     - name: Clone the asdf-vm repo
-      git:
+      ansible.builtin.git:
         repo: https://github.com/asdf-vm/asdf.git
         dest: "{{ asdf_home }}"
-        version: release-v0.10.0
+        version: v0.10.2
       when: not asdfvm.stat.exists
 
     
