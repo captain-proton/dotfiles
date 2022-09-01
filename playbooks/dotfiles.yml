@@ -27,11 +27,27 @@
         path: "{{ home }}/.oh-my-zsh"
       register: omz_home
 
-    - name: Install oh my zsh
-      ansible.builtin.command:
-        cmd: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    - block:
+        - name: Download oh-my-zsh install script
+          ansible.builtin.get_url:
+            dest: ./install.sh
+            mode: 0750
+            url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+
+        - name: Install oh my zsh
+          ansible.builtin.command:
+            cmd: sh install.sh --unattended
+
+        - name: Remove ~/.zshrc
+          ansible.builtin.file:
+            path: "{{ home }}/.zshrc"
+            state: absent
+
+        - name: Remove downloaded install.sh
+          ansible.builtin.file:
+            path: ./install.sh
+            state: absent
       when: not omz_home.stat.exists
-      register: omz_install
     # END OH MY ZSH
 
     # ZSH THEME
@@ -46,7 +62,7 @@
     # ZSH USER PLUGINS
     - name: Get zsh-users plugins
       ansible.builtin.git:
-        repo: "git@github.com:zsh-users/{{ item }}.git"
+        repo: "https://github.com/zsh-users/{{ item }}.git"
         dest: "{{ home }}/.oh-my-zsh/custom/plugins/{{ item }}"
         version: master
       loop:
