@@ -49,7 +49,7 @@
 
     - name: Get YouCompleteMe
       ansible.builtin.git:
-        repo: git@github.com:ycm-core/YouCompleteMe.git
+        repo: https://github.com/ycm-core/YouCompleteMe.git
         dest: "{{ home }}/.vim/bundle/YouCompleteMe"
         version: master
       when: ycm_stat.stat.isdir is not defined or not ycm_stat.stat.isdir

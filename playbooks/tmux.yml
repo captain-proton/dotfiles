@@ -14,7 +14,7 @@
 
     - name: Clone gpakosz tmux settings
       git:
-        repo: git@github.com:gpakosz/.tmux.git
+        repo: http://github.com/gpakosz/.tmux.git
         dest: "{{ tmux_home }}"
         version: master
     
