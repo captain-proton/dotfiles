@@ -5,4 +5,4 @@
   - name: Install joplin
     community.general.flatpak:
       name: net.cozic.joplin_desktop
-      state: present
+      state: absent
