@@ -4,9 +4,10 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+    systemd_user_dir: "{{ home }}/.config/systemd/user"
     ssh_unlock_script: "/etc/profile.d/ssh_unlock.sh"
     ssh_config: "{{ home }}/.ssh/config"
-    ssh_agent_service: "{{ home }}/.config/systemd/user/ssh-agent.service"
+    ssh_agent_service: "{{ systemd_user_dir }}/ssh-agent.service"
     ssh_autostart: "{{ home }}/.config/autostart/ssh-add.desktop"
     ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
 
@@ -29,6 +30,12 @@
         create: true
         line: AddKeysToAgent yes
 
+    - name: Ensure systemd user directory exists
+      ansible.builtin.file:
+        path: "{{ systemd_user_dir }}"
+        mode: 0750
+        state: directory
+
     - name: Add ssh-agent as systemd user service
       ansible.builtin.template:
         src: ../templates/ssh-agent.service.j2
@@ -41,6 +48,11 @@
         state: started
         enabled: true
         scope: user
+
+    - name: Set default ssh_keys
+      ansible.builtin.set_fact:
+        local_ssh_keys: []
+      when: local_ssh_keys is not defined
 
     - name: Join all configured ssh keys
       ansible.builtin.set_fact:
