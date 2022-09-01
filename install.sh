@@ -38,7 +38,7 @@ case $1 in
     # inside the environment and a vault.yml file exists
     # that must be decrypted.
     # Ansible must ask for a password if .
-    if compgen 'host_vars/localhost/vault*' > /dev/null && [[ -z "$ANSIBLE_VAULT_PASSWORD_FILE" ]]
+    if compgen -G "host_vars/localhost/vault*" > /dev/null && [ -z "$ANSIBLE_VAULT_PASSWORD_FILE" ]
     then
       ASK_VAULT_PASS='--ask-vault-pass'
     else
