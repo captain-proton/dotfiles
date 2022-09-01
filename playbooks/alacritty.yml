@@ -3,6 +3,7 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+    conf: "{{ home }}/.config/alacritty/alacritty.yml"
 
   tasks:
     - name: Install alacritty
@@ -14,6 +15,17 @@
       file:
         path: "{{ home }}/.config/alacritty"
         state: directory
+
+    - name: Gather alacritty conf stats
+      ansible.builtin.stat:
+        path: "{{ conf }}"
+      register: conf_stat
+
+    - name: Remove alacritty configuration if the default created
+      ansible.builtin.file:
+        path: "{{ conf }}"
+        state: absent
+      when: conf_stat.stat.isreg is defined and conf_stat.stat.isreg
 
     - name: Link configuration file alacritty.yml
       file:
