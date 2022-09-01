@@ -1,12 +1,38 @@
 ---
 - hosts: all
 
+  vars:
+    default_includes:
+      - /home
+      - /etc
+      - /var
+    default_excludes:
+      - /home/*/cache/*
+      - /var/tmp/*
+    default_repo:
+      - /mnt/backup/borg
+
   tasks:
     - name: Install borg
       become: true
       ansible.builtin.pacman:
         name: borg
         state: present
+
+    - name: Set default repo
+      ansible.builtin.set_fact:
+        local_borg_repo: default_repo
+      when: local_borg_repo is not defined
+
+    - name: Set default includes
+      ansible.builtin.set_fact:
+        local_borg_includes: default_includes
+      when: local_borg_includes is not defined
+
+    - name: Set default excludes
+      ansible.builtin.set_fact:
+        local_borg_excludes: default_excludes
+      when: local_borg_excludes is not defined
 
     - name: Copy borg automated backup script
       ansible.builtin.template:
