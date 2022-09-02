@@ -9,6 +9,7 @@
       ansible.builtin.pacman:
         name: wezterm
         state: present
+      become: true
 
     - name: Link configuration file $HOME/.wezterm.lua
       ansible.builtin.file:
