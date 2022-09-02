@@ -9,7 +9,8 @@ end)
 
 return {
   color_scheme = 'Tomorrow Night',
-  font = wezterm.font 'JetBrainsMono Nerd Font',
+  font = wezterm.font('JetBrainsMono Nerd Font', {weight = 'Light'}),
+  font_size = 11,
   use_dead_keys = false,
   -- How many lines of scrollback you want to retain per tab
   scrollback_lines = 5000,
