@@ -52,9 +52,6 @@ _load_settings() {
 }
 _load_settings "$HOME/.zsh/configs"
 
-# Add ssh private key to the agent
-[[ -f $HOME/.ssh/id_rsa ]] && ssh-add -l |grep -q `ssh-keygen -lf ~/.ssh/id_rsa  | awk '{print $2}'` || ssh-add ~/.ssh/id_rsa
-
 # Local config
 [[ -f $HOME/.zshrc.local ]] && source $HOME/.zshrc.local
 
