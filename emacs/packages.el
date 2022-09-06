@@ -53,5 +53,9 @@
 (package! org-auto-tangle)
 (package! org-kanban)
 (package! org-present)
-(package! visual-fill-column)
+(package! visual-fill-column
+  :recipe (:host nil
+           :type git
+           :repo "https://codeberg.org/joostkremers/visual-fill-column.git"
+           :branch "main"))
 (package! highlight-thing)
