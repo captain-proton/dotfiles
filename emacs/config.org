@@ -64,8 +64,13 @@ Activate whitespace-mode globally except for org-mode.
 Activate highlight of current selected word under cursor or selection when in visual.
 
 #+begin_src emacs-lisp
+(defun proton/set-highlight-thing-colors ()
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+(add-hook! 'highlight-thing-mode-hook #'proton/set-highlight-thing-colors)
+
 (global-highlight-thing-mode)
-(setq highlight-thing-what-thing 'word)
+(setq highlight-thing-what-thing 'sexp)
 #+end_src
 
 ** Fringes
