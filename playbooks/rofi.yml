@@ -1,0 +1,38 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    rofi_dotfiles: "{{ home }}/dotfiles/rofi"
+    config_dir: "{{ home }}/.config/rofi"
+    config_path: "{{ config_dir }}/config.rasi"
+    theme_path: "{{ config_dir }}/themes"
+
+  tasks:
+
+    - name: Install rofi
+      become: true
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - rofi
+
+    - name: Ensure rofi config dir is present
+      ansible.builtin.file:
+        path: "{{ config_dir }}"
+        mode: 0750
+        state: directory
+
+    - name: Link rofi configuration
+      ansible.builtin.file:
+        src: "{{ rofi_dotfiles }}/config.rasi"
+        dest: "{{ config_path }}"
+        state: link
+
+    - name: Link rofi themes dir
+      ansible.builtin.file:
+        src: "{{ rofi_dotfiles }}/themes"
+        dest: "{{ theme_path }}"
+        state: link
