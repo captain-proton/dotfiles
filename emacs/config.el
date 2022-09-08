@@ -13,8 +13,13 @@
 (setq whitespace-global-modes '(yaml-mode python-mode go-mode java-mode prog-mode))
 (global-whitespace-mode +1)
 
+(defun proton/set-highlight-thing-colors ()
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+(add-hook! 'highlight-thing-mode-hook #'proton/set-highlight-thing-colors)
+
 (global-highlight-thing-mode)
-(setq highlight-thing-what-thing 'word)
+(setq highlight-thing-what-thing 'sexp)
 
 (defun proton/fringe-on-zen ()
   (if (bound-and-true-p writeroom-mode)
