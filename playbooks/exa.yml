@@ -14,4 +14,4 @@
     - name: Set the exa alias for ls
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
-        line: "alias ls='exa -lh'"
+        line: "alias ls='exa -hg'"

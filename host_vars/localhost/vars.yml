@@ -34,9 +34,9 @@ poetry_update: false
 # the form "alias <name>='<value>'"
 aliases:
   - name: ll
-    value: ls -alF
+    value: ls -lF
   - name: la
-    value: ls -A
+    value: ll -a
   - name: l
     value: ls -CF
 
