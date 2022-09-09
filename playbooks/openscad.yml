@@ -1,8 +1,8 @@
 ---
 - hosts: all
   tasks:
-    - name: Install freecad
+    - name: Install openscad
       become: true
       pacman:
-        name: freecad
+        name: openscad
         state: present
