@@ -18,7 +18,6 @@
 - import_playbook: ../playbooks/herbstluftwm.yml
 - import_playbook: ../playbooks/ssh_unlock.yml
 - import_playbook: ../playbooks/bluetooth.yml
-- import_playbook: ../playbooks/qtile.yml
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/bat.yml
 - import_playbook: ../playbooks/exa.yml

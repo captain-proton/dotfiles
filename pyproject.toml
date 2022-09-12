@@ -6,7 +6,6 @@ authors = ["Nils <nils@ungerichtet.de>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-qtile = "^0.21.0"
 ansible = "^6.2.0"
 
 [tool.poetry.dev-dependencies]
@@ -23,7 +22,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pyright]
 venvPath = "./.venv"
-include = ["qtile"]
 exclude = [
     "**/__pycache__",
     ".pytypestubs"

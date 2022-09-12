@@ -142,23 +142,6 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "cairocffi"
-version = "1.3.0"
-description = "cffi-based cairo bindings for Python"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-cffi = ">=1.1.0"
-xcffib = {version = ">=0.3.2", optional = true, markers = "extra == \"xcb\""}
-
-[package.extras]
-doc = ["sphinx", "sphinx-rtd-theme"]
-test = ["pytest-cov", "pytest-flake8", "pytest-isort", "pytest-runner"]
-xcb = ["xcffib (>=0.3.2)"]
-
-[[package]]
 name = "cffi"
 version = "1.15.1"
 description = "Foreign Function Interface for Python calling C code."
@@ -517,25 +500,6 @@ optional = false
 python-versions = ">=3.6"
 
 [[package]]
-name = "qtile"
-version = "0.21.0"
-description = "A pure-Python tiling window manager."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-cairocffi = {version = ">=0.9.0", extras = ["xcb"]}
-cffi = ">=1.1.0"
-xcffib = ">=0.10.1"
-
-[package.extras]
-doc = ["numpydoc", "sphinx", "sphinx-rtd-theme", "sphinxcontrib-seqdiag"]
-ipython = ["ipykernel", "jupyter-console"]
-test = ["flake8", "pep8-naming", "pytest-cov"]
-wayland = ["pywlroots (>=0.15.7,<0.16.0)", "xkbcommon (>=0.3)"]
-
-[[package]]
 name = "resolvelib"
 version = "0.8.1"
 description = "Resolve abstract dependencies into concrete ones"
@@ -586,14 +550,6 @@ description = "C version of reader, parser and emitter for ruamel.yaml derived f
 category = "dev"
 optional = false
 python-versions = ">=3.5"
-
-[[package]]
-name = "six"
-version = "1.16.0"
-description = "Python 2 and 3 compatibility utilities"
-category = "main"
-optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "subprocess-tee"
@@ -658,18 +614,6 @@ optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 
 [[package]]
-name = "xcffib"
-version = "0.11.1"
-description = "A drop in replacement for xpyb, an XCB python binding"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-cffi = ">=1.1.0"
-six = "*"
-
-[[package]]
 name = "yamllint"
 version = "1.27.1"
 description = "A linter for YAML files."
@@ -684,7 +628,7 @@ pyyaml = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "334fbb32c8ff480819e3fe9b6a963b73d8cdee1fd571b1b311e04fbc9cd9228d"
+content-hash = "9b221726c260a287e6a93a62ac00b61672ca3cfa803fdce4b46fc433ff361a2d"
 
 [metadata.files]
 ansible = []
@@ -705,9 +649,6 @@ black = []
 bracex = [
     {file = "bracex-2.3.post1-py3-none-any.whl", hash = "sha256:351b7f20d56fb9ea91f9b9e9e7664db466eb234188c175fd943f8f755c807e73"},
     {file = "bracex-2.3.post1.tar.gz", hash = "sha256:e7b23fc8b2cd06d3dec0692baabecb249dda94e06a617901ff03a6c56fd71693"},
-]
-cairocffi = [
-    {file = "cairocffi-1.3.0.tar.gz", hash = "sha256:108a3a7cb09e203bdd8501d9baad91d786d204561bd71e9364e8b34897c47b91"},
 ]
 cffi = []
 click = [
@@ -965,14 +906,6 @@ pyyaml = [
     {file = "PyYAML-6.0-cp39-cp39-win_amd64.whl", hash = "sha256:b3d267842bf12586ba6c734f89d1f5b871df0273157918b0ccefa29deb05c21c"},
     {file = "PyYAML-6.0.tar.gz", hash = "sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2"},
 ]
-qtile = [
-    {file = "qtile-0.21.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:bc65fdbde8a8180bb1d106459227f564f24f0576e475e898fb5756f4a716e6b1"},
-    {file = "qtile-0.21.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c8d6a8efc335335d493a3eaaa84619366b34080215b85e674dfd1dd8083ea7cf"},
-    {file = "qtile-0.21.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:d5f342a0a5a6512001369e7208d57f2f8808d862f8624bb20a56b96101db23b4"},
-    {file = "qtile-0.21.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:73af4293db3cd56740e9b4bec379e65c33580ede9aec65dd3f946e62dcec929a"},
-    {file = "qtile-0.21.0-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5a3bff8008acd4b2b906ba02157a50dae155052aa49f0be043c613c6be686165"},
-    {file = "qtile-0.21.0.tar.gz", hash = "sha256:93e1f8216c669b5570333607d5d06de7d7f16033b0e73cf34c896459f2df5254"},
-]
 resolvelib = [
     {file = "resolvelib-0.8.1-py2.py3-none-any.whl", hash = "sha256:d9b7907f055c3b3a2cfc56c914ffd940122915826ff5fb5b1de0c99778f4de98"},
     {file = "resolvelib-0.8.1.tar.gz", hash = "sha256:c6ea56732e9fb6fca1b2acc2ccc68a0b6b8c566d8f3e78e0443310ede61dbd37"},
@@ -1008,10 +941,6 @@ rich = []
     {file = "ruamel.yaml.clib-0.2.6-cp39-cp39-win32.whl", hash = "sha256:3fb9575a5acd13031c57a62cc7823e5d2ff8bc3835ba4d94b921b4e6ee664104"},
     {file = "ruamel.yaml.clib-0.2.6-cp39-cp39-win_amd64.whl", hash = "sha256:825d5fccef6da42f3c8eccd4281af399f21c02b32d98e113dbc631ea6a6ecbc7"},
     {file = "ruamel.yaml.clib-0.2.6.tar.gz", hash = "sha256:4ff604ce439abb20794f05613c374759ce10e3595d1867764dd1ae675b85acbd"},
-]
-six = [
-    {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
-    {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
 subprocess-tee = [
     {file = "subprocess-tee-0.3.5.tar.gz", hash = "sha256:ff5cced589a4b8ac973276ca1ba21bb6e3de600cde11a69947ff51f696efd577"},
@@ -1099,8 +1028,5 @@ wrapt = [
     {file = "wrapt-1.14.1-cp39-cp39-win32.whl", hash = "sha256:dee0ce50c6a2dd9056c20db781e9c1cfd33e77d2d569f5d1d9321c641bb903d5"},
     {file = "wrapt-1.14.1-cp39-cp39-win_amd64.whl", hash = "sha256:dee60e1de1898bde3b238f18340eec6148986da0455d8ba7848d50470a7a32fb"},
     {file = "wrapt-1.14.1.tar.gz", hash = "sha256:380a85cf89e0e69b7cfbe2ea9f765f004ff419f34194018a6827ac0e3edfed4d"},
-]
-xcffib = [
-    {file = "xcffib-0.11.1.tar.gz", hash = "sha256:12949cfe2e68c806efd57596bb9bf3c151f399d4b53e15d1101b2e9baaa66f5a"},
 ]
 yamllint = []
