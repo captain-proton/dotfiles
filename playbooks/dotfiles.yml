@@ -4,6 +4,8 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
+    default_zsh_custom: "{{ home }}/.oh-my-zsh/custom"
+    zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(default_zsh_custom, true) }}"
     dotfiles_path: "{{ home }}/dotfiles"
 
   tasks:
@@ -50,14 +52,14 @@
       when: not omz_home.stat.exists
     # END OH MY ZSH
 
-    # ZSH THEME
+    # ZSH THEMES
     - name: Get powerlevel10k theme
       ansible.builtin.git:
         repo: https://github.com/romkatv/powerlevel10k.git
         depth: 1
-        dest: "{{ home }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        dest: "{{ zsh_custom }}/themes/powerlevel10k"
         version: master
-    # END ZSH THEME
+    # END ZSH THEMES
 
     # ZSH USER PLUGINS
     - name: Get zsh-users plugins
@@ -69,7 +71,6 @@
         - zsh-autosuggestions
         - zsh-syntax-highlighting
         - zsh-completions
-
     # END ZSH USER PLUGINS
 
     # CONFIGURATION LINKS
@@ -89,6 +90,19 @@
           path: "{{ home }}/.p10k.zsh"
     # END CONFIGURATION LINKS
 
+    # STARSHIP PROMPT
+    - name: Ensure starship is installed
+      become: true
+      ansible.builtin.pacman:
+        name: starship
+        state: present
+
+    - name: Link starship configuration
+      ansible.builtin.file:
+        src: "{{ home }}/dotfiles/starship/starship.toml"
+        dest: "{{ home }}/.config/starship.toml"
+        state: link
+    # END STARSHIP PROMPT
 
     # SHELL CONFIGURATION
     - name: Set zsh as shell

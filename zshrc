@@ -1,7 +1,8 @@
 #!/usr/bin/env zsh
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# If you do not want any theme enabled, just set ZSH_THEME to blank: ZSH_THEME=""
+ZSH_THEME=""
 
 plugins=(git
   asdf
@@ -66,3 +67,5 @@ source $ZSH/oh-my-zsh.sh
 
 # aliases
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
+
+eval "$(starship init zsh)"
