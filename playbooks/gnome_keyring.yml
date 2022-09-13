@@ -1,0 +1,12 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Ensure required packages are present
+      become: true
+      ansible.builtin.package:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - gnome-keyring
+        - seahorse
