@@ -82,13 +82,6 @@
         state: link
       when: emacs_local.stat.isreg is defined and emacs_local.stat.isreg
 
-    - name: Enable doom systemd service
-      ansible.builtin.systemd:
-        name: emacs
-        state: started
-        daemon_reload: true
-        scope: user
-
     - name: Ensure ansible is set correctly in the .dir-locals.el
       ansible.builtin.blockinfile:
         path: "{{ home }}/dotfiles/.dir-locals.el"
