@@ -7,14 +7,15 @@
 
   tasks:
     - name: Install alacritty
-      pacman:
+      ansible.builtin.pacman:
         name: alacritty
         state: present
 
     - name: Create alacritty config directory
-      file:
+      ansible.builtin.file:
         path: "{{ home }}/.config/alacritty"
         state: directory
+        mode: 0750
 
     - name: Gather alacritty conf stats
       ansible.builtin.stat:
@@ -28,8 +29,7 @@
       when: conf_stat.stat.isreg is defined and conf_stat.stat.isreg
 
     - name: Link configuration file alacritty.yml
-      file:
+      ansible.builtin.file:
         src: "{{ home }}/dotfiles/alacritty/alacritty.yml"
         path: "{{ home }}/.config/alacritty/alacritty.yml"
         state: link
-

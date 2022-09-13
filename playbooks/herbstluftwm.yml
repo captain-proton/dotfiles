@@ -8,31 +8,31 @@
 
   tasks:
 
-  - name: Install herbstluftwm
-    become: true
-    yay:
-      name: "{{ item }}"
-      state: present
-    loop:
-      - herbstluftwm
-      - dzen2
-      - picom
-      - dmenu
-      - feh
+    - name: Install herbstluftwm
+      become: true
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - herbstluftwm
+        - dzen2
+        - picom
+        - dmenu
+        - feh
 
-  - name: Make configuration directory
-    file:
-      path: "{{ config_dir }}"
-      state: directory
-      mode: 0755
+    - name: Make configuration directory
+      ansible.builtin.file:
+        path: "{{ config_dir }}"
+        state: directory
+        mode: 0755
 
-  - name: Link configurations
-    file:
-      path: "{{ item.dest }}"
-      src: "{{ item.src }}"
-      state: link
-    loop:
-    - src: "{{ home }}/dotfiles/herbstluftwm/autostart"
-      dest: "{{ config_dir }}/autostart"
-    - src: "{{ home }}/dotfiles/herbstluftwm/panel.sh"
-      dest: "{{ config_dir }}/panel.sh"
+    - name: Link configurations
+      ansible.builtin.file:
+        path: "{{ item.dest }}"
+        src: "{{ item.src }}"
+        state: link
+      loop:
+        - src: "{{ home }}/dotfiles/herbstluftwm/autostart"
+          dest: "{{ config_dir }}/autostart"
+        - src: "{{ home }}/dotfiles/herbstluftwm/panel.sh"
+          dest: "{{ config_dir }}/panel.sh"

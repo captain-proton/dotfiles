@@ -97,3 +97,4 @@
     - name: Generate envvars file
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom env -o {{ envvars }}"
+      changed_when: true

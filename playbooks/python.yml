@@ -51,11 +51,13 @@
             url: https://install.python-poetry.org
             dest: "{{ tempfile.path }}"
             checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
+            mode: 0640
 
         - name: Run the installation script
-          shell: "cat {{ tempfile.path }} | /usr/bin/python3 -"
+          ansible.builtin.shell: "cat {{ tempfile.path }} | /usr/bin/python3 -"
           args:
-            warn: no
+            warn: false
+          changed_when: true
 
       when: not poetry_bin.stat.exists
 

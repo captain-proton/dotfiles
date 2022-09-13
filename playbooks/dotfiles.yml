@@ -29,7 +29,8 @@
         path: "{{ home }}/.oh-my-zsh"
       register: omz_home
 
-    - block:
+    - name: Enable oh-my-zsh
+      block:
         - name: Download oh-my-zsh install script
           ansible.builtin.get_url:
             dest: ./install.sh
@@ -39,6 +40,7 @@
         - name: Install oh my zsh
           ansible.builtin.command:
             cmd: sh install.sh --unattended
+          changed_when: true
 
         - name: Remove ~/.zshrc
           ansible.builtin.file:
@@ -111,4 +113,3 @@
         name: "{{ ansible_env.USER }}"
         shell: /bin/zsh
     # END SHELL CONFIGURATION
-

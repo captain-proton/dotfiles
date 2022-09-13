@@ -16,5 +16,3 @@
         dest: "{{ asdf_home }}"
         version: v0.10.2
       when: not asdfvm.stat.exists
-
-    
