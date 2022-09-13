@@ -1,8 +1,8 @@
 ---
 - hosts: all
   tasks:
-    - name: Install steam-manjaro
+    - name: Install steam
       become: true
       pacman:
-        name: steam-manjaro
+        name: steam
         state: present
