@@ -12,6 +12,12 @@
     ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
 
   tasks:
+    - name: Ensure at least x11-ssh-askpass is installed
+      become: true
+      community.general.pacman:
+        name: x11-ssh-askpass
+        state: present
+
     - name: Export SSH_AUTH_SOCK environment variable
       become: true
       ansible.builtin.blockinfile:
