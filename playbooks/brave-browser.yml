@@ -3,6 +3,6 @@
   tasks:
     - name: Install brave browser
       become: true
-      pacman:
+      community.general.pacman:
         name: brave-browser
         state: present

@@ -7,7 +7,7 @@
 
   tasks:
     - name: Install alacritty
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: alacritty
         state: present
 

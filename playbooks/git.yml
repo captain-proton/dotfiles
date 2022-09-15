@@ -3,6 +3,6 @@
   tasks:
     - name: Install git
       become: true
-      pacman:
+      community.general.pacman:
         name: git
         state: present

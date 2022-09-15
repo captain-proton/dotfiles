@@ -6,7 +6,7 @@
 
   tasks:
     - name: Install wezterm
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: wezterm
         state: present
       become: true

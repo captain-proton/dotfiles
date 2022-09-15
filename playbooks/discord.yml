@@ -3,6 +3,6 @@
   tasks:
     - name: Install discord
       become: true
-      pacman:
+      community.general.pacman:
         name: discord
         state: present

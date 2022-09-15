@@ -3,6 +3,6 @@
   tasks:
     - name: Install openscad
       become: true
-      pacman:
+      community.general.pacman:
         name: openscad
         state: present

@@ -8,7 +8,7 @@
   tasks:
     - name: Ensure direnv is present
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: direnv
         state: present
 

@@ -3,6 +3,6 @@
   tasks:
     - name: Install thunderbird
       become: true
-      pacman:
+      community.general.pacman:
         name: thunderbird
         state: present

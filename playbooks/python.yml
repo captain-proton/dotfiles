@@ -10,7 +10,7 @@
   tasks:
     - name: Ensure python and python development packages are installed
       become: true
-      pacman:
+      community.general.pacman:
         name: "{{ item }}"
         state: present
       loop:

@@ -15,7 +15,7 @@
   tasks:
     - name: Install borg
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: borg
         state: present
 

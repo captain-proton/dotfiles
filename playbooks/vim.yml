@@ -17,7 +17,7 @@
   tasks:
     - name: Install vim and required packages
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: "{{ item }}"
         state: present
       loop: ["cmake", "gcc", "vim"]

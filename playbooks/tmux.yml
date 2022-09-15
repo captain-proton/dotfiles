@@ -8,7 +8,7 @@
   tasks:
     - name: Install tmux
       become: true
-      pacman:
+      community.general.pacman:
         name: tmux
         state: present
 

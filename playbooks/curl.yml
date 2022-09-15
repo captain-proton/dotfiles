@@ -3,6 +3,6 @@
   tasks:
     - name: Install curl
       become: true
-      pacman:
+      community.general.pacman:
         name: curl
         state: present

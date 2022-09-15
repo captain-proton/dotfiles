@@ -3,6 +3,6 @@
   tasks:
     - name: Install steam
       become: true
-      pacman:
+      community.general.pacman:
         name: steam
         state: present

@@ -3,6 +3,6 @@
   tasks:
     - name: Install konsole
       become: true
-      pacman:
+      community.general.pacman:
         name: konsole
         state: present

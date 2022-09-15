@@ -4,6 +4,6 @@
   tasks:
     - name: Ensure shfmt is installed
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: shfmt
         state: present

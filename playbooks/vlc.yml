@@ -3,6 +3,6 @@
   tasks:
     - name: Install vlc
       become: true
-      pacman:
+      community.general.pacman:
         name: vlc
         state: present

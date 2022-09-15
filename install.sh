@@ -34,6 +34,10 @@ case $1 in
       $POETRY_BIN run ansible-playbook playbooks/yay.yml
     fi
 
+    # Install all required ansible roles and collections
+    echo "Installing ansible roles and collections"
+    $POETRY_BIN run ansible-galaxy install -r ansible_requirements.yml
+
     # Check if a vault password file has been set
     # inside the environment and a vault.yml file exists
     # that must be decrypted.

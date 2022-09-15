@@ -7,7 +7,7 @@
   tasks:
     - name: Install bat (cat replacement)
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: bat
         state: present
 

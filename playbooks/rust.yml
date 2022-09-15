@@ -8,7 +8,7 @@
 
     - name: Install rustup
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: "{{ item }}"
         state: present
       loop:

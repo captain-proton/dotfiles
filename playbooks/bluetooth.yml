@@ -5,6 +5,6 @@
   tasks:
   - name: Install bluez-utils
     become: true
-    ansible.builtin.pacman:
+    community.general.pacman:
       name: bluez-utils
       state: present

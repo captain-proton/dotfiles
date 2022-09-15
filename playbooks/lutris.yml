@@ -3,6 +3,6 @@
   tasks:
     - name: Install lutris
       become: true
-      pacman:
+      community.general.pacman:
         name: lutris
         state: present

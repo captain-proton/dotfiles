@@ -7,7 +7,7 @@
   tasks:
     - name: Install exa (ls replacement)
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: exa
         state: present
 

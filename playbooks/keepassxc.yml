@@ -3,6 +3,6 @@
   tasks:
     - name: Install keepassxc
       become: true
-      pacman:
+      community.general.pacman:
         name: keepassxc
         state: present

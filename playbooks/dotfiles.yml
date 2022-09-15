@@ -95,7 +95,7 @@
     # STARSHIP PROMPT
     - name: Ensure starship is installed
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: starship
         state: present
 

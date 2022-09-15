@@ -3,6 +3,6 @@
   tasks:
     - name: Install wine
       become: true
-      pacman:
+      community.general.pacman:
         name: wine
         state: present

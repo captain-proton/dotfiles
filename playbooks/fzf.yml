@@ -3,6 +3,6 @@
   tasks:
     - name: Install fzf
       become: true
-      pacman:
+      community.general.pacman:
         name: fzf
         state: present

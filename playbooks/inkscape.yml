@@ -3,6 +3,6 @@
   tasks:
     - name: Install inkscape
       become: true
-      pacman:
+      community.general.pacman:
         name: inkscape
         state: present
