@@ -19,25 +19,28 @@ disabled = true
 
 [battery]
 full_symbol = " "
-charging_symbol = " "
-discharging_symbol = " "
+charging_symbol = " "
 disabled = false
 format = '[$symbol$percentage]($style) '
 
 [[battery.display]]
 threshold = 10
+discharging_symbol = ""
 style = "bold fg:#f44336"
 
 [[battery.display]]
 threshold = 25
+discharging_symbol = ""
 style = "bold fg:#ff9800"
 
 [[battery.display]]
 threshold = 50
+discharging_symbol = " "
 style = "bold fg:#2196f3"
 
 [[battery.display]]
 threshold = 100
+discharging_symbol = " "
 style = "bold fg:#4caf50"
 
 [time]
