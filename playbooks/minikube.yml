@@ -1,0 +1,13 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Install minikube and its dependencies
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - minikube
+        - kubectl
+        - virtualbox

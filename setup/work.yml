@@ -24,6 +24,7 @@
 - import_playbook: ../playbooks/rust.yml
 - import_playbook: ../playbooks/shfmt.yml
 - import_playbook: ../playbooks/gnome_keyring.yml
+- import_playbook: ../playbooks/minikube.yml
 
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
