@@ -12,7 +12,6 @@
         - DotJoshJohnson.xml
         - eamodio.gitlens
         - gerane.Theme-Zenburn
-        - golang.go
         - jebbs.plantuml
         - jmreicha.tender
         - mechatroner.rainbow-csv
@@ -30,8 +29,10 @@
         - stkb.rewrap
         - TabNine.tabnine-vscode
         - tamasfe.even-better-toml
+        - webfreak.debug
         - yzhang.markdown-all-in-one
       absent:
+        - golang.go
         - matklad.pale-fire
 
   tasks:
