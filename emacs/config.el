@@ -10,7 +10,7 @@
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)
       whitespace-line-column 140)
-(setq whitespace-global-modes '(yaml-mode python-mode go-mode java-mode prog-mode))
+(setq whitespace-global-modes '(yaml-mode python-mode go-mode java-mode rustic-mode prog-mode))
 (global-whitespace-mode +1)
 
 (defun proton/set-highlight-thing-colors ()
@@ -26,6 +26,9 @@
       (fringe-mode 0)
     (fringe-mode '(nil . nil))))
 (add-hook 'writeroom-mode-hook 'proton/fringe-on-zen)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (evil-define-key nil evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
@@ -50,13 +53,9 @@
 (defvar proton/variable-width-font "Noto Sans"
   "The font to use for variable-pitch (document) text.")
 
-(defvar proton/unicode-font "JuliaMono"
-  "The font to use for displaying unicode characters.")
-
 (setq doom-font (font-spec :family proton/fixed-width-font :size 15 :weight 'light)
       doom-variable-pitch-font (font-spec :family proton/variable-width-font :size 15)
       doom-big-font (font-spec :family proton/variable-width-font :size 24)
-      doom-unicode-font (font-spec :family proton/unicode-font)
       doom-font-increment 1)
 
 (after! doom-themes
@@ -236,10 +235,45 @@
 (org-roam-db-autosync-mode)
 
 (setq dap-auto-configure-mode t)
-(require 'dap-python)
 
-(after! dap-mode
-  (setq dap-python-debugger 'debugpy))
+;; Displaying DAP visuals.
+(dap-ui-mode t)
+
+;; enables mouse hover support
+(dap-tooltip-mode t)
+
+;; use tooltips for mouse hover
+;; if it is not enabled `dap-mode' will use the minibuffer.
+(tooltip-mode t)
+
+;; displays floating panel with debug buttons
+;; requies emacs 26+
+(dap-ui-controls-mode t)
+
+(use-package! dap-mode
+  :config
+  ;; call dap-hydra after a breakpoint has been hit
+  (add-hook 'dap-stopped-hook
+            (lambda (arg) (call-interactively #'dap-hydra)))
+  )
+
+(use-package! dap-mode
+  :after lsp-mode
+  :commands dap-debug
+  :hook ((python-mode . dap-ui-mode) (python-mode . dap-mode))
+  :config
+  (require 'dap-python)
+  (setq dap-python-debugger 'debugpy)
+  (defun dap-python--pyenv-executable-find (command)
+    (with-venv (executable-find "python"))))
+
+(dap-register-debug-template "Rust::GDB Run Configuration"
+                             (list :type "gdb"
+                                   :request "launch"
+                                   :name "GDB::Run"
+                                   :gdbpath "rust-gdb"
+                                   :target nil
+                                   :cwd nil))
 
 (defun toggle-transparency ()
   (interactive)

@@ -59,3 +59,4 @@
            :repo "https://codeberg.org/joostkremers/visual-fill-column.git"
            :branch "main"))
 (package! highlight-thing)
+(package! with-venv)
