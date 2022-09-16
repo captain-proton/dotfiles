@@ -67,7 +67,7 @@
   '(font-lock-comment-face :slant italic)
   '(font-lock-keyword-face :slant italic))
 
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-nord)
 
 (setq display-line-numbers-type 'relative)
 
@@ -100,7 +100,13 @@
 (elfeed-org)
 
 (after! elfeed
-    (setq elfeed-search-filter "@2-weeks-ago +unread"))
+  (setq elfeed-search-filter "@2-weeks-ago +unread"
+        elfeed-search-title-min-width 80
+        visual-fill-column-mode 1
+        )
+  )
+(add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
+(add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
 

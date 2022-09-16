@@ -168,7 +168,7 @@ available. You can either set `doom-theme' or manually load a theme with the
 `load-theme' function. This is the default:
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-nord)
 #+end_src
 
 This determines the style of line numbers in effect. If set to `nil', line
@@ -270,11 +270,18 @@ Configure structure templates for org mode ~begin_src~ blocks.
 * Elfeed
 
 Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ file along this config. All settings are made according to the rss doom module.
+
 #+begin_src emacs-lisp
 (elfeed-org)
 
 (after! elfeed
-    (setq elfeed-search-filter "@2-weeks-ago +unread"))
+  (setq elfeed-search-filter "@2-weeks-ago +unread"
+        elfeed-search-title-min-width 80
+        visual-fill-column-mode 1
+        )
+  )
+(add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
+(add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
 #+end_src
