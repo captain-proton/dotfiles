@@ -97,6 +97,13 @@
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 
+(elfeed-org)
+
+(after! elfeed
+    (setq elfeed-search-filter "@2-weeks-ago +unread"))
+
+(setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
+
 (map! :leader
       :desc "Activate lsp-org" "m L" #'lsp-org
       :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)

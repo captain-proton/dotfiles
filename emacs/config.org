@@ -267,6 +267,18 @@ Configure structure templates for org mode ~begin_src~ blocks.
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 #+end_src
 
+* Elfeed
+
+Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ file along this config. All settings are made according to the rss doom module.
+#+begin_src emacs-lisp
+(elfeed-org)
+
+(after! elfeed
+    (setq elfeed-search-filter "@2-weeks-ago +unread"))
+
+(setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
+#+end_src
+
 * ORG
 
 ** Keybindings

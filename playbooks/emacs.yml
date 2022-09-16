@@ -59,16 +59,22 @@
 
     - name: Link doom configuration files
       ansible.builtin.file:
-        path: "{{ doomd }}/{{ item.linkname }}"
+        path: "{{ item.dest }}/{{ item.linkname }}"
         src: "{{ item.src }}"
         state: link
       loop:
         - src: "{{ home }}/dotfiles/emacs/init.el"
+          dest: "{{ doomd }}"
           linkname: "init.el"
         - src: "{{ home }}/dotfiles/emacs/packages.el"
+          dest: "{{ doomd }}"
           linkname: "packages.el"
         - src: "{{ home }}/dotfiles/emacs/config.el"
+          dest: "{{ doomd }}"
           linkname: "config.el"
+        - src: "{{ home }}/dotfiles/emacs/elfeed.org"
+          dest: "{{ home }}/Org"
+          linkname: "elfeed.org"
 
     - name: Check for emacs custom configuration
       ansible.builtin.stat:
