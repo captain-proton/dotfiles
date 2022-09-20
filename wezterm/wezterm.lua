@@ -20,21 +20,49 @@ return {
     font = wezterm.font { family = 'Noto Sans', weight = 'Regular' },
   },
 
+  -- Disable defaults as SUPER key is interfering with the window manager
+  disable_default_key_bindings = true,
+
   -- timeout_milliseconds defaults to 1000 and can be omitted
   leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1000 },
 
   keys = {
+    -- Taken of the defaults
+    { key = 'Tab', mods = 'CTRL', action = act.ActivateTabRelative(1) },
+    { key = 'Tab', mods = 'SHIFT|CTRL', action = act.ActivateTabRelative(-1) },
+    { key = 'Enter', mods = 'LEADER', action = act.ActivateCopyMode },
+    { key = 'R', mods = 'SHIFT|CTRL', action = act.ReloadConfiguration },
+    { key = '+', mods = 'CTRL', action = act.IncreaseFontSize },
+    { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
+    { key = '0', mods = 'CTRL', action = act.ResetFontSize },
+    { key = 'C', mods = 'SHIFT|CTRL', action = act.CopyTo 'Clipboard' },
+    { key = 'N', mods = 'SHIFT|CTRL', action = act.SpawnWindow },
+    { key = 'U', mods = 'SHIFT|CTRL', action = act.CharSelect{ copy_on_select = true, copy_to =  'ClipboardAndPrimarySelection' } },
+    { key = 'V', mods = 'SHIFT|CTRL', action = act.PasteFrom 'Clipboard' },
+    { key = 'PageUp', mods = 'CTRL', action = act.ActivateTabRelative(-1) },
+    { key = 'PageDown', mods = 'CTRL', action = act.ActivateTabRelative(1) },
+    { key = 'LeftArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Left' },
+    { key = 'RightArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Right' },
+    { key = 'UpArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Up' },
+    { key = 'DownArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Down' },
+
     { key = 'S', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
     { key = 'V', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
     { key = 'h', mods = 'LEADER', action = act.ActivatePaneDirection 'Left', },
+    { key = 'h', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Left', },
     { key = 'j', mods = 'LEADER', action = act.ActivatePaneDirection 'Down', },
+    { key = 'j', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Down', },
     { key = 'k', mods = 'LEADER', action = act.ActivatePaneDirection 'Up', },
+    { key = 'k', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Up', },
     { key = 'l', mods = 'LEADER', action = act.ActivatePaneDirection 'Right', },
+    { key = 'l', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Right', },
+    { key = 'n', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
+    { key = 'x', mods = 'LEADER', action = act.CloseCurrentTab{ confirm = true } },
     -- Send "CTRL-B" to the terminal when pressing CTRL-B, CTRL-B
     { key = 'b', mods = 'LEADER|CTRL', action = act.SendString '\x02', },
     { key = 'Enter', mods = 'LEADER', action = act.ActivateCopyMode, },
     { key = 'p', mods = 'LEADER', action = act.PastePrimarySelection, },
-    { key = 'K', mods = 'CTRL|SHIFT', action = act.Multiple
+    { key = 'k', mods = 'CTRL|ALT', action = act.Multiple
       {
         act.ClearScrollback 'ScrollbackAndViewport',
         act.SendKey { key = 'L', mods = 'CTRL' },
