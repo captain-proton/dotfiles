@@ -1,8 +1,8 @@
 modkey = "Mod4"
 mousekey = "Mod4"
 workspaces = []
-tags = ["sys", "code", "www", "vbox", "chat", "mail", "music", "video"]
-LAYOUTS = ["MainAndVertStack", "Mainandhorizontalstack", "MainAndDeck", "GridHorizontal", "EvenHorizontal", "EvenVertical", "Fibonacci", "LeftMain", "CenterMain", "CenterMainBalanced", "CenterMainFluid", "Monocle", "RightWiderLeftStack", "LeftWiderRightStack"]
+tags = ["sys", "code", "www", "db", "vbox", "chat", "mail", "music", "video"]
+layouts = ["MainAndVertStack", "MainAndHorizontalStack", "GridHorizontal", "LeftWiderRightStack", "CenterMainBalanced", "Monocle"]
 layout_mode = "Workspace"
 insert_behavior = "Bottom"
 scratchpad = []
@@ -14,14 +14,14 @@ focus_new_windows = true
 
 [[keybind]]
 command = "Execute"
-value = "dmenu_run"
+value = "rofi -show drun -theme ~/.config/rofi/themes/launcher.rasi"
 modifier = ["modkey"]
 key = "p"
 
 [[keybind]]
 command = "Execute"
 value = "wezterm"
-modifier = ["modkey", "Shift"]
+modifier = ["modkey"]
 key = "Return"
 
 [[keybind]]
@@ -35,6 +35,12 @@ command = "SoftReload"
 value = ""
 modifier = ["modkey", "Shift"]
 key = "r"
+
+[[keybind]]
+command = "HardReload"
+value = ""
+modifier = ["modkey", "Shift"]
+key = "b"
 
 [[keybind]]
 command = "Execute"
@@ -71,12 +77,6 @@ command = "MoveWindowDown"
 value = ""
 modifier = ["modkey", "Shift"]
 key = "j"
-
-[[keybind]]
-command = "MoveWindowTop"
-value = ""
-modifier = ["modkey"]
-key = "Return"
 
 [[keybind]]
 command = "FocusWindowUp"
