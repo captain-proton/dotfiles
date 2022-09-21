@@ -1,0 +1,40 @@
+---
+- hosts: all
+  gather_facts: false
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    picom_dir: "{{ home }}/.config/picom"
+    picom_conf: "{{ picom_dir }}/picom.conf"
+
+  tasks:
+    - name: Ensure picom is installed
+      ansible.builtin.pacman:
+        name: picom
+        state: present
+
+    - name: Is default config present
+      ansible.builtin.stat:
+        path: "{{ picom_conf }}"
+      register:
+        picom_conf_path
+
+    - name: Create picom conf dir if necessary
+      ansible.builtin.file:
+        path: "{{ picom_dir }}"
+        state: directory
+        mode: 0750
+
+    - name: Remove picom conf if necessary
+      ansible.builtin.file:
+        path: "{{ picom_conf }}"
+        state: absent
+      when:
+        - picom_conf_path.stat.isreg is defined
+        - picom_conf_path.stat.isreg
+
+    - name: Link picom config
+      ansible.builtin.file:
+        src: "{{ home }}/dotfiles/picom/picom.conf"
+        dest: "{{ picom_conf }}"
+        state: link
