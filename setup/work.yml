@@ -1,4 +1,5 @@
 ---
+- import_playbook: ../playbooks/path.yml
 - import_playbook: ../playbooks/dotfiles.yml
 - import_playbook: ../playbooks/fonts.yml
 - import_playbook: ../playbooks/aliases.yml

@@ -59,10 +59,8 @@ _load_settings "$HOME/.zsh/configs"
 # To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.
 [[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
 
-# Create .path file for $PATH modifications
-[[ ! -f $HOME/.path ]] && echo "#\!/usr/bin/env zsh" > $HOME/.path
-
-source $HOME/.path
+# Take a look at the playbooks/path.yml file
+[[ ! -f $HOME/.local/bin/path ]] || source $HOME/.local/bin/path
 source $ZSH/oh-my-zsh.sh
 
 # aliases

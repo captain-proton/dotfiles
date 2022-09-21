@@ -63,5 +63,5 @@
 
     - name: Add ~/.local/bin to ~/.path
       ansible.builtin.lineinfile:
-        path: "{{ home }}/.path"
+        path: "{{ path_file_path }}"
         line: "export PATH={{ home }}/.local/bin:$PATH"

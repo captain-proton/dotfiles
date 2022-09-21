@@ -5,7 +5,6 @@
     home: "{{ lookup('env', 'HOME') }}"
 
   tasks:
-
     - name: Install rustup
       become: true
       community.general.pacman:
@@ -32,5 +31,5 @@
 
     - name: Add ~/.cargo/bin to path
       ansible.builtin.lineinfile:
-        path: "{{ home }}/.path"
+        path: "{{ path_file_path }}"
         line: "export PATH={{ home }}/.cargo/bin:$PATH"

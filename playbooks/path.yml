@@ -1,0 +1,20 @@
+---
+- name: Build file for custom $PATH
+  hosts: all
+
+  vars:
+    home: "{{ lookup('env', 'HOME') }}"
+    shell: "{{ lookup('env', 'SHELL') }}"
+    default_path_file_path: "{{ home }}/.local/bin/path"
+
+  tasks:
+    - name: Register path file path for the rest of the play
+      ansible.builtin.set_fact:
+        path_file_path: "{{ path_file_path | default(default_path_file_path) }}"
+
+    - name: Put hash bang line into the file
+      ansible.builtin.lineinfile:
+        path: "{{ path_file_path }}"
+        line: "#!/usr/bin/env {{ shell | default('bash') }}"
+        create: true
+        mode: 0750
