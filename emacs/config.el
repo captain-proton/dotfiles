@@ -1,5 +1,13 @@
 (doom-load-envvars-file "~/.emacs.d/.local/env")
 
+(setq frame-title-format
+    '(""
+      "%b"
+      (:eval
+       (let ((project-name (projectile-project-name)))
+         (unless (string= "-" project-name)
+           (format " in [%s]" project-name))))))
+
 (blink-cursor-mode 1)
 
 (setq dired-kill-when-opening-new-dired-buffer t)

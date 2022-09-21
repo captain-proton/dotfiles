@@ -21,6 +21,23 @@ repository.
 - [[https://github.com/doomemacs/doomemacs/issues/1053#issuecomment-466888282][Why not copy environment variables from the shell under Linux? #1053]]
 - [[https://github.com/doomemacs/doomemacs/issues/5760][doom-load-envvars-file does not set environment but rather only defaults for subprocesses to inherit #5760]]
 
+* Emacs Frame
+
+Set the frame title to a format of "~<buffer name> in [<project name>]"~.
+
+#+begin_src emacs-lisp
+(setq frame-title-format
+    '(""
+      "%b"
+      (:eval
+       (let ((project-name (projectile-project-name)))
+         (unless (string= "-" project-name)
+           (format " in [%s]" project-name))))))
+#+end_src
+
+#+RESULTS:
+|   | %b | (:eval (let ((project-name (projectile-project-name))) (unless (string= - project-name) (format  in [%s] project-name)))) |
+
 * Cursor settings
 
 Let the cursor blink. This is especially useful using the nord color theme in emacs because brackets get a background color that let the cursor nearly dissappear.
