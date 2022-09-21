@@ -45,8 +45,10 @@
 (defun proton/close-project ()
   "Close the current frame and delete all buffers associated to the project"
   (interactive)
-  (projectile-kill-buffers)
-  (delete-frame nil t))
+  (if (> (length (visible-frame-list)) 1)
+      (progn (projectile-kill-buffers)
+             (delete-frame nil t))
+    (evil-quit)))
 
 (map! :leader
       :desc "Quit project" "p q" #'proton/close-project)
