@@ -1,11 +1,27 @@
 ---
 - hosts: all
-  gather_facts: false
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     config_dir: "{{ home }}/.config/leftwm"
     config_path: "{{ config_dir }}/config.toml"
+    leftwm_theme_src: /usr/local/src/leftwm-theme
+
+  handlers:
+    - name: build leftwm-theme
+      ansible.builtin.command:
+        chdir: "{{ leftwm_theme_src }}"
+        cmd: cargo build --release
+
+    - name: install leftwm-theme
+      become: true
+      ansible.builtin.command:
+        chdir: "{{ leftwm_theme_src }}"
+        cmd: install -s -Dm755 ./target/release/leftwm-theme -t /usr/local/bin
+
+    - name: update leftwm themes
+      ansible.builtin.command:
+        cmd: leftwm-theme update
 
   tasks:
 
@@ -21,7 +37,10 @@
         - rofi
         - nitrogen
         - dunst
-        - slock
+        - pcmanfm
+        - network-manager-applet
+        - blueberry
+        - volumeicon
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
@@ -31,7 +50,7 @@
 
     - name: Link theme
       ansible.builtin.file:
-        src: "{{ home }}/dotfiles/leftwm/sommerbrise"
+        src: "{{ home }}/dotfiles/leftwm/themes/sommerbrise"
         dest: "{{ config_dir }}/themes/current"
         state: link
 
@@ -51,3 +70,21 @@
         src: "{{ home }}/dotfiles/leftwm/config.toml"
         dest: "{{ config_path }}"
         state: link
+
+    - name: Ensure leftwm-theme dir is present
+      become: true
+      ansible.builtin.file:
+        path: "{{ leftwm_theme_src }}"
+        state: directory
+        mode: 0755
+        owner: "{{ lookup('env', 'USER') }}"
+
+    - name: Get leftwm-theme
+      ansible.builtin.git:
+        repo: https://github.com/leftwm/leftwm-theme
+        dest: /usr/local/src/leftwm-theme
+        version: master
+      notify:
+        - build leftwm-theme
+        - install leftwm-theme
+        - update leftwm themes
