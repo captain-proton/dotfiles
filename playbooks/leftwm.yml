@@ -41,6 +41,7 @@
         - network-manager-applet
         - blueberry
         - volumeicon
+        - pulsemixer
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
