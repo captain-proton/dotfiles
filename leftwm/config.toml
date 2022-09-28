@@ -14,9 +14,15 @@ focus_new_windows = true
 
 [[keybind]]
 command = "Execute"
-value = "rofi -show drun -theme ~/.config/rofi/themes/launcher.rasi"
+value = "rofi -show drun -theme ~/.config/rofi/launcher/launcher.rasi"
 modifier = ["modkey"]
 key = "p"
+
+[[keybind]]
+command = "Execute"
+value = "cd ~/.config/rofi/powermenu && ./powermenu.sh"
+modifier = ["modkey"]
+key = "q"
 
 [[keybind]]
 command = "Execute"
@@ -50,7 +56,7 @@ key = "x"
 
 [[keybind]]
 command = "Execute"
-value = "slock"
+value = "i3lock"
 modifier = ["modkey", "Control"]
 key = "l"
 
@@ -89,6 +95,18 @@ command = "FocusWindowDown"
 value = ""
 modifier = ["modkey"]
 key = "j"
+
+[[keybind]]
+command = "IncreaseMainWidth"
+value = "2"
+modifier = ["modkey"]
+key = "a"
+
+[[keybind]]
+command = "DecreaseMainWidth"
+value = "2"
+modifier = ["modkey"]
+key = "x"
 
 [[keybind]]
 command = "NextLayout"

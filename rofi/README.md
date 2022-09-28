@@ -1,0 +1,1 @@
+[adi1090x provides a tool](https://github.com/adi1090x/rofi) to create rofi applets, launchers and powermenus. The powermenu and launcher included in this repo were created using this tool. The licence of this content is therefor the GPL v3.

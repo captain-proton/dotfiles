@@ -32,6 +32,7 @@
         state: present
       loop:
         - leftwm
+        - i3lock
         - polybar
         - picom
         - rofi
@@ -51,7 +52,7 @@
 
     - name: Link theme
       ansible.builtin.file:
-        src: "{{ home }}/dotfiles/leftwm/themes/sommerbrise"
+        src: "{{ home }}/dotfiles/leftwm/themes/minimal-leftwm-theme"
         dest: "{{ config_dir }}/themes/current"
         state: link
 
