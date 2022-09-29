@@ -9,7 +9,7 @@ SCRIPTPATH="$( cd "$(dirname "$0")" || exit; pwd -P )"
 #   - gruvbox
 #   - nord
 #   - catppuccin
-source "$SCRIPTPATH"/scripts/colors.sh nord
+source "$SCRIPTPATH"/utils/colors.sh nord
 
 # [ BASICS ]
 # Down the last running theme
