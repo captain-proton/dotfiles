@@ -1,0 +1,10 @@
+---
+- name: Install and configure autorandr
+  hosts: all
+
+  tasks:
+    - name: Install autorandr
+      become: true
+      community.general.pacman:
+        name: autorandr
+        state: present
