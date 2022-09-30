@@ -43,6 +43,8 @@
         - blueberry
         - volumeicon
         - pulsemixer
+        - pavucontrol
+        - lxappearance
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
