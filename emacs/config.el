@@ -305,6 +305,18 @@
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
 
+;; Load ob-ess-julia and dependencies
+(use-package! ob-ess-julia
+  :ensure t
+  :config
+  ;; Add ess-julia into supported languages:
+  (org-babel-do-load-languages 'org-babel-load-languages
+                               (append org-babel-load-languages
+                                       '((ess-julia . t))))
+  ;; Link this language to ess-julia-mode (although it should be done by default):
+  (setq org-src-lang-modes
+        (append org-src-lang-modes '(("ess-julia" . ess-julia)))))
+
 (setq dap-auto-configure-mode t)
 
 ;; Displaying DAP visuals.
