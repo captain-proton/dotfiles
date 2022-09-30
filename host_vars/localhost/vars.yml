@@ -1,4 +1,15 @@
 ---
+# [COMMONS]
+# Common variables used in various playbooks
+home: "{{ lookup('env', 'HOME') }}"
+shell: "{{ lookup('env', 'SHELL') }}"
+
+# This file contains additional path exports set inside some
+# playbooks
+path_file_path: "{{ home }}/.local/bin/path"
+# [END COMMONS]
+
+# [BORG]
 # path to the borg repo directory
 # example:
 # borg_repo: /var/local/backups
@@ -22,6 +33,7 @@ borg_excludes: "{{ local_borg_excludes }}"
 # - /root
 # - /var
 borg_includes: "{{ local_borg_includes }}"
+# [END BORG ]
 
 # Set to true to remove the current poetry
 # script (~/.local/bin/poetry) and perform

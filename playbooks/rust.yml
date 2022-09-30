@@ -1,9 +1,6 @@
 ---
 - hosts: all
 
-  vars:
-    home: "{{ lookup('env', 'HOME') }}"
-
   tasks:
     - name: Install rustup
       become: true
@@ -12,11 +9,10 @@
         state: present
       loop:
         - rustup
-        - rust-analyzer
 
     - name: check toolchains
       ansible.builtin.command:
-        cmd: rustup toolchain list
+        cmd: rustup toolchain list -v
       register: rustup_toolchains
       changed_when: false
 
@@ -29,7 +25,38 @@
         cmd: rustup default stable
       when: rustup_toolchain_list == 'no installed toolchains'
 
-    - name: Add ~/.cargo/bin to path
+    - name: Build path to default rust toolchain
+      ansible.builtin.shell:
+        cmd: rustup toolchain list -v | sed 's/\s/\n/g' | sed -n '3p'
+      register: rustup_default_toolchain_path_cmd
+      changed_when: false
+
+    - name: Set fact of default toolchain path
+      ansible.builtin.set_fact:
+        rustup_default_toolchain_path: "{{ rustup_default_toolchain_path_cmd.stdout }}"
+
+    - name: Add rust binary paths to shell PATH
       ansible.builtin.lineinfile:
         path: "{{ path_file_path }}"
-        line: "export PATH={{ home }}/.cargo/bin:$PATH"
+        line: "export PATH={{ item }}:$PATH"
+      loop:
+        - "{{ home }}/.cargo/bin"
+        - "{{ rustup_default_toolchain_path }}/bin"
+
+    - name: Lookup rust-analyzer in path
+      ansible.builtin.command:
+        cmd: "zsh -c 'which rust-analyzer'"
+      environment:
+        PATH: "{{ lookup('env', 'PATH') }}:{{ rustup_default_toolchain_path }}/bin"
+      register: rust_analyzer_cmd
+      changed_when: false
+      failed_when: false
+
+    - name: Set fact previous lookup to rust-analyzer
+      ansible.builtin.set_fact:
+        rust_analyzer: "{{ rust_analyzer_cmd.stdout }}"
+
+    - name: Ensure rust-analyzer is installed
+      ansible.builtin.command:
+        cmd: rustup component add rust-analyzer
+      when: rust_analyzer == 'rust-analyzer not found'
