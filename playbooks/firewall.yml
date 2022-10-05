@@ -1,0 +1,42 @@
+---
+- name: Install and configure local firewall
+  hosts: all
+
+  handlers:
+    - name: Start nftables
+      become: true
+      ansible.builtin.service:
+        name: nftables
+        enabled: true
+        state: started
+
+    - name: Reload nftables
+      become: true
+      ansible.builtin.service:
+        name: nftables
+        state: reloaded
+
+    - name: Backup original nftables conf
+      become: true
+      ansible.builtin.copy:
+        src: /etc/nftables.conf
+        dest: /etc/nftables.conf.orig
+        mode: 0644
+
+  tasks:
+    - name: Ensure nftables is present
+      become: true
+      community.general.pacman:
+        name: nftables
+        state: present
+      notify:
+        - Start nftables
+        - Backup original nftables conf
+
+    - name: Copy nftables configuration file
+      become: true
+      ansible.builtin.copy:
+        src: ../firewall/nftables.conf
+        dest: /etc/nftables.conf
+        mode: 0644
+      notify: Reload nftables

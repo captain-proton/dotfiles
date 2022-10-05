@@ -28,6 +28,7 @@
 - import_playbook: ../playbooks/gnome_keyring.yml
 - import_playbook: ../playbooks/minikube.yml
 - import_playbook: ../playbooks/autorandr.yml
+- import_playbook: ../playbooks/firewall.yml
 
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
