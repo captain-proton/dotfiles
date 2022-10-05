@@ -12,6 +12,12 @@
     ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
 
   tasks:
+    - name: Ensure 'keychain' is installed
+      become: true
+      community.general.pacman:
+        name: keychain
+        state: present
+
     - name: Export SSH_AUTH_SOCK environment variable
       become: true
       ansible.builtin.blockinfile:
@@ -68,10 +74,9 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [Desktop Entry]
-          Exec=ssh-add -q {{ ssh_keys_arg }}
+          Exec=zsh --extendedglob -c 'ssh-add -q ~/.ssh/id^*.pub < /dev/null'
           Name=ssh-add
           Type=Application
-      when: ssh_keys_arg is defined
 
     - name: Export SSH_ASKPASS envrionment variable
       ansible.builtin.blockinfile:
