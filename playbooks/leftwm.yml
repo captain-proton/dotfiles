@@ -4,7 +4,7 @@
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     config_dir: "{{ home }}/.config/leftwm"
-    config_path: "{{ config_dir }}/config.toml"
+    config_path: "{{ config_dir }}/config.ron"
     leftwm_theme_src: /usr/local/src/leftwm-theme
 
   handlers:
@@ -71,7 +71,7 @@
 
     - name: Link leftwm configuration
       ansible.builtin.file:
-        src: "{{ home }}/dotfiles/leftwm/config.toml"
+        src: "{{ home }}/dotfiles/leftwm/config.ron"
         dest: "{{ config_path }}"
         state: link
 

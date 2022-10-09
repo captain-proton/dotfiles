@@ -35,8 +35,8 @@ if [ -x "$(command -v picom)" ]; then
   picom --config $HOME/.config/picom/picom.conf &> /dev/null &
 fi
 
-# Set the theme.toml config
-leftwm-command "LoadTheme $SCRIPTPATH/theme.toml"
+# Set the theme.ron config
+leftwm-command "LoadTheme $SCRIPTPATH/theme.ron"
 
 # Set background
 if [ -x "$(command -v nitrogen)" ]; then

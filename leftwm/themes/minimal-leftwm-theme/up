@@ -19,8 +19,8 @@ if [ -f "/tmp/leftwm-theme-down" ]; then
 fi
 ln -s "$SCRIPTPATH"/down /tmp/leftwm-theme-down
 
-# Set the theme.toml config
-leftwm command "LoadTheme $SCRIPTPATH/theme.toml"
+# Set the theme.ron config
+leftwm command "LoadTheme $SCRIPTPATH/theme.ron"
 
 # [ RUN STUFF ]
 # picom
