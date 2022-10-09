@@ -1,0 +1,10 @@
+---
+- name: Install and configure rclone
+  hosts: all
+
+  tasks:
+    - name: Ensure rclone in present
+      become: true
+      community.general.pacman:
+        name: rclone
+        state: present

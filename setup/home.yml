@@ -43,3 +43,4 @@
 - import_playbook: ../playbooks/discord.yml
 - import_playbook: ../playbooks/wallpaper.yml
 - import_playbook: ../playbooks/openscad.yml
+- import_playbook: ../playbooks/rclone.yml
