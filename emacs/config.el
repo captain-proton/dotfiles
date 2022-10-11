@@ -15,6 +15,11 @@
 (setq doom-themes-neotree-file-icons t)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
+(map! :nvi "C-+" #'doom/increase-font-size
+      :nvi "C--" #'doom/decrease-font-size
+      :nvi "C-=" #'doom/reset-font-size
+      )
+
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)
       whitespace-line-column 140)

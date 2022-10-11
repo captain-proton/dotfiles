@@ -64,6 +64,23 @@ insane named variable to prevent this behaviour.
 
 * Editor
 
+** Keybindings
+
+| Keybinding | Description             |
+|------------+-------------------------|
+| ~C-+~        | ~doom increase font size~ |
+| ~C--~        | ~doom decrease font size~ |
+| ~C-=~        | ~doom reset font size~    |
+
+#+begin_src emacs-lisp
+(map! :nvi "C-+" #'doom/increase-font-size
+      :nvi "C--" #'doom/decrease-font-size
+      :nvi "C-=" #'doom/reset-font-size
+      )
+#+end_src
+
+#+RESULTS:
+
 ** Whitespace mode
 
 Activate whitespace-mode globally except for org-mode.
