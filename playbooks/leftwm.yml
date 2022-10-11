@@ -45,6 +45,7 @@
         - pulsemixer
         - pavucontrol
         - lxappearance
+        - qt5ct-kde
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
@@ -92,3 +93,13 @@
         - build leftwm-theme
         - install leftwm-theme
         - update leftwm themes
+
+    - name: Pretend that LeftWM is KDE to get proper theme
+      ansible.builtin.blockinfile:
+        create: true
+        path: "{{ home }}/.xprofile"
+        mode: 0644
+        block: |
+          if [ "$XDG_CURRENT_DESKTOP" = "LeftWM" ]; then
+              export XDG_CURRENT_DESKTOP="KDE"
+          fi
