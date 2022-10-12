@@ -8,7 +8,7 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    font_download_path: "{{ home }}/.fonts"
+    font_download_path: "{{ home }}/.local/share/fonts"
 
     fonts_nerd_font_root: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts
     fonts_nerd_fonts:
