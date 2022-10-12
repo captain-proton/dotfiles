@@ -119,7 +119,6 @@ click-right = ~/.config/leftwm/themes/current/utils/bluetooth_toggle.sh
 format-padding = 1
 
 
-
 [module/cpu]
 type = internal/cpu
 interval = 2
@@ -156,7 +155,7 @@ ramp-coreload-7-foreground = ${color.red}
 ramp-coreload-font = 3
 format-background = ${color.background}
 format-foreground = ${color.foreground}
-format-underline = 
+format-underline =
 format-padding = 1
 
 
@@ -363,13 +362,13 @@ type = custom/script
 tail = true
 format-underline = ${colors.cyan}
 label-padding = 0
-label-foreground = ${colors.foreground}
+label-foreground = ${color.foreground}
 
 # Icons mixed from Font Awesome 5 and Material Icons
 # You can copy-paste your options for each possible action, which is more
 # trouble-free but repetitive, or apply only the relevant ones (for example
 # --sink-blacklist is only needed for next-sink).
-exec = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --icons-volume " , " --icon-muted " " --sink-nicknames-from "device.description" --sink-nickname "alsa_output.pci-0000_07_00.6.iec958-stereo:蓼 Speakers" --sink-nickname "alsa_output.pci-0000_07_00.6.analog-stereo: Headphones" listen
+exec = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --icons-volume " , " --icon-muted " " --node-nicknames-from "device.description" --node-nickname "alsa_output.pci-0000_07_00.6.iec958-stereo:蓼 Speakers" --node-nickname "alsa_output.pci-0000_07_00.6.analog-stereo: Headphones" listen
 ; click-right = exec pavucontrol &
 click-left = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh togmute
 ; click-middle = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink
