@@ -44,9 +44,7 @@ fi
 nm-applet &
 pamac-tray &
 numlockx on &
-blueberry-tray &
 /usr/lib/polkit-kde-authentication-agent-1 &
-volumeicon &
 
 # swap caps lock and escape
 setxkbmap -option caps:swapescape
