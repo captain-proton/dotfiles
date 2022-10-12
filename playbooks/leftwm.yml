@@ -43,6 +43,7 @@
         - blueberry
         - volumeicon
         - pulsemixer
+        - pulseaudio-ctl
         - pavucontrol
         - lxappearance
         - qt5ct-kde
