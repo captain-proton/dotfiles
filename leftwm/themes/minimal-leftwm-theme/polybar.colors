@@ -8,7 +8,7 @@
 [color]
 ;; Main colors
 background = #2E3440
-foreground = #797C82
+foreground = #81A1C1
 ;;foreground-alt = #9C9C9C
 primary = #E4EAF5
 secondary = #e5e9f0

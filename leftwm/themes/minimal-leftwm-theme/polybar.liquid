@@ -4,7 +4,7 @@
 {% if tag.mine %}%{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}%{F#E4EAF5}%{+o} {{tag.name}} %{-o}%{F-}%{A}
 {% elsif tag.visible %}%{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}%{F#E4EAF5} {{tag.name}} %{F-}%{A}
 {% elsif tag.busy %}%{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}%{F#e5e9f0} {{tag.name}} %{F-}%{A}
-{% else tag.visible %}%{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}%{F#797C82}%{T1} {{tag.name}} %{F-}%{A}
+{% else tag.visible %}%{A1:$SCRIPTPATH/change_to_tag {{workspace.index}} {{tag.index}}:}%{F#81A1C1}%{T1} {{tag.name}} %{F-}%{A}
 {% endif %}
 %{T-}
 
