@@ -34,9 +34,9 @@
         - leftwm
         - i3lock
         - polybar
-        - picom
         - rofi
         - nitrogen
+        - feh
         - dunst
         - pcmanfm
         - network-manager-applet

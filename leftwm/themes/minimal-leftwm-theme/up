@@ -36,8 +36,8 @@ fi
 nm-applet &
 
 # [ WALLPAPER ]
-if [ -x "$(command -v nitrogen)" ]; then
-  nitrogen --set-auto --random $HOME/.local/share/wallpapers
+if [ -x "$(command -v feh)" ]; then
+  feh --bg-fill --randomize $HOME/.local/share/wallpapers
 fi
 
 # [ apps ]
