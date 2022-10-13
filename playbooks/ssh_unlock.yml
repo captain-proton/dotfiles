@@ -8,8 +8,10 @@
     ssh_unlock_script: "/etc/profile.d/ssh_unlock.sh"
     ssh_config: "{{ home }}/.ssh/config"
     ssh_agent_service: "{{ systemd_user_dir }}/ssh-agent.service"
-    ssh_autostart: "{{ home }}/.config/autostart/ssh-add.desktop"
-    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
+    ssh_add_desktop_filename: ssh-add.desktop
+    ssh_add_desktop_path: "{{ home }}/.local/share/applications/{{ ssh_add_desktop_filename }}"
+    ssh_autostart_entry: "{{ home }}/.config/autostart/{{ ssh_add_desktop_filename }}"
+    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/10-sshaskpass.conf"
 
   tasks:
     - name: Ensure 'keychain' is installed
@@ -67,18 +69,24 @@
 
     - name: Add contents to ssh-add.desktop file
       ansible.builtin.blockinfile:
-        path: "{{ ssh_autostart }}"
+        path: "{{ ssh_add_desktop_path }}"
         create: true
         mode: 0640
         state: present
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [Desktop Entry]
-          Exec=zsh --extendedglob -c 'ssh-add -q ~/.ssh/id^*.pub < /dev/null'
+          Exec=env SSH_ASKPASS='/usr/bin/ksshaskpass' zsh --extendedglob -c 'ssh-add -q ~/.ssh/id^*.pub < /dev/null'
           Name=ssh-add
           Type=Application
 
-    - name: Export SSH_ASKPASS envrionment variable
+    - name: Link ssh add desktop file to autostart
+      ansible.builtin.file:
+        src: "{{ ssh_add_desktop_path }}"
+        dest: "{{ ssh_autostart_entry }}"
+        state: link
+
+    - name: Export SSH_ASKPASS environment variable
       ansible.builtin.blockinfile:
         path: "{{ ssh_askpass_envvar_conf }}"
         mode: 0640
