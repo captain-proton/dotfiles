@@ -8,4 +8,6 @@ fi
 
 if [ $updates_arch -gt 0 ]; then
     echo %{+o}   Arch: $updates_arch %{-o}
+else
+    echo ""
 fi
