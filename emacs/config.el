@@ -129,7 +129,7 @@
 (defvar proton/variable-width-font "Noto Sans"
   "The font to use for variable-pitch (document) text.")
 
-(setq doom-font (font-spec :family proton/fixed-width-font :size 15 :weight 'light)
+(setq doom-font (font-spec :family proton/fixed-width-font :size 15)
       doom-variable-pitch-font (font-spec :family proton/variable-width-font :size 15)
       doom-big-font (font-spec :family proton/variable-width-font :size 24)
       doom-font-increment 1)
