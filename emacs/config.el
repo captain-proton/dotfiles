@@ -263,10 +263,13 @@
   (visual-line-mode 1)
   (doom-big-font-mode 1)
   (display-line-numbers-mode 0)
+  (hl-line-mode 0)
+  (highlight-thing-mode 0)
+  (centaur-tabs-mode 0)
   (variable-pitch-mode 1)
 
   ;; Tweak font sizes
-  (setq-local face-remapping-alist '((default (:height 1.2) variable-pitch)
+  (setq-local face-remapping-alist '((default (:height 1.4) variable-pitch)
                                      (header-line (:height 2.2) variable-pitch)
                                      (org-document-title (:height 1.75) org-document-title)
                                      (org-code (:height 1.0) org-code)
@@ -287,6 +290,9 @@
   (visual-line-mode 0)
   (doom-big-font-mode 0)
   (display-line-numbers-mode 1)
+  (hl-line-mode 1)
+  (highlight-thing-mode 1)
+  (centaur-tabs-mode 1)
   (variable-pitch-mode 0)
 
   ;; Reset font customizations, default was nil
