@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# curl -L 'https://source.unsplash.com/2560x1440/?nature' -o ~/Bilder/wallpaper/nature_`date +%Y-%m-%d_%H:%M`.jpeg
+# curl -L 'https://source.unsplash.com/2560x1440/?nature' -o ~/Bilder/wallpaper/nature_$(date +%Y-%m-%d_%H:%M:%S).jpeg
 WORD="{{ unsplash_search_word | default('nature') }}"
 OUTPUT_DIR="$HOME/.local/share/wallpapers"
 
@@ -20,7 +20,7 @@ fi
 RESOLUTION=$(xrandr --current | grep '*' | uniq | awk '{print $1}'i)
 
 URL="https://source.unsplash.com/${RESOLUTION}/?$WORD"
-SUFFIX="$(date +%Y-%m-%d_%H:%M)"
+SUFFIX="$(date +%Y-%m-%d_%H:%M:%S)"
 FILENAME="${WORD}_${RESOLUTION}_${SUFFIX}.jpeg"
 OUTPUT="${OUTPUT_DIR}/${FILENAME}"
 
