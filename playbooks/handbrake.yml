@@ -1,0 +1,10 @@
+---
+- name: Install and configure handbrake
+  hosts: all
+
+  tasks:
+    - name: Ensure handbrake is installed
+      become: true
+      community.general.pacman:
+        name: handbrake
+        state: present
