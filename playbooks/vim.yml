@@ -59,3 +59,4 @@
       ansible.builtin.command:
         cmd: "vim -u {{ home }}/.vimrc.bundles +PluginUpdate +qall"
       when: vimrc_link.stat.islnk is defined and vimrc_link.stat.islnk
+      notify: run ycm installation
