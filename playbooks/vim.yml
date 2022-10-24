@@ -7,7 +7,7 @@
   handlers:
     - name: run ycm installation
       ansible.builtin.command:
-        cmd: 'python install.py'
+        cmd: '/usr/bin/python3 install.py'
         chdir: "{{ ansible_env.HOME }}/.vim/bundle/YouCompleteMe"
 
     - name: install vim plugins
