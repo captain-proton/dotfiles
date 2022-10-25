@@ -11,7 +11,6 @@ plugins=(git
   direnv
   poetry
   ansible
-  emacs
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions

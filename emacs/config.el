@@ -242,7 +242,7 @@
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
-  (setq org-auto-tangle-default t))
+  (setq org-auto-tangle-default nil))
 
 (setq visual-fill-column-width 110
       visual-fill-column-center-text t)

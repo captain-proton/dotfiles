@@ -484,7 +484,7 @@ Automatically tangle org files on save. This is done by adding the option ~#+aut
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
   :config
-  (setq org-auto-tangle-default t))
+  (setq org-auto-tangle-default nil))
 #+end_src
 
 ** Presentations with org-present
