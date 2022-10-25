@@ -185,6 +185,10 @@
 
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
 
+(after! plantuml
+  (setq plantuml-indent-level 2)
+  )
+
 (map! :leader
       :desc "Activate lsp-org" "m L" #'lsp-org
       :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)

@@ -397,6 +397,16 @@ Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ fi
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
 #+end_src
 
+* PlantUML
+
+Not much to do here, but the default indent level is =8= ... wtf.
+
+#+begin_src emacs-lisp
+(after! plantuml
+  (setq plantuml-indent-level 2)
+  )
+#+end_src
+
 * ORG
 
 ** Keybindings
