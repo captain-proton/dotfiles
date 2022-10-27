@@ -8,7 +8,6 @@
 - import_playbook: ../playbooks/curl.yml
 - import_playbook: ../playbooks/vscode.yml
 - import_playbook: ../playbooks/vim.yml
-- import_playbook: ../playbooks/tmux.yml
 - import_playbook: ../playbooks/autofs.yml
 - import_playbook: ../playbooks/fzf.yml
 - import_playbook: ../playbooks/borg.yml
