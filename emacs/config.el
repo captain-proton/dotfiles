@@ -12,8 +12,13 @@
 
 (setq dired-kill-when-opening-new-dired-buffer t)
 
-(setq doom-themes-neotree-file-icons t)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+(after! neotree
+  (setq doom-themes-neotree-file-icons t
+        neo-theme (if (window-system) 'icons 'arrow)
+        neo-window-width 40
+        neo-window-fixed-size nil
+        )
+  )
 
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
