@@ -28,5 +28,5 @@
     "terminal.integrated.fontFamily": "MesloLGL Nerd Font",
     "terminal.integrated.fontWeight": "300",
     "workbench.startupEditor": "none",
-    "workbench.colorTheme": "Tomorrow Night",
+    "workbench.colorTheme": "Nord",
 }
