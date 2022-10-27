@@ -20,7 +20,7 @@
       community.general.pacman:
         name: "{{ item }}"
         state: present
-      loop: ["cmake", "gcc", "vim"]
+      loop: ["cmake", "make", "gcc", "vim"]
 
     - name: Check for vimrc link
       ansible.builtin.stat:
