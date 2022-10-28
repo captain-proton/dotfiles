@@ -46,6 +46,7 @@
         - pulseaudio-ctl
         - pavucontrol
         - lxappearance
+        - pkgconf
         - qt5ct-kde
 
     - name: Ensure leftwm theme dir is present
