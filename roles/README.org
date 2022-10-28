@@ -1,0 +1,12 @@
+#+title: ansible-roles
+
+This file and directory exists only to activate the ~+ansible-yaml-mode~
+project mode in emacs. Take a look at the [[doomdir:config.el][config.el]] file. It should contain
+something like the following to define the project mode.
+
+#+begin_src emacs-lisp
+(def-project-mode! +ansible-yaml-mode
+  :modes '(yaml-mode)
+  :add-hooks '(ansible ansible-auto-decrypt-encrypt ansible-doc-mode)
+  :files (or "playbooks/" "roles/" "tasks/" "handlers/"))
+#+end_src
