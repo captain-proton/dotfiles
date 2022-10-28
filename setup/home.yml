@@ -24,6 +24,7 @@
 - import_playbook: ../playbooks/rust.yml
 - import_playbook: ../playbooks/shfmt.yml
 - import_playbook: ../playbooks/leftwm.yml
+- import_playbook: ../playbooks/rofi.yml
 - import_playbook: ../playbooks/picom.yml
 - import_playbook: ../playbooks/gnome_keyring.yml
 - import_playbook: ../playbooks/firewall.yml

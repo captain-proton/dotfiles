@@ -5,7 +5,7 @@
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     rofi_dotfiles: "{{ home }}/dotfiles/rofi"
-    config_dir: "{{ home }}/.config/rofi"
+    config_dir_path: "{{ home }}/.config/rofi"
 
   tasks:
 
@@ -17,8 +17,19 @@
       loop:
         - rofi
 
+    - name: Check stats of fresh installed configuration
+      ansible.builtin.stat:
+        path: "{{ config_dir_path }}"
+      register: conf_dir
+
+    - name: Remove configuration in case of regular dir
+      ansible.builtin.file:
+        path: "{{ config_dir_path }}"
+        state: absent
+      when: conf_dir.stat.isdir is defined and conf_dir.stat.isdir
+
     - name: Link rofi to ~/.config
       ansible.builtin.file:
         src: "{{ rofi_dotfiles }}"
-        dest: "{{ config_dir }}"
+        dest: "{{ config_dir_path }}"
         state: link
