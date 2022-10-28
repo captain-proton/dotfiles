@@ -9,6 +9,7 @@
 
   tasks:
     - name: Ensure picom is installed
+      become: true
       ansible.builtin.pacman:
         name: picom
         state: present
