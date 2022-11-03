@@ -1,0 +1,10 @@
+---
+- name: Install and configure rocket.chat
+  hosts: all
+
+  tasks:
+    - name: Ensure rocket.chat is installed
+      become: true
+      yay:
+        name: rocketchat-desktop
+        state: present

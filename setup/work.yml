@@ -39,3 +39,4 @@
 - import_playbook: ../playbooks/vlc.yml
 - import_playbook: ../playbooks/wallpaper.yml
 - import_playbook: ../playbooks/rclone.yml
+- import_playbook: ../playbooks/rocket_chat.yml
