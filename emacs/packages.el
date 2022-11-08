@@ -61,3 +61,4 @@
 (package! highlight-thing)
 (package! with-venv)
 (package! ob-ess-julia)
+(package! nov)

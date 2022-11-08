@@ -194,6 +194,10 @@
   (setq plantuml-indent-level 2)
   )
 
+(setq nov-unzip-program (executable-find "bsdtar")
+      nov-unzip-args '("-xC" directory "-f" filename))
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+
 (map! :leader
       :desc "Activate lsp-org" "m L" #'lsp-org
       :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)
