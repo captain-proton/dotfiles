@@ -153,6 +153,8 @@
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
+(setq fancy-splash-image (expand-file-name "splash/doom-emacs-splash.svg" doom-private-dir))
+
 (setq-default line-spacing 4)
 
 (with-temp-buffer

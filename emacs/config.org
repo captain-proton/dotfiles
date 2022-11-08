@@ -330,6 +330,12 @@ they are implemented.
 #+end_src
 
 
+** Dashboard
+
+#+begin_src emacs-lisp
+(setq fancy-splash-image (expand-file-name "splash/doom-emacs-splash.svg" doom-private-dir))
+#+end_src
+
 * Line spacing
 
 Increase space between lines.

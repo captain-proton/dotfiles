@@ -76,6 +76,18 @@
           dest: "{{ home }}/Org"
           linkname: "elfeed.org"
 
+    - name: Ensure splash image dir is present
+      ansible.builtin.file:
+        path: "{{ doomd }}/splash"
+        state: directory
+        mode: 0755
+
+    - name: Copy splash image
+      ansible.builtin.copy:
+        dest: "{{ doomd }}/splash"
+        src: "{{ home }}/dotfiles/emacs/doom-emacs-splash.svg"
+        mode: 0644
+
     - name: Check for emacs custom configuration
       ansible.builtin.stat:
         path: "{{ home }}/dotfiles/emacs/local.el"
