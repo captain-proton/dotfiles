@@ -48,11 +48,9 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
-(define-key evil-visual-state-map
+(evil-define-key nil evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
-  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
-
-(define-key evil-normal-state-map
+  (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg
   (kbd "M-n") 'evil-mc-make-and-goto-next-match
   (kbd "M-p") 'evil-mc-make-and-goto-prev-match
   )
