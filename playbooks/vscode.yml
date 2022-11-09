@@ -15,8 +15,10 @@
         - jebbs.plantuml
         - jmreicha.tender
         - mechatroner.rainbow-csv
+        - mkhl.direnv
         - ms-azuretools.vscode-docker
         - MS-CEINTL.vscode-language-pack-de
+        - ms-python.isort
         - ms-python.python
         - ms-python.vscode-pylance
         - ms-toolsai.jupyter
@@ -24,8 +26,8 @@
         - ms-toolsai.jupyter-renderers
         - ms-toolsai.vscode-jupyter-cell-tags
         - ms-toolsai.vscode-jupyter-slideshow
-        - ms-vscode-remote.remote-containers
         - ms-vscode.cpptools
+        - ms-vscode-remote.remote-containers
         - naumovs.color-highlight
         - njpwerner.autodocstring
         - psioniq.psi-header
@@ -53,11 +55,11 @@
       ansible.builtin.command:
         cmd: "code --list-extensions | sort"
       register: ext_list_result
-      changed_when: ext_list_result.stdout_lines != extensions.present
+      changed_when: ext_list_result.stdout_lines | difference(extensions.present) | length > 0
 
     - name: Set fact of installed extensions
       ansible.builtin.set_fact:
-        current_ext: "{{ ext_list_result.stdout_lines | sort }}"
+        current_ext: "{{ ext_list_result.stdout_lines }}"
 
     - name: Set extensions that should be installed
       ansible.builtin.set_fact:
