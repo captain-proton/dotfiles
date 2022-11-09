@@ -48,9 +48,14 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
-(evil-define-key nil evil-visual-state-map
+(define-key evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
   (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+
+(define-key evil-normal-state-map
+  (kbd "M-n") 'evil-mc-make-and-goto-next-match
+  (kbd "M-p") 'evil-mc-make-and-goto-prev-match
+  )
 
 (defun proton/close-project ()
   "Close the current frame and delete all buffers associated to the project"
@@ -325,6 +330,15 @@
 
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
+
+(map! :leader
+      :prefix ("c" . "code")
+      :desc "Find/Goto definition" "d" #'+lookup/definition
+      :desc "Rename" "r" #'lsp-rename
+      )
+(map!
+ :desc "toggle line comment" :ne "C-/" #'evilnc-comment-or-uncomment-lines
+ )
 
 ;; Load ob-ess-julia and dependencies
 (use-package! ob-ess-julia

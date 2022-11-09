@@ -136,9 +136,14 @@ Disable fringe-mode on writeroom and activate it again when leaving. This is esp
 * Multiple cursors
 
 #+begin_src emacs-lisp
-(evil-define-key nil evil-visual-state-map
+(define-key evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
   (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg)
+
+(define-key evil-normal-state-map
+  (kbd "M-n") 'evil-mc-make-and-goto-next-match
+  (kbd "M-p") 'evil-mc-make-and-goto-prev-match
+  )
 #+end_src
 
 * Project workflow
@@ -603,8 +608,23 @@ directory will be used as ~org-roam-directory~.
 (org-roam-db-autosync-mode)
 #+end_src
 
+* Programming
 
-* Julia
+** General Keybindings
+
+#+begin_src emacs-lisp
+(map! :leader
+      :prefix ("c" . "code")
+      :desc "Find/Goto definition" "d" #'+lookup/definition
+      :desc "Rename" "r" #'lsp-rename
+      )
+(map!
+ :desc "toggle line comment" :ne "C-/" #'evilnc-comment-or-uncomment-lines
+ )
+#+end_src
+
+
+** Julia
 
 Add julia support in org babel.
 
