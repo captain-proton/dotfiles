@@ -423,6 +423,16 @@ Not much to do here, but the default indent level is =8= ... wtf.
   )
 #+end_src
 
+* nov.el
+
+=nov.el= provides a major mode to read epub documents. ~bsdtar~ should be installed on the system, along with emacs compiled with libxml2 (~pacman -Qi emacs-nativecomp | grep libxml2~).
+
+#+begin_src emacs-lisp
+(setq nov-unzip-program (executable-find "bsdtar")
+      nov-unzip-args '("-xC" directory "-f" filename))
+(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+#+end_src
+
 * ORG
 
 ** Keybindings
