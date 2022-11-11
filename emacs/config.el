@@ -333,14 +333,18 @@
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
 
-(map! :leader
-      :prefix ("c" . "code")
-      :desc "Find/Goto definition" "d" #'+lookup/definition
-      :desc "Rename" "r" #'lsp-rename
-      )
+(map!
+ :map lsp-ui-mode-map
+ [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
+ [remap xref-find-references] #'lsp-ui-peek-find-references
+ )
 (map!
  :desc "toggle line comment" :ne "C-/" #'evilnc-comment-or-uncomment-lines
  )
+
+(add-hook! python-mode #'display-fill-column-indicator-mode)
+
+(add-hook! rust-mode #'display-fill-column-indicator-mode)
 
 ;; Load ob-ess-julia and dependencies
 (use-package! ob-ess-julia
