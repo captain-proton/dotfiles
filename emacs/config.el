@@ -387,6 +387,7 @@
   (defun dap-python--pyenv-executable-find (command)
     (with-venv (executable-find "python"))))
 
+(require 'dap-gdb-lldb)
 (dap-register-debug-template "Rust::GDB Run Configuration"
                              (list :type "gdb"
                                    :request "launch"

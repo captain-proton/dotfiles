@@ -696,6 +696,7 @@ Enable debugging support for python. Set ~debugpy~ as default debugger. ~debugpy
 ** Rust
 
 #+begin_src emacs-lisp
+(require 'dap-gdb-lldb)
 (dap-register-debug-template "Rust::GDB Run Configuration"
                              (list :type "gdb"
                                    :request "launch"
