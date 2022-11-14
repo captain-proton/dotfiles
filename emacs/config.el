@@ -58,9 +58,9 @@
 (defun proton/close-project ()
   "Close the current frame and delete all buffers associated to the project"
   (interactive)
-  (if (> (length (visible-frame-list)) 1)
+  (if (> (length (+workspace-list-names)) 1)
       (progn (projectile-kill-buffers)
-             (delete-frame nil t))
+             (+workspace/delete (+workspace-current-name)))
     (evil-quit)))
 
 (map! :leader
