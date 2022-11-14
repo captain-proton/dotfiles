@@ -3,7 +3,7 @@
 
   vars:
     dxvk_dir: "{{ lookup('env', 'HOME') }}/.dxvk"
-    dxvk_version: "v1.10.2"
+    dxvk_version: "v2.0"
     dxvk_build_dir: "{{ lutris_dir }}/runtime/dxvk"
     lutris_dir: "{{ lookup('env', 'HOME') }}/.local/share/lutris"
 
