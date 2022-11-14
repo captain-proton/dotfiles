@@ -62,3 +62,8 @@
 (package! with-venv)
 (package! ob-ess-julia)
 (package! nov)
+(package! websocket)
+(package! simple-httpd)
+(package! f)
+(unpin! org-roam)
+(package! org-roam-ui)

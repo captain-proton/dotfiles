@@ -338,6 +338,21 @@
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
 
+(use-package! websocket
+    :after org-roam)
+
+(use-package! org-roam-ui
+    :after org-roam ;; or :after org
+;;         normally we'd recommend hooking org-roam-ui after org-roam, but since org-roam does not have
+;;         a hookable mode anymore, you're advised to pick something yourself
+;;         if you don't care about startup time, use
+;;  :hook (after-init . org-roam-ui-mode)
+    :config
+    (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
+
 (map!
  :map lsp-ui-mode-map
  [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
