@@ -46,9 +46,6 @@ pamac-tray &
 numlockx on &
 /usr/lib/polkit-kde-authentication-agent-1 &
 
-# swap caps lock and escape
-setxkbmap -option caps:swapescape
-
 # [ STATUSBAR ]
 pkill polybar
 pkill lemonbar &

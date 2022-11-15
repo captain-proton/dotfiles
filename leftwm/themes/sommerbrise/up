@@ -43,9 +43,6 @@ if [ -x "$(command -v nitrogen)" ]; then
   nitrogen --set-auto --random $HOME/.local/share/wallpapers
 fi
 
-# swap caps lock and escape
-setxkbmap -option caps:swapescape
-
 #mainbar
 index=0
 monitors=($(polybar -m | sed s/:.*//))
