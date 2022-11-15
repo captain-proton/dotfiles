@@ -402,8 +402,14 @@ Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ fi
 (after! elfeed
   (setq elfeed-search-filter "@2-weeks-ago +unread"
         elfeed-search-title-min-width 80
-        visual-fill-column-mode 1
-        )
+        visual-fill-column-mode 1)
+  )
+(custom-set-faces!
+  '(elfeed-search-unread-title-face
+    :weight normal)
+  '(elfeed-search-title-face
+    :family "Vollkorn"
+    :height 1.4)
   )
 (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
