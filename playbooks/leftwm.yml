@@ -101,6 +101,7 @@
         create: true
         path: "{{ home }}/.xprofile"
         mode: 0644
+        marker: "# {mark} LEFTWM CONF USING ANSIBLE"
         block: |
           if [ "$XDG_CURRENT_DESKTOP" = "LeftWM" ]; then
               export XDG_CURRENT_DESKTOP="KDE"

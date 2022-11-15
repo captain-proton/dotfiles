@@ -12,3 +12,16 @@
           clear lock
           clear control
           keycode 66 = Control_L
+          add control = Control_L Control_R
+
+    - name: Apply xmodmap if present (normally done using xinitrc)
+      ansible.builtin.blockinfile:
+        create: true
+        path: "{{ home }}/.xprofile"
+        mode: 0644
+        marker: "# {mark} USER MODMAP USING ANSIBLE"
+        block: |
+          usermodmap=$HOME/.Xmodmap
+          if [ -f "$usermodmap" ]; then
+              xmodmap "$usermodmap"
+          fi
