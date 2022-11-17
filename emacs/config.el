@@ -139,6 +139,7 @@
 
 (setq doom-font (font-spec :family proton/fixed-width-font :size 15)
       doom-variable-pitch-font (font-spec :family proton/variable-width-font :size 15)
+      doom-unicode-font (font-spec :family proton/fixed-width-font :size 15)
       doom-big-font (font-spec :family proton/variable-width-font :size 24)
       doom-font-increment 1)
 
