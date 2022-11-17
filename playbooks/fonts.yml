@@ -109,6 +109,20 @@
           - "FiraSans-TwoItalic.ttf"
           - "FiraSans-UltraItalic.ttf"
           - "FiraSans-UltraLightItalic.ttf"
+      - font_base_url: https://github.com/FAlthausen/Vollkorn-Typeface/raw/master/fonts/ttf
+        font_files:
+          - "Vollkorn-Black.ttf"
+          - "Vollkorn-BlackItalic.ttf"
+          - "Vollkorn-Bold.ttf"
+          - "Vollkorn-BoldItalic.ttf"
+          - "Vollkorn-ExtraBold.ttf"
+          - "Vollkorn-ExtraBoldItalic.ttf"
+          - "Vollkorn-Italic.ttf"
+          - "Vollkorn-Medium.ttf"
+          - "Vollkorn-MediumItalic.ttf"
+          - "Vollkorn-Regular.ttf"
+          - "Vollkorn-SemiBold.ttf"
+          - "Vollkorn-SemiBoldItalic.ttf"
 
   tasks:
     - name: Create font download folder
