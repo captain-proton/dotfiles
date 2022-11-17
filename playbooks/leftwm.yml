@@ -5,7 +5,7 @@
     home: "{{ lookup('env', 'HOME') }}"
     config_dir: "{{ home }}/.config/leftwm"
     config_path: "{{ config_dir }}/config.ron"
-    leftwm_theme_src: /usr/local/src/leftwm-theme
+    leftwm_theme_src: "{{ local_leftwm_theme_src | default('/usr/local/src/leftwm-theme') }}"
 
   handlers:
     - name: build leftwm-theme
@@ -89,7 +89,7 @@
     - name: Get leftwm-theme
       ansible.builtin.git:
         repo: https://github.com/leftwm/leftwm-theme
-        dest: /usr/local/src/leftwm-theme
+        dest: "{{ leftwm_theme_src }}"
         version: master
       notify:
         - build leftwm-theme
