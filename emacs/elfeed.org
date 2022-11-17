@@ -4,24 +4,25 @@
 
 ** Linux :linux:
 
-*** [[http://feeds.feedburner.com/d0od][OMG! Ubuntu!]] :omgubuntu:
+*** [[https://www.omgubuntu.co.uk/feed][OMG! Ubuntu!]] :omgubuntu:
 *** [[https://linuxnews.de/feed/][Linux News]] :linuxnews:
 *** [[https://itsfoss.com/feed/][It's FOSS]] :itsfoss:
 
 ** News
 
-*** [[http://www.wdr.de/xml/studio_dortmund.xml][Ruhrgebiert - WDR.de]] :wdr:
-*** [[http://www.golem.de/rss.php?feed=RSS1.0][Golem.de]] :golem:
-*** [[http://www.radiovest.de/lokalnachrichten.xml][Radio Vest - Lokalnachrichten]] :vest:
-*** [[http://www.heise.de/newsticker/heise.rdf][heise online News]] :heise:
-*** [[http://netzpolitik.org/feed/][netzpolitik.org]] :netzpolitik:
-*** [[http://feeds.feedburner.com/mobilegeeksde][mobilegeeks@basicthinking]] :mobilegeeks:
+*** [[https://www1.wdr.de/nachrichten/ruhrgebiet/uebersicht-ruhrgebiet-100.feed][Ruhrgebiet - WDR.de]] :wdr:
+*** [[https://rss.golem.de/rss.php?feed=ATOM1.0][Golem.de]] :golem:
+*** [[https://www.radiovest.de/thema/lokalnachrichten-532.rss][Radio Vest - Lokalnachrichten]] :vest:
+*** [[https://www.heise.de/rss/heise-atom.xml][heise online News]] :heise:
+*** [[https://netzpolitik.org/feed][netzpolitik.org]] :netzpolitik:
+*** [[https://www.basicthinking.de/blog/feed/][basicthinking]] :mobilegeeks:
 
 ** IT Security :security:
 
-*** [[http://www.heise.de/security/news/news-atom.xml][heise security]] :heise:
-*** [[https://www.uni-due.de/zim/rss/zim_sicherheit.rss][ZIM-Sicherheit]] :zim:
+*** [[https://www.heise.de/security/rss/news-atom.xml][heise security]] :heisec:
+*** [[https://www.heise.de/security/rss/alert-news-atom.xml][Security-Alert Meldungen]] :alert:
+*** [[https://www.uni-due.de/zim/rss/zim_sicherheit.rss][ZIM-Sicherheit]] :zims:
 
 ** Fun
 
-*** [[http://xkcd.com/rss.xml][xkcd]] :xkcd:
+*** [[https://xkcd.com/atom.xml][xkcd]] :xkcd:
