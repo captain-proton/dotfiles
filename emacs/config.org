@@ -35,8 +35,11 @@ Set the frame title to a format of "~<buffer name> in [<project name>]"~.
            (format " in [%s]" project-name))))))
 #+end_src
 
-#+RESULTS:
-|   | %b | (:eval (let ((project-name (projectile-project-name))) (unless (string= - project-name) (format  in [%s] project-name)))) |
+Show the current workspace/perspective name.
+
+#+begin_src emacs-lisp
+(setq doom-modeline-persp-name t)
+#+end_src
 
 * Cursor settings
 
@@ -69,6 +72,14 @@ insane named variable to prevent this behaviour.
 
 * Editor
 
+Save buffer to file after leaving insert mode.
+
+#+begin_src emacs-lisp
+(add-hook 'evil-insert-state-exit-hook
+          (lambda ()
+            (call-interactively #'save-buffer)))
+#+end_src
+
 ** Keybindings
 
 | Keybinding | Description             |
@@ -81,6 +92,7 @@ insane named variable to prevent this behaviour.
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
+      :i "C-v" #'evil-paste-before
       )
 #+end_src
 
@@ -416,6 +428,12 @@ Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ fi
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
+#+end_src
+
+#+begin_src emacs-lisp
+(map! :leader
+      :prefix ("o" . "open")
+      :desc "Elfeed" "e" #'elfeed)
 #+end_src
 
 * PlantUML

@@ -8,6 +8,8 @@
          (unless (string= "-" project-name)
            (format " in [%s]" project-name))))))
 
+(setq doom-modeline-persp-name t)
+
 (blink-cursor-mode 1)
 
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -20,9 +22,14 @@
         )
   )
 
+(add-hook 'evil-insert-state-exit-hook
+          (lambda ()
+            (call-interactively #'save-buffer)))
+
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
+      :i "C-v" #'evil-paste-before
       )
 
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
@@ -201,6 +208,10 @@
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
 (setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
+
+(map! :leader
+      :prefix ("o" . "open")
+      :desc "Elfeed" "e" #'elfeed)
 
 (after! plantuml
   (setq plantuml-indent-level 2)
