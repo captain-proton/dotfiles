@@ -23,6 +23,9 @@ return {
   -- Disable defaults as SUPER key is interfering with the window manager
   disable_default_key_bindings = true,
 
+  -- Adjusting the font size leads to issues when using tiling window managers
+  adjust_window_size_when_changing_font_size = false,
+
   -- timeout_milliseconds defaults to 1000 and can be omitted
   leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1000 },
 
