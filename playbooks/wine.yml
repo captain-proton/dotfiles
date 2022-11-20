@@ -1,8 +1,12 @@
 ---
 - hosts: all
+
+  vars:
+    wine_package: "{{ local_wine_package | default('wine') }}"
+
   tasks:
     - name: Install wine
       become: true
       community.general.pacman:
-        name: wine
+        name: "{{ wine_package }}"
         state: present
