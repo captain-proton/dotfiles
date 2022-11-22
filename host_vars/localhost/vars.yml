@@ -56,3 +56,14 @@ aliases:
 # private key files that should be added to
 # via ssh-add to the ssh-agent during login
 ssh_keys: "{{ local_ssh_keys }}"
+
+# The config must contain a list and each
+# item must have the attributes "name", "sync_path"
+# and "sync_remote". The name will be used for
+# a systemd user service that executes the daemon
+# sync_path contains the absolute path to the
+# directory that is synced. sync_remote points to the
+# remote that is used in the other side. A rclone command
+# similar to this setup looks like
+# rclone sync -v /home/foo/Documents gdrive:Documents
+rclone_sync_config: "{{ local_rclone_sync_config | default(dict()) }}"
