@@ -2,9 +2,49 @@
 - name: Install and configure rclone
   hosts: all
 
+  vars:
+    systemd_user_dir: "{{ home }}/.config/systemd/user"
+
   tasks:
-    - name: Ensure rclone in present
+    - name: Ensure rclone and needed utils are present
       become: true
       community.general.pacman:
-        name: rclone
+        name: "{{ item }}"
         state: present
+      loop:
+        - rclone
+        - inotify-tools
+
+    - name: Create sync daemon if configured
+      block:
+
+        - name: Copy daemon script to path
+          ansible.builtin.template:
+            src: ../templates/rclone_sync_daemon.sh.j2
+            dest: "{{ home }}/.local/bin/rclone_sync_{{ item.name }}.sh"
+            mode: 0750
+          loop: "{{ rclone_sync_config }}"
+          loop_control:
+            label: "{{ item.name }}"
+
+        - name: Ensure the systemd user unit is present
+          ansible.builtin.template:
+            src: ../templates/rclone_sync.service.j2
+            dest: "{{ systemd_user_dir }}/rclone_sync_{{ item.name }}.service"
+            mode: 0644
+          loop: "{{ rclone_sync_config }}"
+          loop_control:
+            label: "{{ item.name }}"
+
+        - name: Enable systemd job
+          ansible.builtin.systemd:
+            name: "rclone_sync_{{ item.name }}"
+            state: started
+            enabled: true
+            scope: user
+            daemon_reload: true
+          loop: "{{ rclone_sync_config }}"
+          loop_control:
+            label: "{{ item.name }}"
+
+      when: rclone_sync_config is defined
