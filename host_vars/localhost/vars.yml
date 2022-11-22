@@ -66,4 +66,4 @@ ssh_keys: "{{ local_ssh_keys }}"
 # remote that is used in the other side. A rclone command
 # similar to this setup looks like
 # rclone sync -v /home/foo/Documents gdrive:Documents
-rclone_sync_config: "{{ local_rclone_sync_config | default(dict()) }}"
+rclone_sync_config: "{{ local_rclone_sync_config | default([]) }}"
