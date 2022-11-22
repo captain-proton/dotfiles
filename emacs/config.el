@@ -261,7 +261,10 @@
 ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
 (set-face-attribute 'org-block nil :foreground nil :font proton/fixed-width-font :height 1.0 :weight 'light)
 
-(setq org-directory (file-truename "~/Org/notes"))
+(defvar proton/org-notes-dir (file-truename "~/Org/notes")
+  "Directory containing all my org notes files")
+(setq org-directory proton/org-notes-dir
+      org-agenda-files (list proton/org-notes-dir))
 
 (after! org
   (setq org-log-done 'time

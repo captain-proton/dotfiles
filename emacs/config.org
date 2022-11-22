@@ -512,13 +512,16 @@ Not much to do here, but the default indent level is =8= ... wtf.
 #+end_src
 
 
-** Org mode settings
+** Org Mode settings
 
 If you use `org' and don't want your org files in the default location below,
 change `org-directory'. It must be set before org loads!
 
 #+begin_src emacs-lisp
-(setq org-directory (file-truename "~/Org/notes"))
+(defvar proton/org-notes-dir (file-truename "~/Org/notes")
+  "Directory containing all my org notes files")
+(setq org-directory proton/org-notes-dir
+      org-agenda-files (list proton/org-notes-dir))
 #+end_src
 
 Anything else at the moment can be set after org was loaded.
