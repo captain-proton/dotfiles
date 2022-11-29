@@ -1,0 +1,10 @@
+---
+- name: Magic wormhole is required to savely sent files
+  hosts: all
+
+  tasks:
+    - name: Ensure magic wormhole is installed
+      become: true
+      community.general.pacman:
+        name: magic-wormhole
+        state: present
