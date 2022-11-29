@@ -195,9 +195,9 @@ function volSync() {
         echo "PulseAudio not running"
         return 1
     fi
-    
+
     getCurVol "$curNode"
-    
+
     if [[ "$NODE_TYPE" = "output" ]]; then
         getSinkInputs "$curNode"
 
@@ -387,7 +387,12 @@ function output() {
     if [ "$IS_MUTED" = "yes" ]; then
         # shellcheck disable=SC2034
         VOL_ICON=$ICON_MUTED
-        echo "${COLOR_MUTED}$(eval echo "$FORMAT")${END_COLOR}"
+        content="$(eval echo "$FORMAT")"
+        if [ -n "$COLOR_MUTED" ]; then
+            echo "${COLOR_MUTED}${content}${END_COLOR}"
+        else
+            echo "$content"
+        fi
     else
         eval echo "$FORMAT"
     fi
@@ -406,6 +411,7 @@ Options:
         Default: \"$AUTOSYNC\"
   --color-muted <rrggbb>
         Color in which to format when muted.
+        Pass empty string to disable.
         Default: \"${COLOR_MUTED:4:-1}\"
   --notifications | --no-notifications
         Whether to show notifications when changing nodes.
