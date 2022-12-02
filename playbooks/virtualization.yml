@@ -1,0 +1,49 @@
+---
+- hosts: all
+
+
+  tasks:
+    - name: Install minikube and its dependencies
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - qemu-desktop
+        - virt-manager
+        - libvirt
+        - iptables-nft
+        - dnsmasq
+        - dmidecode
+        - bridge-utils
+
+    - name: Ensure the current user is part of the libvirt group
+      become: true
+      ansible.builtin.user:
+        name: "{{ ansible_env.USER }}"
+        groups:
+          - libvirt
+        append: true
+
+    - name: Ensure the libvirtd service is started
+      become: true
+      ansible.builtin.systemd:
+        name: libvirtd
+        state: started
+        enabled: true
+
+    - name: Set the UNIX domain socket group ownership
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/libvirt/libvirtd.conf
+        regexp: '^unix_sock_group '
+        insertafter: '^#unix_sock_group '
+        line: 'unix_sock_group = "libvirt"'
+
+    - name: Set the UNIX socket permissions for the R/W socket.
+      become: true
+      ansible.builtin.lineinfile:
+        path: /etc/libvirt/libvirtd.conf
+        regexp: '^unix_sock_rw_perms '
+        insertafter: '^#unix_sock_rw_perms '
+        line: 'unix_sock_rw_perms = "0770"'
