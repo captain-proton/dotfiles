@@ -29,7 +29,8 @@
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
-      :i "C-v" #'evil-paste-before
+      :i "C-V" #'evil-paste-before
+      :i "C-v" #'evil-paste-after
       )
 
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
@@ -379,8 +380,13 @@
  [remap xref-find-definitions] #'lsp-ui-peek-find-definitions
  [remap xref-find-references] #'lsp-ui-peek-find-references
  )
+
+(defun proton/toggle-comment ()
+  (interactive)
+  (evilnc-comment-or-uncomment-lines 1)
+  (evil-next-line 1))
 (map!
- :desc "toggle line comment" :ne "C-/" #'evilnc-comment-or-uncomment-lines
+ :desc "toggle line comment" :ne "C-/" #'proton/toggle-comment
  )
 
 (add-hook! python-mode #'display-fill-column-indicator-mode)
