@@ -22,6 +22,8 @@
         )
   )
 
+(setq browse-url-browser-function 'eww-browse-url)
+
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
             (call-interactively #'save-buffer)))
@@ -74,66 +76,66 @@
 (map! :leader
       :desc "Quit project" "p q" #'proton/close-project)
 
- (use-package! centaur-tabs
-   :init
-   (centaur-tabs-group-by-projectile-project)
-   :config
-   (centaur-tabs-headline-match)
-   (centaur-tabs-mode t)
-   (setq uniquify-separator "/")
-   (setq uniquify-buffer-name-style 'forward)
-   (defun centaur-tabs-buffer-groups ()
-     "`centaur-tabs-buffer-groups' control buffers' group rules.
+(use-package! centaur-tabs
+  :init
+  (centaur-tabs-group-by-projectile-project)
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode t)
+  (setq uniquify-separator "/")
+  (setq uniquify-buffer-name-style 'forward)
+  (defun centaur-tabs-buffer-groups ()
+    "`centaur-tabs-buffer-groups' control buffers' group rules.
 
- Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
- All buffer name start with * will group to \"Emacs\".
- Other buffer group by `centaur-tabs-get-group-name' with project name."
-     (list
-      (cond
-       ;; ((not (eq (file-remote-p (buffer-file-name)) nil))
-       ;; "Remote")
-       ((or (string-equal "*" (substring (buffer-name) 0 1))
-            (memq major-mode '(magit-process-mode
-                               magit-status-mode
-                               magit-diff-mode
-                               magit-log-mode
-                               magit-file-mode
-                               magit-blob-mode
-                               magit-blame-mode
-                               )))
-        "Emacs")
-       ((derived-mode-p 'prog-mode)
-        "Editing")
-       ((derived-mode-p 'dired-mode)
-        "Dired")
-       ((memq major-mode '(helpful-mode
-                           help-mode))
-        "Help")
-       ((memq major-mode '(org-mode
-                           org-agenda-clockreport-mode
-                           org-src-mode
-                           org-agenda-mode
-                           org-present-mode
-                           org-indent-mode
-                           org-bullets-mode))
-        "OrgMode")
-       (t (centaur-tabs-get-group-name (current-buffer))))))
-   :hook
-   (dashboard-mode . centaur-tabs-local-mode)
-   (term-mode . centaur-tabs-local-mode)
-   (calendar-mode . centaur-tabs-local-mode)
-   (org-agenda-mode . centaur-tabs-local-mode)
-   (helpful-mode . centaur-tabs-local-mode)
-   :bind
-   ("C-<prior>" . centaur-tabs-backward)
-   ("C-<next>" . centaur-tabs-forward)
-   ("C-c t s" . centaur-tabs-counsel-switch-group)
-   ("C-c t p" . centaur-tabs-group-by-projectile-project)
-   ("C-c t g" . centaur-tabs-group-buffer-groups)
-   (:map evil-normal-state-map
-    ("g t" . centaur-tabs-forward)
-    ("g T" . centaur-tabs-backward))
-   )
+Group centaur-tabs with mode if buffer is derived from `eshell-mode' `emacs-lisp-mode' `dired-mode' `org-mode' `magit-mode'.
+All buffer name start with * will group to \"Emacs\".
+Other buffer group by `centaur-tabs-get-group-name' with project name."
+    (list
+     (cond
+      ;; ((not (eq (file-remote-p (buffer-file-name)) nil))
+      ;; "Remote")
+      ((or (string-equal "*" (substring (buffer-name) 0 1))
+           (memq major-mode '(magit-process-mode
+                              magit-status-mode
+                              magit-diff-mode
+                              magit-log-mode
+                              magit-file-mode
+                              magit-blob-mode
+                              magit-blame-mode
+                              )))
+       "Emacs")
+      ((derived-mode-p 'prog-mode)
+       "Editing")
+      ((derived-mode-p 'dired-mode)
+       "Dired")
+      ((memq major-mode '(helpful-mode
+                          help-mode))
+       "Help")
+      ((memq major-mode '(org-mode
+                          org-agenda-clockreport-mode
+                          org-src-mode
+                          org-agenda-mode
+                          org-present-mode
+                          org-indent-mode
+                          org-bullets-mode))
+       "OrgMode")
+      (t (centaur-tabs-get-group-name (current-buffer))))))
+  :hook
+  (dashboard-mode . centaur-tabs-local-mode)
+  (term-mode . centaur-tabs-local-mode)
+  (calendar-mode . centaur-tabs-local-mode)
+  (org-agenda-mode . centaur-tabs-local-mode)
+  (helpful-mode . centaur-tabs-local-mode)
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward)
+  ("C-c t s" . centaur-tabs-counsel-switch-group)
+  ("C-c t p" . centaur-tabs-group-by-projectile-project)
+  ("C-c t g" . centaur-tabs-group-buffer-groups)
+  (:map evil-normal-state-map
+   ("g t" . centaur-tabs-forward)
+   ("g T" . centaur-tabs-backward))
+  )
 
 (setq user-full-name "Nils Verheyen"
       user-mail-address "nils@ungerichtet.de")
@@ -182,7 +184,7 @@
   :add-hooks '(ansible ansible-auto-decrypt-encrypt ansible-doc-mode)
   :files (or "playbooks/" "roles/" "tasks/" "handlers/"))
 
-(setq local-settings-file (format "%s/.doom.d/local.el" (getenv "HOME")))
+(setq local-settings-file (format "%s/local.el" (getenv "DOOMDIR")))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
 
@@ -286,6 +288,8 @@
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t)
   )
 
 (setq visual-fill-column-width 110

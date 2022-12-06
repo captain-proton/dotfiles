@@ -1,6 +1,4 @@
 #+TITLE:  DOOM EMACS CONFIGURATION
-#+PROPERTY: header-args :tangle config.el
-#+auto-tangle: t
 #+DATE:    June 28, 2022
 
 * Environment
@@ -68,6 +66,12 @@ insane named variable to prevent this behaviour.
         neo-window-fixed-size nil
         )
   )
+#+end_src
+
+* Web Browser
+
+#+begin_src emacs-lisp
+(setq browse-url-browser-function 'eww-browse-url)
 #+end_src
 
 * Editor
@@ -176,7 +180,7 @@ I tend to use multiple frames when working on projects. So it makes sense to clo
 
 Group buffers in some modes and set to group by project by default.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
  (use-package! centaur-tabs
    :init
    (centaur-tabs-group-by-projectile-project)
@@ -384,11 +388,11 @@ the dotfiles ansible configuration.
 * Custom machine settings
 
 All settings that are unique to the machine should be kept inside the
-~$HOME/.doom.d/local.el~ file. Look at the emacs.yml playbook. There should
+~$DOOMDIR/local.el~ file. Look at the emacs.yml playbook. There should
 be a task that links the ~dotfiles/emacs/local.el~ if one was found.
 
 #+begin_src emacs-lisp
-(setq local-settings-file (format "%s/.doom.d/local.el" (getenv "HOME")))
+(setq local-settings-file (format "%s/local.el" (getenv "DOOMDIR")))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
 #+end_src
@@ -551,6 +555,8 @@ Automatically tangle org files on save. This is done by adding the option ~#+aut
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
+  :config
+  (setq org-auto-tangle-default t)
   )
 #+end_src
 

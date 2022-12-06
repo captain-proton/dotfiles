@@ -1,15 +1,14 @@
 ---
-- hosts: all
+- name: Install and configure doom emacs
+  hosts: all
   gather_facts: false
 
   vars:
-    home: "{{ lookup('env', 'HOME') }}"
     emacsd: "{{ home }}/.emacs.d"
-    doomd: "{{ home }}/.doom.d"
     envvars: "{{ emacsd }}/.local/env"
 
   handlers:
-    - name: install doom emacs
+    - name: Install doom emacs
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom install"
 
@@ -44,61 +43,22 @@
       # that native compiling packages hangs cause
       # of missing user input
       # https://github.com/doomemacs/doomemacs/issues/5592
-      # notify: install doom emacs
+      # notify: Install doom emacs
 
     - name: Export emacs.d/bin to path
       ansible.builtin.lineinfile:
         path: "{{ path_file_path }}"
         line: "export PATH={{ emacsd }}/bin:$PATH"
 
-    - name: Ensure ~/.doom.d exists
-      ansible.builtin.file:
-        path: "{{ doomd }}"
-        state: directory
-        mode: 0755
-
-    - name: Link doom configuration files
-      ansible.builtin.file:
-        path: "{{ item.dest }}/{{ item.linkname }}"
-        src: "{{ item.src }}"
-        state: link
-      loop:
-        - src: "{{ home }}/dotfiles/emacs/init.el"
-          dest: "{{ doomd }}"
-          linkname: "init.el"
-        - src: "{{ home }}/dotfiles/emacs/packages.el"
-          dest: "{{ doomd }}"
-          linkname: "packages.el"
-        - src: "{{ home }}/dotfiles/emacs/config.el"
-          dest: "{{ doomd }}"
-          linkname: "config.el"
-        - src: "{{ home }}/dotfiles/emacs/elfeed.org"
-          dest: "{{ home }}/Org"
-          linkname: "elfeed.org"
-
-    - name: Ensure splash image dir is present
-      ansible.builtin.file:
-        path: "{{ doomd }}/splash"
-        state: directory
-        mode: 0755
-
-    - name: Copy splash image
-      ansible.builtin.copy:
-        dest: "{{ doomd }}/splash"
-        src: "{{ home }}/dotfiles/emacs/doom-emacs-splash.svg"
-        mode: 0644
+    - name: Set DOOMDIR environment variable
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.zprofile"
+        line: 'export DOOMDIR="{{ home }}/dotfiles/emacs"'
 
     - name: Check for emacs custom configuration
       ansible.builtin.stat:
         path: "{{ home }}/dotfiles/emacs/local.el"
       register: emacs_local
-
-    - name: Link custom emacs configuration
-      ansible.builtin.file:
-        path: "{{ doomd }}/local.el"
-        src: "{{ emacs_local.stat.path }}"
-        state: link
-      when: emacs_local.stat.isreg is defined and emacs_local.stat.isreg
 
     - name: Ensure ansible is set correctly in the .dir-locals.el
       ansible.builtin.blockinfile:
