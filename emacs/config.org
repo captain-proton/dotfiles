@@ -68,12 +68,6 @@ insane named variable to prevent this behaviour.
   )
 #+end_src
 
-* Web Browser
-
-#+begin_src emacs-lisp
-(setq browse-url-browser-function 'eww-browse-url)
-#+end_src
-
 * Editor
 
 Save buffer to file after leaving insert mode.
@@ -413,9 +407,9 @@ Configure structure templates for org mode ~begin_src~ blocks.
 Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ file along this config. All settings are made according to the rss doom module.
 
 #+begin_src emacs-lisp
-(elfeed-org)
 
 (after! elfeed
+  (elfeed-org)
   (setq elfeed-search-filter "@2-weeks-ago +unread"
         elfeed-search-title-min-width 80
         visual-fill-column-mode 1)

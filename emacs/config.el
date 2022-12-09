@@ -22,8 +22,6 @@
         )
   )
 
-(setq browse-url-browser-function 'eww-browse-url)
-
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
             (call-interactively #'save-buffer)))
@@ -193,9 +191,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-to-list 'org-structure-template-alist '("sh" . "src sh"))
 (add-to-list 'org-structure-template-alist '("py" . "src python"))
 
-(elfeed-org)
-
 (after! elfeed
+  (elfeed-org)
   (setq elfeed-search-filter "@2-weeks-ago +unread"
         elfeed-search-title-min-width 80
         visual-fill-column-mode 1)
