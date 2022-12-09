@@ -1,9 +1,9 @@
 ---
-- hosts: all
-
+- name: Install and configure virtualization support
+  hosts: all
 
   tasks:
-    - name: Install minikube and its dependencies
+    - name: Install qemu/kvm, libvirt and its dependencies
       become: true
       community.general.pacman:
         name: "{{ item }}"
@@ -47,3 +47,20 @@
         regexp: '^unix_sock_rw_perms '
         insertafter: '^#unix_sock_rw_perms '
         line: 'unix_sock_rw_perms = "0770"'
+
+    - name: Configure libvirt default uri
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.xprofile"
+        line: "export LIBVIRT_DEFAULT_URI='qemu:///system'"
+
+    - name: Configure systemd to load the dummy kernel module
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/modules-load.d/dummy.conf
+        mode: 0644
+        create: true
+        owner: root
+        group: root
+        content: |
+          # Load dummy module at boot
+          dummy
