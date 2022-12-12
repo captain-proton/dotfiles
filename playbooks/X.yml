@@ -1,6 +1,13 @@
 - name: Configure the X11 environment
   hosts: all
 
+  vars:
+    cursor_name: "{{ local_cursor_name | default('Nordzy-cursors') }}"
+    cursor_size: "{{ local_cursor_size | default(16) }}"
+    cursor_filename: "{{ local_cursor_filename | default('Nordzy-cursors.tar.gz') }}"
+    cursor_download_url: "{{ local_cursor_download_url | default('https://github.com/alvatip/Nordzy-cursors/releases/download/v0.6.0/Nordzy-cursors.tar.gz') }}"
+    cursor_checksum: "{{ local_cursor_checksum | default('ca0e488f746c0ed997e1d034a9ecbf8462ebd0c2257b7ef0882f0b4f1565a86d') }}"
+
   tasks:
     - name: Set caps lock to control
       ansible.builtin.blockinfile:
@@ -25,3 +32,30 @@
           if [ -f "$usermodmap" ]; then
               xmodmap "$usermodmap"
           fi
+
+    - name: Download cursors
+      ansible.builtin.get_url:
+        url: "{{ cursor_download_url }}"
+        dest: "/tmp/{{ cursor_filename }}"
+        mode: 0644
+        checksum: "sha256:{{ cursor_checksum }}"
+
+    - name: Ensure that the icons dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.icons"
+        mode: 0755
+        state: directory
+
+    - name: Unarchive cursors
+      ansible.builtin.unarchive:
+        src: "/tmp/{{ cursor_filename }}"
+        dest: "{{ home }}/.icons"
+
+    - name: Configure cursor using ~/.Xresources
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.Xresources"
+        create: true
+        mode: 0644
+        content: |
+          Xcursor.theme: {{ cursor_name }}
+          Xcursor.size: {{ cursor_size }}
