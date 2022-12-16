@@ -57,16 +57,6 @@
         enabled: true
         scope: user
 
-    - name: Set default ssh_keys
-      ansible.builtin.set_fact:
-        local_ssh_keys: []
-      when: local_ssh_keys is not defined
-
-    - name: Join all configured ssh keys
-      ansible.builtin.set_fact:
-        ssh_keys_arg: "{{ ssh_keys | join(' ') }}"
-      when: (ssh_keys | length) > 0
-
     - name: Add contents to ssh-add.desktop file
       ansible.builtin.blockinfile:
         path: "{{ ssh_add_desktop_path }}"

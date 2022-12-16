@@ -52,11 +52,6 @@ aliases:
   - name: l
     value: ls -CF
 
-# The ssh_keys is a list of all paths to
-# private key files that should be added to
-# via ssh-add to the ssh-agent during login
-ssh_keys: "{{ local_ssh_keys }}"
-
 # The config must contain a list and each
 # item must have the attributes "name", "sync_path"
 # and "sync_remote". The name will be used for
