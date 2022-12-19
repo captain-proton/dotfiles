@@ -75,7 +75,8 @@ Save buffer to file after leaving insert mode.
 #+begin_src emacs-lisp
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
-            (call-interactively #'save-buffer)))
+            (when (buffer-file-name)
+              (call-interactively #'save-buffer))))
 #+end_src
 
 ** Keybindings

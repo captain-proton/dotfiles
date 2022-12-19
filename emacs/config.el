@@ -24,7 +24,8 @@
 
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
-            (call-interactively #'save-buffer)))
+            (when (buffer-file-name)
+              (call-interactively #'save-buffer))))
 
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
