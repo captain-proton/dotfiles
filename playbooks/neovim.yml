@@ -1,0 +1,26 @@
+---
+- name: "[NEOVIM]"
+  hosts: all
+
+  tasks:
+    - name: Install neovim and required packages
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop: ["neovim", "xclip"]
+
+    - name: Ensure neovim config directory exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/nvim"
+        state: directory
+        mode: 0755
+
+    - name: Link configuration files
+      ansible.builtin.file:
+        state: link
+        src: "{{ item.src }}"
+        path: "{{ item.path }}"
+      loop:
+        - src: "{{ home }}/dotfiles/neovim/init.lua"
+          path: "{{ home }}/.config/nvim/init.lua"
