@@ -70,8 +70,8 @@
         filename: Meslo LG S Italic Nerd Font Complete.ttf
       - path: Meslo/S/Regular/complete/Meslo%20LG%20S%20Regular%20Nerd%20Font%20Complete.ttf
         filename: Meslo LG S Regular Nerd Font Complete.ttf
-      - path: OpenDyslexic/Regular/complete/OpenDyslexic%20Regular%20Nerd%20Font%20Complete.otf
-        filename: OpenDyslexic Regular Nerd Font Complete.otf
+      - path: CascadiaCode/Regular/complete/Caskaydia%20Cove%20Nerd%20Font%20Complete%20Regular.otf
+        filename: Caskaydia Cove Nerd Font Complete Regular.otf
 
     # Change only in case the url changed
     fonts:
