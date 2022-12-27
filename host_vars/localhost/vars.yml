@@ -62,3 +62,6 @@ aliases:
 # similar to this setup looks like
 # rclone sync -v /home/foo/Documents gdrive:Documents
 rclone_sync_config: "{{ local_rclone_sync_config | default([]) }}"
+
+# Installation directory of miniconda
+miniconda_home: "{{ local_miniconda_home }}"
