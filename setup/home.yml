@@ -31,6 +31,7 @@
 - import_playbook: ../playbooks/firewall.yml
 - import_playbook: ../playbooks/magic-wormhole.yml
 - import_playbook: ../playbooks/miniconda.yml
+- import_playbook: ../playbooks/redshift.yml
 
 - import_playbook: ../playbooks/brave-browser.yml
 - import_playbook: ../playbooks/keepassxc.yml

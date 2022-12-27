@@ -1,0 +1,45 @@
+---
+- name: "[ REDSHIFT ]"
+  hosts: all
+
+  vars:
+    lat: "{{ redshift_lat | default(52.5) }}"
+    lon: "{{ redshift_lon | default(13.3) }}"
+
+  tasks:
+    - name: Ensure redshift is installed
+      become: true
+      ansible.builtin.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - redshift
+        - xorg-xbacklight
+
+    - name: Ensure the redshift dirs are present
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: 0750
+      loop:
+        - "{{ home }}/.config/redshift"
+        - "{{ home }}/.config/redshift/hooks"
+
+    - name: Configure redshift
+      ansible.builtin.template:
+        src: ../redshift/redshift.conf.j2
+        dest: "{{ home }}/.config/redshift/redshift.conf"
+        mode: 0640
+
+    - name: Enable and start redshift systemd user unit
+      ansible.builtin.systemd:
+        name: redshift-gtk
+        state: started
+        enabled: true
+        scope: user
+
+    - name: Put brightness script to the redshift hooks
+      ansible.builtin.template:
+        src: ../redshift/brightness.sh
+        dest: "{{ home }}/.config/redshift/hooks/brightness.sh"
+        mode: 0750

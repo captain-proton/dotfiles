@@ -65,3 +65,9 @@ rclone_sync_config: "{{ local_rclone_sync_config | default([]) }}"
 
 # Installation directory of miniconda
 miniconda_home: "{{ local_miniconda_home }}"
+
+# Latitude and longitude of your current location
+# It is sufficient to set only one decimal place.
+# Berlin for example has 52.5 (lat), 13.3 (lon)
+redshift_lat: "{{ local_redshift_lat }}"
+redshift_lon: "{{ local_redshift_lon }}"
