@@ -6,6 +6,13 @@
     lat: "{{ redshift_lat | default(52.5) }}"
     lon: "{{ redshift_lon | default(13.3) }}"
 
+  handlers:
+    - name: Restart redshift-gtk service
+      ansible.builtin.systemd:
+        name: redshift-gtk
+        state: restarted
+        scope: user
+
   tasks:
     - name: Ensure redshift is installed
       become: true
@@ -30,6 +37,8 @@
         src: ../redshift/redshift.conf.j2
         dest: "{{ home }}/.config/redshift/redshift.conf"
         mode: 0640
+      notify:
+        - Restart redshift-gtk service
 
     - name: Enable and start redshift systemd user unit
       ansible.builtin.systemd:
@@ -43,3 +52,5 @@
         src: ../redshift/brightness.sh
         dest: "{{ home }}/.config/redshift/hooks/brightness.sh"
         mode: 0750
+      notify:
+        - Restart redshift-gtk service
