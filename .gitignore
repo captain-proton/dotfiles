@@ -1,4 +1,5 @@
-# Edit at https://www.toptal.com/developers/gitignore?templates=vim,virtualenv,visualstudiocode,python,emacs,ansible,direnv
+# Created by https://www.toptal.com/developers/gitignore/api/vim,emacs,direnv,python,ansible,virtualenv,visualstudiocode,lua
+# Edit at https://www.toptal.com/developers/gitignore?templates=vim,emacs,direnv,python,ansible,virtualenv,visualstudiocode,lua
 
 ### Ansible ###
 *.retry
@@ -58,6 +59,49 @@ flycheck_*.el
 /network-security.data
 
 
+### Lua ###
+# Compiled Lua sources
+luac.out
+
+# luarocks build files
+*.src.rock
+*.zip
+*.tar.gz
+
+# Object files
+*.o
+*.os
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.def
+*.exp
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -65,7 +109,6 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
 
 # Distribution / packaging
 .Python
@@ -219,6 +262,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+### Python Patch ###
+# Poetry local configuration file - https://python-poetry.org/docs/configuration/#local-configuration
+poetry.toml
+
+
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
@@ -270,13 +318,7 @@ pip-selfcheck.json
 .history
 .ionide
 
-# Support for Project snippet scope
-.vscode/*.code-snippets
-
-# Ignore code-workspaces
-*.code-workspace
-
-# End of https://www.toptal.com/developers/gitignore/api/vim,virtualenv,visualstudiocode,python,emacs,ansible,direnv
+# End of https://www.toptal.com/developers/gitignore/api/vim,emacs,direnv,python,ansible,virtualenv,visualstudiocode,lua
 
 # used for ansible
 vault*
