@@ -1,6 +1,9 @@
 ---
-- name: "[NEOVIM]"
+- name: "[ NEOVIM ]"
   hosts: all
+
+  vars:
+    aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
 
   tasks:
     - name: Install neovim and required packages
@@ -24,3 +27,8 @@
       loop:
         - src: "{{ home }}/dotfiles/neovim/init.lua"
           path: "{{ home }}/.config/nvim/init.lua"
+
+    - name: Set the alias for vim to nvim
+      ansible.builtin.lineinfile:
+        path: "{{ aliases_path }}"
+        line: "alias vim='nvim'"
