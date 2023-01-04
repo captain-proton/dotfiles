@@ -32,6 +32,7 @@
 - import_playbook: ../playbooks/autorandr.yml
 - import_playbook: ../playbooks/firewall.yml
 - import_playbook: ../playbooks/magic-wormhole.yml
+- import_playbook: ../playbooks/goss.yml
 
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
