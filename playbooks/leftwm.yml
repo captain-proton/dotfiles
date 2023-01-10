@@ -1,27 +1,12 @@
 ---
-- hosts: all
+- name: "[ LeftWM ]"
+  hosts: all
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     config_dir: "{{ home }}/.config/leftwm"
     config_path: "{{ config_dir }}/config.ron"
-    leftwm_theme_src: "{{ local_leftwm_theme_src | default('/usr/local/src/leftwm-theme') }}"
-
-  handlers:
-    - name: build leftwm-theme
-      ansible.builtin.command:
-        chdir: "{{ leftwm_theme_src }}"
-        cmd: cargo build --release
-
-    - name: install leftwm-theme
-      become: true
-      ansible.builtin.command:
-        chdir: "{{ leftwm_theme_src }}"
-        cmd: install -s -Dm755 ./target/release/leftwm-theme -t /usr/local/bin
-
-    - name: update leftwm themes
-      ansible.builtin.command:
-        cmd: leftwm-theme update
+    global_up_path: "{{ config_dir }}/up"
 
   tasks:
 
@@ -78,23 +63,11 @@
         dest: "{{ config_path }}"
         state: link
 
-    - name: Ensure leftwm-theme dir is present
-      become: true
+    - name: Link global leftwm up script
       ansible.builtin.file:
-        path: "{{ leftwm_theme_src }}"
-        state: directory
-        mode: 0755
-        owner: "{{ lookup('env', 'USER') }}"
-
-    - name: Get leftwm-theme
-      ansible.builtin.git:
-        repo: https://github.com/leftwm/leftwm-theme
-        dest: "{{ leftwm_theme_src }}"
-        version: master
-      notify:
-        - build leftwm-theme
-        - install leftwm-theme
-        - update leftwm themes
+        src: "{{ home }}/dotfiles/leftwm/up"
+        dest: "{{ global_up_path }}"
+        state: link
 
     - name: Pretend that LeftWM is KDE to get proper theme
       ansible.builtin.blockinfile:
