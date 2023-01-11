@@ -33,8 +33,6 @@ if [ -x "$(command -v dunst)" ]; then
   dunst -config "$HOME"/.config/leftwm/themes/current/conf/dunst.config &
 fi
 
-nm-applet &
-
 # [ WALLPAPER ]
 if [ -x "$(command -v feh)" ]; then
   feh --bg-fill --randomize $HOME/.local/share/wallpapers
@@ -48,7 +46,6 @@ numlockx on &
 
 # [ STATUSBAR ]
 pkill polybar
-pkill lemonbar &
 
 index=0
 monitors=($(polybar -m | sed s/:.*//))
@@ -58,3 +55,6 @@ do
   monitor=${monitors[index]} width=$(( width - 16 )) polybar -c "$SCRIPTPATH"/polybar.config $barname &> /dev/null &
   let index=index+1
 done
+
+# [ ADJUST DISPLAY COLOR ]
+systemctl --user start redshift-gtk.service

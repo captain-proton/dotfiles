@@ -51,7 +51,7 @@
       ansible.builtin.systemd:
         name: redshift-gtk
         daemon_reload: true
-        state: started
+        state: stopped
         enabled: true
         scope: user
 
