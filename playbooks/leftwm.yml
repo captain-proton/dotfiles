@@ -25,7 +25,6 @@
         - dunst
         - pcmanfm
         - network-manager-applet
-        - blueberry
         - volumeicon
         - pulsemixer
         - pulseaudio-ctl

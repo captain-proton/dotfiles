@@ -114,7 +114,7 @@ animation-charging-framerate = 750
 type = custom/script
 exec = ~/.config/leftwm/themes/current/utils/bluetooth.sh
 interval = 2
-click-left = blueberry
+click-left = blueman-manager
 click-right = ~/.config/leftwm/themes/current/utils/bluetooth_toggle.sh
 format-padding = 1
 
