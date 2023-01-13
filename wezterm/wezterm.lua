@@ -9,9 +9,9 @@ end)
 
 return {
   color_scheme = 'Nord (base16)',
-  font = wezterm.font('UbuntuMono Nerd Font'),
-  font_size = 13,
-  line_height = 1.4,
+  font = wezterm.font('JetBrainsMono Nerd Font'),
+  font_size = 11,
+  line_height = 1.3,
   use_dead_keys = false,
   -- How many lines of scrollback you want to retain per tab
   scrollback_lines = 5000,
