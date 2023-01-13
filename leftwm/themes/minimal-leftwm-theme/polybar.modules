@@ -76,13 +76,13 @@ battery = BAT0
 adapter = AC0
 full-at = 90
 
-format-charging = <animation-charging> <label-charging>
+format-charging = %{+o} <animation-charging> <label-charging> %{-o}
 label-charging = " %percentage%%"
 format-charging-foreground = ${color.foreground}
 format-charging-background = ${color.background}
 ;format-charging-underline = #a3c725
 
-format-discharging = <ramp-capacity> <label-discharging>
+format-discharging = %{+o} <ramp-capacity> <label-discharging> %{-o}
 label-discharging = " %percentage%%"
 ;format-discharging-underline = #c7ae25
 format-discharging-foreground = ${color.foreground}
@@ -127,7 +127,7 @@ interval = 2
 ;format-foreground = ${color.modulefg}
 ;format-background = ${color.shade6}
 ;format-underline = #f90000
-label = CPU %percentage:2%%
+label = %{+o} CPU %percentage:2%% %{-o}
 
 
 [module/cpu-graph]
@@ -227,7 +227,7 @@ click-left = rofi -show drun -theme ~/.config/rofi/launcher/launcher.rasi
 [module/mem]
 type = internal/memory
 interval = 2
-label = MEM %percentage_used%%
+label = %{+o} MEM %percentage_used%% %{-o}
 
 
 [module/mem-graph]
@@ -347,7 +347,7 @@ click-left = cd ~/.config/rofi/powermenu && ./powermenu.sh
 
 [module/pulseaudio]
 type = internal/pulseaudio
-format-volume = <ramp-volume> <label-volume>
+format-volume = %{+o} <ramp-volume> <label-volume> %{-o}
 label-volume = %percentage%%
 ramp-volume-0 = 奄
 ramp-volume-1 = 奔
@@ -360,6 +360,7 @@ click-right = pavucontrol
 [module/pulseaudio-control]
 type = custom/script
 tail = true
+format = %{+o} <label> %{-o}
 format-underline = ${colors.cyan}
 label-padding = 0
 label-foreground = ${color.foreground}
@@ -390,7 +391,7 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 
-format = <label>
+format = %{+o} <label> %{-o}
 ; format-underline = #f50a4d
 format-warn = <label-warn>
 ; format-warn-underline = ${self.format-underline}
