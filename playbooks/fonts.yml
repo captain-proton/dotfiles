@@ -45,33 +45,16 @@
         filename: JetBrains Mono Thin Nerd Font Complete.ttf
       - path: JetBrainsMono/Ligatures/ThinItalic/complete/JetBrains%20Mono%20Thin%20Italic%20Nerd%20Font%20Complete.ttf
         filename: JetBrains Mono Thin Italic Nerd Font Complete.ttf
-      # Meslo LG with large, medium and small line gap
-      - path: Meslo/L/Bold-Italic/complete/Meslo%20LG%20L%20Bold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG L Bold Italic Nerd Font Complete.ttf
-      - path: Meslo/L/Bold/complete/Meslo%20LG%20L%20Bold%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG L Bold Nerd Font Complete.ttf
-      - path: Meslo/L/Italic/complete/Meslo%20LG%20L%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG L Italic Nerd Font Complete.ttf
-      - path: Meslo/L/Regular/complete/Meslo%20LG%20L%20Regular%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG L Regular Nerd Font Complete.ttf
-      - path: Meslo/M/Bold-Italic/complete/Meslo%20LG%20M%20Bold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG M Bold Italic Nerd Font Complete.ttf
-      - path: Meslo/M/Bold/complete/Meslo%20LG%20M%20Bold%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG M Bold Nerd Font Complete.ttf
-      - path: Meslo/M/Italic/complete/Meslo%20LG%20M%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG M Italic Nerd Font Complete.ttf
-      - path: Meslo/M/Regular/complete/Meslo%20LG%20M%20Regular%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG M Regular Nerd Font Complete.ttf
-      - path: Meslo/S/Bold-Italic/complete/Meslo%20LG%20S%20Bold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG S Bold Italic Nerd Font Complete.ttf
-      - path: Meslo/S/Bold/complete/Meslo%20LG%20S%20Bold%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG S Bold Nerd Font Complete.ttf
-      - path: Meslo/S/Italic/complete/Meslo%20LG%20S%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG S Italic Nerd Font Complete.ttf
-      - path: Meslo/S/Regular/complete/Meslo%20LG%20S%20Regular%20Nerd%20Font%20Complete.ttf
-        filename: Meslo LG S Regular Nerd Font Complete.ttf
+      # dont be confused by the name
       - path: CascadiaCode/Regular/complete/Caskaydia%20Cove%20Nerd%20Font%20Complete%20Regular.otf
         filename: Caskaydia Cove Nerd Font Complete Regular.otf
+      # Ubuntu Mono (used for terminal)
+      - path: UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete.ttf
+        filename: Ubuntu Mono Nerd Font Complete.ttf
+      - path: UbuntuMono/Bold/complete/Ubuntu%20Mono%20Bold%20Nerd%20Font%20Complete.ttf
+        filename: Ubuntu Mono Bold Nerd Font Complete.ttf
+      - path: UbuntuMono/Regular-Italic/complete/Ubuntu%20Mono%20Italic%20Nerd%20Font%20Complete.ttf
+        filename: Ubuntu Mono Italic Nerd Font Complete.ttf
 
     # Change only in case the url changed
     fonts:

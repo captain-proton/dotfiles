@@ -25,7 +25,7 @@
     "redhat.telemetry.enabled": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "tabnine.experimentalAutoImports": true,
-    "terminal.integrated.fontFamily": "MesloLGL Nerd Font",
+    "terminal.integrated.fontFamily": "UbuntuMono Nerd Font",
     "terminal.integrated.fontWeight": "300",
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",

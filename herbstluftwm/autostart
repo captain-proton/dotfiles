@@ -27,7 +27,7 @@ hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn $Term
 
 # Dmenu launcher
-hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'MesloLGS NF:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'
+hc keybind $Mod-Shift-Return spawn dmenu_run -fn 'UbuntuMono Nerd Font:size=10' -nb '#292d3e' -nf '#bbc5ff' -sb '#82AAFF' -sf '#292d3e' -p 'dmenu:'
 
 # basic movement in tiling and floating mode
 # focusing clients
