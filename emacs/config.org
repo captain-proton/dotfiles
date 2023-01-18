@@ -461,16 +461,30 @@ Not much to do here, but the default indent level is =8= ... wtf.
 (add-hook 'nov-mode-hook 'proton/nov-font-setup)
 #+end_src
 
-* ORG
-
-** Keybindings
+* XML
 
 #+begin_src emacs-lisp
+(require 'hideshow)
+(require 'sgml-mode)
+(require 'nxml-mode)
+
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
+;; optional key bindings, easier than hs defaults
 (map! :leader
-      :desc "Activate lsp-org" "m L" #'lsp-org
-      :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)
+      (:prefix ("t" . "toggle")
+       :desc "Toggle hiding of block"
+       "h" #'hs-toggle-hiding))
 #+end_src
 
+* ORG
 
 ** Org Mode Appearance
 

@@ -227,9 +227,24 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                            :height 1.2))
 (add-hook 'nov-mode-hook 'proton/nov-font-setup)
 
+(require 'hideshow)
+(require 'sgml-mode)
+(require 'nxml-mode)
+
+(add-to-list 'hs-special-modes-alist
+             '(nxml-mode
+               "<!--\\|<[^/>]*[^/]>"
+               "-->\\|</[^/>]*[^/]>"
+
+               "<!--"
+               sgml-skip-tag-forward
+               nil))
+
+;; optional key bindings, easier than hs defaults
 (map! :leader
-      :desc "Activate lsp-org" "m L" #'lsp-org
-      :desc "deactivate lsp-org" "m D" #'lsp-virtual-buffer-disconnect)
+      (:prefix ("t" . "toggle")
+       :desc "Toggle hiding of block"
+       "h" #'hs-toggle-hiding))
 
 (defun proton/org-colors-nord ()
   "Enable Nord colors for Org headers."
