@@ -143,6 +143,14 @@ Disable fringe-mode on writeroom and activate it again when leaving. This is esp
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 
+** Line spacing
+
+Increase space between lines.
+
+#+begin_src emacs-lisp
+(setq-default line-spacing 4)
+#+end_src
+
 * Multiple cursors
 
 #+begin_src emacs-lisp
@@ -348,14 +356,6 @@ they are implemented.
 
 #+begin_src emacs-lisp
 (setq fancy-splash-image (expand-file-name "splash/doom-emacs-splash.svg" doom-private-dir))
-#+end_src
-
-* Line spacing
-
-Increase space between lines.
-
-#+begin_src emacs-lisp
-(setq-default line-spacing 4)
 #+end_src
 
 * Ansible

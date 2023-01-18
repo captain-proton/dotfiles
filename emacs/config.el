@@ -57,6 +57,8 @@
 (global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
+(setq-default line-spacing 4)
+
 (evil-define-key nil evil-visual-state-map
   (kbd "A") 'evil-mc-make-cursor-in-visual-selection-end
   (kbd "I") 'evil-mc-make-cursor-in-visual-selection-beg
@@ -167,8 +169,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (setq fancy-splash-image (expand-file-name "splash/doom-emacs-splash.svg" doom-private-dir))
-
-(setq-default line-spacing 4)
 
 (with-temp-buffer
   (insert-file-contents "~/dotfiles/ansible.cfg")
