@@ -48,13 +48,6 @@
       # dont be confused by the name
       - path: CascadiaCode/Regular/complete/Caskaydia%20Cove%20Nerd%20Font%20Complete%20Regular.otf
         filename: Caskaydia Cove Nerd Font Complete Regular.otf
-      # Ubuntu Mono (used for terminal)
-      - path: UbuntuMono/Regular/complete/Ubuntu%20Mono%20Nerd%20Font%20Complete.ttf
-        filename: Ubuntu Mono Nerd Font Complete.ttf
-      - path: UbuntuMono/Bold/complete/Ubuntu%20Mono%20Bold%20Nerd%20Font%20Complete.ttf
-        filename: Ubuntu Mono Bold Nerd Font Complete.ttf
-      - path: UbuntuMono/Regular-Italic/complete/Ubuntu%20Mono%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: Ubuntu Mono Italic Nerd Font Complete.ttf
 
     # Change only in case the url changed
     fonts:
