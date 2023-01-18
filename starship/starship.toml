@@ -43,8 +43,19 @@ threshold = 100
 discharging_symbol = "  "
 style = "bold fg:#4caf50"
 
+[hostname]
+ssh_only = false
+format = '@[$hostname](bold fg:#81a1c1) '
+disabled = false
+
 [time]
 disabled = false
 format = '[ $time ]($style) '
 time_format = "%H:%M:%S"
 
+[username]
+style_user = 'fg:#8fbcbb bold'
+style_root = 'fg:#d08770 bold'
+format = '[$user]($style)'
+disabled = false
+show_always = true
