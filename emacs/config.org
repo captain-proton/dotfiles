@@ -461,12 +461,31 @@ Not much to do here, but the default indent level is =8= ... wtf.
 (add-hook 'nov-mode-hook 'proton/nov-font-setup)
 #+end_src
 
-* XML
+* Hideshow - Block visibility
+
+Hideshow is installed by default using doom. You can collapse/fold blocks in supported programming and markup languages, for example ={= - =}= in Rust, C++, JSON and so on.
+
+** General
+
+The default key bindings are somewhat ... ( =C-c @ C-c= ). Better to use something like =SPC t h= to toggle a hiding.
 
 #+begin_src emacs-lisp
 (require 'hideshow)
-(require 'sgml-mode)
+
+;; optional key bindings, easier than hs defaults
+(map! :leader
+      (:prefix ("t" . "toggle")
+       :desc "Toggle hiding of block"
+       "h" #'hs-toggle-hiding))
+#+end_src
+
+** XML
+
+Add XML folding support for hideshow.
+
+#+begin_src emacs-lisp
 (require 'nxml-mode)
+(require 'sgml-mode)
 
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
@@ -476,12 +495,15 @@ Not much to do here, but the default indent level is =8= ... wtf.
                "<!--"
                sgml-skip-tag-forward
                nil))
+#+end_src
 
-;; optional key bindings, easier than hs defaults
-(map! :leader
-      (:prefix ("t" . "toggle")
-       :desc "Toggle hiding of block"
-       "h" #'hs-toggle-hiding))
+** Rust
+
+=C=, =C++=, =Java= ... are already included, Rust is missing.
+
+#+begin_src emacs-lisp
+(add-to-list 'hs-special-modes-alist
+             '(rustic-mode "{" "}" "/[*/]" nil nil))
 #+end_src
 
 * ORG

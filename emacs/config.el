@@ -228,8 +228,15 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook 'nov-mode-hook 'proton/nov-font-setup)
 
 (require 'hideshow)
-(require 'sgml-mode)
+
+;; optional key bindings, easier than hs defaults
+(map! :leader
+      (:prefix ("t" . "toggle")
+       :desc "Toggle hiding of block"
+       "h" #'hs-toggle-hiding))
+
 (require 'nxml-mode)
+(require 'sgml-mode)
 
 (add-to-list 'hs-special-modes-alist
              '(nxml-mode
@@ -240,11 +247,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                sgml-skip-tag-forward
                nil))
 
-;; optional key bindings, easier than hs defaults
-(map! :leader
-      (:prefix ("t" . "toggle")
-       :desc "Toggle hiding of block"
-       "h" #'hs-toggle-hiding))
+(add-to-list 'hs-special-modes-alist
+             '(rustic-mode "{" "}" "/[*/]" nil nil))
 
 (defun proton/org-colors-nord ()
   "Enable Nord colors for Org headers."
