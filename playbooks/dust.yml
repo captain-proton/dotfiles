@@ -1,0 +1,11 @@
+---
+- name: "[ DUST ]"
+  hosts: all
+
+  tasks:
+
+    - name: Install dust
+      become: true
+      community.general.pacman:
+        name: dust
+        state: present
