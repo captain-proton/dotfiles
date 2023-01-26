@@ -31,7 +31,7 @@ return {
   hide_tab_bar_if_only_one_tab = true,
 
   -- timeout_milliseconds defaults to 1000 and can be omitted
-  leader = { key = 'b', mods = 'CTRL', timeout_milliseconds = 1000 },
+  leader = { key = 'a', mods = 'CTRL', timeout_milliseconds = 1000 },
 
   keys = {
     -- Taken of the defaults
