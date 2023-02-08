@@ -7,7 +7,7 @@
     "editor.renderWhitespace": "all",
     "editor.lineNumbers": "relative",
     "editor.lineHeight": 1.5,
-    "editor.cursorSmoothCaretAnimation": true,
+    "editor.cursorSmoothCaretAnimation": "on",
     "editor.smoothScrolling": true,
     "keyboard.dispatch": "keyCode",
     "workbench.tree.indent": 18,
