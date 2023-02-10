@@ -20,6 +20,13 @@
         name: keychain
         state: present
 
+    - name: Ensure 'x11-ssh-askpass' is installed
+      become: true
+      community.general.pacman:
+        name: x11-ssh-askpass
+        state: present
+
+
     - name: Export SSH_AUTH_SOCK environment variable
       become: true
       ansible.builtin.blockinfile:
