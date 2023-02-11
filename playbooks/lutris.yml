@@ -1,8 +1,0 @@
----
-- hosts: all
-  tasks:
-    - name: Install lutris
-      become: true
-      community.general.pacman:
-        name: lutris
-        state: present
