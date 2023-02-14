@@ -77,3 +77,9 @@
           if [ "$XDG_CURRENT_DESKTOP" = "LeftWM" ]; then
               export XDG_CURRENT_DESKTOP="KDE"
           fi
+
+    - name: Set QT_QPA_PLATFORMTHEME
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.xprofile"
+        mode: 0644
+        line: export QT_QPA_PLATFORMTHEME="qt5ct"
