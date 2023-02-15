@@ -13,38 +13,38 @@
     fonts_nerd_font_root: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts
     fonts_nerd_fonts:
       # JetBrains Mono including ligatures
-      - path: JetBrainsMono/Ligatures/Bold/complete/JetBrains%20Mono%20Bold%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Bold Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/BoldItalic/complete/JetBrains%20Mono%20Bold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Bold Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBold/complete/JetBrains%20Mono%20ExtraBold%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono ExtraBold Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBoldItalic/complete/JetBrains%20Mono%20ExtraBold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono ExtraBold Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLight/complete/JetBrains%20Mono%20ExtraLight%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono ExtraLight Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLightItalic/complete/JetBrains%20Mono%20ExtraLight%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono ExtraLight Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/Italic/complete/JetBrains%20Mono%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/Light/complete/JetBrains%20Mono%20Light%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Light Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/LightItalic/complete/JetBrains%20Mono%20Light%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Light Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/Medium/complete/JetBrains%20Mono%20Medium%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Medium Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/MediumItalic/complete/JetBrains%20Mono%20Medium%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Medium Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/Regular/complete/JetBrains%20Mono%20Regular%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Regular Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/SemiBold/complete/JetBrains%20Mono%20SemiBold%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono SemiBold Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/SemiBoldItalic/complete/JetBrains%20Mono%20SemiBold%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono SemiBold Italic Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/Thin/complete/JetBrains%20Mono%20Thin%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Thin Nerd Font Complete.ttf
-      - path: JetBrainsMono/Ligatures/ThinItalic/complete/JetBrains%20Mono%20Thin%20Italic%20Nerd%20Font%20Complete.ttf
-        filename: JetBrains Mono Thin Italic Nerd Font Complete.ttf
+      - path: JetBrainsMono/Ligatures/Bold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Bold.ttf
+        filename: JetBrains Mono Nerd Font Complete Bold.ttf
+      - path: JetBrainsMono/Ligatures/BoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Bold%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete Bold Italic.ttf
+      - path: JetBrainsMono/Ligatures/ExtraBold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraBold.ttf
+        filename: JetBrains Mono Nerd Font Complete ExtraBold.ttf
+      - path: JetBrainsMono/Ligatures/ExtraBoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraBold%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete ExtraBold Italic.ttf
+      - path: JetBrainsMono/Ligatures/ExtraLight/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraLight.ttf
+        filename: JetBrains Mono Nerd Font Complete ExtraLight.ttf
+      - path: JetBrainsMono/Ligatures/ExtraLightItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraLight%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete ExtraLight Italic.ttf
+      - path: JetBrainsMono/Ligatures/Italic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete Italic.ttf
+      - path: JetBrainsMono/Ligatures/Light/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Light.ttf
+        filename: JetBrains Mono Nerd Font Complete Light.ttf
+      - path: JetBrainsMono/Ligatures/LightItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Light%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete Light Italic.ttf
+      - path: JetBrainsMono/Ligatures/Medium/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Medium.ttf
+        filename: JetBrains Mono Nerd Font Complete Medium.ttf
+      - path: JetBrainsMono/Ligatures/MediumItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Medium%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete Medium Italic.ttf
+      - path: JetBrainsMono/Ligatures/Regular/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Regular.ttf
+        filename: JetBrains Mono Nerd Font Complete Regular.ttf
+      - path: JetBrainsMono/Ligatures/SemiBold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20SemiBold.ttf
+        filename: JetBrains Mono Nerd Font Complete SemiBold.ttf
+      - path: JetBrainsMono/Ligatures/SemiBoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20SemiBold%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete SemiBold Italic.ttf
+      - path: JetBrainsMono/Ligatures/Thin/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Thin.ttf
+        filename: JetBrains Mono Nerd Font Complete Thin.ttf
+      - path: JetBrainsMono/Ligatures/ThinItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Thin%20Italic.ttf
+        filename: JetBrains Mono Nerd Font Complete Thin Italic.ttf
       # dont be confused by the name
       - path: CascadiaCode/Regular/complete/Caskaydia%20Cove%20Nerd%20Font%20Complete%20Regular.otf
         filename: Caskaydia Cove Nerd Font Complete Regular.otf
