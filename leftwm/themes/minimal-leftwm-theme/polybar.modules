@@ -370,7 +370,7 @@ label-foreground = ${color.foreground}
 # trouble-free but repetitive, or apply only the relevant ones (for example
 # --sink-blacklist is only needed for next-sink).
 exec = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --icons-volume " , " --icon-muted " " --format '$VOL_ICON ${VOL_LEVEL}%' listen
-; click-right = exec pavucontrol &
+click-right = exec pavucontrol &
 click-left = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh togmute
 ; click-middle = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink
 scroll-up = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --volume-max 130 up
