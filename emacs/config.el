@@ -70,7 +70,7 @@
   "Close the current frame and delete all buffers associated to the project"
   (interactive)
   (if (> (length (+workspace-list-names)) 1)
-      (progn (projectile-kill-buffers)
+      (progn (mapc 'kill-buffer (+workspace-buffer-list))
              (+workspace/delete (+workspace-current-name)))
     (evil-quit)))
 
@@ -194,9 +194,11 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (after! elfeed
   (elfeed-org)
-  (setq elfeed-search-filter "@2-weeks-ago +unread"
-        elfeed-search-title-min-width 80
-        visual-fill-column-mode 1)
+  (defadvice! cp/elfeed-in-own-workspace (&rest _)
+  "Open Elfeed in its own workspace."
+  :before #'elfeed
+  (when (modulep! :ui workspaces)
+    (+workspace-switch "Elfeed" t)))
   )
 (custom-set-faces!
   '(elfeed-search-unread-title-face
@@ -208,7 +210,78 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
-(setq rmh-elfeed-org-files (list "~/Org/elfeed.org"))
+(setq )
+
+(use-package! elfeed
+  :config
+  (defun cp/elfeed-entry-line-draw (entry)
+    "Print ENTRY to the buffer."
+    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (feed (elfeed-entry-feed entry))
+           (feed-title
+            (when feed
+              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+           (tags-str (concat "[" (mapconcat 'identity tags ",") "]"))
+           (title-width (- (window-width) elfeed-goodies/feed-source-column-width
+                           elfeed-goodies/tag-column-width 4))
+           (title-column (elfeed-format-column
+                          title (elfeed-clamp
+                                 elfeed-search-title-min-width
+                                 title-width
+                                 elfeed-search-title-max-width)
+                          :left))
+           (tag-column (elfeed-format-column
+                        tags-str (elfeed-clamp (length tags-str)
+                                               elfeed-goodies/tag-column-width
+                                               elfeed-goodies/tag-column-width)
+                        :left))
+           (feed-column (elfeed-format-column
+                         feed-title (elfeed-clamp elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width)
+                         :left))
+           ;; (entry-score (elfeed-format-column (number-to-string (elfeed-score-scoring-get-score-from-entry entry)) 6 :left))
+           ;; (entry-authors (concatenate-authors
+           ;;                 (elfeed-meta entry :authors)))
+           ;; (authors-column (elfeed-format-column entry-authors elfeed-goodies/tag-column-width :left))
+           )
+      (if (>= (window-width) (* (frame-width) elfeed-goodies/wide-threshold))
+          (progn
+            ;; (insert (propertize entry-score 'face 'elfeed-search-feed-face) " ")
+            (insert (propertize date 'face 'elfeed-search-date-face) " ")
+            (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
+            (insert (propertize tag-column 'face 'elfeed-search-tag-face) " ")
+            ;; (insert (propertize authors-column 'face 'elfeed-search-tag-face) " ")
+            (insert (propertize title 'face title-faces 'kbd-help title))
+            )
+        (insert (propertize title 'face title-faces 'kbd-help title)))))
+
+  (defun search-header/draw-wide (separator-left separator-right search-filter stats db-time)
+    (let* ((update (format-time-string "%Y-%m-%d %H:%M:%S %z" db-time))
+           (lhs (list
+                 (powerline-raw (-pad-string-to "Date" (- 9 4)) 'powerline-active2 'l)
+                 (funcall separator-left 'powerline-active2 'powerline-active1)
+                 (powerline-raw (-pad-string-to "Feed" (- elfeed-goodies/feed-source-column-width 4)) 'powerline-active1 'l)
+                 (funcall separator-left 'powerline-active1 'powerline-active2)
+                 (powerline-raw (-pad-string-to "Tags" (- elfeed-goodies/tag-column-width 6)) 'powerline-active2 'l)
+                 (funcall separator-left 'powerline-active2 'mode-line)
+                 (powerline-raw "Subject" 'mode-line 'l)))
+           (rhs (search-header/rhs separator-left separator-right search-filter stats update)))
+      (concat (powerline-render lhs)
+              (powerline-fill 'mode-line (powerline-width rhs))
+              (powerline-render rhs))))
+
+  (setq rmh-elfeed-org-files (list "~/Org/elfeed.org")
+        elfeed-search-print-entry-function 'cp/elfeed-entry-line-draw
+        elfeed-search-filter "@2-weeks-ago +unread"
+        elfeed-search-title-min-width 80
+        elfeed-goodies/tag-column-width 20
+        +rss-enable-sliced-images nil
+        visual-fill-column-mode 1)
+  )
 
 (map! :leader
       :prefix ("o" . "open")
