@@ -24,7 +24,7 @@
        (company +childframe)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
-       (ivy +fuzzy +childframe +prescient)  ; a search engine for love and life
+       (ivy -fuzzy +icons +childframe +prescient)  ; a search engine for love and life
        ;;vertico           ; the search engine of the future
 
        :ui
