@@ -1,0 +1,37 @@
+- name: "[NETWORK]"
+  hosts: all
+
+  vars:
+    __network_packages:
+      - networkmanager
+      - nm-connection-editor
+      - network-manager-applet
+
+  tasks:
+    - name: Define networkwork packages
+      ansible.builtin.set_fact:
+        network_packages: "{{ __network_packages }}"
+      when: network_packages is not defined
+
+    - name: Ensure required packages are present
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ network_packages | list }}"
+
+    - name: Enable systemd-resolved
+      ansible.builtin.systemd:
+        name: systemd-resolved
+        state: started
+        enabled: true
+
+    - name: Configure systemd-resolved for networkmanager
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/NetworkManager/conf.d/dns.conf
+        mode: 0644
+        content: |
+          [main]
+          dns=systemd-resolved
+      when: '"networkmanager" in network_packages'
