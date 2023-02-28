@@ -171,7 +171,7 @@ I tend to use multiple frames when working on projects. So it makes sense to clo
   "Close the current frame and delete all buffers associated to the project"
   (interactive)
   (if (> (length (+workspace-list-names)) 1)
-      (progn (projectile-kill-buffers)
+      (progn (mapc 'kill-buffer (+workspace-buffer-list))
              (+workspace/delete (+workspace-current-name)))
     (evil-quit)))
 
