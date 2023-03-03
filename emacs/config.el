@@ -454,6 +454,17 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
 
+(after! (org-roam)
+  (defadvice! yeet/org-roam-in-own-workspace-a (&rest _)
+  "Open all roam buffers in there own workspace."
+  :before #'org-roam-node-find
+  :before #'org-roam-node-random
+  :before #'org-roam-buffer-display-dedicated
+  :before #'org-roam-buffer-toggle
+  :before #'org-roam-dailies-goto-today
+  (when (modulep! :ui workspaces)
+    (+workspace-switch "Org-roam" t))))
+
 (use-package! websocket
     :after org-roam)
 

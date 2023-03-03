@@ -753,8 +753,8 @@ Register hooks with org-present.
 
 ** Personal Knowledge Base using Org roam
 
-Create the ~$HOME/Org/roam~ directory if it does not exists. This
-directory will be used as ~org-roam-directory~.
+Create the ~$HOME/Org/roam~ directory if it does not exists.
+This directory will be used as ~org-roam-directory~.
 
 #+begin_src emacs-lisp
 (setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
@@ -763,6 +763,21 @@ directory will be used as ~org-roam-directory~.
 
 (setq org-roam-directory (file-truename proton/org-roam-home))
 (org-roam-db-autosync-mode)
+#+end_src
+
+Open org roam notes in new workspace.
+
+#+begin_src emacs-lisp
+(after! (org-roam)
+  (defadvice! yeet/org-roam-in-own-workspace-a (&rest _)
+  "Open all roam buffers in there own workspace."
+  :before #'org-roam-node-find
+  :before #'org-roam-node-random
+  :before #'org-roam-buffer-display-dedicated
+  :before #'org-roam-buffer-toggle
+  :before #'org-roam-dailies-goto-today
+  (when (modulep! :ui workspaces)
+    (+workspace-switch "Org-roam" t))))
 #+end_src
 
 ** User interface for Org roam
