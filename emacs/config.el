@@ -14,6 +14,46 @@
 
 (setq dired-kill-when-opening-new-dired-buffer t)
 
+(map! :leader
+      (:prefix ("d" . "dired")
+       :desc "Open dired" "d" #'dired
+       :desc "Dired jump to current" "j" #'dired-jump))
+
+(evil-define-key 'normal dired-mode-map
+  (kbd "M-RET") 'dired-display-file
+  (kbd "m") 'dired-mark
+  (kbd "t") 'dired-toggle-marks
+  (kbd "u") 'dired-unmark
+  (kbd "C") 'dired-do-copy
+  (kbd "D") 'dired-do-delete
+  (kbd "J") 'dired-goto-file
+  (kbd "M") 'dired-do-chmod
+  (kbd "O") 'dired-do-chown
+  (kbd "P") 'dired-do-print
+  (kbd "R") 'dired-do-rename
+  (kbd "T") 'dired-do-touch
+  (kbd "Y") 'dired-copy-filenamecopy-filename-as-kill ; copies filename to kill ring.
+  (kbd "Z") 'dired-do-compress
+  (kbd "+") 'dired-create-directory
+  (kbd "% l") 'dired-downcase
+  (kbd "% m") 'dired-mark-files-regexp
+  (kbd "% u") 'dired-upcase
+  (kbd "* %") 'dired-mark-files-regexp
+  (kbd "* .") 'dired-mark-extension
+  (kbd "* /") 'dired-mark-directories)
+;; Get file icons in dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+;; With dired-open plugin, you can launch external programs for certain extensions
+;; As is I am/was also a kde user, use gwenview for images and vlc for videos
+(setq dired-open-extensions '(("gif" . "gwenview")
+                              ("jpg" . "gwenview")
+                              ("png" . "gwenview")
+                              ("mkv" . "vlc")
+                              ("mp4" . "vlc")))
+
+(global-auto-revert-mode 1)
+(setq global-auto-revert-non-file-buffers t)
+
 (after! neotree
   (setq doom-themes-neotree-file-icons t
         neo-theme (if (window-system) 'icons 'arrow)
