@@ -361,7 +361,7 @@ click-right = pavucontrol
 type = custom/script
 tail = true
 format = %{+o} <label> %{-o}
-format-underline = ${colors.cyan}
+; format-underline = ${colors.cyan}
 label-padding = 0
 label-foreground = ${color.foreground}
 
