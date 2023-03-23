@@ -184,7 +184,7 @@ format = <label-layout> <label-indicator>
 format-prefix = 
 format-prefix-foreground = ${color.primary}
 format-prefix-font = 2
-label-layout = "  %layout%"
+label-layout = "  %name%"
 label-indicator-on = " %name% "
 label-indicator-on-background = ${color.primary}
 
@@ -408,7 +408,7 @@ type = internal/xwindow
 format = <label>
 format-prefix = " "
 label = "%title%"
-label-maxlen = 30
+; label-maxlen = 30
 
 
 [module/wlan]
