@@ -115,6 +115,9 @@
 (global-highlight-thing-mode)
 (setq highlight-thing-what-thing 'sexp)
 
+(add-hook! 'start-mode-hook
+  (fringe-mode '(nil . nil)))
+
 (defun proton/fringe-on-zen ()
   (if (bound-and-true-p writeroom-mode)
       (fringe-mode 0)
@@ -245,9 +248,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   :keymap (let ((map (make-sparse-keymap)))
             ;;(define-key map (kbd "M-z") 'eshell)
             (evil-define-key 'normal start-mode-map
-              (kbd "1") '(lambda () (interactive) (format "%s/config.org" (getenv "DOOMDIR")))
-              (kbd "2") '(lambda () (interactive) (format "%s/init.el" (getenv "DOOMDIR")))
-              (kbd "3") '(lambda () (interactive) (format "%s/packages.el" (getenv "DOOMDIR"))))
+              (kbd "1") '(lambda () (interactive) (find-file (format "%s/config.org" (getenv "DOOMDIR"))))
+              (kbd "2") '(lambda () (interactive) (find-file (format "%s/init.el" (getenv "DOOMDIR"))))
+              (kbd "3") '(lambda () (interactive) (find-file (format "%s/packages.el" (getenv "DOOMDIR")))))
             map)
   (+zen/toggle)
   (display-line-numbers-mode -1))
