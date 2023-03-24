@@ -39,7 +39,7 @@
     disable_tile_drag: false,
     disable_window_snap: true,
     focus_behaviour: Sloppy,
-    focus_new_windows: true,
+    focus_new_windows: false,
     sloppy_mouse_follows_focus: true,
     keybind: [
         (command: Execute, value: "rofi -show drun -theme ~/.config/rofi/launcher/launcher.rasi", modifier: ["modkey"], key: "p"),
