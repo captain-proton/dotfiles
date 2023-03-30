@@ -8,6 +8,9 @@
       ansible.builtin.command:
         cmd: vagrant plugin install vagrant-libvirt
 
+  vars:
+    __virtualization_libvirt_storage_pool_name: "{{ virtualization_libvirt_storage_pool_name | default('default') }}"
+
   tasks:
     - name: Install qemu/kvm, libvirt and its dependencies
       become: true
@@ -85,3 +88,14 @@
           changed_when: '"vagrant-libvirt" not in vagrant_plugins.stdout'
           notify: Install libvirt vagrant plugin
           register: vagrant_plugins
+
+        - name: Make libvirt the default provider for vagrant
+          ansible.builtin.lineinfile:
+            path: "{{ home }}/.zprofile"
+            line: 'export VAGRANT_DEFAULT_PROVIDER=libvirt'
+
+        - name: Place global Vagrantfile for default configurations
+          ansible.builtin.template:
+            src: "../templates/libvirt_vagrantfile.j2"
+            dest: "{{ home }}/.vagrant.d/Vagrantfile"
+            mode: 0644
