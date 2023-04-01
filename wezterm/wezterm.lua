@@ -68,7 +68,7 @@ return {
     -- Send "CTRL-B" to the terminal when pressing CTRL-B, CTRL-B
     { key = 'b', mods = 'LEADER|CTRL', action = act.SendString '\x02', },
     { key = 'Enter', mods = 'LEADER', action = act.ActivateCopyMode, },
-    { key = 'p', mods = 'LEADER', action = act.PastePrimarySelection, },
+    { key = 'p', mods = 'LEADER', action = act.PasteFrom 'PrimarySelection' },
     { key = 'k', mods = 'CTRL|ALT', action = act.Multiple
       {
         act.ClearScrollback 'ScrollbackAndViewport',
