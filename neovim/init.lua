@@ -352,7 +352,7 @@ end
 local servers = {
   clangd = {},
   gopls = {},
-  pyright = {},
+  pylsp = {},
   rust_analyzer = {},
   ansiblels = {},
 
