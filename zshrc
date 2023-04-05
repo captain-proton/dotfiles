@@ -10,6 +10,7 @@ plugins=(git
   direnv
   poetry
   ansible
+  extract
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
