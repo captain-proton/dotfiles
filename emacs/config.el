@@ -97,9 +97,13 @@
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
-      :i "C-V" #'evil-paste-before
-      :i "C-v" #'evil-paste-after
       )
+
+(after! evil
+  (map! :i "C-V" #'evil-paste-before-cursor-after
+        :i "C-v" #'evil-paste-after
+        )
+  )
 
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)

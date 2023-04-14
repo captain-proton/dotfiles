@@ -178,9 +178,13 @@ Save buffer to file after leaving insert mode.
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
-      :i "C-V" #'evil-paste-before
-      :i "C-v" #'evil-paste-after
       )
+
+(after! evil
+  (map! :i "C-V" #'evil-paste-before-cursor-after
+        :i "C-v" #'evil-paste-after
+        )
+  )
 #+end_src
 
 ** Whitespace mode
