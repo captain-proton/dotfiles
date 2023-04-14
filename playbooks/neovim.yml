@@ -16,17 +16,14 @@
     - name: Ensure neovim config directory exists
       ansible.builtin.file:
         path: "{{ home }}/.config/nvim"
-        state: directory
+        state: absent
         mode: 0755
 
     - name: Link configuration files
       ansible.builtin.file:
         state: link
-        src: "{{ item.src }}"
-        path: "{{ item.path }}"
-      loop:
-        - src: "{{ home }}/dotfiles/neovim/init.lua"
-          path: "{{ home }}/.config/nvim/init.lua"
+        src: "{{ home }}/dotfiles/neovim"
+        path: "{{ home }}/.config/nvim"
 
     - name: Set the alias for vim to nvim
       ansible.builtin.lineinfile:

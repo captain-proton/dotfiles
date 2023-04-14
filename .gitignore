@@ -329,3 +329,6 @@ vault*
 
 # generated python type stubs
 .pytypestubs
+
+# neovim lazy package manager package versions
+neovim/lazy-lock.json
