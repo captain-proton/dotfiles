@@ -22,12 +22,6 @@
 | (SPC w c) [[elisp:(evil-window-delete)][evil-window-delete]] | (SPC w l) [[elisp:(evil-window-left 1)][evil-window-left]]   | (SPC w h) [[elisp:(evil-window-right 1)][evil-window-right]] |
 |------------------------------+------------------------------+-----------------------------|
 
-* *Help Information*
-|-----------------------------+-----------------------------+-------------------------------|
-| (SPC h d h) [[elisp:(doom/help)][doom/help]]       | (SPC h d f) [[elisp:(doom/help-faq)][doom/help-faq]]   | (SPC h i) [[elisp:(info)][info]]                |
-| (SPC h f) [[elisp:(counsel-describe-function)][describe-function]] | (SPC h v) [[elisp:(counsel-describe-variable)][describe-variable]] | (SPC h b b) [[elisp:(counsel-descbinds)][describe-bindings]] |
-|-----------------------------+-----------------------------+-------------------------------|
-
 * *Doom Emacs Configs* (Press =1-3= to immediately open a file)
 |---+----------------+------------------------------------------------------------|
 | =1= | [[elisp:(find-file (concat (getenv "HOME") "/.config/doom/config.org"))][config.org]]     | This is the main user configuration file for Doom Emacs.   |
@@ -36,6 +30,12 @@
 |---+----------------+------------------------------------------------------------|
 
 =NOTE=: 'SPC f p' [[elisp:(doom/find-file-in-private-config)][doom/find-file-in-private-config]])
+
+* *Help Information*
+|-----------------------------+-----------------------------+-------------------------------|
+| (SPC h d h) [[elisp:(doom/help)][doom/help]]       | (SPC h d f) [[elisp:(doom/help-faq)][doom/help-faq]]   | (SPC h i) [[elisp:(info)][info]]                |
+| (SPC h f) [[elisp:(counsel-describe-function)][describe-function]] | (SPC h v) [[elisp:(counsel-describe-variable)][describe-variable]] | (SPC h b b) [[elisp:(counsel-descbinds)][describe-bindings]] |
+|-----------------------------+-----------------------------+-------------------------------|
 
 ;; Local Variables:
 ;; eval: (start-mode)
