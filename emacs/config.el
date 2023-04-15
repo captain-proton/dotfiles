@@ -269,7 +269,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (def-project-mode! +ansible-yaml-mode
   :modes '(yaml-mode)
   :add-hooks '(ansible ansible-auto-decrypt-encrypt ansible-doc-mode)
-  :files (or "playbooks/" "roles/" "tasks/" "handlers/"))
+  :files (or "playbooks/" "roles/" (and "tasks/main.yml" "defaults/")))
 
 (setq local-settings-file (format "%s/local.el" (getenv "DOOMDIR")))
 (when (file-exists-p local-settings-file)
@@ -384,9 +384,37 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
 (defun proton/nov-font-setup ()
-  (face-remap-add-relative 'variable-pitch :family "Noto Sans"
-                                           :height 1.2))
+  (face-remap-add-relative 'variable-pitch :family "Vollkorn"
+                                           :height 1.4))
 (add-hook 'nov-mode-hook 'proton/nov-font-setup)
+
+(use-package! nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :config
+  (map! :map nov-mode-map
+        :n "RET" #'nov-scroll-up)
+
+  (advice-add 'nov-render-title :override #'ignore)
+
+  (defun +nov-mode-setup ()
+    "Tweak nov-mode to our liking."
+    (face-remap-add-relative 'variable-pitch
+                             :family "Vollkorn"
+                             :height 1.4)
+    (face-remap-add-relative 'default :height 1.3)
+    (require 'visual-fill-column nil t)
+    (setq-local visual-fill-column-center-text t
+                visual-fill-column-width 101
+                nov-text-width 100
+                )
+    (visual-fill-column-mode 1)
+    (highlight-thing-mode 0)
+    (hl-line-mode -1)
+    ;; Re-render with new display settings
+    (nov-render-document))
+
+  (add-hook 'nov-mode-hook #'+nov-mode-setup)
+  )
 
 (require 'hideshow)
 
