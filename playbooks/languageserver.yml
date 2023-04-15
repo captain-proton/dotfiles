@@ -1,0 +1,13 @@
+- name: "[ LSP ]"
+  hosts: all
+
+  vars:
+    __lsp_packages: "{{ lsp_packages | default([]) }}"
+
+  tasks:
+    - name: Install every configured lsp servers
+      become: true
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop: "{{ __lsp_packages }}"
