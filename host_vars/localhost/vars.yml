@@ -71,3 +71,5 @@ miniconda_home: "{{ local_miniconda_home }}"
 # Berlin for example has 52.5 (lat), 13.3 (lon)
 redshift_lat: "{{ local_redshift_lat }}"
 redshift_lon: "{{ local_redshift_lon }}"
+
+lsp_packages: "{{ local_lsp_packages }}"
