@@ -1,8 +1,27 @@
 ---
-- hosts: all
+- name: "[ FZF ]"
+  hosts: all
+
+  vars:
+    __fzf_default_style: "--color=bg+:#3B4252,bg:#2E3440,spinner:#81A1C1,hl:#616E88,fg:#D8DEE9,\
+      header:#616E88,info:#81A1C1,pointer:#81A1C1,marker:#81A1C1,\
+      fg+:#D8DEE9,prompt:#81A1C1,hl+:#81A1C1"
+    __fzf_default_opts: "{{ fzf_default_opts | default(__fzf_default_style | trim) }}"
+
   tasks:
     - name: Install fzf
       become: true
       community.general.pacman:
         name: fzf
         state: present
+
+    - name: Set fzf default options
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.zprofile"
+        line: 'export FZF_DEFAULT_OPTS={{ __fzf_default_opts }}'
+
+    - name: Enable ripgrep fuzzy vim command
+      ansible.builtin.template:
+        src: ../templates/ripgrep_fuzzy_vim.sh.j2
+        dest: "{{ home }}/.local/bin/rfv"
+        mode: 0755
