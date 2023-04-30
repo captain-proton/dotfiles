@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ BAT ]"
+  hosts: all
 
   vars:
     aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
@@ -8,8 +9,11 @@
     - name: Install bat (cat replacement)
       become: true
       community.general.pacman:
-        name: bat
+        name: "{{ item }}"
         state: present
+      loop:
+        - bat
+        - bat-extras
 
     - name: Set the bat alias for cat
       ansible.builtin.lineinfile:
