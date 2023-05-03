@@ -189,7 +189,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
       user-mail-address "nils@ungerichtet.de")
 
 ;; Set reusable font name variables
-(defvar proton/fixed-width-font "JetBrains Mono Nerd Font"
+(defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar proton/variable-width-font "Noto Sans"

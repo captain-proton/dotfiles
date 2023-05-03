@@ -344,7 +344,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 
 #+begin_src emacs-lisp
 ;; Set reusable font name variables
-(defvar proton/fixed-width-font "JetBrains Mono Nerd Font"
+(defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar proton/variable-width-font "Noto Sans"

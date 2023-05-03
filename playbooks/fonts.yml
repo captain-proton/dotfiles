@@ -47,6 +47,8 @@
         filename: JetBrains Mono Nerd Font Thin Italic.ttf
       # dont be confused by the name
       - path: CascadiaCode/Regular/CaskaydiaCoveNerdFontMono-Regular.ttf
+        filename: Caskaydia Cove Nerd Font Mono Regular.ttf
+      - path: CascadiaCode/Regular/CaskaydiaCoveNerdFont-Regular.ttf
         filename: Caskaydia Cove Nerd Font Regular.ttf
 
     # Change only in case the url changed
