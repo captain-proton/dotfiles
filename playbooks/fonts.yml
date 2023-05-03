@@ -3,7 +3,7 @@
   hosts: all
 
   handlers:
-    - name: run fc-cache
+    - name: Run fc-cache
       ansible.builtin.command: fc-cache
 
   vars:
@@ -13,41 +13,41 @@
     fonts_nerd_font_root: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts
     fonts_nerd_fonts:
       # JetBrains Mono including ligatures
-      - path: JetBrainsMono/Ligatures/Bold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Bold.ttf
-        filename: JetBrains Mono Nerd Font Complete Bold.ttf
-      - path: JetBrainsMono/Ligatures/BoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Bold%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete Bold Italic.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraBold.ttf
-        filename: JetBrains Mono Nerd Font Complete ExtraBold.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraBold%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete ExtraBold Italic.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLight/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraLight.ttf
-        filename: JetBrains Mono Nerd Font Complete ExtraLight.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLightItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20ExtraLight%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete ExtraLight Italic.ttf
-      - path: JetBrainsMono/Ligatures/Italic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete Italic.ttf
-      - path: JetBrainsMono/Ligatures/Light/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Light.ttf
-        filename: JetBrains Mono Nerd Font Complete Light.ttf
-      - path: JetBrainsMono/Ligatures/LightItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Light%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete Light Italic.ttf
-      - path: JetBrainsMono/Ligatures/Medium/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Medium.ttf
-        filename: JetBrains Mono Nerd Font Complete Medium.ttf
-      - path: JetBrainsMono/Ligatures/MediumItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Medium%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete Medium Italic.ttf
-      - path: JetBrainsMono/Ligatures/Regular/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Regular.ttf
-        filename: JetBrains Mono Nerd Font Complete Regular.ttf
-      - path: JetBrainsMono/Ligatures/SemiBold/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20SemiBold.ttf
-        filename: JetBrains Mono Nerd Font Complete SemiBold.ttf
-      - path: JetBrainsMono/Ligatures/SemiBoldItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20SemiBold%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete SemiBold Italic.ttf
-      - path: JetBrainsMono/Ligatures/Thin/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Thin.ttf
-        filename: JetBrains Mono Nerd Font Complete Thin.ttf
-      - path: JetBrainsMono/Ligatures/ThinItalic/complete/JetBrains%20Mono%20Nerd%20Font%20Complete%20Thin%20Italic.ttf
-        filename: JetBrains Mono Nerd Font Complete Thin Italic.ttf
+      - path: JetBrainsMono/Ligatures/Bold/JetBrainsMonoNerdFont-Bold.ttf
+        filename: JetBrains Mono Nerd Font Bold.ttf
+      - path: JetBrainsMono/Ligatures/BoldItalic/JetBrainsMonoNerdFont-BoldItalic.ttf
+        filename: JetBrains Mono Nerd Font Bold Italic.ttf
+      - path: JetBrainsMono/Ligatures/ExtraBold/JetBrainsMonoNerdFont-ExtraBold.ttf
+        filename: JetBrains Mono Nerd Font ExtraBold.ttf
+      - path: JetBrainsMono/Ligatures/ExtraBoldItalic/JetBrainsMonoNerdFont-ExtraBoldItalic.ttf
+        filename: JetBrains Mono Nerd Font ExtraBold Italic.ttf
+      - path: JetBrainsMono/Ligatures/ExtraLight/JetBrainsMonoNerdFont-ExtraLight.ttf
+        filename: JetBrains Mono Nerd Font ExtraLight.ttf
+      - path: JetBrainsMono/Ligatures/ExtraLightItalic/JetBrainsMonoNerdFont-ExtraLightItalic.ttf
+        filename: JetBrains Mono Nerd Font ExtraLight Italic.ttf
+      - path: JetBrainsMono/Ligatures/Italic/JetBrainsMonoNerdFont-Italic.ttf
+        filename: JetBrains Mono Nerd Font Italic.ttf
+      - path: JetBrainsMono/Ligatures/Light/JetBrainsMonoNerdFont-Light.ttf
+        filename: JetBrains Mono Nerd Font Light.ttf
+      - path: JetBrainsMono/Ligatures/LightItalic/JetBrainsMonoNerdFont-LightItalic.ttf
+        filename: JetBrains Mono Nerd Font Light Italic.ttf
+      - path: JetBrainsMono/Ligatures/Medium/JetBrainsMonoNerdFont-Medium.ttf
+        filename: JetBrains Mono Nerd Font Medium.ttf
+      - path: JetBrainsMono/Ligatures/MediumItalic/JetBrainsMonoNerdFont-MediumItalic.ttf
+        filename: JetBrains Mono Nerd Font Medium Italic.ttf
+      - path: JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf
+        filename: JetBrains Mono Nerd Font Regular.ttf
+      - path: JetBrainsMono/Ligatures/SemiBold/JetBrainsMonoNerdFont-SemiBold.ttf
+        filename: JetBrains Mono Nerd Font SemiBold.ttf
+      - path: JetBrainsMono/Ligatures/SemiBoldItalic/JetBrainsMonoNerdFont-SemiBoldItalic.ttf
+        filename: JetBrains Mono Nerd Font SemiBold Italic.ttf
+      - path: JetBrainsMono/Ligatures/Thin/JetBrainsMonoNerdFont-Thin.ttf
+        filename: JetBrains Mono Nerd Font Thin.ttf
+      - path: JetBrainsMono/Ligatures/ThinItalic/JetBrainsMonoNerdFont-ThinItalic.ttf
+        filename: JetBrains Mono Nerd Font Thin Italic.ttf
       # dont be confused by the name
-      - path: CascadiaCode/Regular/complete/Caskaydia%20Cove%20Nerd%20Font%20Complete%20Regular.otf
-        filename: Caskaydia Cove Nerd Font Complete Regular.otf
+      - path: CascadiaCode/Regular/CaskaydiaCoveNerdFontMono-Regular.ttf
+        filename: Caskaydia Cove Nerd Font Regular.ttf
 
     # Change only in case the url changed
     fonts:
@@ -117,7 +117,7 @@
       loop: "{{ fonts | subelements('font_files') }}"
       loop_control:
         label: "{{ item.1 }}"
-      notify: run fc-cache
+      notify: Run fc-cache
 
     - name: Install nerd fonts
       ansible.builtin.get_url:
@@ -125,5 +125,5 @@
         dest: "{{ font_download_path }}/{{ item.filename }}"
         mode: 0644
       loop: "{{ fonts_nerd_fonts }}"
-      notify: run fc-cache
+      notify: Run fc-cache
       tags: ["nerd"]
