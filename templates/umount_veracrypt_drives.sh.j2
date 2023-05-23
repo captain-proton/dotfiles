@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+if [ "$(/usr/bin/veracrypt --text --list)" ]; then
+    /usr/bin/veracrypt -d
+fi

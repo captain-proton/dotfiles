@@ -1,0 +1,34 @@
+---
+- name: "[ VERACRYPT ]"
+  hosts: all
+
+  vars:
+    systemd_user_dir: "{{ home }}/.config/systemd/user"
+    unmount_veracrypt_service: "{{ systemd_user_dir }}/unmount-veracrypt-drives.service"
+
+  tasks:
+
+    - name: Install veracrypt
+      community.general.pacman:
+        name: veracrypt
+        state: present
+
+    - name: Place unmount all shell script
+      ansible.builtin.template:
+        src: ../templates/umount_veracrypt_drives.sh.j2
+        dest: "{{ home }}/.local/bin/unmount_veracrypt_drives"
+        mode: 0750
+
+    - name: Add umount veracrypt devices as systemd user service
+      ansible.builtin.template:
+        src: ../templates/umount_veracrypt_unit.service.j2
+        dest: "{{ unmount_veracrypt_service }}"
+        mode: 0644
+
+    - name: Enable unmount systemd user unit
+      ansible.builtin.systemd:
+        name: unmount-veracrypt-drives.service
+        state: started
+        daemon_reload: true
+        enabled: true
+        scope: user
