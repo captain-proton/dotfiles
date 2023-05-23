@@ -1,0 +1,11 @@
+
+---
+- name: "[ FIDO2 ]"
+  hosts: all
+
+  tasks:
+
+    - name: Install libfido2
+      community.general.pacman:
+        name: libfido2
+        state: present
