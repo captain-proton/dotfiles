@@ -67,3 +67,7 @@
 (package! f)
 (unpin! org-roam)
 (package! org-roam-ui)
+(package! asdf-vm
+  :recipe (:host github
+           :repo "delonnewman/asdf-vm.el"
+           :files ("asdf-vm.el")))
