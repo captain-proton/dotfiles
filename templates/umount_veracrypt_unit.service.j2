@@ -4,7 +4,7 @@ Description=Unmount all veracrypt devices on shutdown
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStop=unmount_veracrypt_drives
+ExecStop={{ umount_veracrypt_script }}
 
 [Install]
 WantedBy=multi-user.target
