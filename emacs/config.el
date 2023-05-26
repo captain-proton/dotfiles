@@ -573,6 +573,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
 
+(require 'asdf-vm)
+(asdf-vm-init)
+
 (map!
  :map lsp-ui-mode-map
  [remap xref-find-definitions] #'lsp-ui-peek-find-definitions

@@ -918,6 +918,11 @@ Open org roam notes in new workspace.
 
 * Programming
 
+#+begin_src emacs-lisp
+(require 'asdf-vm)
+(asdf-vm-init)
+#+end_src
+
 ** General Keybindings
 
 #+begin_src emacs-lisp
