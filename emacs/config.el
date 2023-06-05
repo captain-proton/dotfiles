@@ -606,6 +606,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq org-src-lang-modes
         (append org-src-lang-modes '(("ess-julia" . ess-julia)))))
 
+(use-package! lsp-java
+  :after lsp
+  :init (when (boundp local/lsp-java-configuration-runtimes)
+          (setq lsp-java-configuration-runtimes local/lsp-java-configuration-runtimes))
+  )
+
 (setq dap-auto-configure-mode t)
 
 ;; Displaying DAP visuals.

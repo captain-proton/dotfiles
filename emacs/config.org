@@ -975,6 +975,23 @@ Add julia support in org babel.
         (append org-src-lang-modes '(("ess-julia" . ess-julia)))))
 #+end_src
 
+* Java
+
+Setup java runtimes installed on the local machine. In case of using asdf-vm this may be something like the following.
+
+#+begin_example elisp
+(:name "JavaSE-17" :path (format "%s/.asdf/installs/java/adoptopenjdk-17.0.7+7" (getenv "HOME")))
+#+end_example
+
+
+#+begin_src emacs-lisp
+(use-package! lsp-java
+  :after lsp
+  :init (when (boundp local/lsp-java-configuration-runtimes)
+          (setq lsp-java-configuration-runtimes local/lsp-java-configuration-runtimes))
+  )
+#+end_src
+
 * DAP
 
 #+begin_src emacs-lisp
