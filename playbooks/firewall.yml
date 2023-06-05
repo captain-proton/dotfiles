@@ -3,10 +3,10 @@
   hosts: all
 
   handlers:
-    - name: Start firewalld
+    - name: Start ufw
       become: true
       ansible.builtin.service:
-        name: firewalld
+        name: ufw
         enabled: true
         state: started
 
@@ -17,6 +17,7 @@
         name: "{{ item }}"
         state: present
       loop:
-        - firewalld
+        - ufw
+        - gufw
       notify:
-        - Start firewalld
+        - Start ufw
