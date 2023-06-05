@@ -32,17 +32,25 @@
         - njpwerner.autodocstring
         - psioniq.psi-header
         - redhat.ansible
+        - redhat.java
         - redhat.vscode-yaml
+        - rust-lang.rust-analyzer
         - shuworks.vscode-table-formatter
         - stkb.rewrap
         - TabNine.tabnine-vscode
         - tamasfe.even-better-toml
+        - VisualStudioExptTeam.intellicode-api-usage-examples
+        - VisualStudioExptTeam.vscodeintellicode
+        - vscjava.vscode-java-debug
+        - vscjava.vscode-java-dependency
+        - vscjava.vscode-java-pack
+        - vscjava.vscode-java-test
+        - vscjava.vscode-maven
         - vscode-icons-team.vscode-icons
         - webfreak.debug
         - yzhang.markdown-all-in-one
-      absent:
-        - golang.go
-        - matklad.pale-fire
+
+      absent: []
 
   tasks:
     - name: Install visual studio code from aur
