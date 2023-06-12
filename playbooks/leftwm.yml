@@ -7,16 +7,79 @@
     config_dir: "{{ home }}/.config/leftwm"
     config_path: "{{ config_dir }}/config.ron"
     global_up_path: "{{ config_dir }}/up"
+    __leftwm_src_path: "{{ leftwm_src_path | default(lookup('env', 'HOME')) }}/.leftwm"
+    __leftwm_version: "{{ leftwm_version | default('eca88e5ab4aef8a2ed52e25d8c9a4c2345b1afdb') }}"
+
+  handlers:
+
+    - name: Build leftwm
+      ansible.builtin.command:
+        chdir: "{{ __leftwm_src_path }}"
+        cmd: cargo build --profile optimized
+
+    - name: Install leftwm executables to /usr/bin
+      become: true
+      ansible.builtin.command:
+        chdir: "{{ __leftwm_src_path }}"
+        cmd: "install -s -Dm755 target/optimized/{{ item }} -t /usr/bin"
+      loop:
+        - leftwm
+        - leftwm-worker
+        - lefthk-worker
+        - leftwm-state
+        - leftwm-check
+        - leftwm-command
+
+    - name: Copy leftwm.desktop to xsessions
+      become: true
+      ansible.builtin.copy:
+        src: "{{ __leftwm_src_path }}/leftwm.desktop"
+        dest: /usr/share/xsessions/
+        mode: 0644
 
   tasks:
 
-    - name: Install leftwm
+    - name: Check if cargo is installed
+      ansible.builtin.command:
+        cmd: zsh -c 'command -v cargo'
+      changed_when: false
+      failed_when: false
+      register: cargo_cmd
+
+    - name: Cancel further execution if cargo is not available
+      ansible.builtin.assert:
+        that:
+          - cargo_cmd.stdout | length > 0
+        fail_msg: "Please install rust and cargo. Take a look at the rust playbook"
+
+    - name: Ensure leftwm is not installed via package manager
+      become: true
+      yay:
+        name: leftwm
+        state: absent
+
+    - name: Ensure leftwm src path exists
+      ansible.builtin.file:
+        path: "{{ __leftwm_src_path }}"
+        state: directory
+        mode: 0755
+
+    - name: Get leftwm sources
+      ansible.builtin.git:
+        repo: https://github.com/leftwm/leftwm.git
+        dest: "{{ __leftwm_src_path }}"
+        version: "{{ __leftwm_version }}"
+      notify:
+        - Build leftwm
+        - Install leftwm executables to /usr/bin
+        - Copy leftwm.desktop to xsessions
+
+    - name: Install leftwm utils
       become: true
       yay:
         name: "{{ item }}"
         state: present
       loop:
-        - leftwm
         - i3lock
         - polybar
         - rofi
