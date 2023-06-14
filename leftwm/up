@@ -1,1 +1,4 @@
 #!/usr/bin/env bash
+
+# auto unlock kwallet
+exec --no-startup-id /usr/lib/pam_kwallet_init
