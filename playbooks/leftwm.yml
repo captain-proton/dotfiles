@@ -17,6 +17,11 @@
         chdir: "{{ __leftwm_src_path }}"
         cmd: cargo build --profile optimized
 
+    - name: Clear leftwm build dir
+      ansible.builtin.command:
+        chdir: "{{ __leftwm_src_path }}"
+        cmd: cargo clean
+
     - name: Install leftwm executables to /usr/bin
       become: true
       ansible.builtin.command:
@@ -73,6 +78,7 @@
         - Build leftwm
         - Install leftwm executables to /usr/bin
         - Copy leftwm.desktop to xsessions
+        - Clear leftwm build dir
 
     - name: Install leftwm utils
       become: true
