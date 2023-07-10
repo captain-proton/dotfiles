@@ -1,0 +1,48 @@
+- name: "[ QUTEBROWSER ]"
+  hosts: all
+
+  vars:
+    qutebrowser_theme_file: "{{ home }}/.config/qutebrowser/theme.py"
+    __qutebrowser_kp_gpg_key: "{{ qutebrowser_kp_gpg_key | default(False) }}"
+
+  tasks:
+
+    - name: Ensure required packages are installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - qutebrowser
+        - python-pynacl
+
+    - name: Ensure theme is present
+      ansible.builtin.git:
+        repo: https://github.com/Linuus/nord-qutebrowser.git
+        dest: "{{ home }}/.local/share/nord-qutebrowser"
+        version: master
+
+    - name: Config dir for qutebrowser must be present
+      ansible.builtin.file:
+        path: "{{ home }}/.config/qutebrowser"
+        state: directory
+        mode: 0750
+
+    - name: Link theme to qutebrowser configuration
+      ansible.builtin.file:
+        src: "{{ home }}/.local/share/nord-qutebrowser/nord-qutebrowser.py"
+        dest: "{{ qutebrowser_theme_file }}"
+        state: link
+
+    - name: Place qutebrowser config.py
+      ansible.builtin.template:
+        src: ../templates/qutebrowser-config.py.j2
+        dest: "{{ home }}/.config/qutebrowser/config.py"
+        mode: 0644
+
+    - name: Add qute-keepassxc to path
+      ansible.builtin.file:
+        src: /usr/share/qutebrowser/userscripts/qute-keepassxc
+        dest: "{{ home }}/.local/bin/qute-keepassxc"
+        state: link
+      when: __qutebrowser_kp_gpg_key

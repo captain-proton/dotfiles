@@ -502,5 +502,11 @@ cmp.setup {
   },
 }
 
+if vim.g.neovide then
+  -- Put anything you want to happen only in Neovide here
+  vim.o.guifont = "JetBrainsMono Nerd Font:h10"
+  vim.opt.linespace = 4
+end
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

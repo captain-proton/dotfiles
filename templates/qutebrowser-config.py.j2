@@ -1,0 +1,11 @@
+# Loading autoconfig.yml
+config.load_autoconfig()
+
+# [ COLOR SCHEME ]
+config.source('{{ qutebrowser_theme_file }}')
+
+{% if __qutebrowser_kp_gpg_key is defined and __qutebrowser_kp_gpg_key %}
+# Keybindings for interaction with keepassxc
+config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key {{ qutebrowser_kp_gpg_key }}', mode='insert')
+config.bind('pw', 'spawn --userscript qute-keepassxc --key {{ qutebrowser_kp_gpg_key }}', mode='normal')
+{% endif %}

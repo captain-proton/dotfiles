@@ -36,6 +36,7 @@
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/brave-browser.yml
+- import_playbook: ../playbooks/qutebrowser.yml
 - import_playbook: ../playbooks/keepassxc.yml
 - import_playbook: ../playbooks/okular.yml
 - import_playbook: ../playbooks/thunderbird.yml
