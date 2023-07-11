@@ -48,6 +48,9 @@ ssh_only = false
 format = '@[$hostname](bold fg:#81a1c1) '
 disabled = false
 
+[python]
+symbol = '󰌠 '
+
 [time]
 disabled = false
 format = '[ $time ]($style) '
