@@ -23,7 +23,7 @@ symbol = "󰏗 "
 
 [battery]
 full_symbol = "  "
-charging_symbol = " "
+charging_symbol = "󰂄 "
 disabled = false
 format = '[$symbol$percentage]($style) '
 
