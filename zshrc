@@ -7,6 +7,7 @@ ZSH_THEME=""
 plugins=(git
   asdf
   systemd
+  fzf
   direnv
   poetry
   ansible
