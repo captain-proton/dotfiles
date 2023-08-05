@@ -10,6 +10,8 @@ use_asdf-venv() {
           # `virtualenv`, which you would have to install separately.
           python -m venv .venv
       fi
+      echo "Activating $(python -V) virtualenv"
+      source .venv/bin/activate
   fi
 }
 
@@ -31,3 +33,4 @@ layout_poetry() {
   export POETRY_ACTIVE=1
   PATH_add "$VENV/bin"
 }
+
