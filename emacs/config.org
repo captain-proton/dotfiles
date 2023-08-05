@@ -11,7 +11,7 @@ This command is executed at the end of the emacs.yml playbook in this
 repository.
 
 #+begin_src emacs-lisp
-(doom-load-envvars-file "~/.emacs.d/.local/env")
+(doom-load-envvars-file "~/.config/emacs.d/doom/.local/env")
 #+end_src
 
 ** References

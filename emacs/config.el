@@ -1,4 +1,4 @@
-(doom-load-envvars-file "~/.emacs.d/.local/env")
+(doom-load-envvars-file "~/.config/emacs.d/doom/.local/env")
 
 (setq frame-title-format
     '(""

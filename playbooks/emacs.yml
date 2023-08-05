@@ -4,8 +4,10 @@
   gather_facts: false
 
   vars:
-    emacsd: "{{ home }}/.emacs.d"
+    emacsd: "{{ home }}/.config/emacs.d/doom"
+    chemacs2d: "{{ home }}/.emacs.d"
     envvars: "{{ emacsd }}/.local/env"
+    doomdir: "{{ home }}/dotfiles/emacs"
 
   handlers:
     - name: Install doom emacs
@@ -53,7 +55,7 @@
     - name: Set DOOMDIR environment variable
       ansible.builtin.lineinfile:
         path: "{{ home }}/.zprofile"
-        line: 'export DOOMDIR="{{ home }}/dotfiles/emacs"'
+        line: 'export DOOMDIR="{{ doomdir }}"'
 
     - name: Check for emacs custom configuration
       ansible.builtin.stat:
@@ -76,3 +78,18 @@
       ansible.builtin.command:
         cmd: "{{ emacsd }}/bin/doom env -o {{ envvars }}"
       changed_when: true
+
+    - name: Get chemacs2
+      ansible.builtin.git:
+        repo: https://github.com/plexus/chemacs2
+        dest: "{{ home }}/.emacs.d"
+        version: main
+
+    - name: Build ~/.emacs-profile.el
+      ansible.builtin.copy:
+        create: true
+        mode: 0644
+        content: |
+          (("default" . ((user-emacs-directory   . "{{ emacsd }}")
+                         (env . (("DOOMDIR"      . "{{ doomdir }}")))))
+          )
