@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ SSH UNLOCK ]"
+  hosts: all
   gather_facts: false
 
   vars:
@@ -11,7 +12,7 @@
     ssh_add_desktop_filename: ssh-add.desktop
     ssh_add_desktop_path: "{{ home }}/.local/share/applications/{{ ssh_add_desktop_filename }}"
     ssh_autostart_entry: "{{ home }}/.config/autostart/{{ ssh_add_desktop_filename }}"
-    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/10-sshaskpass.conf"
+    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
 
   tasks:
     - name: Ensure 'keychain' is installed
@@ -84,12 +85,12 @@
         state: link
 
     - name: Export SSH_ASKPASS environment variable
-      ansible.builtin.blockinfile:
+      ansible.builtin.lineinfile:
         path: "{{ ssh_askpass_envvar_conf }}"
         mode: 0640
         state: present
         create: true
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
-        block: |
-          SSH_ASKPASS='/usr/bin/ksshaskpass'
-          SSH_ASKPASS_REQUIRE=prefer
+        line: "{{ item }}"
+      loop:
+        - "SSH_ASKPASS='/usr/bin/ksshaskpass'"
+        - "SSH_ASKPASS_REQUIRE=prefer"
