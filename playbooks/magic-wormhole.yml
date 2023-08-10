@@ -5,6 +5,6 @@
   tasks:
     - name: Ensure magic wormhole is installed
       become: true
-      yay:
-        name: wormhole-rs
+      community.general.pacman:
+        name: magic-wormhole
         state: present
