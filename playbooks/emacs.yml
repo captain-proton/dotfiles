@@ -85,10 +85,10 @@
         dest: "{{ home }}/.emacs.d"
         version: main
 
-    - name: Build ~/.emacs-profile.el
+    - name: Build ~/.emacs-profiles.el
       ansible.builtin.copy:
-        create: true
         mode: 0644
+        dest: "{{ home }}/.emacs-profiles.el"
         content: |
           (("default" . ((user-emacs-directory   . "{{ emacsd }}")
                          (env . (("DOOMDIR"      . "{{ doomdir }}")))))
