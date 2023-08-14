@@ -332,3 +332,9 @@ vault*
 
 # neovim lazy package manager package versions
 neovim/lazy-lock.json
+
+# Emacs package manager
+elpaca/
+
+# Don't share native compiled elisp
+eln-cache/
