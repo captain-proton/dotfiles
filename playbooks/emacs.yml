@@ -17,11 +17,11 @@
   tasks:
     - name: Ensure emacs and doom required software is installed
       become: true
-      community.general.pacman:
+      yay:
         name: "{{ item }}"
         state: present
       loop:
-        - emacs-nativecomp
+        - emacs28-nativecomp
         - ripgrep
         - findutils
         - fd
