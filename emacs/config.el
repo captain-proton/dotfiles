@@ -456,8 +456,8 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq org-log-done 'time
         org-todo-keywords
         '((sequence
-           "TODO(t)"            ; Backlog items in kanban that should be executed
            "DOING(o)"           ; Things that are currently in work (work in progress)
+           "TODO(t)"            ; Backlog items in kanban that should be executed
            "WAIT(w)"            ; A task that can not be set as DOING
            "|"                  ; Separate active and inactive items
            "DONE(d)"            ; Finished work ... yeah
