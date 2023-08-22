@@ -14,7 +14,7 @@
         - make
 
     - name: Install ansible yay module
-      ansible.builtin.git:
-        repo: git@github.com:mnussbaum/ansible-yay.git
-        dest: ./library
-        version: master
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/mnussbaum/ansible-yay/master/yay
+        dest: ./library/yay
+        mode: 0755
