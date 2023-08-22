@@ -21,7 +21,7 @@
         name: "{{ item }}"
         state: present
       loop:
-        - emacs28-nativecomp
+        - emacs
         - ripgrep
         - findutils
         - fd
