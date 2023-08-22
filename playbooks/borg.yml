@@ -16,8 +16,11 @@
     - name: Install borg
       become: true
       community.general.pacman:
-        name: borg
+        name: "{{ item }}"
         state: present
+      loop:
+        - borg
+        - python-llfuse
 
     - name: Set default repo
       ansible.builtin.set_fact:
