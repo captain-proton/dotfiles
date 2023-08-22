@@ -113,3 +113,9 @@
         name: "{{ ansible_env.USER }}"
         shell: /bin/zsh
     # END SHELL CONFIGURATION
+
+    - name: Ensure zprofile is present
+      ansible.builtin.file:
+        path: "{{ home }}/.zprofile"
+        state: file
+        mode: 0640
