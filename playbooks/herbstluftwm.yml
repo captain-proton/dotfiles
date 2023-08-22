@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ HERBSTLUFTWM ]"
+  hosts: all
   gather_facts: false
 
   vars:
@@ -10,7 +11,7 @@
 
     - name: Install herbstluftwm
       become: true
-      yay:
+      community.general.pacman:
         name: "{{ item }}"
         state: present
       loop:
