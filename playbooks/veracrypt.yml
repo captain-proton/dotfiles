@@ -10,6 +10,7 @@
   tasks:
 
     - name: Install veracrypt
+      become: true
       community.general.pacman:
         name: veracrypt
         state: present
