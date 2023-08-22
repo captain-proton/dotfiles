@@ -1,11 +1,17 @@
 ---
-- hosts: all
+- name: "[ YAY ]"
+  hosts: all
   tasks:
     - name: Install yay
       become: true
       community.general.pacman:
-        name: yay
+        name: "{{ item }}"
         state: present
+      loop:
+        - yay
+        - pkgconf
+        - base-devel
+        - make
 
     - name: Install ansible yay module
       ansible.builtin.git:
