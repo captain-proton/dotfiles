@@ -1,10 +1,15 @@
 ---
-- hosts: all
+- name: "[ BLUETOOTH ]"
+  hosts: all
   gather_facts: false
 
   tasks:
-  - name: Install bluez-utils
-    become: true
-    community.general.pacman:
-      name: bluez-utils
-      state: present
+    - name: Install bluez-utils
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - bluez-utils
+        - bluedevil
+        - blueman
