@@ -1,0 +1,12 @@
+- name: "[ PANDOC ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure pandoc is present
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - pandoc-cli

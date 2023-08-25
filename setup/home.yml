@@ -34,6 +34,8 @@
 - import_playbook: ../playbooks/magic-wormhole.yml
 - import_playbook: ../playbooks/redshift.yml
 - import_playbook: ../playbooks/dust.yml
+- import_playbook: ../playbooks/wireguard.yml
+- import_playbook: ../playbooks/pandoc.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/brave-browser.yml

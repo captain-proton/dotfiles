@@ -1,0 +1,9 @@
+- name: "[ WIREGUARD ]"
+  hosts: all
+
+  tasks:
+    - name: Ensure wireguard is installed
+      become: true
+      community.general.pacman:
+        name: wireguard-tools
+        state: present
