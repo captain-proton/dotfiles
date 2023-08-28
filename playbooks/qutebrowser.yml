@@ -9,12 +9,14 @@
 
     - name: Ensure required packages are installed
       become: true
-      community.general.pacman:
+      yay:
         name: "{{ item }}"
         state: present
       loop:
         - qutebrowser
         - python-pynacl
+        - python-adblock
+        - qt5-webengine-widevine
 
     - name: Ensure theme is present
       ansible.builtin.git:
