@@ -1,5 +1,21 @@
-# Loading autoconfig.yml
-config.load_autoconfig()
+# Use both local and braves abp blocking
+# 'python-adblock' must be installed to use this
+c.content.blocking.method = 'both'
+
+# Get content in german
+c.content.headers.accept_language = 'de-DE,de;q=0.9'
+
+# Enable smooth scrolling on wbe pages
+c.scrolling.smooth = True
+
+# New tabs open the default page
+c.url.default_page = 'about:blank'
+
+# Page that is opened when starting qutebrowser
+c.url.start_pages = 'https://manjaro.org'
+
+# Use startpage as search provider, it uses google by default as backend
+c.url.searchengines = {'DEFAULT': 'https://www.startpage.com/do/dsearch?query={}'}
 
 # [ COLOR SCHEME ]
 config.source('{{ qutebrowser_theme_file }}')
@@ -9,3 +25,6 @@ config.source('{{ qutebrowser_theme_file }}')
 config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key {{ qutebrowser_kp_gpg_key }}', mode='insert')
 config.bind('pw', 'spawn --userscript qute-keepassxc --key {{ qutebrowser_kp_gpg_key }}', mode='normal')
 {% endif %}
+
+# Loading autoconfig.yml
+config.load_autoconfig()
