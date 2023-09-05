@@ -22,6 +22,7 @@
         state: present
       loop:
         - emacs-nativecomp
+        - cmake
         - ripgrep
         - findutils
         - fd
