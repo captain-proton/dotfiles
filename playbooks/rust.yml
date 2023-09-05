@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ RUST]"
+  hosts: all
 
   tasks:
     - name: Install rustup
@@ -9,8 +10,10 @@
         state: present
       loop:
         - rustup
+        - gdb
+        - lldb
 
-    - name: check toolchains
+    - name: Check toolchains
       ansible.builtin.command:
         cmd: rustup toolchain list -v
       register: rustup_toolchains
