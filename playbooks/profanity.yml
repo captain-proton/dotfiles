@@ -1,0 +1,39 @@
+- name: "[ PROFANITY ]"
+  hosts: all
+
+  vars:
+    notifycmd_url: "https://raw.githubusercontent.com/Neo-Oli/profanity-notifycmd/master/notifycmd.py"
+    notifycmd_sha256sum: d656f472a94b4e95f2dbe8ea7a4e1f4905ffa27bdd3df5e2547d4e6c9a0fa0e8
+    notifycmd_dest: "{{ home }}/.local/share/profanity/plugins/notifycmd.py"
+
+  tasks:
+    - name: Ensure profanity is installed
+      become: true
+      community.general.pacman:
+        name: profanity
+        state: present
+
+    - name: Check for notifycmd plugin
+      ansible.builtin.stat:
+        path: "{{ notifycmd_dest }}"
+      register: notifycmd
+
+    - name: Download notifycmd
+      ansible.builtin.get_url:
+        url: "https://raw.githubusercontent.com/Neo-Oli/profanity-notifycmd/master/notifycmd.py"
+        dest: "{{ notifycmd_dest }}"
+        checksum: "sha256:{{ notifycmd_sha256sum }}"
+        mode: 0644
+      when: not notifycmd.stat.exists
+
+    - name: Check for profrc
+      ansible.builtin.stat:
+        path: "{{ home }}/.config/profanity/profrc"
+      register: profrc
+
+    - name: Put profrc settings file
+      ansible.builtin.template:
+        src: ../templates/profrc.j2
+        dest: "{{ home }}/.config/profanity/profrc"
+        mode: 0600
+      when: not profrc.stat.exists
