@@ -29,7 +29,8 @@
         - maim
         - libvterm
         - shellcheck  # required for module sh
-        - prettier  # requires for module json, yaml ...
+        - prettier  # required for module json, yaml ...
+        - python-grip  # required for markdown +grip
 
     - name: Check for emacs.d directory
       ansible.builtin.stat:
