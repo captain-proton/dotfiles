@@ -9,6 +9,7 @@
 - import_playbook: ../playbooks/curl.yml
 - import_playbook: ../playbooks/vscode.yml
 - import_playbook: ../playbooks/neovim.yml
+- import_playbook: ../playbooks/helix-editor.yml
 - import_playbook: ../playbooks/fzf.yml
 - import_playbook: ../playbooks/borg.yml
 - import_playbook: ../playbooks/python.yml
