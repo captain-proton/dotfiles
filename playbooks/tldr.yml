@@ -1,0 +1,11 @@
+---
+- name: "[ TLDR ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure tldr is installed
+      become: true
+      community.general.pacman:
+        name: tldr
+        state: present
