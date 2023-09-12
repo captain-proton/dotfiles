@@ -74,7 +74,7 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [Desktop Entry]
-          Exec=env SSH_ASKPASS='/usr/bin/ksshaskpass' zsh --extendedglob -c 'ssh-add -q ~/.ssh/id^*.pub < /dev/null'
+          Exec=zsh --extendedglob -c 'SSH_ASKPASS="/usr/bin/ksshaskpass" SSH_ASKPASS_REQUIRE=prefer ssh-add -q ~/.ssh/id^*.pub < /dev/null'
           Name=ssh-add
           Type=Application
 
