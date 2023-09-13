@@ -1,11 +1,14 @@
 ---
-- hosts: all
+- name: "[ PYTHON ]"
+  hosts: all
   gather_facts: false
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     poetry_script: "{{ home }}/.local/bin/poetry"
     poetry_venv: "{{ home }}/.local/share/pypoetry"
+    __ipython_highlighting_style: "{{ ipython_highlighting_style | default('nord') }}"
+    __ipython_true_color: "{{ ipython_true_color | default(True) }}"
 
   tasks:
     - name: Ensure python and python development packages are installed
@@ -15,13 +18,15 @@
         state: present
       loop:
         - python
+        - ipython
+        - flake8
         - python-debugpy
         - python-pyflakes
+        - python-pycodestyle
         - python-pytest
         - python-isort
         - python-black
         - python-cookiecutter
-        - ipython
 
     - name: Remove current poetry script
       ansible.builtin.file:
@@ -38,6 +43,7 @@
       register: poetry_bin
 
     - name: Install poetry
+      when: not poetry_bin.stat.exists
       block:
         - name: Create temporary file
           ansible.builtin.tempfile:
@@ -59,9 +65,23 @@
             warn: false
           changed_when: true
 
-      when: not poetry_bin.stat.exists
-
     - name: Add ~/.local/bin to ~/.path
       ansible.builtin.lineinfile:
         path: "{{ path_file_path }}"
         line: "export PATH={{ home }}/.local/bin:$PATH"
+
+    - name: Check if an ipython profile exists
+      ansible.builtin.stat:
+        path: "{{ home }}/.ipython/profile_default"
+      register: ipython_default_profile
+
+    - name: Create ipython profile
+      ansible.builtin.command:
+        cmd: ipython profile create
+      when: not ipython_default_profile.stat.exists
+
+    - name: Configure ipython
+      ansible.builtin.template:
+        src: ../templates/ipython_config.py.j2
+        dest: "{{ home }}/.ipython/profile_default/ipython_config.py"
+        mode: 0640
