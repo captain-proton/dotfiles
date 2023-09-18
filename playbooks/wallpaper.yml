@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ UNSPLASH DOWNLOAD SCRIPT ]"
+  hosts: all
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
@@ -7,11 +8,12 @@
     dl_wallpaper_script_name: dl_unsplash_wallpaper.sh
     dl_wallpaper_script_path: "{{ home }}/.local/bin/{{ dl_wallpaper_script_name }}"
     dl_wallpaper_desktop_path: "{{ home }}/.config/autostart/dl-unsplash-wallpaper.desktop"
-    delete_wallpaper_script_name: delete_duplicate_wallpaper.sh
-    delete_wallpaper_script_path: "{{ home }}/.local/bin/{{ delete_wallpaper_script_name }}"
+    dl_destination: "{{ home }}/.local/share/wallpapers"
+    delete_duplicate_files_script_name: delete_duplicate_files.py
+    delete_wallpaper_script_path: "{{ home }}/.local/bin/{{ delete_duplicate_files_script_name }}"
     delete_wallpaper_desktop_path: "{{ home }}/.config/autostart/delete-duplicate-wallpaper.desktop"
 
-    unsplash_search_word: nature
+    __unsplash_search_word: "{{ unsplash_search_word | default('wallpaper') }}"
 
   tasks:
 
@@ -34,9 +36,9 @@
           Name=download unsplash wallpaper
           Type=Application
 
-    - name: Copy delete duplicate wallpaper script to local bin
+    - name: Copy delete duplicate files script to local bin
       ansible.builtin.template:
-        src: ../templates/delete_duplicate_wallpaper.sh.j2
+        src: "../templates/{{ delete_duplicate_files_script_name }}"
         dest: "{{ delete_wallpaper_script_path }}"
         mode: 0750
 
@@ -49,6 +51,6 @@
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
           [Desktop Entry]
-          Exec={{ delete_wallpaper_script_path }}
+          Exec=python {{ delete_wallpaper_script_path }} {{ dl_destination }}
           Name=delete duplicate downloaded unsplash wallpaper
           Type=Application

@@ -71,3 +71,5 @@
   :recipe (:host github
            :repo "delonnewman/asdf-vm.el"
            :files ("asdf-vm.el")))
+(package! dash)
+(package! numpydoc)

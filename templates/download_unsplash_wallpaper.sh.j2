@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # curl -L 'https://source.unsplash.com/2560x1440/?nature' -o ~/Bilder/wallpaper/nature_$(date +%Y-%m-%d_%H:%M:%S).jpeg
-WORD="{{ unsplash_search_word | default('nature') }}"
-OUTPUT_DIR="$HOME/.local/share/wallpapers"
+WORD="{{ __unsplash_search_word }}"
+OUTPUT_DIR="{{ dl_destination }}"
 
 if [ ! -z "$1" ]; then
     WORD=$1
