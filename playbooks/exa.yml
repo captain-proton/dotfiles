@@ -1,17 +1,18 @@
 ---
-- hosts: all
+- name: "[ EZA ]"
+  hosts: all
 
   vars:
     aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
 
   tasks:
-    - name: Install exa (ls replacement)
+    - name: Install eza (ls replacement)
       become: true
       community.general.pacman:
-        name: exa
+        name: eza
         state: present
 
     - name: Set the exa alias for ls
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
-        line: "alias ls='exa -hg'"
+        line: "alias ls='eza -hg'"
