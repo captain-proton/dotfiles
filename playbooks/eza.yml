@@ -12,7 +12,7 @@
         name: eza
         state: present
 
-    - name: Set the exa alias for ls
+    - name: Set the eza alias for ls
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
         line: "alias ls='eza -hg'"
