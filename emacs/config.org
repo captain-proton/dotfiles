@@ -39,6 +39,31 @@ Show the current workspace/perspective name.
 (setq doom-modeline-persp-name t)
 #+end_src
 
+* General Keybindings
+
+| Keybinding | Description               |
+|------------+---------------------------|
+| ~C-+~        | ~doom increase font size~   |
+| ~C--~        | ~doom decrease font size~   |
+| ~C-=~        | ~doom reset font size~      |
+| ~C-x e~    | Export search to a buffer |
+
+#+begin_src emacs-lisp
+(map! :nvi "C-+" #'doom/increase-font-size
+      :nvi "C--" #'doom/decrease-font-size
+      :nvi "C-=" #'doom/reset-font-size
+      "C-c s" #'org-edit-special
+      "C-x c" #'evilnc-comment-or-uncomment-lines
+      "C-x e" #'embark-export
+      )
+
+(after! evil
+  (map! :i "C-V" #'evil-paste-before-cursor-after
+        :i "C-v" #'evil-paste-after
+        )
+  )
+#+end_src
+
 * Cursor settings
 
 Let the cursor blink. This is especially useful using the nord color theme in emacs because brackets get a background color that let the cursor nearly dissappear.
@@ -130,27 +155,6 @@ Save buffer to file after leaving insert mode.
           (lambda ()
             (when (buffer-file-name)
               (call-interactively #'save-buffer))))
-#+end_src
-
-** Keybindings
-
-| Keybinding | Description             |
-|------------+-------------------------|
-| ~C-+~        | ~doom increase font size~ |
-| ~C--~        | ~doom decrease font size~ |
-| ~C-=~        | ~doom reset font size~    |
-
-#+begin_src emacs-lisp
-(map! :nvi "C-+" #'doom/increase-font-size
-      :nvi "C--" #'doom/decrease-font-size
-      :nvi "C-=" #'doom/reset-font-size
-      )
-
-(after! evil
-  (map! :i "C-V" #'evil-paste-before-cursor-after
-        :i "C-v" #'evil-paste-after
-        )
-  )
 #+end_src
 
 ** Whitespace mode

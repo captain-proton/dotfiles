@@ -10,6 +10,20 @@
 
 (setq doom-modeline-persp-name t)
 
+(map! :nvi "C-+" #'doom/increase-font-size
+      :nvi "C--" #'doom/decrease-font-size
+      :nvi "C-=" #'doom/reset-font-size
+      "C-c s" #'org-edit-special
+      "C-x c" #'evilnc-comment-or-uncomment-lines
+      "C-x e" #'embark-export
+      )
+
+(after! evil
+  (map! :i "C-V" #'evil-paste-before-cursor-after
+        :i "C-v" #'evil-paste-after
+        )
+  )
+
 (blink-cursor-mode 1)
 
 (setq dired-kill-when-opening-new-dired-buffer t)
@@ -66,17 +80,6 @@
           (lambda ()
             (when (buffer-file-name)
               (call-interactively #'save-buffer))))
-
-(map! :nvi "C-+" #'doom/increase-font-size
-      :nvi "C--" #'doom/decrease-font-size
-      :nvi "C-=" #'doom/reset-font-size
-      )
-
-(after! evil
-  (map! :i "C-V" #'evil-paste-before-cursor-after
-        :i "C-v" #'evil-paste-after
-        )
-  )
 
 (setq whitespace-style '(face tabs tab-mark spaces space-mark trailing
                               lines-tail)
