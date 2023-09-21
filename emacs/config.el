@@ -104,8 +104,7 @@
     (fringe-mode '(nil . nil))))
 (add-hook 'writeroom-mode-hook 'proton/fringe-on-zen)
 
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(setq +tree-sitter-hl-enabled-modes '(python-mode java-mode rustic-mode yaml-mode))
 
 (setq-default line-spacing 4)
 
@@ -597,6 +596,17 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (add-hook! rust-mode #'display-fill-column-indicator-mode)
 
+(use-package! rustic
+  :config
+  (setq! lsp-rust-analyzer-cargo-watch-enable t
+         lsp-rust-analyzer-cargo-watch-command "clippy"
+         lsp-rust-analyzer-proc-macro-enable t
+         lsp-rust-analyzer-cargo-load-out-dirs-from-check t
+         lsp-rust-analyzer-inlay-hints-mode t
+         lsp-rust-analyzer-server-display-inlay-hints t
+         lsp-rust-analyzer-display-chaining-hints t
+         lsp-rust-analyzer-display-parameter-hints t))
+
 ;; Load ob-ess-julia and dependencies
 (use-package! ob-ess-julia
   :ensure t
@@ -636,6 +646,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; call dap-hydra after a breakpoint has been hit
   (add-hook 'dap-stopped-hook
             (lambda (arg) (call-interactively #'dap-hydra)))
+  (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   )
 
 (use-package! dap-mode
@@ -648,11 +659,18 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (defun dap-python--pyenv-executable-find (command)
     (with-venv (executable-find "python"))))
 
-(require 'dap-gdb-lldb)
+(use-package! rustic
+  :config
+  (require 'dap-gdb-lldb)
+  (require 'dap-cpptools))
 (dap-register-debug-template "Rust::GDB Run Configuration"
                              (list :type "gdb"
                                    :request "launch"
                                    :name "GDB::Run"
                                    :gdbpath "rust-gdb"
-                                   :target nil
-                                   :cwd nil))
+                                   :program "${workspaceFolder}/target/debug/hello / replace with binary"
+                                   :cwd "${workspaceFolder}"
+                                   :console "external"
+                                   :dap-compilation "cargo build"
+                                   :dap-compilation-dir "${workspaceFolder}"
+                                   ))

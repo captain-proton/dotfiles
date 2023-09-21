@@ -204,11 +204,10 @@ Disable fringe-mode on writeroom and activate it again when leaving. This is esp
 
 ** Tree Sitter
 
-~tree-sitter~ is a parsing system for source code and other structured text file formats. The module provides for example syntax highlighting for major modes that are known by emacs. Take a look at the [[https://emacs-tree-sitter.github.io/getting-started/][getting started guide]] of the emacs tree sitter package. The following lines will activate syntax highlighting for tree sitter for all known languages.
+~tree-sitter~ is a parsing system for source code and other structured text file formats. The module provides for example syntax highlighting for major modes that are known by emacs. Take a look at the [[https://emacs-tree-sitter.github.io/getting-started/][getting started guide]] of the emacs tree sitter package. The following lines will activate syntax highlighting for tree sitter for some specific languages
 
 #+begin_src emacs-lisp
-(global-tree-sitter-mode)
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+(setq +tree-sitter-hl-enabled-modes '(python-mode java-mode rustic-mode yaml-mode))
 #+end_src
 
 ** Line spacing
@@ -961,6 +960,19 @@ Add fill column indicator in rust mode.
 (add-hook! rust-mode #'display-fill-column-indicator-mode)
 #+end_src
 
+#+begin_src emacs-lisp
+(use-package! rustic
+  :config
+  (setq! lsp-rust-analyzer-cargo-watch-enable t
+         lsp-rust-analyzer-cargo-watch-command "clippy"
+         lsp-rust-analyzer-proc-macro-enable t
+         lsp-rust-analyzer-cargo-load-out-dirs-from-check t
+         lsp-rust-analyzer-inlay-hints-mode t
+         lsp-rust-analyzer-server-display-inlay-hints t
+         lsp-rust-analyzer-display-chaining-hints t
+         lsp-rust-analyzer-display-parameter-hints t))
+#+end_src
+
 ** Julia
 
 Add julia support in org babel.
@@ -1020,6 +1032,7 @@ Setup java runtimes installed on the local machine. In case of using asdf-vm thi
   ;; call dap-hydra after a breakpoint has been hit
   (add-hook 'dap-stopped-hook
             (lambda (arg) (call-interactively #'dap-hydra)))
+  (setq dap-default-terminal-kind "integrated") ;; Make sure that terminal programs open a term for I/O in an Emacs buffer
   )
 #+end_src
 
@@ -1042,12 +1055,19 @@ Enable debugging support for python. Set ~debugpy~ as default debugger. ~debugpy
 ** Rust
 
 #+begin_src emacs-lisp
-(require 'dap-gdb-lldb)
+(use-package! rustic
+  :config
+  (require 'dap-gdb-lldb)
+  (require 'dap-cpptools))
 (dap-register-debug-template "Rust::GDB Run Configuration"
                              (list :type "gdb"
                                    :request "launch"
                                    :name "GDB::Run"
                                    :gdbpath "rust-gdb"
-                                   :target nil
-                                   :cwd nil))
+                                   :program "${workspaceFolder}/target/debug/hello / replace with binary"
+                                   :cwd "${workspaceFolder}"
+                                   :console "external"
+                                   :dap-compilation "cargo build"
+                                   :dap-compilation-dir "${workspaceFolder}"
+                                   ))
 #+end_src
