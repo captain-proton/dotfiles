@@ -103,6 +103,14 @@
           - "Vollkorn-Regular.ttf"
           - "Vollkorn-SemiBold.ttf"
           - "Vollkorn-SemiBoldItalic.ttf"
+      - font_base_url: https://github.com/domtronn/all-the-icons.el/raw/master/fonts
+        font_files:
+          - "all-the-icons.ttf"
+          - "file-icons.ttf"
+          - "fontawesome.ttf"
+          - "material-design-icons.ttf"
+          - "octicons.ttf"
+          - "weathericons.ttf"
 
   tasks:
     - name: Create font download folder
