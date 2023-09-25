@@ -113,8 +113,6 @@ Set this insane named variable to prevent this behaviour.
   (kbd "* %") 'dired-mark-files-regexp
   (kbd "* .") 'dired-mark-extension
   (kbd "* /") 'dired-mark-directories)
-;; Get file icons in dired
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 ;; With dired-open plugin, you can launch external programs for certain extensions
 ;; As is I am/was also a kde user, use gwenview for images and vlc for videos
 (setq dired-open-extensions '(("gif" . "gwenview")
