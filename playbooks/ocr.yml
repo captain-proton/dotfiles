@@ -1,0 +1,18 @@
+- name: "[ OCR ]"
+  hosts: all
+
+  vars:
+    __ocr_tesseract_data_pkg: "{{ ocr_tesseract_data_pkg | default('tesseract-data-deu') }}"
+    __ocr_packages:
+      - ocrdesktop
+      - python-scipy
+      - python-webcolors
+      - tesseract-data-eng
+      - "{{ __ocr_tesseract_data_pkg }}"
+
+  tasks:
+    - name: Ensure necessary packages are installed
+      become: true
+      community.general.pacman:
+        name: "{{ __ocr_packages }}"
+        state: present
