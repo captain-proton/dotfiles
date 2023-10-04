@@ -910,6 +910,9 @@ Open org roam notes in new workspace.
 #+begin_src emacs-lisp
 (require 'asdf-vm)
 (asdf-vm-init)
+(use-package! lsp-mode
+  :init
+  (setq! lsp-inlay-hint-enable t))
 #+end_src
 
 ** General Keybindings

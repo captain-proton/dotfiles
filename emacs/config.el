@@ -567,6 +567,9 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 
 (require 'asdf-vm)
 (asdf-vm-init)
+(use-package! lsp-mode
+  :init
+  (setq! lsp-inlay-hint-enable t))
 
 (map!
  :map lsp-ui-mode-map
