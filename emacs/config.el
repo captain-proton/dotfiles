@@ -66,14 +66,6 @@
 (global-auto-revert-mode 1)
 (setq global-auto-revert-non-file-buffers t)
 
-(after! neotree
-  (setq doom-themes-neotree-file-icons t
-        neo-theme (if (window-system) 'icons 'arrow)
-        neo-window-width 40
-        neo-window-fixed-size nil
-        )
-  )
-
 (add-hook 'evil-insert-state-exit-hook
           (lambda ()
             (when (buffer-file-name)

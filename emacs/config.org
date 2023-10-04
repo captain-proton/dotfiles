@@ -132,18 +132,6 @@ Apply this behaviour to non file buffers, which is useful for example dired.
 (setq global-auto-revert-non-file-buffers t)
 #+end_src
 
-* Neotree
-
-#+begin_src emacs-lisp
-(after! neotree
-  (setq doom-themes-neotree-file-icons t
-        neo-theme (if (window-system) 'icons 'arrow)
-        neo-window-width 40
-        neo-window-fixed-size nil
-        )
-  )
-#+end_src
-
 * Editor
 
 Save buffer to file after leaving insert mode.
