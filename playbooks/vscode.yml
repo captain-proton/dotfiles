@@ -20,6 +20,7 @@
         - ms-azuretools.vscode-docker
         - MS-CEINTL.vscode-language-pack-de
         - ms-python.isort
+        - ms-python.pylint
         - ms-python.python
         - ms-python.vscode-pylance
         - ms-toolsai.jupyter
