@@ -53,6 +53,7 @@
 (package! org-auto-tangle)
 (package! org-kanban)
 (package! org-present)
+(package! org-drill)
 (package! visual-fill-column
   :recipe (:host nil
            :type git
