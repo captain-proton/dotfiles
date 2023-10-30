@@ -1,0 +1,11 @@
+- name: "[ PIDGIN ]"
+  hosts: all
+
+  tasks:
+    - name: Ensure pidgin and relevant plugins are installed
+      become: true
+      community.general.pacman:
+        name:
+          - pidgin
+          - pidgin-otr
+        state: present
