@@ -4,91 +4,18 @@
 
   handlers:
     - name: Run fc-cache
-      ansible.builtin.command: fc-cache
+      ansible.builtin.command: fc-cache -v -f
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     font_download_path: "{{ home }}/.local/share/fonts"
-
-    fonts_nerd_font_root: https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts
-    fonts_nerd_fonts:
-      # JetBrains Mono including ligatures
-      - path: JetBrainsMono/Ligatures/Bold/JetBrainsMonoNerdFont-Bold.ttf
-        filename: JetBrains Mono Nerd Font Bold.ttf
-      - path: JetBrainsMono/Ligatures/BoldItalic/JetBrainsMonoNerdFont-BoldItalic.ttf
-        filename: JetBrains Mono Nerd Font Bold Italic.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBold/JetBrainsMonoNerdFont-ExtraBold.ttf
-        filename: JetBrains Mono Nerd Font ExtraBold.ttf
-      - path: JetBrainsMono/Ligatures/ExtraBoldItalic/JetBrainsMonoNerdFont-ExtraBoldItalic.ttf
-        filename: JetBrains Mono Nerd Font ExtraBold Italic.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLight/JetBrainsMonoNerdFont-ExtraLight.ttf
-        filename: JetBrains Mono Nerd Font ExtraLight.ttf
-      - path: JetBrainsMono/Ligatures/ExtraLightItalic/JetBrainsMonoNerdFont-ExtraLightItalic.ttf
-        filename: JetBrains Mono Nerd Font ExtraLight Italic.ttf
-      - path: JetBrainsMono/Ligatures/Italic/JetBrainsMonoNerdFont-Italic.ttf
-        filename: JetBrains Mono Nerd Font Italic.ttf
-      - path: JetBrainsMono/Ligatures/Light/JetBrainsMonoNerdFont-Light.ttf
-        filename: JetBrains Mono Nerd Font Light.ttf
-      - path: JetBrainsMono/Ligatures/LightItalic/JetBrainsMonoNerdFont-LightItalic.ttf
-        filename: JetBrains Mono Nerd Font Light Italic.ttf
-      - path: JetBrainsMono/Ligatures/Medium/JetBrainsMonoNerdFont-Medium.ttf
-        filename: JetBrains Mono Nerd Font Medium.ttf
-      - path: JetBrainsMono/Ligatures/MediumItalic/JetBrainsMonoNerdFont-MediumItalic.ttf
-        filename: JetBrains Mono Nerd Font Medium Italic.ttf
-      - path: JetBrainsMono/Ligatures/Regular/JetBrainsMonoNerdFont-Regular.ttf
-        filename: JetBrains Mono Nerd Font Regular.ttf
-      - path: JetBrainsMono/Ligatures/SemiBold/JetBrainsMonoNerdFont-SemiBold.ttf
-        filename: JetBrains Mono Nerd Font SemiBold.ttf
-      - path: JetBrainsMono/Ligatures/SemiBoldItalic/JetBrainsMonoNerdFont-SemiBoldItalic.ttf
-        filename: JetBrains Mono Nerd Font SemiBold Italic.ttf
-      - path: JetBrainsMono/Ligatures/Thin/JetBrainsMonoNerdFont-Thin.ttf
-        filename: JetBrains Mono Nerd Font Thin.ttf
-      - path: JetBrainsMono/Ligatures/ThinItalic/JetBrainsMonoNerdFont-ThinItalic.ttf
-        filename: JetBrains Mono Nerd Font Thin Italic.ttf
-      # dont be confused by the name
-      - path: CascadiaCode/Regular/CaskaydiaCoveNerdFontMono-Regular.ttf
-        filename: Caskaydia Cove Nerd Font Mono Regular.ttf
-      - path: CascadiaCode/Regular/CaskaydiaCoveNerdFont-Regular.ttf
-        filename: Caskaydia Cove Nerd Font Regular.ttf
+    repo_fonts:
+      - ttf-jetbrains-mono-nerd
+      - ttf-cascadia-code-nerd
+      - ttf-fira-sans
 
     # Change only in case the url changed
     fonts:
-      - font_base_url: https://github.com/bBoxType/FiraSans/raw/master/Fira_Sans_4_3/Fonts/Fira_Sans_TTF_4301/Normal/Roman
-        font_files:
-          - "FiraSans-Bold.ttf"
-          - "FiraSans-Book.ttf"
-          - "FiraSans-Eight.ttf"
-          - "FiraSans-ExtraBold.ttf"
-          - "FiraSans-ExtraLight.ttf"
-          - "FiraSans-Four.ttf"
-          - "FiraSans-Hair.ttf"
-          - "FiraSans-Heavy.ttf"
-          - "FiraSans-Light.ttf"
-          - "FiraSans-Medium.ttf"
-          - "FiraSans-Regular.ttf"
-          - "FiraSans-SemiBold.ttf"
-          - "FiraSans-Thin.ttf"
-          - "FiraSans-Two.ttf"
-          - "FiraSans-Ultra.ttf"
-          - "FiraSans-UltraLight.ttf"
-      - font_base_url: https://github.com/bBoxType/FiraSans/raw/master/Fira_Sans_4_3/Fonts/Fira_Sans_TTF_4301/Normal/Italic
-        font_files:
-          - "FiraSans-BoldItalic.ttf"
-          - "FiraSans-BookItalic.ttf"
-          - "FiraSans-EightItalic.ttf"
-          - "FiraSans-ExtraBoldItalic.ttf"
-          - "FiraSans-ExtraLightItalic.ttf"
-          - "FiraSans-FourItalic.ttf"
-          - "FiraSans-HairItalic.ttf"
-          - "FiraSans-HeavyItalic.ttf"
-          - "FiraSans-Italic.ttf"
-          - "FiraSans-LightItalic.ttf"
-          - "FiraSans-MediumItalic.ttf"
-          - "FiraSans-SemiBoldItalic.ttf"
-          - "FiraSans-ThinItalic.ttf"
-          - "FiraSans-TwoItalic.ttf"
-          - "FiraSans-UltraItalic.ttf"
-          - "FiraSans-UltraLightItalic.ttf"
       - font_base_url: https://github.com/FAlthausen/Vollkorn-Typeface/raw/master/fonts/ttf
         font_files:
           - "Vollkorn-Black.ttf"
@@ -129,11 +56,9 @@
         label: "{{ item.1 }}"
       notify: Run fc-cache
 
-    - name: Install nerd fonts
-      ansible.builtin.get_url:
-        url: "{{ fonts_nerd_font_root }}/{{ item.path }}"
-        dest: "{{ font_download_path }}/{{ item.filename }}"
-        mode: 0644
-      loop: "{{ fonts_nerd_fonts }}"
+    - name: Install fonts from manjaro/arch repos
+      become: true
+      community.general.pacman:
+        name: "{{ repo_fonts }}"
+        state: present
       notify: Run fc-cache
-      tags: ["nerd"]
