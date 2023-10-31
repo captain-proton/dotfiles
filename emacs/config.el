@@ -10,6 +10,9 @@
 
 (setq doom-modeline-persp-name t)
 
+(setq! pixel-scroll-precision-mode t
+       pixel-scroll-precision-large-scroll-height 40.0)
+
 (map! :nvi "C-+" #'doom/increase-font-size
       :nvi "C--" #'doom/decrease-font-size
       :nvi "C-=" #'doom/reset-font-size
@@ -184,7 +187,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
 
-(defvar proton/variable-width-font "Noto Sans"
+(defvar proton/variable-width-font "Fira Sans"
   "The font to use for variable-pitch (document) text.")
 
 (setq doom-font (font-spec :family proton/fixed-width-font :size 15)
@@ -196,10 +199,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
-
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
 
 (setq doom-theme 'doom-nord)
 
@@ -569,7 +568,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (asdf-vm-init)
 (use-package! lsp-mode
   :init
-  (setq! lsp-inlay-hint-enable t))
+  (setq! lsp-inlay-hint-enable t)
+  :config
+  (setq! lsp-ui-doc-show-with-mouse t
+         lsp-ui-doc-max-width 96
+         lsp-ui-doc-max-height 13)
+  )
 
 (map!
  :map lsp-ui-mode-map
@@ -611,6 +615,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   ;; Link this language to ess-julia-mode (although it should be done by default):
   (setq org-src-lang-modes
         (append org-src-lang-modes '(("ess-julia" . ess-julia)))))
+
+(setq lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
+                                         :path (format "%s/.asdf/installs/java/adoptopenjdk-8.0.372+7" (getenv "HOME"))
+                                         (:name "JavaSE-17"
+                                          :path (format "%s/.asdf/installs/java/adoptopenjdk-17.0.7+7" (getenv "HOME"))
+                                          :default t))])
 
 (use-package! lsp-java
   :after lsp

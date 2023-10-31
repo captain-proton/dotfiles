@@ -39,6 +39,19 @@ Show the current workspace/perspective name.
 (setq doom-modeline-persp-name t)
 #+end_src
 
+* Smooth scrolling
+
+Enable native pixel scroll.
+If scroll-height does not work, decrease it by 5 and retry.
+Keep in mind that setting it too low will cause normal trackpad scrolling to be interpolated, which is probably not what you want.
+
+#+begin_src emacs-lisp
+(setq! pixel-scroll-precision-mode t
+       pixel-scroll-precision-large-scroll-height 40.0)
+#+end_src
+
+#+RESULTS:
+
 * General Keybindings
 
 | Keybinding | Description               |
@@ -336,7 +349,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
   "The font to use for monospaced (fixed width) text.")
 
-(defvar proton/variable-width-font "Noto Sans"
+(defvar proton/variable-width-font "Fira Sans"
   "The font to use for variable-pitch (document) text.")
 
 (setq doom-font (font-spec :family proton/fixed-width-font :size 15)
@@ -348,10 +361,6 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
-
-(custom-set-faces!
-  '(font-lock-comment-face :slant italic)
-  '(font-lock-keyword-face :slant italic))
 #+end_src
 
 There are two ways to load a theme. Both assume the theme is installed and
@@ -912,7 +921,12 @@ Open org roam notes in new workspace.
 (asdf-vm-init)
 (use-package! lsp-mode
   :init
-  (setq! lsp-inlay-hint-enable t))
+  (setq! lsp-inlay-hint-enable t)
+  :config
+  (setq! lsp-ui-doc-show-with-mouse t
+         lsp-ui-doc-max-width 96
+         lsp-ui-doc-max-height 13)
+  )
 #+end_src
 
 ** General Keybindings
@@ -984,9 +998,13 @@ Add julia support in org babel.
 
 Setup java runtimes installed on the local machine. In case of using asdf-vm this may be something like the following.
 
-#+begin_example elisp
-(:name "JavaSE-17" :path (format "%s/.asdf/installs/java/adoptopenjdk-17.0.7+7" (getenv "HOME")))
-#+end_example
+#+begin_src emacs-lisp
+(setq lsp-java-configuration-runtimes '[(:name "JavaSE-1.8"
+                                         :path (format "%s/.asdf/installs/java/adoptopenjdk-8.0.372+7" (getenv "HOME"))
+                                         (:name "JavaSE-17"
+                                          :path (format "%s/.asdf/installs/java/adoptopenjdk-17.0.7+7" (getenv "HOME"))
+                                          :default t))])
+#+end_src
 
 
 #+begin_src emacs-lisp
