@@ -7,6 +7,7 @@
     - name: Install libvirt vagrant plugin
       ansible.builtin.command:
         cmd: vagrant plugin install vagrant-libvirt
+      changed_when: true
 
   vars:
     __virtualization_libvirt_storage_pool_name: "{{ virtualization_libvirt_storage_pool_name | default('default') }}"
@@ -98,4 +99,4 @@
           ansible.builtin.template:
             src: "../templates/libvirt_vagrantfile.j2"
             dest: "{{ home }}/.vagrant.d/Vagrantfile"
-            mode: 0644
+            mode: "0644"
