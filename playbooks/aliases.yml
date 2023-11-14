@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: " [ ALIASES ]"
+  hosts: all
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
@@ -13,5 +14,5 @@
         line: "alias {{ item.name }}='{{ item.value }}'"
         state: present
         create: true
-        mode: 0640
+        mode: "0640"
       loop: "{{ aliases }}"

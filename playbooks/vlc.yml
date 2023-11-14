@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ VLC ]"
+  hosts: all
   tasks:
     - name: Install vlc
       become: true

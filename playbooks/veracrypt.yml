@@ -19,13 +19,13 @@
       ansible.builtin.template:
         src: ../templates/umount_veracrypt_volumes.sh.j2
         dest: "{{ umount_veracrypt_script }}"
-        mode: 0750
+        mode: "0750"
 
     - name: Add umount veracrypt devices as systemd user service
       ansible.builtin.template:
         src: ../templates/umount_veracrypt_unit.service.j2
         dest: "{{ umount_veracrypt_service }}"
-        mode: 0644
+        mode: "0644"
 
     - name: Enable unmount systemd user unit
       ansible.builtin.systemd:

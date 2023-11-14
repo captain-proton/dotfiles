@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ PICOM ]"
+  hosts: all
   gather_facts: false
 
   vars:
@@ -10,7 +11,7 @@
   tasks:
     - name: Ensure picom is installed
       become: true
-      ansible.builtin.pacman:
+      community.general.pacman:
         name: picom
         state: present
 
@@ -24,7 +25,7 @@
       ansible.builtin.file:
         path: "{{ picom_dir }}"
         state: directory
-        mode: 0750
+        mode: "0750"
 
     - name: Remove picom conf if necessary
       ansible.builtin.file:

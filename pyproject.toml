@@ -11,7 +11,9 @@ ansible-core = "^2.13.4"
 [tool.poetry.group.dev.dependencies]
 autopep8 = "^1.6.0"
 pylint = "^2.14.0"
-ansible-lint = "^6.3.0"
+ansible-lint = { version = "^6.20.0", markers = "platform_system != 'Windows'" }
+qtile = "^0.23.0"
+python-lsp-server = "^1.8.2"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

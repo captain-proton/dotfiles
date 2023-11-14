@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ WINE ]"
+  hosts: all
 
   vars:
     wine_package: "{{ local_wine_package | default('wine') }}"

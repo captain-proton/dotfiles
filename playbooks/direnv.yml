@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[DIRENV ]"
+  hosts: all
   gather_facts: false
 
   vars:
@@ -16,4 +17,4 @@
       ansible.builtin.template:
         src: ../templates/direnvrc.j2
         dest: "{{ home }}/.direnvrc"
-        mode: 0644
+        mode: "0644"

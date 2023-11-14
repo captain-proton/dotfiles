@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ OPENSCAD ]"
+  hosts: all
   tasks:
     - name: Install openscad
       become: true

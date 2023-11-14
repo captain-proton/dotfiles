@@ -1,9 +1,10 @@
 ---
-- hosts: all
+- name: "[ DXVK AUR]"
+  hosts: all
 
   tasks:
-  - name: Install dxvk from aur
-    become: true
-    yay:
-      name: dxvk-bin
-      state: present
+    - name: Install dxvk from aur
+      become: true
+      yay:
+        name: dxvk-bin
+        state: present

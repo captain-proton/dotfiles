@@ -21,13 +21,13 @@
       ansible.builtin.template:
         src: ../templates/download_unsplash_wallpaper.sh.j2
         dest: "{{ dl_wallpaper_script_path }}"
-        mode: 0750
+        mode: "0750"
 
     - name: Add contents to dl-unsplash-wallpaper.desktop file
       ansible.builtin.blockinfile:
         path: "{{ dl_wallpaper_desktop_path }}"
         create: true
-        mode: 0640
+        mode: "0640"
         state: present
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |
@@ -40,13 +40,13 @@
       ansible.builtin.template:
         src: "../templates/{{ delete_duplicate_files_script_name }}"
         dest: "{{ delete_wallpaper_script_path }}"
-        mode: 0750
+        mode: "0750"
 
     - name: Add contents to delete-duplicate-wallpaper.desktop file
       ansible.builtin.blockinfile:
         path: "{{ delete_wallpaper_desktop_path }}"
         create: true
-        mode: 0640
+        mode: "0640"
         state: present
         marker: "# {mark} ANSIBLE MANAGED BLOCK"
         block: |

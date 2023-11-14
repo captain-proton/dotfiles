@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ GOLANG ]"
+  hosts: all
   gather_facts: false
 
   vars:
@@ -37,7 +38,7 @@
       ansible.builtin.file:
         path: "{{ gopath }}"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Export GOPATH
       ansible.builtin.lineinfile:
@@ -67,6 +68,7 @@
       ansible.builtin.command:
         cmd: "{{ item.cmd }}"
       when: item.bin not in gobinaries
+      changed_when: item.bin not in gobinaries
       loop: "{{ gotools }}"
       loop_control:
         label: "{{ item.bin }}"

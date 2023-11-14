@@ -17,4 +17,4 @@
         path: "{{ path_file_path }}"
         line: "#!/usr/bin/env {{ shell | default('bash') }}"
         create: true
-        mode: 0750
+        mode: "0750"

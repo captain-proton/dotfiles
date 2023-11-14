@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ WEZTERM ]"
+  hosts: all
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"

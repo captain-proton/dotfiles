@@ -14,7 +14,7 @@
         url: "https://github.com/goss-org/goss/releases/download/{{ goss_version }}/goss-linux-amd64"
         dest: /usr/local/bin/goss
         checksum: "{{ goss_checksum }}"
-        mode: 0755
+        mode: "0755"
 
     - name: Download dgoss
       become: true
@@ -22,4 +22,4 @@
         url: "https://github.com/goss-org/goss/releases/download/{{ goss_version }}/dgoss"
         dest: /usr/local/bin/dgoss
         checksum: "{{ dgoss_checksum }}"
-        mode: 0755
+        mode: "0755"

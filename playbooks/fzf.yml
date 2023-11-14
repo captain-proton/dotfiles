@@ -24,4 +24,4 @@
       ansible.builtin.template:
         src: ../templates/ripgrep_fuzzy_vim.sh.j2
         dest: "{{ home }}/.local/bin/rfv"
-        mode: 0755
+        mode: "0755"

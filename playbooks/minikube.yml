@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ MINIKUBE ]"
+  hosts: all
 
   vars:
     minikube_driver: "{{ local_minikube_driver | default('kvm2') }}"
@@ -7,6 +8,7 @@
   handlers:
     - name: Configure minikube driver
       ansible.builtin.command: minikube config set driver "{{ minikube_driver }}"
+      changed_when: true
 
   tasks:
     - name: Install minikube and its dependencies

@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ INKSCAPE ]"
+  hosts: all
   tasks:
     - name: Install inkscape
       become: true

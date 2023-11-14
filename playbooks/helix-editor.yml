@@ -14,10 +14,10 @@
       ansible.builtin.file:
         path: "{{ home }}/.config/helix"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Place helix config
       ansible.builtin.template:
         src: ../templates/helix-config.toml.j2
         dest: "{{ home }}/.config/helix/config.toml"
-        mode: 0600
+        mode: "0600"

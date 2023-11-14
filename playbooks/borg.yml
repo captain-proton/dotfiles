@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ BORG ]"
+  hosts: all
 
   vars:
     default_includes:
@@ -41,7 +42,7 @@
       ansible.builtin.template:
         src: ../borg/borg-mate.sh.tmpl.j2
         dest: "{{ lookup('env', 'HOME') }}/.local/bin/borg-mate"
-        mode: 0755
+        mode: "0755"
       when:
         - borg_repo is defined
         - borg_includes is defined and borg_includes is sequence

@@ -1,5 +1,5 @@
 ---
-- name: Install and configure rclone
+- name: "[ RCLONE ]"
   hosts: all
 
   vars:
@@ -16,13 +16,14 @@
         - inotify-tools
 
     - name: Create sync daemon if configured
+      when: rclone_sync_config is defined
       block:
 
         - name: Copy daemon script to path
           ansible.builtin.template:
             src: ../templates/rclone_sync_daemon.sh.j2
             dest: "{{ home }}/.local/bin/rclone_sync_{{ item.name }}.sh"
-            mode: 0750
+            mode: "0750"
           loop: "{{ rclone_sync_config }}"
           loop_control:
             label: "{{ item.name }}"
@@ -31,7 +32,7 @@
           ansible.builtin.template:
             src: ../templates/rclone_sync.service.j2
             dest: "{{ systemd_user_dir }}/rclone_sync_{{ item.name }}.service"
-            mode: 0644
+            mode: "0644"
           loop: "{{ rclone_sync_config }}"
           loop_control:
             label: "{{ item.name }}"
@@ -46,5 +47,3 @@
           loop: "{{ rclone_sync_config }}"
           loop_control:
             label: "{{ item.name }}"
-
-      when: rclone_sync_config is defined

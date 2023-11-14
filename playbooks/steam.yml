@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ STEAM ]"
+  hosts: all
   tasks:
     - name: Install steam
       become: true

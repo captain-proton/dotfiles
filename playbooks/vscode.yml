@@ -80,6 +80,7 @@
         cmd: "code --install-extension {{ item }}"
       loop: "{{ install_ext }}"
       when: install_ext != []
+      changed_when: install_ext != []
 
     - name: Set extensions that should be removed
       ansible.builtin.set_fact:
@@ -90,12 +91,13 @@
         cmd: "code --uninstall-extension {{ item }}"
       loop: "{{ uninstall_ext }}"
       when: uninstall_ext != []
+      changed_when: uninstall_ext != []
 
     - name: Create vs code user dir
       ansible.builtin.file:
         path: "{{ vscode_conf_dir }}"
         state: directory
-        mode: 0750
+        mode: "0750"
 
     - name: Stat of vs code user settings file
       ansible.builtin.stat:

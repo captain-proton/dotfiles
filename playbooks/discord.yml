@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ DISCORD ]"
+  hosts: all
   tasks:
     - name: Install discord
       become: true

@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ OKULAR ]"
+  hosts: all
   tasks:
     - name: Install okular
       become: true

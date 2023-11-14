@@ -13,7 +13,7 @@
       ansible.builtin.blockinfile:
         path: "{{ home }}/.Xmodmap"
         create: true
-        mode: 0644
+        mode: "0644"
         marker: "! {mark} ANSIBLE MANAGED"
         block: |
           clear lock
@@ -25,7 +25,7 @@
       ansible.builtin.blockinfile:
         create: true
         path: "{{ home }}/.xprofile"
-        mode: 0644
+        mode: "0644"
         marker: "# {mark} USER MODMAP USING ANSIBLE"
         block: |
           usermodmap=$HOME/.Xmodmap
@@ -37,13 +37,13 @@
       ansible.builtin.get_url:
         url: "{{ cursor_download_url }}"
         dest: "/tmp/{{ cursor_filename }}"
-        mode: 0644
+        mode: "0644"
         checksum: "sha256:{{ cursor_checksum }}"
 
     - name: Ensure that the icons dir exists
       ansible.builtin.file:
         path: "{{ home }}/.icons"
-        mode: 0755
+        mode: "0755"
         state: directory
 
     - name: Unarchive cursors
@@ -55,7 +55,7 @@
       ansible.builtin.blockinfile:
         path: "{{ home }}/.Xresources"
         create: true
-        mode: 0644
+        mode: "0644"
         content: |
           Xcursor.theme: {{ cursor_name }}
           Xcursor.size: {{ cursor_size }}

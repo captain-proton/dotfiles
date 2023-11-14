@@ -16,6 +16,7 @@
       ansible.builtin.command:
         chdir: "{{ __leftwm_src_path }}"
         cmd: cargo build --profile optimized
+      changed_when: true
 
     - name: Install leftwm executables to /usr/bin
       become: true
@@ -29,18 +30,20 @@
         - leftwm-state
         - leftwm-check
         - leftwm-command
+      changed_when: true
 
     - name: Copy leftwm.desktop to xsessions
       become: true
       ansible.builtin.copy:
         src: "{{ __leftwm_src_path }}/leftwm.desktop"
         dest: /usr/share/xsessions/
-        mode: 0644
+        mode: "0644"
 
     - name: Clear leftwm build dir
       ansible.builtin.command:
         chdir: "{{ __leftwm_src_path }}"
         cmd: cargo clean
+      changed_when: true
 
   tasks:
 
@@ -67,7 +70,7 @@
       ansible.builtin.file:
         path: "{{ __leftwm_src_path }}"
         state: directory
-        mode: 0755
+        mode: "0755"
 
     - name: Get leftwm sources
       ansible.builtin.git:
@@ -99,13 +102,12 @@
         - pavucontrol
         - lxappearance
         - pkgconf
-        - qt5ct-kde
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
         path: "{{ config_dir }}/themes"
         state: directory
-        mode: 0750
+        mode: "0750"
 
     - name: Link theme
       ansible.builtin.file:
@@ -140,15 +142,9 @@
       ansible.builtin.blockinfile:
         create: true
         path: "{{ home }}/.xprofile"
-        mode: 0644
+        mode: "0644"
         marker: "# {mark} LEFTWM CONF USING ANSIBLE"
         block: |
           if [ "$XDG_CURRENT_DESKTOP" = "LeftWM" ]; then
               export XDG_CURRENT_DESKTOP="KDE"
           fi
-
-    - name: Set QT_QPA_PLATFORMTHEME
-      ansible.builtin.lineinfile:
-        path: "{{ home }}/.xprofile"
-        mode: 0644
-        line: export QT_QPA_PLATFORMTHEME="qt5ct"

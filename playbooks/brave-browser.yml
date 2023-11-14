@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ BRAVE BROWSER ]"
+  hosts: all
   tasks:
     - name: Install brave browser
       become: true

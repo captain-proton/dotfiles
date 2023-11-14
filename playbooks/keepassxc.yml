@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ KEEPASSXC ]"
+  hosts: all
   tasks:
     - name: Install keepassxc
       become: true

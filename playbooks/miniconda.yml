@@ -17,6 +17,7 @@
     - name: Update conda
       ansible.builtin.command:
         cmd: "{{ miniconda_dir }}/bin/conda update conda --yes -q"
+      changed_when: true
 
   tasks:
     - name: Check if miniconda exists
@@ -28,7 +29,7 @@
       ansible.builtin.get_url:
         url: "{{ miniconda_url }}"
         dest: "/tmp/miniconda.sh"
-        mode: 0750
+        mode: "0750"
         checksum: "{{ miniconda_checksum }}"
       when: not conda_bin.stat.exists
       register: miniconda_download

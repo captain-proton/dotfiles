@@ -30,7 +30,7 @@
       become: true
       ansible.builtin.copy:
         dest: /etc/NetworkManager/conf.d/dns.conf
-        mode: 0644
+        mode: "0644"
         content: |
           [main]
           dns=systemd-resolved

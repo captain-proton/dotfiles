@@ -23,7 +23,7 @@
         url: "https://raw.githubusercontent.com/Neo-Oli/profanity-notifycmd/master/notifycmd.py"
         dest: "{{ notifycmd_dest }}"
         checksum: "sha256:{{ notifycmd_sha256sum }}"
-        mode: 0644
+        mode: "0644"
       when: not notifycmd.stat.exists
 
     - name: Check for profrc
@@ -35,5 +35,5 @@
       ansible.builtin.template:
         src: ../templates/profrc.j2
         dest: "{{ home }}/.config/profanity/profrc"
-        mode: 0600
+        mode: "0600"
       when: not profrc.stat.exists

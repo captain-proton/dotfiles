@@ -57,10 +57,10 @@
             url: https://install.python-poetry.org
             dest: "{{ tempfile.path }}"
             checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
-            mode: 0640
+            mode: "0640"
 
         - name: Run the installation script
-          ansible.builtin.shell: "cat {{ tempfile.path }} | /usr/bin/python3 -"
+          ansible.builtin.shell: "set -o pipefail && cat {{ tempfile.path }} | /usr/bin/python3 -"
           args:
             warn: false
           changed_when: true
@@ -79,9 +79,10 @@
       ansible.builtin.command:
         cmd: ipython profile create
       when: not ipython_default_profile.stat.exists
+      changed_when: not ipython_default_profile.stat.exists
 
     - name: Configure ipython
       ansible.builtin.template:
         src: ../templates/ipython_config.py.j2
         dest: "{{ home }}/.ipython/profile_default/ipython_config.py"
-        mode: 0640
+        mode: "0640"

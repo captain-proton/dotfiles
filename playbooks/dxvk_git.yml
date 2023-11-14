@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ DXVK GIT ]"
+  hosts: all
 
   vars:
     dxvk_dir: "{{ lookup('env', 'HOME') }}/.dxvk"
@@ -11,6 +12,7 @@
       ansible.builtin.command:
         cmd: "./package-release.sh {{ dxvk_version }} {{ dxvk_build_dir }} --no-package"
         chdir: "{{ dxvk_dir }}"
+      changed_when: true
 
 
   tasks:

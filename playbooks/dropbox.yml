@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ DROPBOX ]"
+  hosts: all
   tasks:
     - name: Install dropbox from aur
       become: true

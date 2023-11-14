@@ -30,11 +30,12 @@
       register: omz_home
 
     - name: Enable oh-my-zsh
+      when: not omz_home.stat.exists
       block:
         - name: Download oh-my-zsh install script
           ansible.builtin.get_url:
             dest: ./install.sh
-            mode: 0750
+            mode: "0750"
             url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
 
         - name: Install oh my zsh
@@ -51,7 +52,6 @@
           ansible.builtin.file:
             path: ./install.sh
             state: absent
-      when: not omz_home.stat.exists
     # END OH MY ZSH
 
     # ZSH THEMES
@@ -118,4 +118,4 @@
       ansible.builtin.file:
         path: "{{ home }}/.zprofile"
         state: file
-        mode: 0640
+        mode: "0640"

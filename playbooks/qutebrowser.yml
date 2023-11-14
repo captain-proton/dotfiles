@@ -28,7 +28,7 @@
       ansible.builtin.file:
         path: "{{ home }}/.config/qutebrowser"
         state: directory
-        mode: 0750
+        mode: "0750"
 
     - name: Link theme to qutebrowser configuration
       ansible.builtin.file:
@@ -40,7 +40,7 @@
       ansible.builtin.template:
         src: ../templates/qutebrowser-config.py.j2
         dest: "{{ home }}/.config/qutebrowser/config.py"
-        mode: 0644
+        mode: "0644"
 
     - name: Add qute-keepassxc to path
       ansible.builtin.file:

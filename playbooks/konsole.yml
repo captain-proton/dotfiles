@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ KONSOLE ]"
+  hosts: all
   tasks:
     - name: Install konsole
       become: true

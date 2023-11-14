@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: "[ CHROMIUM ]"
+  hosts: all
   tasks:
     - name: Install chromium
       become: true
