@@ -27,6 +27,7 @@
         - python-isort
         - python-black
         - python-cookiecutter
+        - jupyterlab
 
     - name: Remove current poetry script
       ansible.builtin.file:
