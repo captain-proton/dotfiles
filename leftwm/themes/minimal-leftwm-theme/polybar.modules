@@ -122,12 +122,13 @@ format-padding = 1
 [module/cpu]
 type = internal/cpu
 interval = 2
-;format-prefix = " "
-;format-prefix-foreground = ${color.shade4}
+format-prefix = "󰘚"
+format-prefix-foreground = #8FBCBB
 ;format-foreground = ${color.modulefg}
 ;format-background = ${color.shade6}
 ;format-underline = #f90000
-label = %{+o} CPU %percentage:2%% %{-o}
+;label = %{+o} %percentage:2%% %{-o}
+label = %percentage:2%%
 
 
 [module/cpu-graph]
@@ -165,7 +166,9 @@ interval = 1.0
 time = %a %H:%M
 time-alt = %B %d, %Y
 format = <label>
-label = %{+o} %time% %{-o}
+format-foreground = #81A1C1
+;label = %{+o} %time% %{-o}
+label = %time%
 
 
 [module/ewmh]
@@ -198,7 +201,7 @@ tail = true
 [module/layout0]
 type = custom/script
 format-prefix = " "
-format-prefix-foreground = ${color..primary}
+format-prefix-foreground = ${color.primary}
 exec = leftwm-state -w 0 -s "{{ workspace.layout }}"
 tail = true
 click-left = leftwm-command "NextLayout" 
@@ -227,7 +230,10 @@ click-left = rofi -show drun -theme ~/.config/rofi/launcher/launcher.rasi
 [module/mem]
 type = internal/memory
 interval = 2
-label = %{+o} MEM %percentage_used%% %{-o}
+format-prefix = "󰍛 "
+format-prefix-foreground = #D08770
+;label = %{+o} %percentage_used%% %{-o}
+label = %percentage_used%%
 
 
 [module/mem-graph]
@@ -360,7 +366,10 @@ click-right = pavucontrol
 [module/pulseaudio-control]
 type = custom/script
 tail = true
-format = %{+o} <label> %{-o}
+format-prefix = "󰖀 "
+format-prefix-foreground = #BF616A
+;format = %{+o} <label> %{-o}
+format = <label>
 ; format-underline = ${colors.cyan}
 label-padding = 0
 label-foreground = ${color.foreground}
@@ -369,7 +378,7 @@ label-foreground = ${color.foreground}
 # You can copy-paste your options for each possible action, which is more
 # trouble-free but repetitive, or apply only the relevant ones (for example
 # --sink-blacklist is only needed for next-sink).
-exec = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --icons-volume " , " --icon-muted " " --format '$VOL_ICON ${VOL_LEVEL}%' listen
+exec = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --format '$VOL_ICON ${VOL_LEVEL}%' listen
 click-right = exec pavucontrol &
 click-left = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh togmute
 ; click-middle = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink

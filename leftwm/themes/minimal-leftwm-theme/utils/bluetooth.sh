@@ -1,13 +1,13 @@
 #!/bin/sh
 if [ $(bluetoothctl show | grep "Powered: yes" | wc -c) -eq 0 ]
 then
-  echo "%{F}  %{F-}"
+  echo "%{F#4C566A}  %{F-}"
 else
-  if [ $(echo info | bluetoothctl | grep 'Device' | wc -c) -eq 0 ]
-  then 
-    echo "  "
+  missing=$(echo info | bluetoothctl | grep "Missing device" | wc -c)
+  if [ $missing -gt 0 ]; then
+    echo "%{F#EBCB8B}  %{F-}"
   else
-    echo "%{+o}%{F}  %{F-}%{-o}"
+    DEVICE=$(echo info | bluetoothctl | grep 'Alias' | sed -E 's/Alias://' | xargs)
+    echo "%{F#D8DEE9} 󰂱 %{F-} %{F#8FBCBB}$DEVICE%{F-}"
   fi
-  
 fi
