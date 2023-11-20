@@ -8,7 +8,7 @@
     config_path: "{{ config_dir }}/config.ron"
     global_up_path: "{{ config_dir }}/up"
     __leftwm_src_path: "{{ leftwm_src_path | default(lookup('env', 'HOME')) }}/.leftwm"
-    __leftwm_version: "{{ leftwm_version | default('0.4.2') }}"
+    __leftwm_version: "{{ leftwm_version | default('0.5.1') }}"
 
   handlers:
 
