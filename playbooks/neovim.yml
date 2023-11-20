@@ -3,7 +3,8 @@
   hosts: all
 
   vars:
-    aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
+    aliases_path: "{{ home }}/.aliases"
+    neovim_config_path: "{{ home }}/.config/nvim"
 
   tasks:
     - name: Install neovim and required packages
@@ -13,11 +14,17 @@
         state: present
       loop: ["neovim", "xclip", "luarocks"]
 
-    - name: Ensure neovim config directory exists
+    - name: Check if neovim dir is already present
+      ansible.builtin.stat:
+        path: "{{ neovim_config_path }}"
+      register: neovim_config
+
+    - name: Remove neovim config dir if it is a standard directory
       ansible.builtin.file:
         path: "{{ home }}/.config/nvim"
         state: absent
         mode: "0755"
+      when: neovim_config.stat.exists and not neovim_config.stat.islnk
 
     - name: Link configuration files
       ansible.builtin.file:
