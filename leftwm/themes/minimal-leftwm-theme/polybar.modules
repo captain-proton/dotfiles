@@ -122,7 +122,7 @@ format-padding = 1
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = "󰘚"
+format-prefix = "󰘚 "
 format-prefix-foreground = #8FBCBB
 ;format-foreground = ${color.modulefg}
 ;format-background = ${color.shade6}
