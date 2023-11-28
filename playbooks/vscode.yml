@@ -19,6 +19,7 @@
         - mkhl.direnv
         - ms-azuretools.vscode-docker
         - MS-CEINTL.vscode-language-pack-de
+        - ms-python.black-formatter
         - ms-python.isort
         - ms-python.pylint
         - ms-python.python
@@ -51,8 +52,7 @@
         - webfreak.debug
         - yzhang.markdown-all-in-one
 
-      absent:
-        - TabNine.tabnine-vscode
+      absent: []
 
   tasks:
     - name: Install visual studio code from aur
