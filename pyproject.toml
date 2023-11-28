@@ -25,6 +25,3 @@ exclude = [
     "**/__pycache__",
     ".pytypestubs"
 ]
-stubPath = ".pytypestubs"
-reportMissingImports = true
-reportMissingTypeStubs = true
