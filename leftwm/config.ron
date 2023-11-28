@@ -27,7 +27,9 @@
     layouts: [
         "MainAndVertStack",
         "MainAndHorizontalStack",
-        "GridHorizontal",
+        "EvenHorizontal",
+        "EvenVertical",
+        "CenterMainBalanced",
         "Monocle",
         "LeftWiderRightStack",
     ],

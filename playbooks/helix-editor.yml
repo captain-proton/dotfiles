@@ -21,3 +21,8 @@
         src: ../templates/helix-config.toml.j2
         dest: "{{ home }}/.config/helix/config.toml"
         mode: "0600"
+
+    - name: Export emacs.d/bin to path
+      ansible.builtin.lineinfile:
+        path: "{{ path_file_path }}"
+        line: "export PATH=/usr/lib/helix:$PATH"

@@ -1,7 +1,7 @@
 {
     "breadcrumbs.enabled": true,
     "editor.fontSize": 15,
-    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontFamily": "JetBrainsMono NF",
     "editor.fontWeight": "300",
     "editor.formatOnPaste": true,
     "editor.renderWhitespace": "all",
@@ -24,7 +24,7 @@
     "python.languageServer": "Pylance",
     "redhat.telemetry.enabled": false,
     "diffEditor.ignoreTrimWhitespace": false,
-    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "terminal.integrated.fontFamily": "JetBrainsMono NF",
     "terminal.integrated.fontWeight": "300",
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",

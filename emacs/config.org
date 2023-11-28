@@ -74,6 +74,7 @@ Keep in mind that setting it too low will cause normal trackpad scrolling to be 
   (map! :i "C-V" #'evil-paste-before-cursor-after
         :i "C-v" #'evil-paste-after
         )
+  (setq evil-kill-on-visual-paste nil)
   )
 #+end_src
 
@@ -346,7 +347,7 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 
 #+begin_src emacs-lisp
 ;; Set reusable font name variables
-(defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
+(defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar proton/variable-width-font "Fira Sans"

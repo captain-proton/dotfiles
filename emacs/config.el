@@ -25,6 +25,7 @@
   (map! :i "C-V" #'evil-paste-before-cursor-after
         :i "C-v" #'evil-paste-after
         )
+  (setq evil-kill-on-visual-paste nil)
   )
 
 (blink-cursor-mode 1)
@@ -184,7 +185,7 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
       user-mail-address "nils@ungerichtet.de")
 
 ;; Set reusable font name variables
-(defvar proton/fixed-width-font "JetBrainsMono Nerd Font"
+(defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
 
 (defvar proton/variable-width-font "Fira Sans"

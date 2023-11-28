@@ -9,7 +9,7 @@ end)
 
 return {
   color_scheme = 'Nord (base16)',
-  font = wezterm.font('JetBrainsMono Nerd Font'),
+  font = wezterm.font('JetBrainsMono NF'),
   font_size = 11,
   line_height = 1.3,
   use_dead_keys = false,
