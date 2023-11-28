@@ -29,6 +29,7 @@
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",
     "[python]": {
-        "editor.formatOnType": true
+        "editor.formatOnType": true,
+        "editor.defaultFormatter": "ms-python.black-formatter"
     },
 }
