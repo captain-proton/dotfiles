@@ -12,6 +12,7 @@
         - rustup
         - gdb
         - lldb
+        - lldb-mi
 
     - name: Check toolchains
       ansible.builtin.command:
