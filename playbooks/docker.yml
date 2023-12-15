@@ -22,6 +22,6 @@
 
     - name: Configure DOCKER_HOST environment variable
       ansible.builtin.lineinfile:
-        path: "{{ home }}/.profile"
+        path: "{{ home }}/.zprofile"
         line: export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
         state: present
