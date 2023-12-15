@@ -1,0 +1,27 @@
+---
+- name: "[ DOCKER ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure docker rootless is present
+      become: true
+      yay:
+        name:
+          - docker
+          - docker-compose
+          - docker-rootless-extras
+        state: present
+
+    - name: Enable docker.socket as systemd user unit
+      ansible.builtin.systemd:
+        name: docker.socket
+        scope: user
+        state: started
+        enabled: true
+
+    - name: Configure DOCKER_HOST environment variable
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.profile"
+        line: export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+        state: present
