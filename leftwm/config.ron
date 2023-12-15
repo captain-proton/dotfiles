@@ -26,12 +26,10 @@
     max_window_width: None,
     layouts: [
         "MainAndVertStack",
-        "MainAndHorizontalStack",
         "EvenHorizontal",
         "EvenVertical",
         "CenterMainBalanced",
         "Monocle",
-        "LeftWiderRightStack",
     ],
     layout_mode: Tag,
     insert_behavior: Bottom,
