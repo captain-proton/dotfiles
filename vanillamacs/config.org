@@ -8,6 +8,8 @@
   - [[#evil-mode][Evil Mode]]
   - [[#general-keybindings][General Keybindings]]
 - [[#fonts][Fonts]]
+  - [[#setup-font-face][Setup Font Face]]
+  - [[#zoom-inout][Zoom In/Out]]
 - [[#emacs-gui-tweaks][Emacs GUI Tweaks]]
   - [[#disable-the-bars][Disable the bars]]
   - [[#theme][Theme]]
@@ -198,6 +200,8 @@ For example, you can press “99,ci” to comment out 99 lines.
 
 * Fonts
 
+** Setup Font Face
+
 #+begin_src emacs-lisp
 (defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
@@ -227,6 +231,17 @@ For example, you can press “99,ci” to comment out 99 lines.
 
 ;; Uncomment the following line if line spacing needs adjusting.
 (setq-default line-spacing 0.12)
+#+end_src
+
+** Zoom In/Out
+
+#+begin_src emacs-lisp
+(defun proton/text-scale-reset ()
+  (interactive)
+  (text-scale-adjust 0))
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'proton/text-scale-reset)
 #+end_src
 
 * Emacs GUI Tweaks
