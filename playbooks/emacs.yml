@@ -10,6 +10,7 @@
     envvars: "{{ emacsd_doom }}/.local/env"
     doomdir: "{{ home }}/dotfiles/emacs"
     spacemacsdir: "{{ home }}/dotfiles/spacemacs"
+    vanillamacsdir: "{{ home }}/dotfiles/vanillamacs"
 
   handlers:
     - name: Install doom emacs
@@ -59,10 +60,17 @@
         path: "{{ path_file_path }}"
         line: "export PATH={{ emacsd_doom }}/bin:$PATH"
 
-    - name: Set DOOMDIR environment variable
+    - name: Set emacs environment variables
       ansible.builtin.lineinfile:
         path: "{{ home }}/.zprofile"
-        line: 'export DOOMDIR="{{ doomdir }}"'
+        line: 'export {{ item.key }}="{{ item.value }}"'
+      loop:
+        - key: DOOMDIR
+          value: "{{ doomdir }}"
+        - key: SPACEMACSDIR
+          value: "{{ spacemacsdir }}"
+        - key: VANILLAMACSDIR
+          value: "{{ vanillamacsdir }}"
 
     - name: Check for emacs custom configuration
       ansible.builtin.stat:
@@ -98,8 +106,9 @@
         dest: "{{ home }}/.emacs-profiles.el"
         content: |
           (("default" . ((user-emacs-directory   . "{{ emacsd_doom }}")))
-            ("doom"      . ((user-emacs-directory   . "{{ emacsd_doom }}")
-                            (env . (("DOOMDIR"      . "{{ doomdir }}")))))
-            ("spacemacs" . ((user-emacs-directory   . "{{ emacsd_spacemacs }}")
-                            (env . (("SPACEMACSDIR" . "{{ spacemacsdir }}")))))
+            ("doom"        . ((user-emacs-directory   . "{{ emacsd_doom }}")
+                              (env . (("DOOMDIR"      . "{{ doomdir }}")))))
+            ("spacemacs"   . ((user-emacs-directory   . "{{ emacsd_spacemacs }}")
+                              (env . (("SPACEMACSDIR" . "{{ spacemacsdir }}")))))
+            ("vanillamacs" . ((user-emacs-directory   . "{{ vanillamacsdir }}")))
           )
