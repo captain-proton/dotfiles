@@ -26,6 +26,7 @@
         - dnsmasq
         - dmidecode
         - bridge-utils
+        - guestfs-tools
 
     - name: Ensure the current user is part of the libvirt group
       become: true
