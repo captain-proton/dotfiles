@@ -267,8 +267,6 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
 (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
 
-(setq )
-
 (use-package! elfeed
   :config
   (defun cp/elfeed-entry-line-draw (entry)

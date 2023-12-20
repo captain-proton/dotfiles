@@ -511,8 +511,6 @@ Use ~elfeed-org~ to configure feeds. All feeds are listed in the ~elfeed.org~ fi
   )
 (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
 (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
-
-(setq )
 #+end_src
 
 As of this writing the elfeed configuration does not show the date column by default.
