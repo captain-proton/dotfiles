@@ -62,7 +62,11 @@
 (use-package evil-collection
   :after evil
   :config
-  (setq evil-collection-mode-list '(dashboard dired ibuffer))
+  ;; Do not uncomment this unless you want to specify each and every mode
+  ;; that evil-collection should works with.  The following line is here 
+  ;; for documentation purposes in case you need it.  
+  ;; (setq evil-collection-mode-list '(calendar dashboard dired ediff info magit ibuffer))
+  (add-to-list 'evil-collection-mode-list 'help) ;; evilify help mode
   (evil-collection-init))
 
 (use-package evil-tutor)
@@ -118,10 +122,15 @@
    "h m" '(describe-keymap :wk "Describe keymap")
    "h p" '(describe-package :wk "Describe package")
    "h r r" '((lambda () (interactive)
-               (load-file (concat user-emacs-directory "init.el"))
-               (ignore (elpaca-process-queues)))
-             :wk "Reload emacs config")
+	       (load-file (concat user-emacs-directory "init.el"))
+	       (ignore (elpaca-process-queues)))
+	     :wk "Reload emacs config")
    "h v" '(describe-variable :wk "Describe variable")
+   )
+
+  (proton/leader-keys
+   "m" '(:ignore t :wk "Org")
+   "m l" '(org-insert-link :wk "Insert link")
    )
 
   (proton/leader-keys
@@ -132,6 +141,7 @@
    )
 
   )
+(elpaca-wait)
 
 (use-package emacs
   :elpaca nil
@@ -231,15 +241,37 @@
   :hook
   ((org-mode prog-mode) . rainbow-mode))
 
-(use-package projectile
+(global-set-key [escape] 'keyboard-escape-quit)
+
+(use-package dashboard
+  :ensure t 
+  :init
+  (setq initial-buffer-choice 'dashboard-open)
+  (setq dashboard-set-heading-icons t)
+  (setq dashboard-set-file-icons t)
+  (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
+  ;; (setq dashboard-startup-banner "/home/dt/.config/emacs/images/emacs-dash.png")  ;; use custom image as banner
+  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-items '((recents . 5)
+                          (bookmarks . 3)
+                          (projects . 5)
+                          (registers . 3)))
+  :custom
+  (dashboard-modify-heading-icons '((recents . "file-text")
+                                    (bookmarks . "book")))
   :config
-  (projectile-mode 1)
+  (dashboard-setup-startup-hook))
+
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode +1)
   (proton/leader-keys
     "p" '(:ignore t :wk "Project")
     "p d" '(projectile-discover-projects-in-search-path :wk "Discover projects")
     "p e" '(projectile-edit-dir-locals :wk "Edit project .dir-locals.el")
     "p i" '(projectile-invalidate-cache :wk "Invalidate project cache")
-    "p p" '(project-switch-project :wk "Switch project")
+    "p p" '(projectile-switch-project :wk "Switch project")
     "SPC" '(projectile-find-file :wk "Find file in project")
   )
 )
@@ -271,18 +303,20 @@
 (use-package consult
   :config
   (proton/leader-keys
-    "<" '(consult-buffer :wk "consult buffer")
-    "RET" '(consult-bookmark :wk "consult bookmark")
-    "f r" '(consult-recent-file :wk "consult recent file")
-    "m h" '(consult-org-heading :wk "consult org heading")
+    "<" '(consult-buffer :wk "Consult buffer")
+    "RET" '(consult-bookmark :wk "Consult bookmark")
+    "f r" '(consult-recent-file :wk "Consult recent file")
+    "m h" '(consult-org-heading :wk "Consult org heading")
     "s" '(:ignore t :wk "Search")
-    "s r" '(consult-ripgrep :wk "consult rg")
-    "s g" '(consult-grep :wk "consult grep")
-    "s G" '(consult-git-grep :wk "consult git grep")
-    "s f" '(consult-find :wk "consult find")
-    "s b" '(consult-line :wk "consult line")
-    "S y" '(consult-yank-from-kill-ring :wk "consult yank from kill ring")
-    "i" '(consult-imenu :wk "consult imenu"))
+    "s r" '(consult-ripgrep :wk "Consult rg")
+    "s g" '(consult-grep :wk "Consult grep")
+    "s G" '(consult-git-grep :wk "Consult git grep")
+    "s f" '(consult-find :wk "Consult find")
+    "s F" '(consult-fd :wk "Consult fd")
+    "s b" '(consult-line :wk "Consult line")
+    "S" '(:ignore t :wk "Additional Search")
+    "S y" '(consult-yank-from-kill-ring :wk "Consult yank from kill ring")
+    "i" '(consult-imenu :wk "Consult imenu"))
   )
 
 (use-package marginalia
@@ -293,7 +327,48 @@
   :init
   (marginalia-mode))
 
+(use-package magit
+  :commands (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  :config
+  (proton/leader-keys
+    "g" '(:ignore t :wk "Git")
+    "g g" '(magit :wk "Open magit buffer")
+  )
+)
+
+(use-package git-timemachine
+  :after git-timemachine
+  :hook (evil-normalize-keymaps . git-timemachine-hook)
+  :config
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
+    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+)
+
 (setq org-return-follows-link t)
+(setq org-hide-emphasis-markers t)
+
+(defvar proton/org-notes-dir (file-truename "~/Org/notes")
+  "Directory containing all my org notes files")
+(setq org-directory proton/org-notes-dir
+      org-agenda-files (list proton/org-notes-dir))
+
+(with-eval-after-load 'org
+  (setq org-log-done 'time
+	org-todo-keywords
+	'((sequence
+	   "DOING(o)"           ; Things that are currently in work (work in progress)
+	   "TODO(t)"            ; Backlog items in kanban that should be executed
+	   "WAIT(w)"            ; A task that can not be set as DOING
+	   "|"                  ; Separate active and inactive items
+	   "DONE(d)"            ; Finished work ... yeah
+	   "CANCELLED(c@)"))    ; Cancelled things :(
+	org-todo-repeat-to-state "TODO"
+	org-ellipsis " ▾"
+	org-hide-emphasis-markers t
+	org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+  )
 
 (use-package toc-org
   :commands toc-org-enable
