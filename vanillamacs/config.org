@@ -534,15 +534,20 @@ Consult provides search and navigation commands based on the Emacs completion fu
 The git client for emacs.
 
 #+begin_src emacs-lisp
+;; builtin transient is to old, get it from package repos
+(use-package transient)
 (use-package magit
-  :commands (magit-status magit-get-current-branch)
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  :config
+  :init
+  ;; Do not call on :config as this block
+  ;; is executed after opening magit
   (proton/leader-keys
     "g" '(:ignore t :wk "Git")
     "g g" '(magit :wk "Open magit buffer")
   )
+  :commands
+  (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
 )
 #+end_src
 
@@ -552,11 +557,16 @@ git-timemachine is a program that allows you to move backwards and forwards thro
 
 #+begin_src emacs-lisp
 (use-package git-timemachine
-  :after git-timemachine
+  :init
+  (proton/leader-keys
+    "g t" '(git-timemachine-toggle :wk "Toggle git timemachine")
+  )
   :hook (evil-normalize-keymaps . git-timemachine-hook)
   :config
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+  (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
+  (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+)
+(with-eval-after-load 'general
 )
 #+end_src
 

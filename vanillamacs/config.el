@@ -327,23 +327,32 @@
   :init
   (marginalia-mode))
 
+(use-package transient)
 (use-package magit
-  :commands (magit-status magit-get-current-branch)
-  :custom
-  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-  :config
+  :init
+  ;; Do not call on :config as this block
+  ;; is executed after opening magit
   (proton/leader-keys
     "g" '(:ignore t :wk "Git")
     "g g" '(magit :wk "Open magit buffer")
   )
+  :commands
+  (magit-status magit-get-current-branch)
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
 )
 
 (use-package git-timemachine
-  :after git-timemachine
+  :init
+  (proton/leader-keys
+    "g t" '(git-timemachine-toggle :wk "Toggle git timemachine")
+  )
   :hook (evil-normalize-keymaps . git-timemachine-hook)
   :config
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
-    (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+  (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
+  (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
+)
+(with-eval-after-load 'general
 )
 
 (setq org-return-follows-link t)
