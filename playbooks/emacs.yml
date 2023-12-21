@@ -6,6 +6,7 @@
   vars:
     emacsd_doom: "{{ home }}/.config/emacs.d/doom"
     emacsd_spacemacs: "{{ home }}/.config/emacs.d/spacemacs"
+    emacsd_vanillamacs: "{{ home }}/.config/emacs.d/vanillamacs"
     chemacs2d: "{{ home }}/.emacs.d"
     envvars: "{{ emacsd_doom }}/.local/env"
     doomdir: "{{ home }}/dotfiles/emacs"
@@ -106,9 +107,22 @@
         dest: "{{ home }}/.emacs-profiles.el"
         content: |
           (("default" . ((user-emacs-directory   . "{{ emacsd_doom }}")))
-            ("doom"        . ((user-emacs-directory   . "{{ emacsd_doom }}")
-                              (env . (("DOOMDIR"      . "{{ doomdir }}")))))
-            ("spacemacs"   . ((user-emacs-directory   . "{{ emacsd_spacemacs }}")
-                              (env . (("SPACEMACSDIR" . "{{ spacemacsdir }}")))))
-            ("vanillamacs" . ((user-emacs-directory   . "{{ vanillamacsdir }}")))
+            ("doom"        . ((user-emacs-directory     . "{{ emacsd_doom }}")
+                              (env . (("DOOMDIR"        . "{{ doomdir }}")))))
+            ("spacemacs"   . ((user-emacs-directory     . "{{ emacsd_spacemacs }}")
+                              (env . (("SPACEMACSDIR"   . "{{ spacemacsdir }}")))))
+            ("vanillamacs" . ((user-emacs-directory     . "{{ emacsd_vanillamacs }}")
+                              (env . (("VANILLAMACSDIR" . "{{ vanillamacsdir }}")))))
           )
+
+    - name: Ensure vanillamacs user-emacs-directory exists
+      ansible.builtin.file:
+        path: "{{ emacsd_vanillamacs }}"
+        state: directory
+        mode: "750"
+
+    - name: Ensure vanillamacs init.el is linked
+      ansible.builtin.file:
+        src: "{{ home }}/dotfiles/vanillamacs/init.el"
+        dest: "{{ emacsd_vanillamacs }}/init.el"
+        state: link

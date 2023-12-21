@@ -47,7 +47,7 @@ All settings that are unique to the machine should be kept inside the
 =user-emacs-dir/local.el= file.
 
 #+begin_src emacs-lisp
-(defvar local-settings-file (format "%slocal.el" user-emacs-directory))
+(defvar local-settings-file (expand-file-name "local.el" proton/config-directory))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
 #+end_src
@@ -200,9 +200,14 @@ For example, you can press “99,ci” to comment out 99 lines.
     :prefix "SPC"
     :global-prefix "M-SPC") ;; access leader key in insert mode
 
+  (defun proton/edit-config ()
+    (interactive)
+    (find-file (expand-file-name "config.org" proton/config-directory))
+  )
+
   (proton/leader-keys
    "." '(find-file :wk "Find file")
-   "f c" '(lambda () (interactive) (find-file (concat user-emacs-directory "config.org")) :wk "Edit config.org")
+   "f c" '(proton/edit-config :wk "Edit config.org")
    )
 
   (proton/leader-keys
@@ -223,7 +228,7 @@ For example, you can press “99,ci” to comment out 99 lines.
    "h m" '(describe-keymap :wk "Describe keymap")
    "h p" '(describe-package :wk "Describe package")
    "h r r" '((lambda () (interactive)
-	       (load-file (concat user-emacs-directory "init.el"))
+	       (load-file (expand-file-name "init.el" user-emacs-directory))
 	       (ignore (elpaca-process-queues)))
 	     :wk "Reload emacs config")
    "h v" '(describe-variable :wk "Describe variable")
