@@ -8,7 +8,7 @@
 - [[#package-manager][Package Manager]]
   - [[#general-keybindings][General Keybindings]]
   - [[#emacs][Emacs]]
-  - [[#evil-mode][Evil Mode]]
+- [[#evil-mode][Evil Mode]]
 - [[#fonts][Fonts]]
   - [[#setup-font-face][Setup Font Face]]
   - [[#zoom-inout][Zoom In/Out]]
@@ -227,7 +227,7 @@ Add support for =use-package=.
   (setq enable-recursive-minibuffers t))
 #+end_src
 
-** Evil Mode
+* Evil Mode
 
 [[https://github.com/emacs-evil/evil][Evil - extensible vi layer for emacs]]
 
