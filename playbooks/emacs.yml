@@ -121,8 +121,11 @@
         state: directory
         mode: "750"
 
-    - name: Ensure vanillamacs init.el is linked
+    - name: Ensure vanillamacs early-init.el is linked
       ansible.builtin.file:
-        src: "{{ home }}/dotfiles/vanillamacs/init.el"
-        dest: "{{ emacsd_vanillamacs }}/init.el"
+        src: "{{ home }}/dotfiles/vanillamacs/{{ item }}"
+        dest: "{{ emacsd_vanillamacs }}/{{ item }}"
         state: link
+      loop:
+        - early-init.el
+        - init.el

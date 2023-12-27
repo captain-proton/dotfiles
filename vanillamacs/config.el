@@ -339,8 +339,19 @@
   :init
   (marginalia-mode))
 
-;; builtin transient is to old, get it from package repos
-(use-package transient)
+(defun +elpaca-unload-seq (e)
+  (and (featurep 'seq) (unload-feature 'seq t))
+  (elpaca--continue-build e))
+
+;; You could embed this code directly in the reicpe, I just abstracted it into a function.
+(defun +elpaca-seq-build-steps ()
+  (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
+                       elpaca--pre-built-steps elpaca-build-steps))
+          (list '+elpaca-unload-seq 'elpaca--activate-package)))
+
+(use-package seq
+  :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+
 (use-package magit
   :init
   ;; Do not call on :config as this block
