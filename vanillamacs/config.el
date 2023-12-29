@@ -87,6 +87,13 @@
    )
 
   (proton/leader-keys
+    "d" '(:ignore t :wk "Dired")
+    "d d" '(dired :wk "Open dired")
+    "d j" '(dired-jump :wk "Dired jump to current")
+    "d n" '(neotree-dir :wk "Open directory in neotree")
+    "d p" '(peep-dired :wk "Peep-dired"))
+
+  (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
    "h f" '(describe-function :wk "Describe function")
    "h k" '(describe-key :wk "Describe key")
@@ -140,6 +147,9 @@
 (use-package all-the-icons
   :if (display-graphic-p))
 
+(use-package all-the-icons-dired
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
+
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
@@ -163,7 +173,7 @@
   ;; that evil-collection should works with.  The following line is here 
   ;; for documentation purposes in case you need it.  
   ;; (setq evil-collection-mode-list '(calendar dashboard dired ediff info magit ibuffer))
-  (add-to-list 'evil-collection-mode-list 'help) ;; evilify help mode
+  (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
 (use-package evil-tutor)
@@ -192,6 +202,24 @@
   :after company
   :diminish
   :hook (company-mode . company-box-mode))
+
+(use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "sxiv")
+                                ("jpg" . "sxiv")
+                                ("png" . "sxiv")
+                                ("mkv" . "vlc")
+                                ("mp4" . "vlc"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
 
 (defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
@@ -413,6 +441,30 @@
 (with-eval-after-load 'general
 )
 
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 45
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+  ;; truncate long file names in neotree
+  (add-hook 'neo-after-create-hook
+      #'(lambda (_)
+          (with-current-buffer (get-buffer neo-buffer-name)
+              (setq truncate-lines t)
+              (setq word-wrap nil)
+              (make-local-variable 'auto-hscroll-mode)
+              (setq auto-hscroll-mode nil))))
+  
+  (proton/leader-keys
+    "n" '(:ignore t :wk "Neotree")
+    "n f" '(neotree-find :wk "Neotree find")
+    "n t" '(neotree-toggle :wk "Toggle neotree")
+  )
+)
+
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
 
@@ -514,7 +566,7 @@
 (use-package tempel-collection
   :after tempel)
 
-(add-to-list 'default-frame-alist '(alpha-background . 90)) ; For all new frames henceforth
+(add-to-list 'default-frame-alist '(alpha-background . 95))
 
 (use-package sudo-edit
   :config

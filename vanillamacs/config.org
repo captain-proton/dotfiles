@@ -11,6 +11,7 @@
 - [[#all-the-icons][All-the-icons]]
 - [[#evil-mode][Evil Mode]]
 - [[#company][Company]]
+- [[#dired][Dired]]
 - [[#fonts][Fonts]]
   - [[#setup-font-face][Setup Font Face]]
   - [[#zoom-inout][Zoom In/Out]]
@@ -35,6 +36,7 @@
 - [[#git][Git]]
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
+- [[#neotree][Neotree]]
 - [[#org-mode][Org Mode]]
   - [[#table-of-contents][Table of contents]]
   - [[#bullets][Bullets]]
@@ -181,6 +183,13 @@ Add support for =use-package=.
    )
 
   (proton/leader-keys
+    "d" '(:ignore t :wk "Dired")
+    "d d" '(dired :wk "Open dired")
+    "d j" '(dired-jump :wk "Dired jump to current")
+    "d n" '(neotree-dir :wk "Open directory in neotree")
+    "d p" '(peep-dired :wk "Peep-dired"))
+
+  (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
    "h f" '(describe-function :wk "Describe function")
    "h k" '(describe-key :wk "Describe key")
@@ -244,6 +253,9 @@ Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
 #+begin_src emacs-lisp
 (use-package all-the-icons
   :if (display-graphic-p))
+
+(use-package all-the-icons-dired
+  :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 #+end_src
 
 * Evil Mode
@@ -275,7 +287,7 @@ Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
   ;; that evil-collection should works with.  The following line is here 
   ;; for documentation purposes in case you need it.  
   ;; (setq evil-collection-mode-list '(calendar dashboard dired ediff info magit ibuffer))
-  (add-to-list 'evil-collection-mode-list 'help) ;; evilify help mode
+  (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
 (use-package evil-tutor)
@@ -322,6 +334,30 @@ Taken from [[https://company-mode.github.io/][company-mode]].
   :after company
   :diminish
   :hook (company-mode . company-box-mode))
+#+end_src
+
+* Dired
+
+Dired is the built-in file manager of emacs.
+
+#+begin_src emacs-lisp
+(use-package dired-open
+  :config
+  (setq dired-open-extensions '(("gif" . "sxiv")
+                                ("jpg" . "sxiv")
+                                ("png" . "sxiv")
+                                ("mkv" . "vlc")
+                                ("mp4" . "vlc"))))
+
+(use-package peep-dired
+  :after dired
+  :hook (evil-normalize-keymaps . peep-dired-hook)
+  :config
+    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
+    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
+    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
+    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
+)
 #+end_src
 
 * Fonts
@@ -693,6 +729,35 @@ git-timemachine is a program that allows you to move backwards and forwards thro
 )
 #+end_src
 
+* Neotree
+
+#+begin_src emacs-lisp
+(use-package neotree
+  :config
+  (setq neo-smart-open t
+        neo-show-hidden-files t
+        neo-window-width 45
+        neo-window-fixed-size nil
+        inhibit-compacting-font-caches t
+        projectile-switch-project-action 'neotree-projectile-action) 
+  ;; truncate long file names in neotree
+  (add-hook 'neo-after-create-hook
+      #'(lambda (_)
+          (with-current-buffer (get-buffer neo-buffer-name)
+              (setq truncate-lines t)
+              (setq word-wrap nil)
+              (make-local-variable 'auto-hscroll-mode)
+              (setq auto-hscroll-mode nil))))
+
+  (proton/leader-keys
+    "n" '(:ignore t :wk "Neotree")
+    "n f" '(neotree-find :wk "Neotree find")
+    "n t" '(neotree-toggle :wk "Toggle neotree")
+  )
+)
+
+#+end_src
+
 * Org Mode
 
 #+begin_src emacs-lisp
@@ -856,8 +921,11 @@ Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_mai
 
 * Transparency
 
+Add transparent background for emacs windows.
+This requires emacs >= 29.
+
 #+begin_src emacs-lisp
-(add-to-list 'default-frame-alist '(alpha-background . 90)) 
+(add-to-list 'default-frame-alist '(alpha-background . 95)) 
 #+end_src
 
 * Sudo Edit
