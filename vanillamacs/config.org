@@ -35,6 +35,8 @@
   - [[#bullets][Bullets]]
   - [[#header-level-size][Header Level Size]]
   - [[#source-code][Source Code]]
+- [[#shell][Shell]]
+  - [[#eshell][Eshell]]
 - [[#templates][Templates]]
 - [[#sudo-edit][Sudo Edit]]
 - [[#which-key][Which key]]
@@ -191,10 +193,11 @@ Add support for =use-package=.
    )
 
   (proton/leader-keys
-   "e" '(:ignore t :wk "Evaluate")
+   "e" '(:ignore t :wk "Evaluate/Eshell")
    "e b" '(eval-buffer :wk "Eval buffer")
    "e e" '(eval-expression :wk "Evaluate and elisp expression")
    "e r" '(eval-region :wk "Eval region")
+   "e s" '(eshell :wk "Open Eshell")
    )
 
   )
@@ -683,6 +686,36 @@ Use the following to overcome the issue.
 (setq org-src-preserve-indentation t)
 #+end_src
 
+* Shell
+
+The terminal emulator of choice is =wezterm=, =zsh= the shell and =oh-my-zsh= the framework.
+The prompt is =starship.rs=.
+
+** Eshell
+
+Reasons to give eshell a chance:
+
+#+begin_quote
+- No need for pagers like less. You won't ever re-run a long-output command by appending | less to it.
+- Little need for output filtering (the sed, grep, awk black-magic): output the result to an Emacs buffer, use some Lisp functions, use Evil ex commands, iedit, helm-moccur or multiple-cursors...
+- Eshell supports TRAMP! Which means you don't have to put aside your powerful environment when switching to root or connecting to a remote host: all the power of your Emacs can be used anywhere, the shell included.
+#+end_quote
+
+Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_main_shell][reddit - Yes, Eshell is my main shell]].
+
+#+begin_src emacs-lisp
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1)
+  )
+(setq eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "btm" "htop" "ssh" "top" "zsh"))
+#+end_src
 * Templates
 
 #+begin_src emacs-lisp

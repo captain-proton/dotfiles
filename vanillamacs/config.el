@@ -105,10 +105,11 @@
    )
 
   (proton/leader-keys
-   "e" '(:ignore t :wk "Evaluate")
+   "e" '(:ignore t :wk "Evaluate/Eshell")
    "e b" '(eval-buffer :wk "Eval buffer")
    "e e" '(eval-expression :wk "Evaluate and elisp expression")
    "e r" '(eval-region :wk "Eval region")
+   "e s" '(eshell :wk "Open Eshell")
    )
 
   )
@@ -424,6 +425,18 @@
  )
 
 (setq org-src-preserve-indentation t)
+
+(use-package eshell-syntax-highlighting
+  :after esh-mode
+  :config
+  (eshell-syntax-highlighting-global-mode +1)
+  )
+(setq eshell-history-size 5000
+      eshell-buffer-maximum-lines 5000
+      eshell-hist-ignoredups t
+      eshell-scroll-to-bottom-on-input t
+      eshell-destroy-buffer-when-process-dies t
+      eshell-visual-commands'("bash" "btm" "htop" "ssh" "top" "zsh"))
 
 ;; Configure Tempel
 (use-package tempel
