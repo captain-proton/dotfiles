@@ -8,7 +8,9 @@
 - [[#package-manager][Package Manager]]
   - [[#general-keybindings][General Keybindings]]
   - [[#emacs][Emacs]]
+- [[#all-the-icons][All-the-icons]]
 - [[#evil-mode][Evil Mode]]
+- [[#company][Company]]
 - [[#fonts][Fonts]]
   - [[#setup-font-face][Setup Font Face]]
   - [[#zoom-inout][Zoom In/Out]]
@@ -16,10 +18,13 @@
   - [[#disable-the-bars][Disable the bars]]
   - [[#theme][Theme]]
   - [[#modeline][Modeline]]
+  - [[#minions][Minions]]
   - [[#line-numbers][Line Numbers]]
   - [[#rainbows][Rainbows]]
   - [[#escape-the-mini-buffer][Escape the mini buffer]]
 - [[#dashboard][Dashboard]]
+- [[#diminish][Diminish]]
+- [[#flycheck][Flycheck]]
 - [[#projectile][Projectile]]
 - [[#completions][Completions]]
   - [[#vertico][Vertico]]
@@ -38,6 +43,7 @@
 - [[#shell][Shell]]
   - [[#eshell][Eshell]]
 - [[#templates][Templates]]
+- [[#transparency][Transparency]]
 - [[#sudo-edit][Sudo Edit]]
 - [[#which-key][Which key]]
 
@@ -230,6 +236,16 @@ Add support for =use-package=.
   (setq enable-recursive-minibuffers t))
 #+end_src
 
+* All-the-icons
+
+Icon set that can be used with neotree, dired and mode line.
+Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
+
+#+begin_src emacs-lisp
+(use-package all-the-icons
+  :if (display-graphic-p))
+#+end_src
+
 * Evil Mode
 
 [[https://github.com/emacs-evil/evil][Evil - extensible vi layer for emacs]]
@@ -283,6 +299,29 @@ For example, you can press “99,ci” to comment out 99 lines.
     :after evil
     :config
     (evilnc-default-hotkeys))
+#+end_src
+
+* Company
+
+#+begin_quote
+Company is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends and front-ends to retrieve and display completion candidates.
+#+end_quote
+
+Taken from [[https://company-mode.github.io/][company-mode]].
+
+#+begin_src emacs-lisp
+(use-package company
+  :diminish
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0)
+  (global-company-mode t)
+  )
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
 #+end_src
 
 * Fonts
@@ -366,7 +405,24 @@ For example, you can press “99,ci” to comment out 99 lines.
   (setq doom-modeline-height 24      ;; sets modeline height
         doom-modeline-bar-width 5    ;; sets right bar width
         doom-modeline-persp-name t   ;; adds perspective name to modeline
-        doom-modeline-persp-icon t)) ;; adds folder icon next to persp name
+        doom-modeline-persp-icon t   ;; adds folder icon next to persp name
+        doom-modeline-minor-modes t  ;; show minor modes
+	)
+  ) 
+#+end_src
+
+** Minions
+
+#+begin_quote
+This package implements a nested menu that gives access to all known
+minor modes (i.e., those listed in `minor-mode-list').
+#+end_quote
+
+Taken from [[https://github.com/tarsius/minions][GitHub]].
+
+#+begin_src emacs-lisp
+(use-package minions
+  :config (minions-mode 1))
 #+end_src
 
 
@@ -431,6 +487,38 @@ Decrease the amount to one.
   :config
   (dashboard-setup-startup-hook))
 #+end_src
+
+* Diminish
+
+#+begin_quote
+This package implements hiding or abbreviation of the mode line displays (lighters) of minor-modes.
+#+end_quote
+
+Taken from [[https://github.com/myrjola/diminish.el][GitHub]].
+
+So if you add =:diminish= to a =use-package= declaration, the minor mode is not displayed on the mode line.
+
+#+begin_src emacs-lisp
+(use-package diminish)
+#+end_src
+
+* Flycheck
+
+#+begin_quote
+Modern on-the-fly syntax checking extension for GNU Emacs.
+#+end_quote
+
+Taken from [[https://github.com/flycheck/flycheck][GitHub]].
+Go to the [[https://www.flycheck.org/en/latest/languages.html][flycheck webpage]] to get info regarding support languages.
+
+#+begin_src emacs-lisp
+(use-package flycheck
+  :ensure t
+  :defer t
+  :diminish
+  :init (global-flycheck-mode))
+#+end_src
+
 * Projectile
 
 [[https://github.com/bbatsov/projectile][Projectile on GitHub]]
@@ -442,6 +530,7 @@ Projectile is a project interaction library for Emacs.
 #+begin_src emacs-lisp
 (use-package projectile
   :ensure t
+  :diminish
   :config
   (projectile-mode +1)
   (proton/leader-keys
@@ -468,6 +557,7 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
 #+begin_src emacs-lisp
 (use-package vertico
   :ensure t
+  :diminish
   :bind (:map vertico-map
          ("C-j" . vertico-next)
          ("C-k" . vertico-previous)
@@ -509,6 +599,7 @@ Consult provides search and navigation commands based on the Emacs completion fu
 
 #+begin_src emacs-lisp
 (use-package consult
+  :diminish
   :config
   (proton/leader-keys
     "<" '(consult-buffer :wk "Consult buffer")
@@ -763,6 +854,12 @@ Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_mai
   :after tempel)
 #+end_src
 
+* Transparency
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(alpha-background . 90)) 
+#+end_src
+
 * Sudo Edit
 
 #+begin_src emacs-lisp
@@ -783,6 +880,7 @@ Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_mai
 (use-package which-key
   :init
   (which-key-mode)
+  :diminish
   :config
   (setq which-key-side-window-location 'bottom
 	which-key-sort-order #'which-key-key-order-alpha

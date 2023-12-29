@@ -137,6 +137,9 @@
   ;; Enable recursive minibuffers
   (setq enable-recursive-minibuffers t))
 
+(use-package all-the-icons
+  :if (display-graphic-p))
+
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
@@ -176,6 +179,19 @@
     :after evil
     :config
     (evilnc-default-hotkeys))
+
+(use-package company
+  :diminish
+  :custom
+  (company-minimum-prefix-length 1)
+  (company-idle-delay 0.0)
+  (global-company-mode t)
+  )
+
+(use-package company-box
+  :after company
+  :diminish
+  :hook (company-mode . company-box-mode))
 
 (defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
@@ -235,7 +251,13 @@
   (setq doom-modeline-height 24      ;; sets modeline height
         doom-modeline-bar-width 5    ;; sets right bar width
         doom-modeline-persp-name t   ;; adds perspective name to modeline
-        doom-modeline-persp-icon t)) ;; adds folder icon next to persp name
+        doom-modeline-persp-icon t   ;; adds folder icon next to persp name
+        doom-modeline-minor-modes t  ;; show minor modes
+	)
+  )
+
+(use-package minions
+  :config (minions-mode 1))
 
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
@@ -275,8 +297,17 @@
   :config
   (dashboard-setup-startup-hook))
 
+(use-package diminish)
+
+(use-package flycheck
+  :ensure t
+  :defer t
+  :diminish
+  :init (global-flycheck-mode))
+
 (use-package projectile
   :ensure t
+  :diminish
   :config
   (projectile-mode +1)
   (proton/leader-keys
@@ -291,6 +322,7 @@
 
 (use-package vertico
   :ensure t
+  :diminish
   :bind (:map vertico-map
          ("C-j" . vertico-next)
          ("C-k" . vertico-previous)
@@ -314,6 +346,7 @@
   (savehist-mode))
 
 (use-package consult
+  :diminish
   :config
   (proton/leader-keys
     "<" '(consult-buffer :wk "Consult buffer")
@@ -481,6 +514,8 @@
 (use-package tempel-collection
   :after tempel)
 
+(add-to-list 'default-frame-alist '(alpha-background . 90)) ; For all new frames henceforth
+
 (use-package sudo-edit
   :config
   (proton/leader-keys
@@ -493,6 +528,7 @@
 (use-package which-key
   :init
   (which-key-mode)
+  :diminish
   :config
   (setq which-key-side-window-location 'bottom
 	which-key-sort-order #'which-key-key-order-alpha
