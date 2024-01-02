@@ -273,8 +273,8 @@ Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
   (setq evil-vsplit-window-right t)
   (setq evil-split-window-below t)
   (evil-mode)
+  (add-hook 'with-editor-mode-hook 'evil-insert-state)
   :config
-  
   (proton/leader-keys
    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
    )
@@ -707,7 +707,7 @@ The git client for emacs.
   (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-)
+  )
 #+end_src
 
 ** Timemachine
@@ -724,8 +724,6 @@ git-timemachine is a program that allows you to move backwards and forwards thro
   :config
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
-)
-(with-eval-after-load 'general
 )
 #+end_src
 

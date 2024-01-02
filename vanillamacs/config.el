@@ -159,8 +159,8 @@
   (setq evil-vsplit-window-right t)
   (setq evil-split-window-below t)
   (evil-mode)
+  (add-hook 'with-editor-mode-hook 'evil-insert-state)
   :config
-  
   (proton/leader-keys
    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
    )
@@ -426,7 +426,7 @@
   (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-)
+  )
 
 (use-package git-timemachine
   :init
@@ -437,8 +437,6 @@
   :config
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
-)
-(with-eval-after-load 'general
 )
 
 (use-package neotree
@@ -457,7 +455,7 @@
               (setq word-wrap nil)
               (make-local-variable 'auto-hscroll-mode)
               (setq auto-hscroll-mode nil))))
-  
+
   (proton/leader-keys
     "n" '(:ignore t :wk "Neotree")
     "n f" '(neotree-find :wk "Neotree find")
