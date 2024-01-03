@@ -3,16 +3,16 @@
 [[file:splash/black-hole.png]]
 
 * *Important Keybindings*
-|------------+---------------------+------------------------------------|
-| M-x        | [[elisp:(counsel-M-x)][counsel-M-x]]         | Prompt for Emacs programs          |
-| SPC .      | [[elisp:(counsel-find-file)][counsel-find-file]]   | Find a file                        |
-| SPC f r    | [[elisp:(counsel-recentf)][counsel-recentf]]     | Find a recent file                 |
-| SPC d d    | [[elisp:(dired (getenv "HOME"))][dired]]               | Dired file manager                 |
-| SPC h r r  | [[elisp:(doom/reload)][doom/reload]]         | Reload Doom Emacs                  |
-| SPC f u    | [[elisp:(doom/sudo-find-file nil)][doom/sudo-find-file]] | Find file and open as root         |
-| SPC f U    | /doom/sudo-this-file/ | Open current file as root          |
-| SPC v t    | [[elisp:(+vterm/toggle nil)][+vterm/toggle]]       | Toggle the vterm terminal emulator |
-|------------+---------------------+------------------------------------|
+|-----------+---------------------+------------------------------------|
+| M-x       | [[elisp:(M-x)][M-x]]                 | Prompt for Emacs programs          |
+| SPC .     | [[elisp:(find-file)][find-file]]           | Find a file                        |
+| SPC f r   | [[elisp:(consult-recent-file)][consult-recent-file]] | Find a recent file                 |
+| SPC d d   | [[elisp:(dired (getenv "HOME"))][dired]]               | Dired file manager                 |
+| SPC h r r | [[elisp:(doom/reload)][doom/reload]]         | Reload Doom Emacs                  |
+| SPC f u   | [[elisp:(doom/sudo-find-file nil)][doom/sudo-find-file]] | Find file and open as root         |
+| SPC f U   | /doom/sudo-this-file/ | Open current file as root          |
+| SPC v t   | [[elisp:(+vterm/toggle nil)][+vterm/toggle]]       | Toggle the vterm terminal emulator |
+|-----------+---------------------+------------------------------------|
 
 * *Buffers And Splits*
 |------------------------------+------------------------------+-----------------------------|
