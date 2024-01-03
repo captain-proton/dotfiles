@@ -362,6 +362,17 @@ wasn't installed correctly. Font issues are rarely Doom issues!
 (after! doom-themes
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
+
+;; Try to fix treemacs icons
+;; provided by https://github.com/emacs-lsp/lsp-treemacs/issues/89#issuecomment-779976219
+(use-package! doom-themes
+  :custom
+  (doom-themes-treemacs-theme "doom-colors")
+  :config
+  ;; Enable customized theme
+  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
+  (with-eval-after-load 'lsp-treemacs
+    (doom-themes-treemacs-config)))
 #+end_src
 
 There are two ways to load a theme. Both assume the theme is installed and

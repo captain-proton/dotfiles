@@ -9,6 +9,7 @@
   - [[#general-keybindings][General Keybindings]]
   - [[#emacs][Emacs]]
 - [[#all-the-icons][All-the-icons]]
+- [[#editorconfig][EditorConfig]]
 - [[#evil-mode][Evil Mode]]
 - [[#company][Company]]
 - [[#dired][Dired]]
@@ -40,8 +41,7 @@
 - [[#org-mode][Org Mode]]
   - [[#table-of-contents][Table of contents]]
   - [[#bullets][Bullets]]
-  - [[#header-level-size][Header Level Size]]
-  - [[#source-code][Source Code]]
+  - [[#headerlevel-size][Header/Level size]]
 - [[#shell][Shell]]
   - [[#eshell][Eshell]]
 - [[#templates][Templates]]
@@ -259,6 +259,25 @@ Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
   :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 #+end_src
 
+* EditorConfig
+
+#+begin_quote
+The EditorConfig project consists of a file format for defining coding styles and a collection of text editor plugins that enable editors to read the file format and adhere to defined styles.
+#+end_quote
+
+Taken from [[https://editorconfig.org/#overview][editorconfig.org]].
+EditorConfig checks for a =.editorconfig= file inside the current directory of a file that is edited.
+If none is found, it goes up the directory tree until a editorconfig with /root = true/ is found.
+It then applies the style configured inside the editorconfig.
+You can have multiple editorconfig files that are applied, as it stops only when the =root= advice is found.
+
+#+begin_src emacs-lisp
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+#+end_src
+
 * Evil Mode
 
 [[https://github.com/emacs-evil/evil][Evil - extensible vi layer for emacs]]
@@ -274,8 +293,8 @@ Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
   (setq evil-vsplit-window-right t)
   (setq evil-split-window-below t)
   (evil-mode)
+  (add-hook 'with-editor-mode-hook 'evil-insert-state)
   :config
-  
   (proton/leader-keys
    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
    )
@@ -427,9 +446,7 @@ Dired is the built-in file manager of emacs.
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled, t by default
         doom-themes-enable-italic t) ; if nil, italics is universally disabled, t by default
   ;; This is the default theme
-  (load-theme 'doom-nord t)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (load-theme 'doom-nord t))
 #+end_src
 
 ** Modeline
@@ -708,7 +725,7 @@ The git client for emacs.
   (magit-status magit-get-current-branch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
-)
+  )
 #+end_src
 
 ** Timemachine
@@ -725,8 +742,6 @@ git-timemachine is a program that allows you to move backwards and forwards thro
   :config
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
-)
-(with-eval-after-load 'general
 )
 #+end_src
 
@@ -831,22 +846,54 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 #+end_src
 
-** Header Level Size
+** Header/Level size
 
 #+begin_src emacs-lisp
-(custom-set-faces
- '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.3))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.2))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
- )
+(require 'org-faces)
+
+;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
+(set-face-attribute 'org-block nil
+		    :foreground nil
+		    :font proton/fixed-width-font
+		    :height 1.0
+		    :weight 'light)
 #+end_src
 
-** Source Code
-
-Org may add [[https://github.com/syl20bnr/spacemacs/issues/13255][unwanted indentation]], using evil and entering insert mode.
-Use the following to overcome the issue.
+#+begin_src emacs-lisp
+(defun proton/org-colors-nord ()
+  "Enable Nord colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#81a1c1" bold)
+         (org-level-2 1.6 "#b48ead" bold)
+         (org-level-3 1.5 "#a3be8c" semi-bold)
+         (org-level-4 1.4 "#ebcb8b" normal)
+         (org-level-5 1.3 "#bf616a" light)
+         (org-level-6 1.2 "#88c0d0" light)
+         (org-level-7 1.1 "#81a1c1" light)
+         (org-level-8 1.0 "#b48ead" light)))
+    (let ((face-name (car face))
+          (height (nth 1 face))
+          (foreground (nth 2 face))
+          (weight (nth 3 face)))
+      
+      (set-face-attribute (car face) nil
+                          :family proton/variable-width-font
+                          :height height
+                          :foreground foreground
+                          :weight weight)
+    )
+  )
+  (set-face-attribute 'org-table nil
+                      :family proton/fixed-width-font
+                      :weight 'normal
+                      :height 1.0
+                      :foreground "#88c0d0")
+  )
+(with-eval-after-load 'org
+  (add-hook 'org-mode-hook 'proton/org-colors-nord))
+#+end_src
 
 #+begin_src emacs-lisp
 (setq org-src-preserve-indentation t)
@@ -882,6 +929,7 @@ Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_mai
       eshell-destroy-buffer-when-process-dies t
       eshell-visual-commands'("bash" "btm" "htop" "ssh" "top" "zsh"))
 #+end_src
+
 * Templates
 
 #+begin_src emacs-lisp
