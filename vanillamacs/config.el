@@ -457,7 +457,7 @@
               (setq word-wrap nil)
               (make-local-variable 'auto-hscroll-mode)
               (setq auto-hscroll-mode nil))))
-  
+
   (proton/leader-keys
     "n" '(:ignore t :wk "Neotree")
     "n f" '(neotree-find :wk "Neotree find")
@@ -467,6 +467,14 @@
 
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
+
+(use-package org
+  :elpaca nil
+  :init
+  (proton/leader-keys
+    "m e" '(org-edit-special :wk "Org edit special")
+    )
+  )
 
 (defvar proton/org-notes-dir (file-truename "~/Org/notes")
   "Directory containing all my org notes files")
@@ -487,6 +495,7 @@
 	org-ellipsis " ▾"
 	org-hide-emphasis-markers t
 	org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+   (define-key org-src-mode-map (kbd "C-c C-c") 'org-edit-src-exit)
   )
 
 (use-package toc-org
@@ -567,6 +576,38 @@
   :after tempel)
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
+
+(setq treesit-language-source-alist
+   '((bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (org "https://github.com/milisims/tree-sitter-org")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (rust "https://github.com/tree-sitter/tree-sitter-rust")
+     (sql "https://github.com/m-novikov/tree-sitter-sql")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+     ))
+
+(dolist (lang treesit-language-source-alist)
+  (unless (treesit-language-available-p (car lang))
+    (treesit-install-language-grammar (car lang))))
+
+(setq major-mode-remap-alist
+ '(
+   (bash-mode . bash-ts-mode)
+   (css-mode . css-ts-mode)
+   (html-mode . html-ts-mode)
+   (json-mode . json-ts-mode)
+   (makefile-mode . makefile-ts-mode)
+   (python-mode . python-ts-mode)
+   (yaml-mode . yaml-ts-mode)
+   ))
 
 (use-package sudo-edit
   :config
