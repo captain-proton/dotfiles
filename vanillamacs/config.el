@@ -150,6 +150,11 @@
 (use-package all-the-icons-dired
   :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
+
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
@@ -268,9 +273,7 @@
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled, t by default
         doom-themes-enable-italic t) ; if nil, italics is universally disabled, t by default
   ;; This is the default theme
-  (load-theme 'doom-nord t)
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (load-theme 'doom-nord t))
 
 (use-package doom-modeline
   :ensure t
@@ -499,13 +502,48 @@
 (use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-(custom-set-faces
- '(org-level-1 ((t (:inherit outline-1 :height 1.5))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.4))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.3))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.2))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.1))))
- )
+(require 'org-faces)
+
+;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
+(set-face-attribute 'org-block nil
+		    :foreground nil
+		    :font proton/fixed-width-font
+		    :height 1.0
+		    :weight 'light)
+
+(defun proton/org-colors-nord ()
+  "Enable Nord colors for Org headers."
+  (interactive)
+  (dolist
+      (face
+       '((org-level-1 1.7 "#81a1c1" bold)
+         (org-level-2 1.6 "#b48ead" bold)
+         (org-level-3 1.5 "#a3be8c" semi-bold)
+         (org-level-4 1.4 "#ebcb8b" normal)
+         (org-level-5 1.3 "#bf616a" light)
+         (org-level-6 1.2 "#88c0d0" light)
+         (org-level-7 1.1 "#81a1c1" light)
+         (org-level-8 1.0 "#b48ead" light)))
+    (let ((face-name (car face))
+          (height (nth 1 face))
+          (foreground (nth 2 face))
+          (weight (nth 3 face)))
+      
+      (set-face-attribute (car face) nil
+                          :family proton/variable-width-font
+                          :height height
+                          :foreground foreground
+                          :weight weight)
+    )
+  )
+  (set-face-attribute 'org-table nil
+                      :family proton/fixed-width-font
+                      :weight 'normal
+                      :height 1.0
+                      :foreground "#88c0d0")
+  )
+(with-eval-after-load 'org
+  (add-hook 'org-mode-hook 'proton/org-colors-nord))
 
 (setq org-src-preserve-indentation t)
 
