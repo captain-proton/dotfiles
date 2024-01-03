@@ -201,6 +201,17 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t))
 
+;; Try to fix treemacs icons
+;; provided by https://github.com/emacs-lsp/lsp-treemacs/issues/89#issuecomment-779976219
+(use-package! doom-themes
+  :custom
+  (doom-themes-treemacs-theme "doom-colors")
+  :config
+  ;; Enable customized theme
+  ;; FIXME https://github.com/emacs-lsp/lsp-treemacs/issues/89
+  (with-eval-after-load 'lsp-treemacs
+    (doom-themes-treemacs-config)))
+
 (setq doom-theme 'doom-nord)
 
 (setq display-line-numbers-type 'relative)
