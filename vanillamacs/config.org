@@ -42,6 +42,7 @@
   - [[#table-of-contents][Table of contents]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
+- [[#perspective-mode][Perspective Mode]]
 - [[#shell][Shell]]
   - [[#eshell][Eshell]]
 - [[#templates][Templates]]
@@ -887,6 +888,33 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 
 #+begin_src emacs-lisp
 (setq org-src-preserve-indentation t)
+#+end_src
+
+* Perspective Mode
+
+#+begin_src emacs-lisp
+(use-package perspective
+  :ensure t
+  :custom
+  (persp-mode-prefix-key (kbd "C-<tab>"))
+  (persp-sort 'created)
+  (doom-modeline-display-default-persp-name t)
+  :init
+  (persp-mode)
+  :config
+  (proton/leader-keys
+    "TAB" '(:ignore t :wk "Perspective")
+    "<" '(persp-switch-to-buffer* :wk "Switch buffer")
+    "TAB r" '(persp-rename :wk "Rename perspective")
+    "TAB s" '(persp-switch :wk "Create/Switch perspective")
+    "TAB n" '(persp-next :wk "Next perspective")
+    "TAB p" '(persp-previous :wk "Previous perspective")
+    "TAB q" '(persp-kill :wk "Kill perspective")
+    "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
+    "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
+    "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
+    )
+  )
 #+end_src
 
 * Shell

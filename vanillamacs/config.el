@@ -547,6 +547,29 @@
 
 (setq org-src-preserve-indentation t)
 
+(use-package perspective
+  :ensure t
+  :custom
+  (persp-mode-prefix-key (kbd "C-<tab>"))
+  (persp-sort 'created)
+  (doom-modeline-display-default-persp-name t)
+  :init
+  (persp-mode)
+  :config
+  (proton/leader-keys
+    "TAB" '(:ignore t :wk "Perspective")
+    "<" '(persp-switch-to-buffer* :wk "Switch buffer")
+    "TAB r" '(persp-rename :wk "Rename perspective")
+    "TAB s" '(persp-switch :wk "Create/Switch perspective")
+    "TAB n" '(persp-next :wk "Next perspective")
+    "TAB p" '(persp-previous :wk "Previous perspective")
+    "TAB q" '(persp-kill :wk "Kill perspective")
+    "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
+    "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
+    "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
+    )
+  )
+
 (use-package eshell-syntax-highlighting
   :after esh-mode
   :config
