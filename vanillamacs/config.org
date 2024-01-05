@@ -11,8 +11,11 @@
 - [[#all-the-icons][All-the-icons]]
 - [[#editorconfig][EditorConfig]]
 - [[#evil-mode][Evil Mode]]
+  - [[#evil-snipe][Evil Snipe]]
+  - [[#nerd-commenter][Nerd Commenter]]
 - [[#company][Company]]
 - [[#dired][Dired]]
+  - [[#dired-sidebar][Dired Sidebar]]
 - [[#fonts][Fonts]]
   - [[#setup-font-face][Setup Font Face]]
   - [[#zoom-inout][Zoom In/Out]]
@@ -24,6 +27,7 @@
   - [[#line-numbers][Line Numbers]]
   - [[#rainbows][Rainbows]]
   - [[#escape-the-mini-buffer][Escape the mini buffer]]
+  - [[#focus-help-window][Focus help window]]
 - [[#dashboard][Dashboard]]
 - [[#diminish][Diminish]]
 - [[#flycheck][Flycheck]]
@@ -37,12 +41,14 @@
 - [[#git][Git]]
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
-- [[#neotree][Neotree]]
 - [[#org-mode][Org Mode]]
   - [[#table-of-contents][Table of contents]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
+- [[#lsp][LSP]]
+  - [[#ansible][Ansible]]
 - [[#perspective-mode][Perspective Mode]]
+- [[#perspectiveprojectile][Perspective/Projectile]]
 - [[#shell][Shell]]
   - [[#eshell][Eshell]]
 - [[#templates][Templates]]
@@ -188,19 +194,24 @@ Add support for =use-package=.
     "d" '(:ignore t :wk "Dired")
     "d d" '(dired :wk "Open dired")
     "d j" '(dired-jump :wk "Dired jump to current")
-    "d n" '(neotree-dir :wk "Open directory in neotree")
     "d p" '(peep-dired :wk "Peep-dired"))
+
+  (proton/leader-keys
+    "v" '(:ignore t :wk "Vanillamacs")
+    "v r" '((lambda () (interactive)
+	        (load-file (expand-file-name "init.el" user-emacs-directory))
+	        (ignore (elpaca-process-queues)))
+	      :wk "Reload emacs config")
+    "v R" '(restart-emacs :wk "Restart Emacs")
+    "v q" '(evil-save-and-quit :wk "Save and quit emacs"))
 
   (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
    "h f" '(describe-function :wk "Describe function")
    "h k" '(describe-key :wk "Describe key")
-   "h m" '(describe-keymap :wk "Describe keymap")
+   "h K" '(describe-keymap :wk "Describe keymap")
+   "h m" '(describe-mode :wk "Describe mode")
    "h p" '(describe-package :wk "Describe package")
-   "h r r" '((lambda () (interactive)
-	       (load-file (expand-file-name "init.el" user-emacs-directory))
-	       (ignore (elpaca-process-queues)))
-	     :wk "Reload emacs config")
    "h v" '(describe-variable :wk "Describe variable")
    )
 
@@ -249,7 +260,7 @@ Add support for =use-package=.
 
 * All-the-icons
 
-Icon set that can be used with neotree, dired and mode line.
+Icon set that can be used with dired and mode line.
 Comes from [[https://github.com/domtronn/all-the-icons.el/tree/master][GitHub]].
 
 #+begin_src emacs-lisp
@@ -311,7 +322,7 @@ You can have multiple editorconfig files that are applied, as it stops only when
   (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
-(use-package evil-tutor)
+(use-package evil-tutor :ensure t)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -323,7 +334,21 @@ You can have multiple editorconfig files that are applied, as it stops only when
   (define-key evil-motion-state-map (kbd "TAB") nil))
 #+end_src
 
-*** Nerd Commenter
+** Evil Snipe
+
+#+begin_src emacs-lisp
+(use-package evil-snipe
+  :ensure t
+  :config
+  (evil-snipe-override-mode 1))
+
+(evil-define-key 'normal 'global (kbd "f") 'evil-snipe-f)
+(evil-define-key 'normal 'global (kbd "s") 'evil-snipe-s)
+(evil-define-key 'normal 'global (kbd "F") 'evil-snipe-F)
+(evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S)
+#+end_src
+
+** Nerd Commenter
 A Nerd Commenter emulation, help you comment code efficiently.
 For example, you can press “99,ci” to comment out 99 lines.
 
@@ -379,6 +404,44 @@ Dired is the built-in file manager of emacs.
     (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
 )
+#+end_src
+
+** Dired Sidebar
+
+Sidebar showing a filetree.
+[[https://github.com/jojojames/dired-sidebar][Dired Sidebar on Github]].
+Integrates well within emacs as dired is the base package.
+Additional integration with magit, projectile and evil is great.
+
+#+begin_src emacs-lisp
+(use-package vscode-icon
+  :ensure t
+  :commands (vscode-icon-for-file))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package dired-sidebar
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (add-hook 'dired-sidebar-mode-hook
+            (lambda ()
+              (display-line-numbers-mode 0)
+	          (unless (file-remote-p default-directory)
+                (auto-revert-mode))
+              ))
+  (proton/leader-keys
+    "d s" '(dired-sidebar-toggle-sidebar :wk "Dired sidebar"))
+  :config
+  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+  (setq dired-sidebar-subtree-line-prefix "  ")
+  (setq dired-sidebar-theme 'vscode)
+  (setq dired-sidebar-width 45)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t)
+  )
 #+end_src
 
 * Fonts
@@ -520,6 +583,12 @@ Decrease the amount to one.
 (global-set-key [escape] 'keyboard-escape-quit)
 #+end_src
 
+** Focus help window
+
+#+begin_src emacs-lisp
+(setq help-window-select t)
+#+end_src
+
 * Dashboard
 
 #+begin_src emacs-lisp
@@ -531,7 +600,7 @@ Decrease the amount to one.
   (setq dashboard-set-file-icons t)
   (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
   ;; (setq dashboard-startup-banner "/home/dt/.config/emacs/images/emacs-dash.png")  ;; use custom image as banner
-  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-center-content t) ;; set to 't' for centered content
   (setq dashboard-items '((recents . 5)
                           (bookmarks . 3)
                           (projects . 5)
@@ -746,35 +815,6 @@ git-timemachine is a program that allows you to move backwards and forwards thro
 )
 #+end_src
 
-* Neotree
-
-#+begin_src emacs-lisp
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 45
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-  ;; truncate long file names in neotree
-  (add-hook 'neo-after-create-hook
-      #'(lambda (_)
-          (with-current-buffer (get-buffer neo-buffer-name)
-              (setq truncate-lines t)
-              (setq word-wrap nil)
-              (make-local-variable 'auto-hscroll-mode)
-              (setq auto-hscroll-mode nil))))
-
-  (proton/leader-keys
-    "n" '(:ignore t :wk "Neotree")
-    "n f" '(neotree-find :wk "Neotree find")
-    "n t" '(neotree-toggle :wk "Toggle neotree")
-  )
-)
-
-#+end_src
-
 * Org Mode
 
 #+begin_src emacs-lisp
@@ -854,7 +894,7 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 
 ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
 (set-face-attribute 'org-block nil
-		    :foreground nil
+		    :foreground 'unspecified
 		    :font proton/fixed-width-font
 		    :height 1.0
 		    :weight 'light)
@@ -900,6 +940,36 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 (setq org-src-preserve-indentation t)
 #+end_src
 
+* LSP
+
+#+begin_quote
+The Language Server protocol is used between a tool (the client) and a language smartness provider (the server) to integrate features like auto complete, go to definition, find all references and alike into the tool
+#+end_quote
+
+-- [[https://microsoft.github.io/language-server-protocol/specifications/specification-current/][official Language Server Protocol specification]]
+
+Take a look at [[https://langserver.org/][langserver.org]]
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :elpaca nil)
+#+end_src
+
+** Ansible
+
+#+begin_src emacs-lisp
+(use-package ansible :ensure t)
+(use-package ansible-doc :ensure t)
+(use-package jinja2-mode :ensure t)
+(use-package yaml-mode :ensure t)
+
+;; TODO define ansible minor mode
+;; TODO start ansible language server
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(yaml-mode . ("ansible-language-server"))))
+#+end_src
+
 * Perspective Mode
 
 #+begin_src emacs-lisp
@@ -924,6 +994,21 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
     "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
     )
+  )
+#+end_src
+
+* Perspective/Projectile
+
+Integrate =perspective.el= with =projectile= so that opened projects get their own perspective.
+
+Take a look at the [[https://github.com/bbatsov/persp-projectile][Github]] project.
+
+#+begin_src emacs-lisp
+(use-package persp-projectile
+  :ensure t
+  :init
+  (proton/leader-keys
+    "p p" '(projectile-persp-switch-project :wk "Switch project"))
   )
 #+end_src
 

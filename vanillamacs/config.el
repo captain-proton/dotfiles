@@ -90,19 +90,24 @@
     "d" '(:ignore t :wk "Dired")
     "d d" '(dired :wk "Open dired")
     "d j" '(dired-jump :wk "Dired jump to current")
-    "d n" '(neotree-dir :wk "Open directory in neotree")
     "d p" '(peep-dired :wk "Peep-dired"))
+
+  (proton/leader-keys
+    "v" '(:ignore t :wk "Vanillamacs")
+    "v r" '((lambda () (interactive)
+	        (load-file (expand-file-name "init.el" user-emacs-directory))
+	        (ignore (elpaca-process-queues)))
+	      :wk "Reload emacs config")
+    "v R" '(restart-emacs :wk "Restart Emacs")
+    "v q" '(evil-save-and-quit :wk "Save and quit emacs"))
 
   (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
    "h f" '(describe-function :wk "Describe function")
    "h k" '(describe-key :wk "Describe key")
-   "h m" '(describe-keymap :wk "Describe keymap")
+   "h K" '(describe-keymap :wk "Describe keymap")
+   "h m" '(describe-mode :wk "Describe mode")
    "h p" '(describe-package :wk "Describe package")
-   "h r r" '((lambda () (interactive)
-	       (load-file (expand-file-name "init.el" user-emacs-directory))
-	       (ignore (elpaca-process-queues)))
-	     :wk "Reload emacs config")
    "h v" '(describe-variable :wk "Describe variable")
    )
 
@@ -181,7 +186,7 @@
   (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
-(use-package evil-tutor)
+(use-package evil-tutor :ensure t)
 
 ;; Using RETURN to follow links in Org/Evil 
 ;; Unmap keys in 'evil-maps if not done, (setq org-return-follows-link t) will not work
@@ -189,6 +194,16 @@
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") nil)
   (define-key evil-motion-state-map (kbd "TAB") nil))
+
+(use-package evil-snipe
+  :ensure t
+  :config
+  (evil-snipe-override-mode 1))
+
+(evil-define-key 'normal 'global (kbd "f") 'evil-snipe-f)
+(evil-define-key 'normal 'global (kbd "s") 'evil-snipe-s)
+(evil-define-key 'normal 'global (kbd "F") 'evil-snipe-F)
+(evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S)
 
 (use-package evil-nerd-commenter
     :after evil
@@ -225,6 +240,33 @@
     (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
     (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
 )
+
+(use-package vscode-icon
+  :ensure t
+  :commands (vscode-icon-for-file))
+
+(use-package dired-sidebar
+  :ensure t
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (add-hook 'dired-sidebar-mode-hook
+            (lambda ()
+              (display-line-numbers-mode 0)
+	          (unless (file-remote-p default-directory)
+                (auto-revert-mode))
+              ))
+  (proton/leader-keys
+    "d s" '(dired-sidebar-toggle-sidebar :wk "Dired sidebar"))
+  :config
+  (push 'toggle-window-split dired-sidebar-toggle-hidden-commands)
+  (push 'rotate-windows dired-sidebar-toggle-hidden-commands)
+
+  (setq dired-sidebar-subtree-line-prefix "  ")
+  (setq dired-sidebar-theme 'vscode)
+  (setq dired-sidebar-width 45)
+  (setq dired-sidebar-use-term-integration t)
+  (setq dired-sidebar-use-custom-font t)
+  )
 
 (defvar proton/fixed-width-font "JetBrainsMono NF"
   "The font to use for monospaced (fixed width) text.")
@@ -309,6 +351,8 @@
 
 (global-set-key [escape] 'keyboard-escape-quit)
 
+(setq help-window-select t)
+
 (use-package dashboard
   :ensure t 
   :init
@@ -317,7 +361,7 @@
   (setq dashboard-set-file-icons t)
   (setq dashboard-startup-banner 'logo) ;; use standard emacs logo as banner
   ;; (setq dashboard-startup-banner "/home/dt/.config/emacs/images/emacs-dash.png")  ;; use custom image as banner
-  (setq dashboard-center-content nil) ;; set to 't' for centered content
+  (setq dashboard-center-content t) ;; set to 't' for centered content
   (setq dashboard-items '((recents . 5)
                           (bookmarks . 3)
                           (projects . 5)
@@ -442,30 +486,6 @@
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
 )
 
-(use-package neotree
-  :config
-  (setq neo-smart-open t
-        neo-show-hidden-files t
-        neo-window-width 45
-        neo-window-fixed-size nil
-        inhibit-compacting-font-caches t
-        projectile-switch-project-action 'neotree-projectile-action) 
-  ;; truncate long file names in neotree
-  (add-hook 'neo-after-create-hook
-      #'(lambda (_)
-          (with-current-buffer (get-buffer neo-buffer-name)
-              (setq truncate-lines t)
-              (setq word-wrap nil)
-              (make-local-variable 'auto-hscroll-mode)
-              (setq auto-hscroll-mode nil))))
-
-  (proton/leader-keys
-    "n" '(:ignore t :wk "Neotree")
-    "n f" '(neotree-find :wk "Neotree find")
-    "n t" '(neotree-toggle :wk "Toggle neotree")
-  )
-)
-
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
 
@@ -515,7 +535,7 @@
 
 ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
 (set-face-attribute 'org-block nil
-		    :foreground nil
+		    :foreground 'unspecified
 		    :font proton/fixed-width-font
 		    :height 1.0
 		    :weight 'light)
@@ -556,6 +576,20 @@
 
 (setq org-src-preserve-indentation t)
 
+(use-package eglot
+  :elpaca nil)
+
+(use-package ansible :ensure t)
+(use-package ansible-doc :ensure t)
+(use-package jinja2-mode :ensure t)
+(use-package yaml-mode :ensure t)
+
+;; TODO define ansible minor mode
+;; TODO start ansible language server
+;; (with-eval-after-load 'eglot
+;;   (add-to-list 'eglot-server-programs
+;;                '(yaml-mode . ("ansible-language-server"))))
+
 (use-package perspective
   :ensure t
   :custom
@@ -577,6 +611,13 @@
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
     "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
     )
+  )
+
+(use-package persp-projectile
+  :ensure t
+  :init
+  (proton/leader-keys
+    "p p" '(projectile-persp-switch-project :wk "Switch project"))
   )
 
 (use-package eshell-syntax-highlighting
