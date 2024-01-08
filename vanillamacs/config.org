@@ -56,6 +56,7 @@
 - [[#tree-sitter][Tree Sitter]]
 - [[#sudo-edit][Sudo Edit]]
 - [[#which-key][Which key]]
+- [[#direnv][Direnv]]
 
 * Startup/Init Emacs
 
@@ -1167,4 +1168,18 @@ Take a look at the [[https://tree-sitter.github.io/tree-sitter/#parsers][tree-si
 	which-key-side-window-max-height 0.25
 	which-key-idle-delay 0.3
 	which-key-separator "  " ))
+#+end_src
+
+* Direnv
+
+#+begin_quote
+direnv is an extension for your shell. It augments existing shells with a new feature that can load and unload environment variables depending on the current directory.
+#+end_quote
+
+-- [[https://direnv.net][direnv.net]]
+
+#+begin_src emacs-lisp
+(use-package envrc
+  :config
+  (envrc-global-mode))
 #+end_src
