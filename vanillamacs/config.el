@@ -200,10 +200,11 @@
   :config
   (evil-snipe-override-mode 1))
 
-(evil-define-key 'normal 'global (kbd "f") 'evil-snipe-f)
-(evil-define-key 'normal 'global (kbd "s") 'evil-snipe-s)
-(evil-define-key 'normal 'global (kbd "F") 'evil-snipe-F)
-(evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S)
+(with-eval-after-load 'evil-maps
+  (evil-define-key 'normal 'global (kbd "f") 'evil-snipe-f)
+  (evil-define-key 'normal 'global (kbd "s") 'evil-snipe-s)
+  (evil-define-key 'normal 'global (kbd "F") 'evil-snipe-F)
+  (evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S))
 
 (use-package evil-nerd-commenter
     :after evil
