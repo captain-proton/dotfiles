@@ -188,6 +188,10 @@
 	    (display-line-numbers-mode 0)
 	    ))
 
+
+(general-advice-add 'elfeed
+		    :before (lambda (&rest r) (persp-switch "elfeed")))
+
 (use-package elfeed-org
   :ensure t
   :init
@@ -472,7 +476,9 @@
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (display-line-numbers-mode 0)
+  )
 
 (use-package diminish)
 

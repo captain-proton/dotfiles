@@ -330,6 +330,10 @@ You can have multiple editorconfig files that are applied, as it stops only when
 	  (lambda ()
 	    (display-line-numbers-mode 0)
 	    ))
+
+
+(general-advice-add 'elfeed
+		    :before (lambda (&rest r) (persp-switch "elfeed")))
 #+end_src
 
 
@@ -745,7 +749,9 @@ Decrease the amount to one.
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   :config
-  (dashboard-setup-startup-hook))
+  (dashboard-setup-startup-hook)
+  (display-line-numbers-mode 0)
+  )
 #+end_src
 
 * Diminish
