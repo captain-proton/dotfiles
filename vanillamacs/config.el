@@ -124,6 +124,11 @@
    "e s" '(eshell :wk "Open Eshell")
    )
 
+  (proton/leader-keys
+   "o" '(:ignore t :wk "Open")
+   "o d" '(dashboard-open :wk "Dashboard")
+   )
+
   )
 (elpaca-wait)
 
@@ -160,6 +165,97 @@
   :config
   (editorconfig-mode 1))
 
+(use-package elfeed
+  :ensure t
+  :bind (:map elfeed-show-mode-map
+         ([remap elfeed-kill-buffer] . evil-delete-buffer))
+  :general
+  (proton/leader-keys
+    "o e" '(elfeed :wk "elfeed"))
+  :config
+  (setq elfeed-search-filter "@2-weeks-ago +unread")
+  )
+
+(with-eval-after-load 'elfeed
+  (custom-set-faces
+   '(elfeed-search-unread-title-face ((t :weight medium)))
+   '(elfeed-search-title-face ((t :family "Vollkorn" :height 1.4)))
+   )
+  )
+
+(add-hook 'elfeed-search-mode-hook
+	  (lambda ()
+	    (display-line-numbers-mode 0)
+	    ))
+
+(use-package elfeed-org
+  :ensure t
+  :init
+  (elfeed-org)
+  (setq rmh-elfeed-org-files (list "~/Org/elfeed.org")))
+
+(use-package elfeed-goodies
+  :ensure t
+  :init
+  (defun search-header/draw-wide (separator-left separator-right search-filter stats db-time)
+    (let* ((update (format-time-string "%Y-%m-%d %H:%M:%S %z" db-time))
+           (lhs (list
+                 (powerline-raw (-pad-string-to "Date" (- 9 4)) 'powerline-active2 'l)
+                 (funcall separator-left 'powerline-active2 'powerline-active1)
+                 (powerline-raw (-pad-string-to "Feed" (- elfeed-goodies/feed-source-column-width 4)) 'powerline-active1 'l)
+                 (funcall separator-left 'powerline-active1 'powerline-active2)
+                 (powerline-raw (-pad-string-to "Tags" (- elfeed-goodies/tag-column-width 6)) 'powerline-active2 'l)
+                 (funcall separator-left 'powerline-active2 'mode-line)
+                 (powerline-raw "Subject" 'mode-line 'l)))
+           (rhs (search-header/rhs separator-left separator-right search-filter stats update)))
+      (concat (powerline-render lhs)
+              (powerline-fill 'mode-line (powerline-width rhs))
+              (powerline-render rhs))))
+  :config
+  (elfeed-goodies/setup)
+  (defun cp/elfeed-entry-line-draw (entry)
+    "Print ENTRY to the buffer."
+    (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
+           (title (or (elfeed-meta entry :title) (elfeed-entry-title entry) ""))
+           (title-faces (elfeed-search--faces (elfeed-entry-tags entry)))
+           (feed (elfeed-entry-feed entry))
+           (feed-title
+            (when feed
+              (or (elfeed-meta feed :title) (elfeed-feed-title feed))))
+           (tags (mapcar #'symbol-name (elfeed-entry-tags entry)))
+           (tags-str (concat "[" (mapconcat 'identity tags ",") "]"))
+           (title-width (- (window-width) elfeed-goodies/feed-source-column-width
+                           elfeed-goodies/tag-column-width 4))
+           (title-column (elfeed-format-column
+                          title (elfeed-clamp
+                                 elfeed-search-title-min-width
+                                 title-width
+                                 elfeed-search-title-max-width)
+                          :left))
+           (tag-column (elfeed-format-column
+                        tags-str (elfeed-clamp (length tags-str)
+                                               elfeed-goodies/tag-column-width
+                                               elfeed-goodies/tag-column-width)
+                        :left))
+           (feed-column (elfeed-format-column
+                         feed-title (elfeed-clamp elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width
+                                                  elfeed-goodies/feed-source-column-width)
+                         :left))
+           )
+      (if (>= (window-width) (* (frame-width) elfeed-goodies/wide-threshold))
+          (progn
+            ;; (insert (propertize entry-score 'face 'elfeed-search-feed-face) " ")
+            (insert (propertize date 'face 'elfeed-search-date-face) " ")
+            (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
+            (insert (propertize tag-column 'face 'elfeed-search-tag-face) " ")
+            ;; (insert (propertize authors-column 'face 'elfeed-search-tag-face) " ")
+            (insert (propertize title 'face title-faces 'kbd-help title))
+            )
+        (insert (propertize title 'face title-faces 'kbd-help title)))))
+  (setq elfeed-search-print-entry-function 'cp/elfeed-entry-line-draw)
+  )
+
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
@@ -173,6 +269,7 @@
   :config
   (proton/leader-keys
    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
+   "b k" '(evil-delete-buffer :wk "Evil delete buffer")
    )
 )
 
@@ -194,6 +291,8 @@
   (define-key evil-motion-state-map (kbd "SPC") nil)
   (define-key evil-motion-state-map (kbd "RET") nil)
   (define-key evil-motion-state-map (kbd "TAB") nil))
+
+(global-set-key [remap evil-quit] 'evil-delete-buffer)
 
 (use-package evil-snipe
   :ensure t
@@ -305,6 +404,8 @@
 (global-set-key (kbd "C-+") 'text-scale-increase)
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'proton/text-scale-reset)
+
+(setq use-short-answers t)
 
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -528,6 +629,22 @@
   (add-hook 'markdown-mode-hook 'toc-org-mode)
   )
 
+(with-eval-after-load 'org
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (python . t)
+     (shell . t)
+     (makefile . t)
+     (plantuml . t)
+     (js . t)
+     (sql . t)
+     (sqlite . t)
+     ;; Add more languages as needed
+     )))
+
+  (setq org-src-fontify-natively t) ; Enable syntax highlighting in source blocks
+
 (add-hook 'org-mode-hook 'org-indent-mode)
 (use-package org-bullets)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
@@ -675,6 +792,12 @@
 ;; The package is young and doesn't have comprehensive coverage.
 (use-package tempel-collection
   :after tempel)
+
+(use-package tldr
+  :config
+  (proton/leader-keys
+    "s t" '(tldr :wk "Lookup tldr for command help"))
+  )
 
 (add-to-list 'default-frame-alist '(alpha-background . 95))
 
