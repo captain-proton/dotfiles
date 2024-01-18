@@ -9,6 +9,11 @@
         cmd: vagrant plugin install vagrant-libvirt
       changed_when: true
 
+    - name: Install vagrant-dns plugin
+      ansible.builtin.command:
+        cmd: vagrant plugin install vagrant-dns
+      changed_when: true
+
   vars:
     __virtualization_libvirt_storage_pool_name: "{{ virtualization_libvirt_storage_pool_name | default('default') }}"
 
@@ -64,40 +69,45 @@
         path: "{{ home }}/.xprofile"
         line: "export LIBVIRT_DEFAULT_URI='qemu:///system'"
 
-    - name: Install vagrant-libvirt if necessary
-      when: ansible_facts['system'] == 'Linux'
-      tags: ['vagrant']
-      block:
+    - name: Check if vagrant is installed
+      ansible.builtin.command:
+        cmd: command -v vagrant
+      changed_when: false
+      failed_when: false
+      register: vagrant_cmd
 
-        - name: Check if vagrant is installed
-          ansible.builtin.command:
-            cmd: command -v vagrant
-          changed_when: false
-          failed_when: false
-          register: vagrant_cmd
+    - name: Install vagrant if necessary
+      become: true
+      community.general.pacman:
+        name: vagrant
+        state: present
+      when: vagrant_cmd.stdout | length == 0
 
-        - name: Install vagrant if necessary
-          become: true
-          community.general.pacman:
-            name: vagrant
-            state: present
-          when: vagrant_cmd.stdout | length == 0
-          notify: Install libvirt vagrant plugin
+    - name: List vagrant plugins
+      ansible.builtin.command:
+        cmd: vagrant plugin list
+      changed_when: false
+      register: vagrant_plugins
 
-        - name: Check vagrant plugins
-          ansible.builtin.command:
-            cmd: vagrant plugin list
-          changed_when: '"vagrant-libvirt" not in vagrant_plugins.stdout'
-          notify: Install libvirt vagrant plugin
-          register: vagrant_plugins
+    - name: Check vagrant plugin vagrant-libvirt
+      ansible.builtin.debug:
+        msg: "vagrant-libvirt plugin not present"
+      when: '"vagrant-libvirt" not in vagrant_plugins.stdout'
+      notify: Install libvirt vagrant plugin
 
-        - name: Make libvirt the default provider for vagrant
-          ansible.builtin.lineinfile:
-            path: "{{ home }}/.zprofile"
-            line: 'export VAGRANT_DEFAULT_PROVIDER=libvirt'
+    - name: Check vagrant plugin vagrant-dns
+      ansible.builtin.command:
+        cmd: vagrant plugin list
+      changed_when: '"vagrant-dns" not in vagrant_plugins.stdout'
+      notify: Install vagrant-dns plugin
 
-        - name: Place global Vagrantfile for default configurations
-          ansible.builtin.template:
-            src: "../templates/libvirt_vagrantfile.j2"
-            dest: "{{ home }}/.vagrant.d/Vagrantfile"
-            mode: "0644"
+    - name: Make libvirt the default provider for vagrant
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.zprofile"
+        line: 'export VAGRANT_DEFAULT_PROVIDER=libvirt'
+
+    - name: Place global Vagrantfile for default configurations
+      ansible.builtin.template:
+        src: "../templates/libvirt_vagrantfile.j2"
+        dest: "{{ home }}/.vagrant.d/Vagrantfile"
+        mode: "0644"
