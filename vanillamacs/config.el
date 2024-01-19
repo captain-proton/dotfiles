@@ -161,12 +161,11 @@
   :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 
 (use-package editorconfig
-  :ensure t
   :config
   (editorconfig-mode 1))
 
 (use-package elfeed
-  :ensure t
+  :after general
   :bind (:map elfeed-show-mode-map
          ([remap elfeed-kill-buffer] . evil-delete-buffer))
   :general
@@ -193,14 +192,15 @@
 		    :before (lambda (&rest r) (persp-switch "elfeed")))
 
 (use-package elfeed-org
-  :ensure t
+  :after elfeed
   :init
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Org/elfeed.org")))
 
 (use-package elfeed-goodies
-  :ensure t
-  :init
+  :after elfeed
+  :config
+  (elfeed-goodies/setup)
   (defun search-header/draw-wide (separator-left separator-right search-filter stats db-time)
     (let* ((update (format-time-string "%Y-%m-%d %H:%M:%S %z" db-time))
            (lhs (list
@@ -215,8 +215,6 @@
       (concat (powerline-render lhs)
               (powerline-fill 'mode-line (powerline-width rhs))
               (powerline-render rhs))))
-  :config
-  (elfeed-goodies/setup)
   (defun cp/elfeed-entry-line-draw (entry)
     "Print ENTRY to the buffer."
     (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
@@ -287,7 +285,7 @@
   (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
-(use-package evil-tutor :ensure t)
+(use-package evil-tutor :after evil)
 
 ;; Using RETURN to follow links in Org/Evil 
 ;; Unmap keys in 'evil-maps if not done, (setq org-return-follows-link t) will not work
@@ -299,7 +297,7 @@
 (global-set-key [remap evil-quit] 'evil-delete-buffer)
 
 (use-package evil-snipe
-  :ensure t
+  :after evil
   :config
   (evil-snipe-override-mode 1))
 
@@ -328,6 +326,7 @@
   :hook (company-mode . company-box-mode))
 
 (use-package dired-open
+  :after dired
   :config
   (setq dired-open-extensions '(("gif" . "sxiv")
                                 ("jpg" . "sxiv")
@@ -346,11 +345,10 @@
 )
 
 (use-package vscode-icon
-  :ensure t
   :commands (vscode-icon-for-file))
 
 (use-package dired-sidebar
-  :ensure t
+  :after dired
   :commands (dired-sidebar-toggle-sidebar)
   :init
   (add-hook 'dired-sidebar-mode-hook
@@ -424,7 +422,6 @@
   (load-theme 'doom-nord t))
 
 (use-package doom-modeline
-  :ensure t
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 24      ;; sets modeline height

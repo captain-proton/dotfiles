@@ -6,8 +6,8 @@
 - [[#startupinit-emacs][Startup/Init Emacs]]
 - [[#custom-machine-settings][Custom machine settings]]
 - [[#package-manager][Package Manager]]
-  - [[#general-keybindings][General Keybindings]]
-  - [[#emacs][Emacs]]
+- [[#general-keybindings][General Keybindings]]
+- [[#emacs][Emacs]]
 - [[#all-the-icons][All-the-icons]]
 - [[#editorconfig][EditorConfig]]
 - [[#feed-reader][Feed Reader]]
@@ -155,7 +155,7 @@ Add support for =use-package=.
 
 #+end_src
 
-** General Keybindings
+* General Keybindings
 
 [[https://github.com/noctuid/general.el][general.el]]
 
@@ -245,7 +245,7 @@ Add support for =use-package=.
 (elpaca-wait)
 #+end_src
 
-** Emacs
+* Emacs
 
 #+begin_src emacs-lisp
 (use-package emacs
@@ -298,7 +298,6 @@ You can have multiple editorconfig files that are applied, as it stops only when
 
 #+begin_src emacs-lisp
 (use-package editorconfig
-  :ensure t
   :config
   (editorconfig-mode 1))
 #+end_src
@@ -309,7 +308,7 @@ You can have multiple editorconfig files that are applied, as it stops only when
 
 #+begin_src emacs-lisp
 (use-package elfeed
-  :ensure t
+  :after general
   :bind (:map elfeed-show-mode-map
          ([remap elfeed-kill-buffer] . evil-delete-buffer))
   :general
@@ -341,7 +340,7 @@ You can have multiple editorconfig files that are applied, as it stops only when
 
 #+begin_src emacs-lisp
 (use-package elfeed-org
-  :ensure t
+  :after elfeed
   :init
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Org/elfeed.org")))
@@ -351,8 +350,9 @@ You can have multiple editorconfig files that are applied, as it stops only when
 
 #+begin_src emacs-lisp
 (use-package elfeed-goodies
-  :ensure t
-  :init
+  :after elfeed
+  :config
+  (elfeed-goodies/setup)
   (defun search-header/draw-wide (separator-left separator-right search-filter stats db-time)
     (let* ((update (format-time-string "%Y-%m-%d %H:%M:%S %z" db-time))
            (lhs (list
@@ -367,8 +367,6 @@ You can have multiple editorconfig files that are applied, as it stops only when
       (concat (powerline-render lhs)
               (powerline-fill 'mode-line (powerline-width rhs))
               (powerline-render rhs))))
-  :config
-  (elfeed-goodies/setup)
   (defun cp/elfeed-entry-line-draw (entry)
     "Print ENTRY to the buffer."
     (let* ((date (elfeed-search-format-date (elfeed-entry-date entry)))
@@ -446,7 +444,7 @@ You can have multiple editorconfig files that are applied, as it stops only when
   (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
-(use-package evil-tutor :ensure t)
+(use-package evil-tutor :after evil)
 #+end_src
 
 #+begin_src emacs-lisp
@@ -468,7 +466,7 @@ Remap =:q= to close only the current buffer.
 
 #+begin_src emacs-lisp
 (use-package evil-snipe
-  :ensure t
+  :after evil
   :config
   (evil-snipe-override-mode 1))
 
@@ -519,6 +517,7 @@ Dired is the built-in file manager of emacs.
 
 #+begin_src emacs-lisp
 (use-package dired-open
+  :after dired
   :config
   (setq dired-open-extensions '(("gif" . "sxiv")
                                 ("jpg" . "sxiv")
@@ -546,13 +545,12 @@ Additional integration with magit, projectile and evil is great.
 
 #+begin_src emacs-lisp
 (use-package vscode-icon
-  :ensure t
   :commands (vscode-icon-for-file))
 #+end_src
 
 #+begin_src emacs-lisp
 (use-package dired-sidebar
-  :ensure t
+  :after dired
   :commands (dired-sidebar-toggle-sidebar)
   :init
   (add-hook 'dired-sidebar-mode-hook
@@ -657,7 +655,6 @@ This is only available in emacs >= 29.
 
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :ensure t
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 24      ;; sets modeline height
