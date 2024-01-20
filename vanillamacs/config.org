@@ -1,12 +1,16 @@
 #+title: GNU Emacs Home of Captain-Proton
 #+author: Captain-Proton
 #+startup: showeverything
+#+startup: indent
 
 * Table of contents :toc:
 - [[#startupinit-emacs][Startup/Init Emacs]]
 - [[#custom-machine-settings][Custom machine settings]]
 - [[#package-manager][Package Manager]]
 - [[#general-keybindings][General Keybindings]]
+- [[#fonts][Fonts]]
+  - [[#setup-font-face][Setup Font Face]]
+  - [[#load-font-face][Load font face]]
 - [[#emacs][Emacs]]
 - [[#all-the-icons][All-the-icons]]
 - [[#editorconfig][EditorConfig]]
@@ -20,10 +24,8 @@
 - [[#company][Company]]
 - [[#dired][Dired]]
   - [[#dired-sidebar][Dired Sidebar]]
-- [[#fonts][Fonts]]
-  - [[#setup-font-face][Setup Font Face]]
-  - [[#zoom-inout][Zoom In/Out]]
 - [[#emacs-gui-tweaks][Emacs GUI Tweaks]]
+  - [[#zoom-inout][Zoom In/Out]]
   - [[#yes-no-maybe][Yes no (maybe)]]
   - [[#disable-the-bars][Disable the bars]]
   - [[#theme][Theme]]
@@ -47,6 +49,7 @@
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
 - [[#org-mode][Org Mode]]
+  - [[#personal-knowledge-base-using-roam-zettelkasten][Personal Knowledge Base using Roam (Zettelkasten)]]
   - [[#table-of-contents][Table of contents]]
   - [[#babel][Babel]]
   - [[#bullets][Bullets]]
@@ -205,6 +208,10 @@ Add support for =use-package=.
     "d p" '(peep-dired :wk "Peep-dired"))
 
   (proton/leader-keys
+    "f" '(:ignore t :wk "Files/Fonts")
+    )
+
+  (proton/leader-keys
     "v" '(:ignore t :wk "Vanillamacs")
     "v r" '((lambda () (interactive)
 	        (load-file (expand-file-name "init.el" user-emacs-directory))
@@ -245,6 +252,75 @@ Add support for =use-package=.
 (elpaca-wait)
 #+end_src
 
+* Fonts
+
+** Setup Font Face
+
+#+begin_src emacs-lisp
+(defvar proton/fixed-width-font "JetBrainsMono NF"
+  "The font to use for monospaced (fixed width) text.")
+
+(defvar proton/variable-width-font "Fira Sans"
+  "The font to use for variable-pitch (document) text.")
+
+(use-package fontaine
+  :after evil
+  :general
+  (proton/leader-keys
+    "f f" '(fontaine-set-preset :wk "Set font preset")
+    )
+  :config
+  (setq fontaine-presets
+	'((regular
+	   :default-height 110
+	   :line-spacing 0.16)
+	  (feedreader
+	   :default-family "JetBrainsMono Nerd Font"
+	   :default-height 140
+	   :default-weight regular
+	   :line-spacing 0.12)
+	  (presentation
+	   :default-height 180
+	   :line-spacing 0.16)
+	  (t
+	   :default-family "JetBrainsMono Nerd Font"
+	   :default-height 100
+	   :default-weight regular
+	   :fixed-pitch-family "JetBrainsMono Nerd Font"
+	   :variable-pitch-family "Fira Sans"
+	   :variable-pitch-height 120
+	   :variable-pitch-weight regular
+	   :line-spacing nil)))
+    )
+
+;; Makes commented text and keywords italics.
+;; This is working in emacsclient but not emacs.
+;; Your font must have an italic face available.
+(set-face-attribute 'font-lock-comment-face nil
+		    :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+		    :slant 'italic)
+(elpaca-wait)
+#+end_src
+
+** Load font face
+
+Load last used font preset.
+This should be done after a theme was loaded.
+The theme may override the font setting.
+
+#+begin_src emacs-lisp
+(require 'fontaine)
+(setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld"))
+;; The other side of `fontaine-restore-latest-preset'.
+(add-hook 'evil-save-and-quit-hook #'fontaine-store-latest-preset)
+;; Recover last preset or fall back to desired style from
+;; `fontaine-presets'.
+
+(with-eval-after-load 'doom-themes
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+  )
+#+end_src
 * Emacs
 
 #+begin_src emacs-lisp
@@ -323,6 +399,7 @@ You can have multiple editorconfig files that are applied, as it stops only when
    '(elfeed-search-unread-title-face ((t :weight medium)))
    '(elfeed-search-title-face ((t :family "Vollkorn" :height 1.4)))
    )
+  (fontaine-set-preset 'feedreader)
   )
 
 (add-hook 'elfeed-search-mode-hook
@@ -573,40 +650,8 @@ Additional integration with magit, projectile and evil is great.
   )
 #+end_src
 
-* Fonts
 
-** Setup Font Face
-
-#+begin_src emacs-lisp
-(defvar proton/fixed-width-font "JetBrainsMono NF"
-  "The font to use for monospaced (fixed width) text.")
-
-(defvar proton/variable-width-font "Fira Sans"
-  "The font to use for variable-pitch (document) text.")
-
-(set-face-attribute 'default nil
-                    :font proton/fixed-width-font
-                    :height 110
-                    :weight 'medium)
-(set-face-attribute 'variable-pitch nil
-                    :font proton/variable-width-font
-                    :height 120
-                    :weight 'medium)
-(set-face-attribute 'fixed-pitch nil
-                    :font proton/fixed-width-font
-                    :height 110
-                    :weight 'medium)
-;; Makes commented text and keywords italics.
-;; This is working in emacsclient but not emacs.
-;; Your font must have an italic face available.
-(set-face-attribute 'font-lock-comment-face nil
-                    :slant 'italic)
-(set-face-attribute 'font-lock-keyword-face nil
-                    :slant 'italic)
-
-;; Uncomment the following line if line spacing needs adjusting.
-(setq-default line-spacing 0.12)
-#+end_src
+* Emacs GUI Tweaks
 
 ** Zoom In/Out
 
@@ -619,8 +664,6 @@ Additional integration with magit, projectile and evil is great.
 (global-set-key (kbd "C--") 'text-scale-decrease)
 (global-set-key (kbd "C-=") 'proton/text-scale-reset)
 #+end_src
-
-* Emacs GUI Tweaks
 
 ** Yes no (maybe)
 
@@ -802,6 +845,7 @@ Projectile is a project interaction library for Emacs.
     "p e" '(projectile-edit-dir-locals :wk "Edit project .dir-locals.el")
     "p i" '(projectile-invalidate-cache :wk "Invalidate project cache")
     "p p" '(projectile-switch-project :wk "Switch project")
+    "p r" '(projectile-recentf :wk "Recent project files")
     "SPC" '(projectile-find-file :wk "Find file in project")
   )
 )
@@ -998,6 +1042,31 @@ Anything else at the moment can be set after org was loaded.
 	org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
    (define-key org-src-mode-map (kbd "C-c C-c") 'org-edit-src-exit)
   )
+#+end_src
+
+** Personal Knowledge Base using Roam (Zettelkasten)
+
+Create the ~$HOME/Org/roam~ directory if it does not exists.
+This directory will be used as ~org-roam-directory~.
+
+#+begin_src emacs-lisp
+(use-package org-roam
+  :after org
+  :general
+  (proton/leader-keys
+    "m r f" '(org-roam-node-find :wk "Find node")
+    "m r i" '(org-roam-node-insert :wk "Insert node")
+    )
+  :config
+  (setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
+  (when (not (file-directory-p proton/org-roam-home))
+    (make-directory proton/org-roam-home 'parents))
+
+  (setq org-roam-directory (file-truename proton/org-roam-home))
+  (org-roam-db-autosync-mode)
+  )
+;; (general-advice-add 'org-roam
+;; 		    :before (lambda (&rest r) (persp-switch "org-roam")))
 #+end_src
 
 ** Table of contents
@@ -1319,7 +1388,6 @@ Take a look at the [[https://tree-sitter.github.io/tree-sitter/#parsers][tree-si
 (use-package sudo-edit
   :config
   (proton/leader-keys
-    "f" '(:ignore t :wk "Files")
     "f u" '(sudo-edit-find-file :wk "Sudo find file")
     "f U" '(sudo-edit :wk "Sudo edit file")
   )

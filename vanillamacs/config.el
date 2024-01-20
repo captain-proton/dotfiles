@@ -93,6 +93,10 @@
     "d p" '(peep-dired :wk "Peep-dired"))
 
   (proton/leader-keys
+    "f" '(:ignore t :wk "Files/Fonts")
+    )
+
+  (proton/leader-keys
     "v" '(:ignore t :wk "Vanillamacs")
     "v r" '((lambda () (interactive)
 	        (load-file (expand-file-name "init.el" user-emacs-directory))
@@ -131,6 +135,62 @@
 
   )
 (elpaca-wait)
+
+(defvar proton/fixed-width-font "JetBrainsMono NF"
+  "The font to use for monospaced (fixed width) text.")
+
+(defvar proton/variable-width-font "Fira Sans"
+  "The font to use for variable-pitch (document) text.")
+
+(use-package fontaine
+  :after evil
+  :general
+  (proton/leader-keys
+    "f f" '(fontaine-set-preset :wk "Set font preset")
+    )
+  :config
+  (setq fontaine-presets
+	'((regular
+	   :default-height 110
+	   :line-spacing 0.16)
+	  (feedreader
+	   :default-family "JetBrainsMono Nerd Font"
+	   :default-height 140
+	   :default-weight regular
+	   :line-spacing 0.12)
+	  (presentation
+	   :default-height 180
+	   :line-spacing 0.16)
+	  (t
+	   :default-family "JetBrainsMono Nerd Font"
+	   :default-height 100
+	   :default-weight regular
+	   :fixed-pitch-family "JetBrainsMono Nerd Font"
+	   :variable-pitch-family "Fira Sans"
+	   :variable-pitch-height 120
+	   :variable-pitch-weight regular
+	   :line-spacing nil)))
+    )
+
+;; Makes commented text and keywords italics.
+;; This is working in emacsclient but not emacs.
+;; Your font must have an italic face available.
+(set-face-attribute 'font-lock-comment-face nil
+		    :slant 'italic)
+(set-face-attribute 'font-lock-keyword-face nil
+		    :slant 'italic)
+(elpaca-wait)
+
+(require 'fontaine)
+(setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld"))
+;; The other side of `fontaine-restore-latest-preset'.
+(add-hook 'evil-save-and-quit-hook #'fontaine-store-latest-preset)
+;; Recover last preset or fall back to desired style from
+;; `fontaine-presets'.
+
+(with-eval-after-load 'doom-themes
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+  )
 
 (use-package emacs
   :elpaca nil
@@ -180,6 +240,7 @@
    '(elfeed-search-unread-title-face ((t :weight medium)))
    '(elfeed-search-title-face ((t :family "Vollkorn" :height 1.4)))
    )
+  (fontaine-set-preset 'feedreader)
   )
 
 (add-hook 'elfeed-search-mode-hook
@@ -370,35 +431,6 @@
   (setq dired-sidebar-use-custom-font t)
   )
 
-(defvar proton/fixed-width-font "JetBrainsMono NF"
-  "The font to use for monospaced (fixed width) text.")
-
-(defvar proton/variable-width-font "Fira Sans"
-  "The font to use for variable-pitch (document) text.")
-
-(set-face-attribute 'default nil
-                    :font proton/fixed-width-font
-                    :height 110
-                    :weight 'medium)
-(set-face-attribute 'variable-pitch nil
-                    :font proton/variable-width-font
-                    :height 120
-                    :weight 'medium)
-(set-face-attribute 'fixed-pitch nil
-                    :font proton/fixed-width-font
-                    :height 110
-                    :weight 'medium)
-;; Makes commented text and keywords italics.
-;; This is working in emacsclient but not emacs.
-;; Your font must have an italic face available.
-(set-face-attribute 'font-lock-comment-face nil
-                    :slant 'italic)
-(set-face-attribute 'font-lock-keyword-face nil
-                    :slant 'italic)
-
-;; Uncomment the following line if line spacing needs adjusting.
-(setq-default line-spacing 0.12)
-
 (setq text-scale-mode-step 1.05)
 (defun proton/text-scale-reset ()
   (interactive)
@@ -496,6 +528,7 @@
     "p e" '(projectile-edit-dir-locals :wk "Edit project .dir-locals.el")
     "p i" '(projectile-invalidate-cache :wk "Invalidate project cache")
     "p p" '(projectile-switch-project :wk "Switch project")
+    "p r" '(projectile-recentf :wk "Recent project files")
     "SPC" '(projectile-find-file :wk "Find file in project")
   )
 )
@@ -623,6 +656,24 @@
 	org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
    (define-key org-src-mode-map (kbd "C-c C-c") 'org-edit-src-exit)
   )
+
+(use-package org-roam
+  :after org
+  :general
+  (proton/leader-keys
+    "m r f" '(org-roam-node-find :wk "Find node")
+    "m r i" '(org-roam-node-insert :wk "Insert node")
+    )
+  :config
+  (setq proton/org-roam-home (format "%s/Org/roam" (getenv "HOME")))
+  (when (not (file-directory-p proton/org-roam-home))
+    (make-directory proton/org-roam-home 'parents))
+
+  (setq org-roam-directory (file-truename proton/org-roam-home))
+  (org-roam-db-autosync-mode)
+  )
+;; (general-advice-add 'org-roam
+;; 		    :before (lambda (&rest r) (persp-switch "org-roam")))
 
 (use-package toc-org
   :commands toc-org-enable
@@ -839,7 +890,6 @@
 (use-package sudo-edit
   :config
   (proton/leader-keys
-    "f" '(:ignore t :wk "Files")
     "f u" '(sudo-edit-find-file :wk "Sudo find file")
     "f U" '(sudo-edit :wk "Sudo edit file")
   )
