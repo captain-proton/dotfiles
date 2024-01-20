@@ -309,18 +309,12 @@ Other buffer group by `centaur-tabs-get-group-name' with project name."
                                                   elfeed-goodies/feed-source-column-width
                                                   elfeed-goodies/feed-source-column-width)
                          :left))
-           ;; (entry-score (elfeed-format-column (number-to-string (elfeed-score-scoring-get-score-from-entry entry)) 6 :left))
-           ;; (entry-authors (concatenate-authors
-           ;;                 (elfeed-meta entry :authors)))
-           ;; (authors-column (elfeed-format-column entry-authors elfeed-goodies/tag-column-width :left))
            )
       (if (>= (window-width) (* (frame-width) elfeed-goodies/wide-threshold))
           (progn
-            ;; (insert (propertize entry-score 'face 'elfeed-search-feed-face) " ")
             (insert (propertize date 'face 'elfeed-search-date-face) " ")
             (insert (propertize feed-column 'face 'elfeed-search-feed-face) " ")
             (insert (propertize tag-column 'face 'elfeed-search-tag-face) " ")
-            ;; (insert (propertize authors-column 'face 'elfeed-search-tag-face) " ")
             (insert (propertize title 'face title-faces 'kbd-help title))
             )
         (insert (propertize title 'face title-faces 'kbd-help title)))))
