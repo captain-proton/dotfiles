@@ -103,7 +103,7 @@
 	        (ignore (elpaca-process-queues)))
 	      :wk "Reload emacs config")
     "v R" '(restart-emacs :wk "Restart Emacs")
-    "v q" '(evil-save-and-quit :wk "Save and quit emacs"))
+    "v q" '(kill-emacs :wk "Save and quit emacs"))
 
   (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
@@ -142,10 +142,15 @@
 (defvar proton/variable-width-font "Fira Sans"
   "The font to use for variable-pitch (document) text.")
 
+(defun proton/load-default-fontaine-preset ()
+  (interactive)
+  (fontaine-set-preset 'regular))
+
 (use-package fontaine
   :after evil
   :general
   (proton/leader-keys
+    "f d" '(proton/load-default-fontaine-preset :wk "Set default font preset")
     "f f" '(fontaine-set-preset :wk "Set font preset")
     )
   :config
@@ -183,11 +188,12 @@
 
 (require 'fontaine)
 (setq fontaine-latest-state-file (locate-user-emacs-file "fontaine-latest-state.eld"))
+
 ;; The other side of `fontaine-restore-latest-preset'.
-(add-hook 'evil-save-and-quit-hook #'fontaine-store-latest-preset)
+(add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
+
 ;; Recover last preset or fall back to desired style from
 ;; `fontaine-presets'.
-
 (with-eval-after-load 'doom-themes
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
   )
