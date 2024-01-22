@@ -1,0 +1,13 @@
+---
+- name: "[SWAGGER/OPENAPI TOOLS]"
+  hosts: all
+
+  tasks:
+    - name: Ensure required applications are present
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - go-swagger
+        - openapi-generator
