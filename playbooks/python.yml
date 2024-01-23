@@ -20,6 +20,7 @@
         - python
         - ipython
         - flake8
+        - ruff
         - python-debugpy
         - python-pyflakes
         - python-pycodestyle
@@ -27,6 +28,7 @@
         - python-isort
         - python-black
         - python-cookiecutter
+        - python-pdm
         - jupyterlab
 
     - name: Remove current poetry script
