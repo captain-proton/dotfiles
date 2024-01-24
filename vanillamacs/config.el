@@ -547,7 +547,7 @@
          ("C-k" . vertico-previous)
          ("C-f" . vertico-exit)
          :map minibuffer-local-map
-         ("M-h" . backward-kill-word))
+         ("C-h" . backward-kill-word))
   :custom
   (vertico-cycle t)
   :init
@@ -637,8 +637,13 @@
   :elpaca nil
   :init
   (proton/leader-keys
+    "m" '(:ignore t :wk "Org")
     "m e" '(org-edit-special :wk "Org edit special")
     )
+  :config
+  ;; This is considered highly unsafe!
+  ;; But confirm again and again does lead to the same issue
+  (setq org-confirm-babel-evaluate nil)
   )
 
 (defvar proton/org-notes-dir (file-truename "~/Org/notes")
@@ -667,6 +672,7 @@
   :after org
   :general
   (proton/leader-keys
+    "m r" '(:ignore t :wk "Roam")
     "m r f" '(org-roam-node-find :wk "Find node")
     "m r i" '(org-roam-node-insert :wk "Insert node")
     )
@@ -678,8 +684,13 @@
   (setq org-roam-directory (file-truename proton/org-roam-home))
   (org-roam-db-autosync-mode)
   )
-;; (general-advice-add 'org-roam
-;; 		    :before (lambda (&rest r) (persp-switch "org-roam")))
+
+(defun proton/open-org-roam-perspective ()
+    (interactive)
+    (persp-switch "org-roam")
+  )
+(dolist (f '(org-roam-node-find org-roam-node-insert))
+  (general-advice-add f :before #'proton/open-org-roam-perspective))
 
 (use-package toc-org
   :commands toc-org-enable
