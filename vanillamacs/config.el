@@ -794,7 +794,7 @@
     "TAB r" '(persp-rename :wk "Rename perspective")
     "TAB s" '(persp-switch :wk "Create/Switch perspective")
     "TAB n" '(persp-next :wk "Next perspective")
-    "TAB p" '(persp-previous :wk "Previous perspective")
+    "TAB p" '(persp-prev :wk "Previous perspective")
     "TAB q" '(persp-kill :wk "Kill perspective")
     "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
