@@ -1,3 +1,6 @@
+(setq delete-old-versions t  ;; delete backup files (filename~) automatically
+      )
+
 (defvar local-settings-file (expand-file-name "local.el" proton/config-directory))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
@@ -385,6 +388,9 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
   (global-company-mode t)
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1)
   )
 
 (use-package company-box
@@ -479,6 +485,7 @@
 
 ;; Disable line numbers for some modes
 (dolist (mode '(term-mode-hook
+                dashboard-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
@@ -494,8 +501,62 @@
 
 (setq help-window-select t)
 
+;; Set default indentation to use spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+
+(use-package indent-bars
+  :elpaca (:host github :repo "jdtsmith/indent-bars")
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-string nil)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+                                      list list_comprehension
+                                      dictionary dictionary_comprehension
+                                      parenthesized_expression subscript)))
+  :hook ((prog-mode yaml-mode) . indent-bars-mode)
+  :config
+  (setq
+    indent-bars-color '(highlight :face-bg t :blend 0.2)
+    indent-bars-pattern "."
+    indent-bars-width-frac 0.1
+    indent-bars-pad-frac 0.1
+    indent-bars-zigzag nil
+    indent-bars-color-by-depth nil
+    indent-bars-highlight-current-depth nil
+    indent-bars-display-on-blank-lines nil)
+  )
+
+(use-package whitespace
+  :elpaca nil
+  :init
+  (global-whitespace-mode)
+  :config
+  ;; Don't enable whitespace for.
+  (setq-default whitespace-global-modes
+                '(not shell-mode
+                      help-mode
+                      magit-mode
+                      magit-diff-mode
+                      ibuffer-mode
+                      dired-mode
+                      occur-mode))
+  (setq
+    whitespace-style '(face tabs tab-mark spaces space-mark trailing))
+  (custom-set-faces
+   '(whitespace-space ((t (:foreground "#4c566a" :background nil)))))
+  )
+
+(with-eval-after-load 'evil
+  (proton/leader-keys
+    "w" '(:ignore t :wk "Windows")
+    "w c" '(evil-window-delete :wk "Close current window")
+    "w v" '(evil-window-vsplit :wk "Split |")
+    "w h" '(evil-window-split :wk "Split -")
+    )
+  )
+
 (use-package dashboard
-  :ensure t 
   :init
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
@@ -766,7 +827,16 @@
 (setq org-src-preserve-indentation t)
 
 (use-package eglot
-  :elpaca nil)
+  :elpaca nil
+  :general
+  (proton/leader-keys
+    "c" '(:ignore t :wk "Code")
+    "c a" '(eglot-code-actions :wk "Code actions")
+    "c c" '(recompile :wk "Recompile")
+    "c d" '(eldoc :wk "Document that")
+    "c f" '(eglot-format :wk "Eglot format")
+    )
+  )
 
 (use-package ansible :ensure t)
 (use-package ansible-doc :ensure t)
@@ -778,6 +848,18 @@
 ;; (with-eval-after-load 'eglot
 ;;   (add-to-list 'eglot-server-programs
 ;;                '(yaml-mode . ("ansible-language-server"))))
+
+(use-package python
+  :elpaca nil
+  :after eglot
+  :init
+  (add-to-list 'eglot-server-programs
+               '(python-ts-mode . ("pylsp")))
+  :config
+  (setq eglot-report-progress nil)
+  )
+
+(general-add-hook 'python-ts-mode-hook '(eglot-ensure company-mode))
 
 (use-package perspective
   :ensure t
@@ -870,7 +952,7 @@
     "s t" '(tldr :wk "Lookup tldr for command help"))
   )
 
-(add-to-list 'default-frame-alist '(alpha-background . 95))
+;; (add-to-list 'default-frame-alist '(alpha-background . 95))
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
@@ -893,16 +975,22 @@
   (unless (treesit-language-available-p (car lang))
     (treesit-install-language-grammar (car lang))))
 
-(setq major-mode-remap-alist
- '(
-   (bash-mode . bash-ts-mode)
-   (css-mode . css-ts-mode)
-   (html-mode . html-ts-mode)
-   (json-mode . json-ts-mode)
-   (makefile-mode . makefile-ts-mode)
-   (python-mode . python-ts-mode)
-   (yaml-mode . yaml-ts-mode)
-   ))
+(dolist (mapping
+         '((bash-mode . bash-ts-mode)
+           (css-mode . css-ts-mode)
+           (html-mode . html-ts-mode)
+           (json-mode . json-ts-mode)
+           (makefile-mode . makefile-ts-mode)
+           (python-mode . python-ts-mode)
+           (yaml-mode . yaml-ts-mode)))
+  (add-to-list 'major-mode-remap-alist mapping))
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package sudo-edit
   :config

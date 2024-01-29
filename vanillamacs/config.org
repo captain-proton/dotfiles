@@ -35,6 +35,9 @@
   - [[#rainbows][Rainbows]]
   - [[#escape-the-mini-buffer][Escape the mini buffer]]
   - [[#focus-help-window][Focus help window]]
+  - [[#no-tabs][No tabs]]
+  - [[#indent-guides-and-whitespaces][Indent Guides and Whitespaces]]
+  - [[#window-management][Window management]]
 - [[#dashboard][Dashboard]]
 - [[#diminish][Diminish]]
 - [[#flycheck][Flycheck]]
@@ -49,13 +52,14 @@
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
 - [[#org-mode][Org Mode]]
-  - [[#personal-knowledge-base-using-roam-zettelkasten][Personal Knowledge Base using Roam (Zettelkasten)]]
+  - [[#personal-knowledge-base-using-roam][Personal Knowledge Base using Roam]]
   - [[#table-of-contents][Table of contents]]
   - [[#babel][Babel]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
-- [[#lsp][LSP]]
+- [[#lspeglot][LSP/Eglot]]
   - [[#ansible][Ansible]]
+  - [[#python][Python]]
 - [[#perspective-mode][Perspective Mode]]
 - [[#perspectiveprojectile][Perspective/Projectile]]
 - [[#shell][Shell]]
@@ -64,11 +68,17 @@
 - [[#tldr][Tldr]]
 - [[#transparency][Transparency]]
 - [[#tree-sitter][Tree Sitter]]
+  - [[#auto-tree-sitter][Auto tree sitter]]
 - [[#sudo-edit][Sudo Edit]]
 - [[#which-key][Which key]]
 - [[#direnv][Direnv]]
 
 * Startup/Init Emacs
+
+#+begin_src emacs-lisp
+(setq delete-old-versions t  ;; delete backup files (filename~) automatically
+      )
+#+end_src
 
 * Custom machine settings
 
@@ -586,6 +596,9 @@ Taken from [[https://company-mode.github.io/][company-mode]].
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.0)
   (global-company-mode t)
+  :config
+  (setq company-idle-delay 0.1
+        company-minimum-prefix-length 1)
   )
 
 (use-package company-box
@@ -739,6 +752,7 @@ Taken from [[https://github.com/tarsius/minions][GitHub]].
 
 ;; Disable line numbers for some modes
 (dolist (mode '(term-mode-hook
+                dashboard-mode-hook
                 eshell-mode-hook))
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
@@ -775,11 +789,85 @@ Decrease the amount to one.
 (setq help-window-select t)
 #+end_src
 
+** No tabs
+
+Don't use tabs! Never! Really!
+
+#+begin_src emacs-lisp
+;; Set default indentation to use spaces instead of tabs
+(setq-default indent-tabs-mode nil)
+#+end_src
+
+** Indent Guides and Whitespaces
+
+#+begin_src emacs-lisp
+(use-package indent-bars
+  :elpaca (:host github :repo "jdtsmith/indent-bars")
+  :custom
+  (indent-bars-treesit-support t)
+  (indent-bars-no-descend-string nil)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-treesit-wrap '((python argument_list parameters ; for python, as an example
+                                      list list_comprehension
+                                      dictionary dictionary_comprehension
+                                      parenthesized_expression subscript)))
+  :hook ((prog-mode yaml-mode) . indent-bars-mode)
+  :config
+  (setq
+    indent-bars-color '(highlight :face-bg t :blend 0.2)
+    indent-bars-pattern "."
+    indent-bars-width-frac 0.1
+    indent-bars-pad-frac 0.1
+    indent-bars-zigzag nil
+    indent-bars-color-by-depth nil
+    indent-bars-highlight-current-depth nil
+    indent-bars-display-on-blank-lines nil)
+  )
+#+end_src
+
+Show the whitespace characters tabs, spaces and trailing.
+=face= is required to use them, see doc of =whitespace-style=.
+The style is adjusted to match the used nord theme.
+
+#+begin_src emacs-lisp
+(use-package whitespace
+  :elpaca nil
+  :init
+  (global-whitespace-mode)
+  :config
+  ;; Don't enable whitespace for.
+  (setq-default whitespace-global-modes
+                '(not shell-mode
+                      help-mode
+                      magit-mode
+                      magit-diff-mode
+                      ibuffer-mode
+                      dired-mode
+                      occur-mode))
+  (setq
+    whitespace-style '(face tabs tab-mark spaces space-mark trailing))
+  (custom-set-faces
+   '(whitespace-space ((t (:foreground "#4c566a" :background nil)))))
+  )
+#+end_src
+
+** Window management
+
+#+begin_src emacs-lisp
+(with-eval-after-load 'evil
+  (proton/leader-keys
+    "w" '(:ignore t :wk "Windows")
+    "w c" '(evil-window-delete :wk "Close current window")
+    "w v" '(evil-window-vsplit :wk "Split |")
+    "w h" '(evil-window-split :wk "Split -")
+    )
+  )
+#+end_src
+
 * Dashboard
 
 #+begin_src emacs-lisp
 (use-package dashboard
-  :ensure t 
   :init
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
@@ -1055,7 +1143,7 @@ Anything else at the moment can be set after org was loaded.
   )
 #+end_src
 
-** Personal Knowledge Base using Roam (Zettelkasten)
+** Personal Knowledge Base using Roam
 
 Create the ~$HOME/Org/roam~ directory if it does not exists.
 This directory will be used as ~org-roam-directory~.
@@ -1185,7 +1273,7 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 (setq org-src-preserve-indentation t)
 #+end_src
 
-* LSP
+* LSP/Eglot
 
 #+begin_quote
 The Language Server protocol is used between a tool (the client) and a language smartness provider (the server) to integrate features like auto complete, go to definition, find all references and alike into the tool
@@ -1197,7 +1285,16 @@ Take a look at [[https://langserver.org/][langserver.org]]
 
 #+begin_src emacs-lisp
 (use-package eglot
-  :elpaca nil)
+  :elpaca nil
+  :general
+  (proton/leader-keys
+    "c" '(:ignore t :wk "Code")
+    "c a" '(eglot-code-actions :wk "Code actions")
+    "c c" '(recompile :wk "Recompile")
+    "c d" '(eldoc :wk "Document that")
+    "c f" '(eglot-format :wk "Eglot format")
+    )
+  )
 #+end_src
 
 ** Ansible
@@ -1213,6 +1310,22 @@ Take a look at [[https://langserver.org/][langserver.org]]
 ;; (with-eval-after-load 'eglot
 ;;   (add-to-list 'eglot-server-programs
 ;;                '(yaml-mode . ("ansible-language-server"))))
+#+end_src
+
+** Python
+
+#+begin_src emacs-lisp
+(use-package python
+  :elpaca nil
+  :after eglot
+  :init
+  (add-to-list 'eglot-server-programs
+               '(python-ts-mode . ("pylsp")))
+  :config
+  (setq eglot-report-progress nil)
+  )
+
+(general-add-hook 'python-ts-mode-hook '(eglot-ensure company-mode))
 #+end_src
 
 * Perspective Mode
@@ -1358,7 +1471,7 @@ Add transparent background for emacs windows.
 This requires emacs >= 29.
 
 #+begin_src emacs-lisp
-(add-to-list 'default-frame-alist '(alpha-background . 95)) 
+;; (add-to-list 'default-frame-alist '(alpha-background . 95)) 
 #+end_src
 
 * Tree Sitter
@@ -1387,16 +1500,26 @@ Take a look at the [[https://tree-sitter.github.io/tree-sitter/#parsers][tree-si
   (unless (treesit-language-available-p (car lang))
     (treesit-install-language-grammar (car lang))))
 
-(setq major-mode-remap-alist
- '(
-   (bash-mode . bash-ts-mode)
-   (css-mode . css-ts-mode)
-   (html-mode . html-ts-mode)
-   (json-mode . json-ts-mode)
-   (makefile-mode . makefile-ts-mode)
-   (python-mode . python-ts-mode)
-   (yaml-mode . yaml-ts-mode)
-   ))
+(dolist (mapping
+         '((bash-mode . bash-ts-mode)
+           (css-mode . css-ts-mode)
+           (html-mode . html-ts-mode)
+           (json-mode . json-ts-mode)
+           (makefile-mode . makefile-ts-mode)
+           (python-mode . python-ts-mode)
+           (yaml-mode . yaml-ts-mode)))
+  (add-to-list 'major-mode-remap-alist mapping))
+#+end_src
+
+** Auto tree sitter
+
+#+begin_src emacs-lisp
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 #+end_src
 
 * Sudo Edit
