@@ -386,11 +386,14 @@
   :diminish
   :custom
   (company-minimum-prefix-length 1)
-  (company-idle-delay 0.0)
-  (global-company-mode t)
+  (company-idle-delay 0.1)
+  (company-global-modes '(not eshell-mode shell-mode))
   :config
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
+  ;; Use company with text and programming modes.
+  :hook ((text-mode . company-mode)
+         (prog-mode . company-mode))
   )
 
 (use-package company-box
