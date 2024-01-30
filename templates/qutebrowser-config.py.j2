@@ -23,6 +23,9 @@ c.fonts.default_size = '11pt'
 # [ COLOR SCHEME ]
 config.source('{{ qutebrowser_theme_file }}')
 
+# [ RENDERING IN DARK ]
+c.colors.webpage.darkmode.enabled = True
+
 {% if __qutebrowser_kp_gpg_key is defined and __qutebrowser_kp_gpg_key %}
 # Keybindings for interaction with keepassxc
 config.bind('<Alt-Shift-u>', 'spawn --userscript qute-keepassxc --key {{ qutebrowser_kp_gpg_key }}', mode='insert')
