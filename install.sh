@@ -3,10 +3,20 @@
 case $1 in
   work|home)
     echo "Setting up dotfiles for $1"
-    python=`pacman -Q python`
+    python=$(pacman -Q python)
     if [[ $python != python* ]]
     then
       sudo pacman -S --needed python
+    fi
+
+    pipx=$(pacman -Q python-pipx)
+    if [[ $pipx != python-pipx* ]]
+    then
+      sudo pacman -S --needed python-pipx
+    fi
+
+    if ! command -v poetry 1>/dev/null; then
+        pipx install poetry
     fi
 
     # Create a python virtual environment if necessary
@@ -17,26 +27,17 @@ case $1 in
       python -m venv .venv
     fi
 
-    # There is also a ansible playbook used to manage poetry.
-    # Without poetry and the virtual env all further installation
-    # tasks can not be executed. Therefore poetry must be present.
-    POETRY_BIN="$HOME/.local/bin/poetry"
-    if [ ! -L "$POETRY_BIN" ]; then
-      curl -sSL https://install.python-poetry.org | python3 -
-      $POETRY_BIN install
-    fi
-
     # this needs to be done beforehand, so the yay module is available
-    yay=`pacman -Q yay`
+    yay=$(pacman -Q yay)
     if [[ $yay != yay* ]] && [[ ! -f playbooks/library/yay ]]
     then
       echo "Installing yay and necessary plugins"
-      $POETRY_BIN run ansible-playbook playbooks/yay.yml
+      poetry run ansible-playbook playbooks/yay.yml
     fi
 
     # Install all required ansible roles and collections
     echo "Installing ansible roles and collections"
-    $POETRY_BIN run ansible-galaxy install -r ansible_requirements.yml
+    poetry run ansible-galaxy install -r ansible_requirements.yml
 
     # Check if a vault password file has been set
     # inside the environment and a vault.yml file exists
@@ -50,7 +51,8 @@ case $1 in
     fi
 
     echo "Executing setup"
-    $POETRY_BIN run ansible-playbook setup/$1.yml $ASK_VAULT_PASS ;;
+    poetry run ansible-playbook setup/$1.yml $ASK_VAULT_PASS
+    ;;
   *)
     echo "Enter $0 work|home" ;;
 esac

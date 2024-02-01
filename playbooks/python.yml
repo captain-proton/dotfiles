@@ -11,6 +11,7 @@
     __ipython_true_color: "{{ ipython_true_color | default(True) }}"
 
   tasks:
+
     - name: Ensure python and python development packages are installed
       become: true
       community.general.pacman:
@@ -21,6 +22,7 @@
         - ipython
         - flake8
         - ruff
+        - ruff-lsp
         - python-debugpy
         - python-pyflakes
         - python-pycodestyle
@@ -30,6 +32,7 @@
         - python-cookiecutter
         - python-pdm
         - jupyterlab
+        - python-pipx
 
     - name: Remove current poetry script
       ansible.builtin.file:
