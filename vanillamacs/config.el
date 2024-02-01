@@ -102,9 +102,9 @@
   (proton/leader-keys
     "v" '(:ignore t :wk "Vanillamacs")
     "v r" '((lambda () (interactive)
-	        (load-file (expand-file-name "init.el" user-emacs-directory))
-	        (ignore (elpaca-process-queues)))
-	      :wk "Reload emacs config")
+            (load-file (expand-file-name "init.el" user-emacs-directory))
+            (ignore (elpaca-process-queues)))
+          :wk "Reload emacs config")
     "v R" '(restart-emacs :wk "Restart Emacs")
     "v q" '(kill-emacs :wk "Save and quit emacs"))
 
@@ -158,35 +158,35 @@
     )
   :config
   (setq fontaine-presets
-	'((regular
-	   :default-height 110
-	   :line-spacing 0.16)
-	  (feedreader
-	   :default-family "JetBrainsMono Nerd Font"
-	   :default-height 140
-	   :default-weight regular
-	   :line-spacing 0.12)
-	  (presentation
-	   :default-height 180
-	   :line-spacing 0.16)
-	  (t
-	   :default-family "JetBrainsMono Nerd Font"
-	   :default-height 100
-	   :default-weight regular
-	   :fixed-pitch-family "JetBrainsMono Nerd Font"
-	   :variable-pitch-family "Fira Sans"
-	   :variable-pitch-height 120
-	   :variable-pitch-weight regular
-	   :line-spacing nil)))
+        '((regular
+           :default-height 110
+           :line-spacing 0.16)
+          (feedreader
+           :default-family "JetBrainsMono Nerd Font"
+           :default-height 140
+           :default-weight regular
+           :line-spacing 0.12)
+          (presentation
+           :default-height 180
+           :line-spacing 0.16)
+          (t
+           :default-family "JetBrainsMono Nerd Font"
+           :default-height 100
+           :default-weight regular
+           :fixed-pitch-family "JetBrainsMono Nerd Font"
+           :variable-pitch-family "Fira Sans"
+           :variable-pitch-height 120
+           :variable-pitch-weight regular
+           :line-spacing nil)))
     )
 
 ;; Makes commented text and keywords italics.
 ;; This is working in emacsclient but not emacs.
 ;; Your font must have an italic face available.
 (set-face-attribute 'font-lock-comment-face nil
-		    :slant 'italic)
+            :slant 'italic)
 (set-face-attribute 'font-lock-keyword-face nil
-		    :slant 'italic)
+            :slant 'italic)
 (elpaca-wait)
 
 (require 'fontaine)
@@ -253,13 +253,13 @@
   )
 
 (add-hook 'elfeed-search-mode-hook
-	  (lambda ()
-	    (display-line-numbers-mode 0)
-	    ))
+      (lambda ()
+        (display-line-numbers-mode 0)
+        ))
 
 
 (general-advice-add 'elfeed
-		    :before (lambda (&rest r) (persp-switch "elfeed")))
+            :before (lambda (&rest r) (persp-switch "elfeed")))
 
 (use-package elfeed-org
   :after elfeed
@@ -388,6 +388,12 @@
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.1)
   (company-global-modes '(not eshell-mode shell-mode))
+  ;; Search other buffers with the same modes for completion instead of
+  ;; searching all other buffers.
+  (company-dabbrev-other-buffers t)
+  (company-dabbrev-code-other-buffers t)
+  ;; M-<num> to select an option according to its number.
+  (company-show-numbers t)
   :config
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
@@ -430,7 +436,7 @@
   (add-hook 'dired-sidebar-mode-hook
             (lambda ()
               (display-line-numbers-mode 0)
-	          (unless (file-remote-p default-directory)
+              (unless (file-remote-p default-directory)
                 (auto-revert-mode))
               ))
   (proton/leader-keys
@@ -476,7 +482,7 @@
         doom-modeline-persp-name t   ;; adds perspective name to modeline
         doom-modeline-persp-icon t   ;; adds folder icon next to persp name
         doom-modeline-minor-modes t  ;; show minor modes
-	)
+    )
   )
 
 (use-package minions
@@ -717,18 +723,18 @@
 
 (with-eval-after-load 'org
   (setq org-log-done 'time
-	org-todo-keywords
-	'((sequence
-	   "DOING(o)"           ; Things that are currently in work (work in progress)
-	   "TODO(t)"            ; Backlog items in kanban that should be executed
-	   "WAIT(w)"            ; A task that can not be set as DOING
-	   "|"                  ; Separate active and inactive items
-	   "DONE(d)"            ; Finished work ... yeah
-	   "CANCELLED(c@)"))    ; Cancelled things :(
-	org-todo-repeat-to-state "TODO"
-	org-ellipsis " ▾"
-	org-hide-emphasis-markers t
-	org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+    org-todo-keywords
+    '((sequence
+       "DOING(o)"           ; Things that are currently in work (work in progress)
+       "TODO(t)"            ; Backlog items in kanban that should be executed
+       "WAIT(w)"            ; A task that can not be set as DOING
+       "|"                  ; Separate active and inactive items
+       "DONE(d)"            ; Finished work ... yeah
+       "CANCELLED(c@)"))    ; Cancelled things :(
+    org-todo-repeat-to-state "TODO"
+    org-ellipsis " ▾"
+    org-hide-emphasis-markers t
+    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
    (define-key org-src-mode-map (kbd "C-c C-c") 'org-edit-src-exit)
   )
 
@@ -788,10 +794,10 @@
 
 ;; Make sure certain org faces use the fixed-pitch face when variable-pitch-mode is on
 (set-face-attribute 'org-block nil
-		    :foreground 'unspecified
-		    :font proton/fixed-width-font
-		    :height 1.0
-		    :weight 'light)
+            :foreground 'unspecified
+            :font proton/fixed-width-font
+            :height 1.0
+            :weight 'light)
 
 (defun proton/org-colors-nord ()
   "Enable Nord colors for Org headers."
@@ -810,7 +816,7 @@
           (height (nth 1 face))
           (foreground (nth 2 face))
           (weight (nth 3 face)))
-      
+
       (set-face-attribute (car face) nil
                           :family proton/variable-width-font
                           :height height
@@ -829,40 +835,52 @@
 
 (setq org-src-preserve-indentation t)
 
-(use-package eglot
-  :elpaca nil
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-modeline-code-actions))
+  :commands (lsp lsp-deferred)
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
-    "c a" '(eglot-code-actions :wk "Code actions")
     "c c" '(recompile :wk "Recompile")
-    "c d" '(eldoc :wk "Document that")
-    "c f" '(eglot-format :wk "Eglot format")
+    "c d" '(lsp-ui-doc-show :wk "Document that")
+    "c f" '(lsp-format-region :wk "Format region")
+    "c F" '(lsp-format-buffer :wk "Format buffer")
     )
   )
 
-(use-package ansible :ensure t)
-(use-package ansible-doc :ensure t)
-(use-package jinja2-mode :ensure t)
-(use-package yaml-mode :ensure t)
+;; The path to lsp-mode needs to be added to load-path as well as the
+;; path to the `clients' subdirectory.
+(add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
-;; TODO define ansible minor mode
-;; TODO start ansible language server
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(yaml-mode . ("ansible-language-server"))))
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  )
+
+(use-package ansible
+  :hook ((yaml-ts-mode . ansible))
+  :config
+  (setq ansible-section-face 'font-lock-variable-name-face
+        ansible-task-label-face 'font-lock-doc-face)
+  )
+(use-package ansible-doc)
+(use-package jinja2-mode
+  :mode "\\.j2$"
+  )
+
+(use-package yaml-mode
+  :hook ((yaml-ts-mode . lsp-deferred)
+         (yaml-ts-mode . company-mode))
+  )
 
 (use-package python
   :elpaca nil
-  :after eglot
-  :init
-  (add-to-list 'eglot-server-programs
-               '(python-ts-mode . ("pylsp")))
-  :config
-  (setq eglot-report-progress nil)
+  :hook ((python-ts-mode . lsp-deferred))
   )
-
-(general-add-hook 'python-ts-mode-hook '(eglot-ensure company-mode))
 
 (use-package perspective
   :ensure t
@@ -884,6 +902,17 @@
     "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
     "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
+
+    "TAB 1" '((lambda () (interactive) (persp-switch-by-number 1)) :wk "Switch to perspective 1")
+    "TAB 2" '((lambda () (interactive) (persp-switch-by-number 2)) :wk "Switch to perspective 2")
+    "TAB 3" '((lambda () (interactive) (persp-switch-by-number 3)) :wk "Switch to perspective 3")
+    "TAB 4" '((lambda () (interactive) (persp-switch-by-number 4)) :wk "Switch to perspective 4")
+    "TAB 5" '((lambda () (interactive) (persp-switch-by-number 5)) :wk "Switch to perspective 5")
+    "TAB 6" '((lambda () (interactive) (persp-switch-by-number 6)) :wk "Switch to perspective 6")
+    "TAB 7" '((lambda () (interactive) (persp-switch-by-number 7)) :wk "Switch to perspective 7")
+    "TAB 8" '((lambda () (interactive) (persp-switch-by-number 8)) :wk "Switch to perspective 8")
+    "TAB 9" '((lambda () (interactive) (persp-switch-by-number 9)) :wk "Switch to perspective 9")
+    "TAB 0" '((lambda () (interactive) (persp-switch-by-number 10)) :wk "Switch to perspective 10")
     )
   )
 
@@ -1009,12 +1038,13 @@
   :diminish
   :config
   (setq which-key-side-window-location 'bottom
-	which-key-sort-order #'which-key-key-order-alpha
-	which-key-sort-uppercase-first nil
-	which-key-min-display-lines 6
-	which-key-side-window-max-height 0.25
-	which-key-idle-delay 0.3
-	which-key-separator "  " ))
+    which-key-sort-order #'which-key-key-order-alpha
+    which-key-sort-uppercase-first nil
+    which-key-min-display-lines 6
+    which-key-side-window-max-height 0.25
+    which-key-idle-delay 0.3
+    which-key-separator "  ")
+  )
 
 (use-package envrc
   :config

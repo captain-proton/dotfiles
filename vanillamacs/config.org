@@ -57,7 +57,7 @@
   - [[#babel][Babel]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
-- [[#lspeglot][LSP/Eglot]]
+- [[#lsp][LSP]]
   - [[#ansible][Ansible]]
   - [[#python][Python]]
 - [[#perspective-mode][Perspective Mode]]
@@ -286,26 +286,26 @@ Add support for =use-package=.
     )
   :config
   (setq fontaine-presets
-    '((regular
-       :default-height 110
-       :line-spacing 0.16)
-      (feedreader
-       :default-family "JetBrainsMono Nerd Font"
-       :default-height 140
-       :default-weight regular
-       :line-spacing 0.12)
-      (presentation
-       :default-height 180
-       :line-spacing 0.16)
-      (t
-       :default-family "JetBrainsMono Nerd Font"
-       :default-height 100
-       :default-weight regular
-       :fixed-pitch-family "JetBrainsMono Nerd Font"
-       :variable-pitch-family "Fira Sans"
-       :variable-pitch-height 120
-       :variable-pitch-weight regular
-       :line-spacing nil)))
+        '((regular
+           :default-height 110
+           :line-spacing 0.16)
+          (feedreader
+           :default-family "JetBrainsMono Nerd Font"
+           :default-height 140
+           :default-weight regular
+           :line-spacing 0.12)
+          (presentation
+           :default-height 180
+           :line-spacing 0.16)
+          (t
+           :default-family "JetBrainsMono Nerd Font"
+           :default-height 100
+           :default-weight regular
+           :fixed-pitch-family "JetBrainsMono Nerd Font"
+           :variable-pitch-family "Fira Sans"
+           :variable-pitch-height 120
+           :variable-pitch-weight regular
+           :line-spacing nil)))
     )
 
 ;; Makes commented text and keywords italics.
@@ -596,6 +596,12 @@ Taken from [[https://company-mode.github.io/][company-mode]].
   (company-minimum-prefix-length 1)
   (company-idle-delay 0.1)
   (company-global-modes '(not eshell-mode shell-mode))
+  ;; Search other buffers with the same modes for completion instead of
+  ;; searching all other buffers.
+  (company-dabbrev-other-buffers t)
+  (company-dabbrev-code-other-buffers t)
+  ;; M-<num> to select an option according to its number.
+  (company-show-numbers t)
   :config
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
@@ -1254,7 +1260,7 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
           (height (nth 1 face))
           (foreground (nth 2 face))
           (weight (nth 3 face)))
-      
+
       (set-face-attribute (car face) nil
                           :family proton/variable-width-font
                           :height height
@@ -1276,7 +1282,7 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 (setq org-src-preserve-indentation t)
 #+end_src
 
-* LSP/Eglot
+* LSP
 
 #+begin_quote
 The Language Server protocol is used between a tool (the client) and a language smartness provider (the server) to integrate features like auto complete, go to definition, find all references and alike into the tool
@@ -1287,32 +1293,53 @@ The Language Server protocol is used between a tool (the client) and a language 
 Take a look at [[https://langserver.org/][langserver.org]]
 
 #+begin_src emacs-lisp
-(use-package eglot
-  :elpaca nil
+(use-package lsp-mode
+  :init
+  ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+  (setq lsp-keymap-prefix "C-c l")
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . lsp-modeline-code-actions))
+  :commands (lsp lsp-deferred)
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
-    "c a" '(eglot-code-actions :wk "Code actions")
     "c c" '(recompile :wk "Recompile")
-    "c d" '(eldoc :wk "Document that")
-    "c f" '(eglot-format :wk "Eglot format")
+    "c d" '(lsp-ui-doc-show :wk "Document that")
+    "c f" '(lsp-format-region :wk "Format region")
+    "c F" '(lsp-format-buffer :wk "Format buffer")
     )
+  )
+
+;; The path to lsp-mode needs to be added to load-path as well as the
+;; path to the `clients' subdirectory.
+(add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :commands lsp-ui-mode
   )
 #+end_src
 
 ** Ansible
 
 #+begin_src emacs-lisp
-(use-package ansible :ensure t)
-(use-package ansible-doc :ensure t)
-(use-package jinja2-mode :ensure t)
-(use-package yaml-mode :ensure t)
+(use-package ansible
+  :hook ((yaml-ts-mode . ansible))
+  :config
+  (setq ansible-section-face 'font-lock-variable-name-face
+        ansible-task-label-face 'font-lock-doc-face)
+  )
+(use-package ansible-doc)
+(use-package jinja2-mode
+  :mode "\\.j2$"
+  )
 
-;; TODO define ansible minor mode
-;; TODO start ansible language server
-;; (with-eval-after-load 'eglot
-;;   (add-to-list 'eglot-server-programs
-;;                '(yaml-mode . ("ansible-language-server"))))
+(use-package yaml-mode
+  :hook ((yaml-ts-mode . lsp-deferred)
+         (yaml-ts-mode . company-mode))
+  )
 #+end_src
 
 ** Python
@@ -1320,15 +1347,8 @@ Take a look at [[https://langserver.org/][langserver.org]]
 #+begin_src emacs-lisp
 (use-package python
   :elpaca nil
-  :after eglot
-  :init
-  (add-to-list 'eglot-server-programs
-               '(python-ts-mode . ("pylsp")))
-  :config
-  (setq eglot-report-progress nil)
+  :hook ((python-ts-mode . lsp-deferred))
   )
-
-(general-add-hook 'python-ts-mode-hook '(eglot-ensure company-mode))
 #+end_src
 
 * Perspective Mode
@@ -1354,6 +1374,17 @@ Take a look at [[https://langserver.org/][langserver.org]]
     "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
     "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
+
+    "TAB 1" '((lambda () (interactive) (persp-switch-by-number 1)) :wk "Switch to perspective 1")
+    "TAB 2" '((lambda () (interactive) (persp-switch-by-number 2)) :wk "Switch to perspective 2")
+    "TAB 3" '((lambda () (interactive) (persp-switch-by-number 3)) :wk "Switch to perspective 3")
+    "TAB 4" '((lambda () (interactive) (persp-switch-by-number 4)) :wk "Switch to perspective 4")
+    "TAB 5" '((lambda () (interactive) (persp-switch-by-number 5)) :wk "Switch to perspective 5")
+    "TAB 6" '((lambda () (interactive) (persp-switch-by-number 6)) :wk "Switch to perspective 6")
+    "TAB 7" '((lambda () (interactive) (persp-switch-by-number 7)) :wk "Switch to perspective 7")
+    "TAB 8" '((lambda () (interactive) (persp-switch-by-number 8)) :wk "Switch to perspective 8")
+    "TAB 9" '((lambda () (interactive) (persp-switch-by-number 9)) :wk "Switch to perspective 9")
+    "TAB 0" '((lambda () (interactive) (persp-switch-by-number 10)) :wk "Switch to perspective 10")
     )
   )
 #+end_src
