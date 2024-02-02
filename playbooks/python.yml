@@ -5,8 +5,6 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    poetry_script: "{{ home }}/.local/bin/poetry"
-    poetry_venv: "{{ home }}/.local/share/pypoetry"
     __ipython_highlighting_style: "{{ ipython_highlighting_style | default('nord') }}"
     __ipython_true_color: "{{ ipython_true_color | default(True) }}"
 
@@ -33,43 +31,6 @@
         - python-pdm
         - jupyterlab
         - python-pipx
-
-    - name: Remove current poetry script
-      ansible.builtin.file:
-        path: "{{ item }}"
-        state: absent
-      loop:
-        - "{{ poetry_script }}"
-        - "{{ poetry_venv }}"
-      when: poetry_update | bool
-
-    - name: Check if poetry is already installed
-      ansible.builtin.stat:
-        path: "{{ poetry_script }}"
-      register: poetry_bin
-
-    - name: Install poetry
-      when: not poetry_bin.stat.exists
-      block:
-        - name: Create temporary file
-          ansible.builtin.tempfile:
-            state: file
-            prefix: poetry
-            suffix: .py
-          register: tempfile
-
-        - name: Download poetry installation script
-          ansible.builtin.get_url:
-            url: https://install.python-poetry.org
-            dest: "{{ tempfile.path }}"
-            checksum: sha256:761cdefb65de97882482d5edf29de6d90e42917447aabfde63a693206c4550c6
-            mode: "0640"
-
-        - name: Run the installation script
-          ansible.builtin.shell: "set -o pipefail && cat {{ tempfile.path }} | /usr/bin/python3 -"
-          args:
-            warn: false
-          changed_when: true
 
     - name: Add ~/.local/bin to ~/.path
       ansible.builtin.lineinfile:
