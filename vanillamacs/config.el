@@ -839,9 +839,10 @@
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (lsp-mode . lsp-modeline-code-actions))
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred)
+  :config
+  (setq lsp-enable-snippet nil)
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
@@ -862,10 +863,12 @@
   )
 
 (use-package ansible
-  :hook ((yaml-ts-mode . ansible))
+  :hook ((yaml-ts-mode . ansible)
+         (ansible . ansible-auto-decrypt-encrypt))
   :config
   (setq ansible-section-face 'font-lock-variable-name-face
-        ansible-task-label-face 'font-lock-doc-face)
+        ansible-task-label-face 'font-lock-doc-face
+        ansible-vault-password-file nil)
   )
 (use-package ansible-doc)
 (use-package jinja2-mode
@@ -965,7 +968,7 @@
   ;; (add-hook 'prog-mode-hook #'tempel-abbrev-mode)
   ;; (global-tempel-abbrev-mode)
   :config
-  
+
   (proton/leader-keys
    "t" '(:ignore t :wk "Templates")
    "t c" '(tempel-complete :wk "Complete")
