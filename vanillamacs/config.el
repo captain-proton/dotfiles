@@ -1,4 +1,5 @@
-(setq delete-old-versions t  ;; delete backup files (filename~) automatically
+(setq make-backup-files nil  ;; do not create backup files at all
+      delete-old-versions t  ;; delete backup files (filename~) automatically
       )
 
 (defvar local-settings-file (expand-file-name "local.el" proton/config-directory))
@@ -249,11 +250,11 @@
    '(elfeed-search-unread-title-face ((t :weight medium)))
    '(elfeed-search-title-face ((t :family "Vollkorn" :height 1.4)))
    )
-  (fontaine-set-preset 'feedreader)
   )
 
 (add-hook 'elfeed-search-mode-hook
       (lambda ()
+        (fontaine-set-preset 'feedreader)
         (display-line-numbers-mode 0)
         ))
 
@@ -339,6 +340,7 @@
   (evil-mode)
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
   :config
+  (evil-set-undo-system 'undo-redo)
   (proton/leader-keys
    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
    "b k" '(evil-delete-buffer :wk "Evil delete buffer")
@@ -588,10 +590,9 @@
 (use-package diminish)
 
 (use-package flycheck
-  :ensure t
   :defer t
   :diminish
-  :init (global-flycheck-mode))
+  :config (global-flycheck-mode))
 
 (use-package projectile
   :ensure t
