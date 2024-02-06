@@ -22,8 +22,6 @@
         - ruff
         - ruff-lsp
         - python-debugpy
-        - python-pyflakes
-        - python-pycodestyle
         - python-pytest
         - python-isort
         - python-black
