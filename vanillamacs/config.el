@@ -1,5 +1,6 @@
 (setq make-backup-files nil  ;; do not create backup files at all
       delete-old-versions t  ;; delete backup files (filename~) automatically
+      create-lockfiles nil   ;; no need for .# lock files
       )
 
 (defvar local-settings-file (expand-file-name "local.el" proton/config-directory))
@@ -400,8 +401,8 @@
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
   ;; Use company with text and programming modes.
-  :hook ((text-mode . company-mode)
-         (prog-mode . company-mode))
+  :hook ((text-mode . company-tng-mode)
+         (prog-mode . company-tng-mode))
   )
 
 (use-package company-box
@@ -489,6 +490,24 @@
 
 (use-package minions
   :config (minions-mode 1))
+
+(use-package ligature
+  :config
+  ;; Enable all JetBrains Mono ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
+                                      "/>" "//" "/*" "*>" "***" "*/" "<-" "<<-" "<=>" "<=" "<|" "<||"
+                                      "<|||" "<|>" "<:" "<>" "<-<" "<<<" "<==" "<<=" "<=<" "<==>" "<-|"
+                                      "<<" "<~>" "<=|" "<~~" "<~" "<$>" "<$" "<+>" "<+" "</>" "</" "<*"
+                                      "<*>" "<->" "<!--" ":>" ":<" ":::" "::" ":?" ":?>" ":=" "::=" "=>>"
+                                      "==>" "=/=" "=!=" "=>" "===" "=:=" "==" "!==" "!!" "!=" ">]" ">:"
+                                      ">>-" ">>=" ">=>" ">>>" ">-" ">=" "&&&" "&&" "|||>" "||>" "|>" "|]"
+                                      "|}" "|=>" "|->" "|=" "||-" "|-" "||=" "||" ".." ".?" ".=" ".-" "..<"
+                                      "..." "+++" "+>" "++" "[||]" "[<" "[|" "{|" "??" "?." "?=" "?:" "##"
+                                      "###" "####" "#[" "#{" "#=" "#!" "#:" "#_(" "#_" "#?" "#(" ";;" "_|_"
+                                      "__" "~~" "~~>" "~>" "~-" "~@" "$>" "^=" "]#"))
+  ;; Enables ligature checks globally in all buffers. You can also do it
+  ;; per mode with `ligature-mode'.
+  (global-ligature-mode t))
 
 (setq display-line-numbers-type 'relative)
 (global-display-line-numbers-mode 1)
@@ -617,6 +636,9 @@
          ("C-j" . vertico-next)
          ("C-k" . vertico-previous)
          ("C-f" . vertico-exit)
+         ("?" . minibuffer-completion-help)
+         ("M-RET" . minibuffer-force-complete-and-exit)
+         ("M-TAB" . minibuffer-complete)
          :map minibuffer-local-map
          ("C-h" . backward-kill-word))
   :custom
@@ -626,7 +648,7 @@
 
 (use-package orderless
   :init
-  (setq completion-styles '(orderless)
+  (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
