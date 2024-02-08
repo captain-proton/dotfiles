@@ -479,9 +479,8 @@
   (global-highlight-thing-mode)
   :hook (highlight-thing-mode . proton/set-highlight-thing-colors)
   :config
-  (setq highlight-thing-what-thing 'sexp)
+  (setq highlight-thing-what-thing 'sexp) ;; sexp = symbol expression (https://en.wikipedia.org/wiki/S-expression)
   )
-;; (add-hook 'highlight-thing-mode-hook #'proton/set-highlight-thing-colors)
 
 (add-to-list 'custom-theme-load-path (expand-file-name (concat user-emacs-directory "themes/")))
 (use-package doom-themes
