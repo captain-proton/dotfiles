@@ -28,6 +28,7 @@
   - [[#zoom-inout][Zoom In/Out]]
   - [[#yes-no-maybe][Yes no (maybe)]]
   - [[#disable-the-bars][Disable the bars]]
+  - [[#highlight-thing][Highlight thing]]
   - [[#theme][Theme]]
   - [[#modeline][Modeline]]
   - [[#minions][Minions]]
@@ -610,8 +611,8 @@ Taken from [[https://company-mode.github.io/][company-mode]].
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
   ;; Use company with text and programming modes.
-  :hook ((text-mode . company-tng-mode)
-         (prog-mode . company-tng-mode))
+  :hook ((text-mode . company-mode)
+         (prog-mode . company-mode))
   )
 
 (use-package company-box
@@ -712,6 +713,23 @@ This is only available in emacs >= 29.
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+#+end_src
+
+** Highlight thing
+
+#+begin_src emacs-lisp
+(defun proton/set-highlight-thing-colors ()
+  (interactive)
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+
+(use-package highlight-thing
+  :init
+  (global-highlight-thing-mode)
+  :hook (highlight-thing-mode . proton/set-highlight-thing-colors)
+  :config
+  (setq highlight-thing-what-thing 'sexp) ;; sexp = symbol expression (https://en.wikipedia.org/wiki/S-expression)
+  )
 #+end_src
 
 ** Theme
@@ -880,6 +898,7 @@ The style is adjusted to match the used nord theme.
   (setq-default whitespace-global-modes
                 '(not shell-mode
                       help-mode
+                      text-mode
                       magit-mode
                       magit-diff-mode
                       ibuffer-mode
@@ -888,7 +907,7 @@ The style is adjusted to match the used nord theme.
   (setq
     whitespace-style '(face tabs tab-mark spaces space-mark trailing))
   (custom-set-faces
-   '(whitespace-space ((t (:foreground "#4c566a" :background nil)))))
+   '(whitespace-space ((t (:foreground "#4c566a" :background unspecified)))))
   )
 #+end_src
 
@@ -997,7 +1016,8 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
 
 #+begin_src emacs-lisp
 (use-package vertico
-  :ensure t
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
   :diminish
   :bind (:map vertico-map
          ("C-j" . vertico-next)
@@ -1509,7 +1529,7 @@ Taken from [[https://www.reddit.com/r/emacs/comments/6y3q4k/yes_eshell_is_my_mai
   (proton/leader-keys
    "t" '(:ignore t :wk "Templates")
    "t c" '(tempel-complete :wk "Complete")
-   "t i" '(tempel-complete :wk "Insert")
+   "t i" '(tempel-insert :wk "Insert")
    )
 )
 

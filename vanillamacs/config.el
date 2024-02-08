@@ -401,8 +401,8 @@
   (setq company-idle-delay 0.1
         company-minimum-prefix-length 1)
   ;; Use company with text and programming modes.
-  :hook ((text-mode . company-tng-mode)
-         (prog-mode . company-tng-mode))
+  :hook ((text-mode . company-mode)
+         (prog-mode . company-mode))
   )
 
 (use-package company-box
@@ -468,6 +468,20 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
+
+(defun proton/set-highlight-thing-colors ()
+  (interactive)
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+
+(use-package highlight-thing
+  :init
+  (global-highlight-thing-mode)
+  :hook (highlight-thing-mode . proton/set-highlight-thing-colors)
+  :config
+  (setq highlight-thing-what-thing 'sexp)
+  )
+;; (add-hook 'highlight-thing-mode-hook #'proton/set-highlight-thing-colors)
 
 (add-to-list 'custom-theme-load-path (expand-file-name (concat user-emacs-directory "themes/")))
 (use-package doom-themes
@@ -566,6 +580,7 @@
   (setq-default whitespace-global-modes
                 '(not shell-mode
                       help-mode
+                      text-mode
                       magit-mode
                       magit-diff-mode
                       ibuffer-mode
@@ -574,7 +589,7 @@
   (setq
     whitespace-style '(face tabs tab-mark spaces space-mark trailing))
   (custom-set-faces
-   '(whitespace-space ((t (:foreground "#4c566a" :background nil)))))
+   '(whitespace-space ((t (:foreground "#4c566a" :background unspecified)))))
   )
 
 (with-eval-after-load 'evil
@@ -630,7 +645,8 @@
 )
 
 (use-package vertico
-  :ensure t
+  :bind (:map minibuffer-local-map
+              ("M-A" . marginalia-cycle))
   :diminish
   :bind (:map vertico-map
          ("C-j" . vertico-next)
@@ -995,7 +1011,7 @@
   (proton/leader-keys
    "t" '(:ignore t :wk "Templates")
    "t c" '(tempel-complete :wk "Complete")
-   "t i" '(tempel-complete :wk "Insert")
+   "t i" '(tempel-insert :wk "Insert")
    )
 )
 
