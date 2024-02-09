@@ -42,7 +42,7 @@
           path: "{{ home }}/.vimrc.bundles"
         - src: "{{ home }}/dotfiles/vim/map.vim"
           path: "{{ home }}/.vimrc.map"
-      notify: install vim plugins
+      notify: Install vim plugins
       register: vim_links
 
     - name: Check stats for YouCompleteMe
@@ -56,11 +56,11 @@
         dest: "{{ home }}/.vim/bundle/YouCompleteMe"
         version: master
       when: ycm_stat.stat.isdir is not defined or not ycm_stat.stat.isdir
-      notify: run ycm installation
+      notify: Run ycm installation
 
     - name: Update vim plugins
       ansible.builtin.command:
         cmd: "vim -u {{ home }}/.vimrc.bundles +PluginUpdate +qall"
       when: vimrc_link.stat.islnk is defined and vimrc_link.stat.islnk
       changed_when: vimrc_link.stat.islnk is defined and vimrc_link.stat.islnk
-      notify: run ycm installation
+      notify: Run ycm installation
