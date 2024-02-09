@@ -117,5 +117,5 @@
     - name: Ensure zprofile is present
       ansible.builtin.file:
         path: "{{ home }}/.zprofile"
-        state: file
+        state: touch
         mode: "0640"
