@@ -26,9 +26,7 @@
     max_window_width: None,
     layouts: [
         "MainAndVertStack",
-        "EvenHorizontal",
         "EvenVertical",
-        "CenterMainBalanced",
         "Monocle",
     ],
     layout_mode: Tag,
