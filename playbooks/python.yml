@@ -3,6 +3,16 @@
   hosts: all
   gather_facts: false
 
+  handlers:
+    - name: Install python packaging utils
+      become: true
+      ansible.builtin.command:
+        cmd: "pipx install --force {{ item }}"
+      loop:
+        - poetry
+        - pdm
+      changed_when: true
+
   vars:
     home: "{{ lookup('env', 'HOME') }}"
     __ipython_highlighting_style: "{{ ipython_highlighting_style | default('nord') }}"
@@ -25,7 +35,6 @@
         - python-isort
         - python-black
         - python-cookiecutter
-        - python-pdm
         - jupyterlab
         - python-pipx
 
