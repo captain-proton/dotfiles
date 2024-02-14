@@ -877,7 +877,8 @@
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (bash-ts-mode . lsp))
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
@@ -1064,6 +1065,62 @@
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+
+;; (use-package ts-fold
+;;   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-mode)
+;;   )
+
+;; (use-package ts-fold-indicators
+;;   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-indicators-mode)
+;;   )
+
+(use-package hideshow
+  :elpaca nil
+  :commands (hs-toggle-hiding
+             hs-hide-block
+             hs-show-block
+             hs-hide-level
+             hs-show-all
+             hs-hide-all)
+  :config
+  (defun proton/ensure-hideshow (&rest _)
+    ;; Enable hideshow if it is not already active
+    (unless (bound-and-true-p hs-minor-mode)
+      (hs-minor-mode +1)))
+
+  (defun proton/nxml-forward-element ()
+    (let ((nxml-sexp-element-flag))
+      (setq nxml-sexp-element-flag (not (looking-at "<!--")))
+      (unless (looking-at outline-regexp)
+        (condition-case nil
+            (nxml-forward-balanced-item 1)
+          (error nil)))))
+
+  (add-to-list 'hs-special-modes-alist '(yaml-ts-mode "\\s-*\\_<\\(?:[^:]+\\)\\_>"
+                         ""
+                         "#"
+                         nil nil))
+  (add-to-list 'hs-special-modes-alist '(json-ts-mode "[[{]" "[]}]"))
+  (add-to-list 'hs-special-modes-alist
+        '(nxml-mode
+          "<!--\\|<[^/>]>\\|<[^/][^>]*[^/]>"
+          ""
+          "<!--" ;; won't work on its own; uses syntax table
+          (lambda (arg) (proton/nxml-forward-element))
+          nil))
+
+  (dolist (cmd '(hs-toggle-hiding
+                 hs-hide-block
+                 hs-show-block
+                 hs-hide-level
+                 hs-show-all
+                 hs-hide-all))
+    (advice-add cmd :before #'proton/ensure-hideshow))
+  )
 
 (use-package sudo-edit
   :config

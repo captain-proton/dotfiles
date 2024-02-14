@@ -71,6 +71,7 @@
 - [[#transparency][Transparency]]
 - [[#tree-sitter][Tree Sitter]]
   - [[#auto-tree-sitter][Auto tree sitter]]
+  - [[#folding][Folding]]
 - [[#sudo-edit][Sudo Edit]]
 - [[#which-key][Which key]]
 - [[#direnv][Direnv]]
@@ -1351,7 +1352,8 @@ Take a look at [[https://langserver.org/][langserver.org]]
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (bash-ts-mode . lsp))
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
@@ -1611,6 +1613,74 @@ Take a look at the [[https://tree-sitter.github.io/tree-sitter/#parsers][tree-si
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
+#+end_src
+
+** Folding
+
+At the time of writing ts-fold [[https://github.com/emacs-tree-sitter/ts-fold/issues/48][does not work using emacs >= 29]] with built-in tree-sitter.
+There is a fork by [[https://github.com/abougouffa/treesit-fold][abougouffa]].
+Will see how the discussion will go on, as folding could be very need for large json, yml, xml documents.
+
+#+begin_src emacs-lisp
+;; (use-package ts-fold
+;;   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-mode)
+;;   )
+
+;; (use-package ts-fold-indicators
+;;   :elpaca (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-indicators-mode)
+;;   )
+#+end_src
+
+So at the moment =hideshow= is the choice to get folding to work.
+
+#+begin_src emacs-lisp
+(use-package hideshow
+  :elpaca nil
+  :commands (hs-toggle-hiding
+             hs-hide-block
+             hs-show-block
+             hs-hide-level
+             hs-show-all
+             hs-hide-all)
+  :config
+  (defun proton/ensure-hideshow (&rest _)
+    ;; Enable hideshow if it is not already active
+    (unless (bound-and-true-p hs-minor-mode)
+      (hs-minor-mode +1)))
+
+  (defun proton/nxml-forward-element ()
+    (let ((nxml-sexp-element-flag))
+      (setq nxml-sexp-element-flag (not (looking-at "<!--")))
+      (unless (looking-at outline-regexp)
+        (condition-case nil
+            (nxml-forward-balanced-item 1)
+          (error nil)))))
+
+  (add-to-list 'hs-special-modes-alist '(yaml-ts-mode "\\s-*\\_<\\(?:[^:]+\\)\\_>"
+                         ""
+                         "#"
+                         nil nil))
+  (add-to-list 'hs-special-modes-alist '(json-ts-mode "[[{]" "[]}]"))
+  (add-to-list 'hs-special-modes-alist
+        '(nxml-mode
+          "<!--\\|<[^/>]>\\|<[^/][^>]*[^/]>"
+          ""
+          "<!--" ;; won't work on its own; uses syntax table
+          (lambda (arg) (proton/nxml-forward-element))
+          nil))
+
+  (dolist (cmd '(hs-toggle-hiding
+                 hs-hide-block
+                 hs-show-block
+                 hs-hide-level
+                 hs-show-all
+                 hs-hide-all))
+    (advice-add cmd :before #'proton/ensure-hideshow))
+  )
 #+end_src
 
 * Sudo Edit
