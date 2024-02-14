@@ -381,9 +381,11 @@
   (evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S))
 
 (use-package evil-nerd-commenter
-    :after evil
-    :config
-    (evilnc-default-hotkeys))
+  :after evil
+  :bind
+  ("M-/" . evilnc-comment-operator)
+  :config
+  (evilnc-default-hotkeys))
 
 (use-package company
   :diminish
@@ -886,7 +888,6 @@
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
     "c c" '(recompile :wk "Recompile")
-    "c d" '(lsp-ui-doc-show :wk "Document that")
     "c f" '(lsp-format-region :wk "Format region")
     "c F" '(lsp-format-buffer :wk "Format buffer")
     )
@@ -899,6 +900,15 @@
 
 (use-package lsp-ui
   :commands lsp-ui-mode
+  :bind (:map lsp-ui-mode-map
+              ("C-c d" . lsp-ui-doc-toggle))
+  :general
+  (proton/leader-keys
+    "c d" '(lsp-ui-doc-show :wk "Document that")
+    "c D" '(lsp-ui-doc-show :wk "Close doc")
+    )
+  :config
+  (setq lsp-ui-doc-position 'at-point)
   )
 
 (use-package ansible
