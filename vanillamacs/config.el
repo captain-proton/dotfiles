@@ -46,10 +46,10 @@
 
 ;; Install use-package support
 (elpaca elpaca-use-package
-  ;; Enable :elpaca use-package keyword.
+  ;;Enable Elpaca's use-package support
   (elpaca-use-package-mode)
-  ;; Assume :elpaca t unless otherwise specified.
-  (setq elpaca-use-package-by-default t))
+  ;; Assume :ensure t unless otherwise specified.
+  (setq use-package-always-ensure t))
 
 ;; Block until current queue processed.
 (elpaca-wait)
@@ -60,6 +60,7 @@
 ;;For example:
 
 (use-package general
+  :ensure t
   :demand t
   :config
   (general-evil-setup)
@@ -152,6 +153,7 @@
   (fontaine-set-preset 'regular))
 
 (use-package fontaine
+  :ensure t
   :after evil
   :general
   (proton/leader-keys
@@ -204,7 +206,7 @@
   )
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :init
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -226,16 +228,20 @@
   (setq enable-recursive-minibuffers t))
 
 (use-package all-the-icons
+  :ensure t
   :if (display-graphic-p))
 
 (use-package all-the-icons-dired
+  :ensure t
   :hook (dired-mode . (lambda () (all-the-icons-dired-mode t))))
 
 (use-package editorconfig
+  :ensure t
   :config
   (editorconfig-mode 1))
 
 (use-package elfeed
+  :ensure t
   :after general
   :bind (:map elfeed-show-mode-map
          ([remap elfeed-kill-buffer] . evil-delete-buffer))
@@ -264,12 +270,14 @@
             :before (lambda (&rest r) (persp-switch "elfeed")))
 
 (use-package elfeed-org
+  :ensure t
   :after elfeed
   :init
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "~/Org/elfeed.org")))
 
 (use-package elfeed-goodies
+  :ensure t
   :after elfeed
   :config
   (elfeed-goodies/setup)
@@ -333,6 +341,7 @@
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
+  :ensure t
   :init  ;; tweak evil before loading it
   (setq evil-want-integration t)
   (setq evil-want-keybinding nil)  ;; do not load default evil keybindings
@@ -349,6 +358,7 @@
 )
 
 (use-package evil-collection
+  :ensure t
   :after evil
   :config
   ;; Do not uncomment this unless you want to specify each and every mode
@@ -358,7 +368,10 @@
   (add-to-list 'evil-collection-mode-list '(help dashboard dired ibuffer)) ;; evilify help mode
   (evil-collection-init))
 
-(use-package evil-tutor :after evil)
+(use-package evil-tutor
+  :ensure t
+  :after evil
+  )
 
 ;; Using RETURN to follow links in Org/Evil 
 ;; Unmap keys in 'evil-maps if not done, (setq org-return-follows-link t) will not work
@@ -370,6 +383,7 @@
 (global-set-key [remap evil-quit] 'evil-delete-buffer)
 
 (use-package evil-snipe
+  :ensure t
   :after evil
   :config
   (evil-snipe-override-mode 1))
@@ -381,6 +395,7 @@
   (evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S))
 
 (use-package evil-nerd-commenter
+  :ensure t
   :after evil
   :bind
   ("M-/" . evilnc-comment-operator)
@@ -388,6 +403,7 @@
   (evilnc-default-hotkeys))
 
 (use-package company
+  :ensure t
   :diminish
   :custom
   (company-minimum-prefix-length 1)
@@ -408,11 +424,13 @@
   )
 
 (use-package company-box
+  :ensure t
   :after company
   :diminish
   :hook (company-mode . company-box-mode))
 
 (use-package dired-open
+  :ensure t
   :after dired
   :config
   (setq dired-open-extensions '(("gif" . "sxiv")
@@ -422,6 +440,7 @@
                                 ("mp4" . "vlc"))))
 
 (use-package peep-dired
+  :ensure t
   :after dired
   :hook (evil-normalize-keymaps . peep-dired-hook)
   :config
@@ -432,9 +451,12 @@
 )
 
 (use-package vscode-icon
-  :commands (vscode-icon-for-file))
+  :ensure t
+  :commands (vscode-icon-for-file)
+  )
 
 (use-package dired-sidebar
+  :ensure t
   :after dired
   :commands (dired-sidebar-toggle-sidebar)
   :init
@@ -477,6 +499,7 @@
   (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
 
 (use-package highlight-thing
+  :ensure t
   :init
   (global-highlight-thing-mode)
   :hook (highlight-thing-mode . proton/set-highlight-thing-colors)
@@ -486,6 +509,7 @@
 
 (add-to-list 'custom-theme-load-path (expand-file-name (concat user-emacs-directory "themes/")))
 (use-package doom-themes
+  :ensure t
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled, t by default
         doom-themes-enable-italic t) ; if nil, italics is universally disabled, t by default
@@ -493,6 +517,7 @@
   (load-theme 'doom-nord t))
 
 (use-package doom-modeline
+  :ensure t
   :init (doom-modeline-mode 1)
   :config
   (setq doom-modeline-height 24      ;; sets modeline height
@@ -504,9 +529,12 @@
   )
 
 (use-package minions
-  :config (minions-mode 1))
+  :ensure t
+  :config (minions-mode 1)
+  )
 
 (use-package ligature
+  :ensure t
   :config
   ;; Enable all JetBrains Mono ligatures in programming modes
   (ligature-set-ligatures 'prog-mode '("-|" "-~" "---" "-<<" "-<" "--" "->" "->>" "-->" "///" "/=" "/=="
@@ -535,9 +563,12 @@
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
 
 (use-package rainbow-mode
+  :ensure t
   :diminish
   :hook
   ((org-mode prog-mode) . rainbow-mode))
@@ -550,7 +581,7 @@
 (setq-default indent-tabs-mode nil)
 
 (use-package indent-bars
-  :elpaca (:host github :repo "jdtsmith/indent-bars")
+  :ensure (:host github :repo "jdtsmith/indent-bars")
   :custom
   (indent-bars-treesit-support t)
   (indent-bars-no-descend-string nil)
@@ -573,7 +604,7 @@
   )
 
 (use-package whitespace
-  :elpaca nil
+  :ensure nil
   :init
   (global-whitespace-mode)
   :config
@@ -603,6 +634,7 @@
   )
 
 (use-package dashboard
+  :ensure t
   :init
   (setq initial-buffer-choice 'dashboard-open)
   (setq dashboard-set-heading-icons t)
@@ -622,9 +654,12 @@
   (display-line-numbers-mode 0)
   )
 
-(use-package diminish)
+(use-package diminish
+  :ensure t
+  )
 
 (use-package flycheck
+  :ensure t
   :defer t
   :diminish
   :config (global-flycheck-mode))
@@ -646,6 +681,7 @@
 )
 
 (use-package vertico
+  :ensure t
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
   :diminish
@@ -664,17 +700,19 @@
   (vertico-mode))
 
 (use-package orderless
+  :ensure t
   :init
   (setq completion-styles '(orderless basic)
         completion-category-defaults nil
         completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package savehist
-  :elpaca nil  ;; built-in to emacs, no package manager required
+  :ensure nil  ;; built-in to emacs, no package manager required
   :init
   (savehist-mode))
 
 (use-package consult
+  :ensure t
   :diminish
   :config
   (proton/leader-keys
@@ -695,8 +733,8 @@
   )
 
 (use-package marginalia
-  :after vertico
   :ensure t
+  :after vertico
   :custom
   (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
@@ -713,9 +751,10 @@
           (list '+elpaca-unload-seq 'elpaca--activate-package)))
 
 (use-package seq
-  :elpaca `(seq :build ,(+elpaca-seq-build-steps)))
+  :ensure `(seq :build ,(+elpaca-seq-build-steps)))
 
 (use-package magit
+  :ensure t
   :init
   ;; Do not call on :config as this block
   ;; is executed after opening magit
@@ -730,6 +769,7 @@
   )
 
 (use-package git-timemachine
+  :ensure t
   :init
   (proton/leader-keys
     "g t" '(git-timemachine-toggle :wk "Toggle git timemachine")
@@ -744,7 +784,7 @@
 (setq org-hide-emphasis-markers t)
 
 (use-package org
-  :elpaca nil
+  :ensure nil
   :init
   (proton/leader-keys
     "m" '(:ignore t :wk "Org")
@@ -779,6 +819,7 @@
   )
 
 (use-package org-roam
+  :ensure t
   :after org
   :general
   (proton/leader-keys
@@ -803,6 +844,7 @@
   (general-advice-add f :before #'proton/open-org-roam-perspective))
 
 (use-package toc-org
+  :ensure t
   :commands toc-org-enable
   :init
   (add-hook 'org-mode-hook 'toc-org-enable)
@@ -827,7 +869,9 @@
   (setq org-src-fontify-natively t) ; Enable syntax highlighting in source blocks
 
 (add-hook 'org-mode-hook 'org-indent-mode)
-(use-package org-bullets)
+(use-package org-bullets
+  :ensure t
+  )
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 (require 'org-faces)
@@ -876,10 +920,12 @@
 (setq org-src-preserve-indentation t)
 
 (use-package lsp-mode
+  :ensure t
   :init
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :hook ((lsp-mode . lsp-enable-which-key-integration)
+         (bash-ts-mode . lsp))
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
@@ -898,6 +944,7 @@
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
 (use-package lsp-ui
+  :ensure t
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
               ("C-c d" . lsp-ui-doc-toggle))
@@ -911,6 +958,7 @@
   )
 
 (use-package ansible
+  :ensure t
   :hook ((yaml-ts-mode . ansible)
          (ansible . ansible-auto-decrypt-encrypt))
   :config
@@ -918,18 +966,22 @@
         ansible-task-label-face 'font-lock-doc-face
         ansible-vault-password-file nil)
   )
-(use-package ansible-doc)
+(use-package ansible-doc
+  :ensure t
+  )
 (use-package jinja2-mode
+  :ensure t
   :mode "\\.j2$"
   )
 
 (use-package yaml-mode
+  :ensure t
   :hook ((yaml-ts-mode . lsp-deferred)
          (yaml-ts-mode . company-mode))
   )
 
 (use-package python
-  :elpaca nil
+  :ensure nil
   :hook ((python-ts-mode . lsp-deferred))
   )
 
@@ -975,6 +1027,7 @@
   )
 
 (use-package eshell-syntax-highlighting
+  :ensure t
   :after esh-mode
   :config
   (eshell-syntax-highlighting-global-mode +1)
@@ -988,6 +1041,7 @@
 
 ;; Configure Tempel
 (use-package tempel
+  :ensure t
   ;; Require trigger prefix before template name when completing.
   ;; :custom
   ;; (tempel-trigger-prefix "<")
@@ -1027,9 +1081,12 @@
 ;; Optional: Add tempel-collection.
 ;; The package is young and doesn't have comprehensive coverage.
 (use-package tempel-collection
-  :after tempel)
+  :ensure t
+  :after tempel
+  )
 
 (use-package tldr
+  :ensure t
   :config
   (proton/leader-keys
     "s t" '(tldr :wk "Lookup tldr for command help"))
@@ -1069,13 +1126,71 @@
   (add-to-list 'major-mode-remap-alist mapping))
 
 (use-package treesit-auto
+  :ensure t
   :custom
   (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
 
+;; (use-package ts-fold
+;;   :ensure (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-mode)
+;;   )
+
+;; (use-package ts-fold-indicators
+;;   :ensure (:host github :repo "emacs-tree-sitter/ts-fold")
+;;   :config
+;;   (global-ts-fold-indicators-mode)
+;;   )
+
+(use-package hideshow
+  :ensure nil
+  :commands (hs-toggle-hiding
+             hs-hide-block
+             hs-show-block
+             hs-hide-level
+             hs-show-all
+             hs-hide-all)
+  :config
+  (defun proton/ensure-hideshow (&rest _)
+    ;; Enable hideshow if it is not already active
+    (unless (bound-and-true-p hs-minor-mode)
+      (hs-minor-mode +1)))
+
+  (defun proton/nxml-forward-element ()
+    (let ((nxml-sexp-element-flag))
+      (setq nxml-sexp-element-flag (not (looking-at "<!--")))
+      (unless (looking-at outline-regexp)
+        (condition-case nil
+            (nxml-forward-balanced-item 1)
+          (error nil)))))
+
+  (add-to-list 'hs-special-modes-alist '(yaml-ts-mode "\\s-*\\_<\\(?:[^:]+\\)\\_>"
+                         ""
+                         "#"
+                         nil nil))
+  (add-to-list 'hs-special-modes-alist '(json-ts-mode "[[{]" "[]}]"))
+  (add-to-list 'hs-special-modes-alist
+        '(nxml-mode
+          "<!--\\|<[^/>]>\\|<[^/][^>]*[^/]>"
+          ""
+          "<!--" ;; won't work on its own; uses syntax table
+          (lambda (arg) (proton/nxml-forward-element))
+          nil))
+
+  (dolist (cmd '(hs-toggle-hiding
+                 hs-hide-block
+                 hs-show-block
+                 hs-hide-level
+                 hs-show-all
+                 hs-hide-all))
+    (advice-add cmd :before #'proton/ensure-hideshow))
+  )
+
 (use-package sudo-edit
+  :ensure t
   :config
   (proton/leader-keys
     "f u" '(sudo-edit-find-file :wk "Sudo find file")
@@ -1084,6 +1199,7 @@
 )
 
 (use-package which-key
+  :ensure t
   :init
   (which-key-mode)
   :diminish
@@ -1098,5 +1214,7 @@
   )
 
 (use-package envrc
+  :ensure t
   :config
-  (envrc-global-mode))
+  (envrc-global-mode)
+  )
