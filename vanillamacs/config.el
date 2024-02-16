@@ -3,6 +3,13 @@
       create-lockfiles nil   ;; no need for .# lock files
       )
 
+(defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
+  "Create parent directory if not exists while visiting file."
+  (unless (file-exists-p filename)
+    (let ((dir (file-name-directory filename)))
+      (unless (file-exists-p dir)
+        (make-directory dir t)))))
+
 (defvar local-settings-file (expand-file-name "local.el" proton/config-directory))
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
