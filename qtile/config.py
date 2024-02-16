@@ -282,6 +282,7 @@ def init_main_widgets():
             fmt="󰍛 {}",
         ),
         # pulseaudio-control
+        widget.PulseVolume()
         # bluetooth
         # date
         # powermenu
