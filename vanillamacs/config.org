@@ -85,6 +85,19 @@
       )
 #+end_src
 
+Emacs will prompt for creating intermediate dirs if they do not exist.
+You have to enter =RET= twice in order to create the directory.
+This advice will automatically create these dirs without asking.
+
+#+begin_src emacs-lisp
+(defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
+  "Create parent directory if not exists while visiting file."
+  (unless (file-exists-p filename)
+    (let ((dir (file-name-directory filename)))
+      (unless (file-exists-p dir)
+        (make-directory dir t)))))
+#+end_src
+
 * Custom machine settings
 
 All settings that are unique to the machine should be kept inside the
