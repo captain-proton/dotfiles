@@ -45,6 +45,7 @@
 - import_playbook: ../playbooks/ocr.yml
 - import_playbook: ../playbooks/docker.yml
 - import_playbook: ../playbooks/openapi.yml
+- import_playbook: ../playbooks/zoxide.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/chromium.yml

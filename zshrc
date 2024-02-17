@@ -66,4 +66,5 @@ source $ZSH/oh-my-zsh.sh
 # aliases
 [[ -f $HOME/.aliases ]] && source $HOME/.aliases
 
+eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"

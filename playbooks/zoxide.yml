@@ -1,0 +1,14 @@
+---
+- name: "[ ZOXIDE ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure required tools are installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - zoxide
+        - fzf
