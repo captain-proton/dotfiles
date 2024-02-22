@@ -134,16 +134,16 @@
    )
 
   (proton/leader-keys
-   "e" '(:ignore t :wk "Evaluate/Eshell")
+   "e" '(:ignore t :wk "Evaluate")
    "e b" '(eval-buffer :wk "Eval buffer")
    "e e" '(eval-expression :wk "Evaluate and elisp expression")
    "e r" '(eval-region :wk "Eval region")
-   "e s" '(eshell :wk "Open Eshell")
    )
 
   (proton/leader-keys
    "o" '(:ignore t :wk "Open")
    "o d" '(dashboard-open :wk "Dashboard")
+   "o e" '(eshell :wk "Open Eshell")
    )
 
   )
@@ -254,7 +254,7 @@
          ([remap elfeed-kill-buffer] . evil-delete-buffer))
   :general
   (proton/leader-keys
-    "o e" '(elfeed :wk "elfeed"))
+    "o f" '(elfeed :wk "elfeed"))
   :config
   (setq elfeed-search-filter "@2-weeks-ago +unread")
   )
@@ -637,7 +637,15 @@
     "w c" '(evil-window-delete :wk "Close current window")
     "w v" '(evil-window-vsplit :wk "Split |")
     "w h" '(evil-window-split :wk "Split -")
+    "w w" '(evil-window-next :wk "Next window")
+    "w W" '(evil-window-prev :wk "Previous window")
     )
+  )
+
+(use-package golden-ratio
+  :ensure t
+  :init
+  (golden-ratio-mode 1)
   )
 
 (use-package dashboard
@@ -675,6 +683,7 @@
   :ensure t
   :diminish
   :config
+  (setq projectile-mode-line "Projectile")
   (projectile-mode +1)
   (proton/leader-keys
     "p" '(:ignore t :wk "Project")
@@ -1107,6 +1116,7 @@
      (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
      (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
      (json "https://github.com/tree-sitter/tree-sitter-json")
      (make "https://github.com/alemuller/tree-sitter-make")
      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
