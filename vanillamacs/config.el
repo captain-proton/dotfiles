@@ -683,7 +683,6 @@
   :ensure t
   :diminish
   :config
-  (setq projectile-mode-line "Projectile")
   (projectile-mode +1)
   (proton/leader-keys
     "p" '(:ignore t :wk "Project")
