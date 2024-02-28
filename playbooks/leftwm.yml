@@ -151,5 +151,5 @@
     - name: Set QT_QPA_PLATFORMTHEME
       ansible.builtin.lineinfile:
         path: "{{ home }}/.xprofile"
-        mode: 0644
+        mode: "0644"
         line: export QT_QPA_PLATFORMTHEME="qt5ct"
