@@ -612,7 +612,7 @@ For example, you can press “99,ci” to comment out 99 lines.
   :ensure t
   :after evil
   :bind
-  ("M-/" . evilnc-comment-operator)
+  ("C-/" . evilnc-comment-operator)
   :config
   (evilnc-default-hotkeys))
 #+end_src
@@ -758,8 +758,8 @@ This is only available in emacs >= 29.
 #+begin_src emacs-lisp
 (defun proton/set-highlight-thing-colors ()
   (interactive)
-  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
-  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.5))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.5)))
 
 (use-package highlight-thing
   :ensure t
