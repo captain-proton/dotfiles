@@ -405,7 +405,7 @@
   :ensure t
   :after evil
   :bind
-  ("M-/" . evilnc-comment-operator)
+  ("C-/" . evilnc-comment-operator)
   :config
   (evilnc-default-hotkeys))
 
@@ -502,8 +502,8 @@
 
 (defun proton/set-highlight-thing-colors ()
   (interactive)
-  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.4))
-  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.4)))
+  (set-face-background 'highlight-thing (doom-darken (doom-color 'highlight) 0.5))
+  (set-face-foreground 'highlight-thing (doom-lighten (doom-color 'fg) 0.5)))
 
 (use-package highlight-thing
   :ensure t
