@@ -15,4 +15,13 @@
     - name: Set the eza alias for ls
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
-        line: "alias ls='eza -hg'"
+        line: "alias {{ item.alias }}='{{ item.value }}'"
+      loop:
+        - alias: ls
+          value: eza
+        - alias: ll
+          value: eza -lhg
+        - alias: la
+          value: eza -lhga
+        - alias: lt
+          value: eza -hgT
