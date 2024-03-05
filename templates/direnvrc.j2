@@ -45,7 +45,7 @@ layout_pdm() {
         exit 2
     fi
 
-    VIRTUAL_ENV=$(pdm venv list | grep "^-"  | awk -F" " '{print $3}')
+    VIRTUAL_ENV=$(pdm venv list | grep "^[-*]"  | awk -F" " '{print $3}')
 
     if [ -z "$VIRTUAL_ENV" ] || [ ! -d "$VIRTUAL_ENV" ]; then
         log_error "No virtual environment exists. Use for example \`pdm venv create -w venv\` to create one."
