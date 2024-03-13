@@ -1,6 +1,7 @@
 (setq make-backup-files nil  ;; do not create backup files at all
       delete-old-versions t  ;; delete backup files (filename~) automatically
       create-lockfiles nil   ;; no need for .# lock files
+      vc-follow-symlinks t   ;; don't ask every time to follow sym links to vc repos
       )
 
 (defadvice find-file (before make-directory-maybe (filename &optional wildcards) activate)
@@ -975,7 +976,8 @@
 (use-package ansible
   :ensure t
   :hook ((yaml-ts-mode . ansible)
-         (ansible . ansible-auto-decrypt-encrypt))
+         (ansible . ansible-auto-decrypt-encrypt)
+         (yaml-ts-mode . whitespace-mode))
   :config
   (setq ansible-section-face 'font-lock-variable-name-face
         ansible-task-label-face 'font-lock-doc-face
