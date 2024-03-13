@@ -11,8 +11,6 @@
         - arcticicestudio.nord-visual-studio-code
         - coolbear.systemd-unit-file
         - DotJoshJohnson.xml
-        - eamodio.gitlens
-        - gerane.Theme-Zenburn
         - jebbs.plantuml
         - jmreicha.tender
         - mechatroner.rainbow-csv
@@ -43,16 +41,18 @@
         - tamasfe.even-better-toml
         - VisualStudioExptTeam.intellicode-api-usage-examples
         - VisualStudioExptTeam.vscodeintellicode
+        - vscode-icons-team.vscode-icons
+        - webfreak.debug
+        - yzhang.markdown-all-in-one
+
+      absent:
+        - gerane.Theme-Zenburn
+        - eamodio.gitlens
         - vscjava.vscode-java-debug
         - vscjava.vscode-java-dependency
         - vscjava.vscode-java-pack
         - vscjava.vscode-java-test
         - vscjava.vscode-maven
-        - vscode-icons-team.vscode-icons
-        - webfreak.debug
-        - yzhang.markdown-all-in-one
-
-      absent: []
 
   tasks:
     - name: Install visual studio code from aur
