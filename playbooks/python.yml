@@ -35,6 +35,7 @@
         - python-isort
         - python-black
         - python-cookiecutter
+        - python-passlib
         - jupyterlab
         - python-pipx
 
