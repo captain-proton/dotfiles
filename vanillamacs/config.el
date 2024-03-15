@@ -84,7 +84,11 @@
   (defun proton/edit-config ()
     (interactive)
     (find-file (expand-file-name "config.org" proton/config-directory))
-  )
+    )
+  (defun show-message-log ()
+    (interactive)
+    (switch-to-buffer "*Messages*")
+    )
 
   (proton/leader-keys
    "." '(find-file :wk "Find file")
@@ -96,6 +100,7 @@
    "b b" '(switch-to-buffer :wk "Switch buffer")
    "b i" '(ibuffer :wk "IBuffer")
    "b k" '(kill-this-buffer :wk "Kill buffer")
+   "b m" '(show-message-log :wk "*Messages*")
    "b n" '(next-buffer :wk "Next buffer")
    "b p" '(previous-buffer :wk "Previous buffer")
    "b r" '(revert-buffer :wk "Reload buffer")
@@ -978,8 +983,7 @@
 (use-package ansible
   :ensure t
   :hook ((yaml-ts-mode . ansible)
-         (ansible . ansible-auto-decrypt-encrypt)
-         (yaml-ts-mode . whitespace-mode))
+         (ansible . ansible-auto-decrypt-encrypt))
   :config
   (setq ansible-section-face 'font-lock-variable-name-face
         ansible-task-label-face 'font-lock-doc-face
@@ -995,8 +999,11 @@
 
 (use-package yaml-mode
   :ensure t
-  :hook ((yaml-ts-mode . lsp-deferred)
-         (yaml-ts-mode . company-mode))
+  :hook (
+         (yaml-ts-mode . lsp-deferred)
+         (yaml-ts-mode . company-mode)
+         (yaml-ts-mode . whitespace-mode)
+         )
   )
 
 (use-package python
@@ -1231,6 +1238,10 @@
     which-key-side-window-max-height 0.25
     which-key-idle-delay 0.3
     which-key-separator "  ")
+  )
+
+(use-package inheritenv
+  :ensure t
   )
 
 (use-package envrc
