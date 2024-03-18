@@ -776,8 +776,13 @@
 (use-package seq
   :ensure `(seq :build ,(+elpaca-seq-build-steps)))
 
+(use-package transient
+  :ensure (:host github :repo "magit/transient")
+  )
+
 (use-package magit
   :ensure t
+  :after (seq transient)
   :init
   ;; Do not call on :config as this block
   ;; is executed after opening magit
