@@ -1,17 +1,21 @@
 # A minimal left prompt
 format = """
-[┌─ ](bold green)$all
-[└─ ](bold green)$character"""
+[┌─ ](bold #88C0D0)$all $fill[─┐ ](#5E81AC)
+[└─ ](bold #88C0D0)$character"""
 
 # Inserts a blank line between shell prompts
 add_newline = true
 
-right_format = """$battery$time"""
+right_format = """$battery$time[─┘](#5E81AC)"""
+
+[fill]
+symbol = ''
+style = '#5E81AC'
 
 # Replace the "❯" symbol in the prompt with "➜"
 [character] # The name of the module we are configuring is "character"
-success_symbol = "[](bold green)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
-error_symbol = "[](bold red) "
+success_symbol = "[](#A3BE8C)" # The "success_symbol" segment is being set to "➜" with the color "bold green"
+error_symbol = "[](red) "
 
 [line_break]
 disabled = true
@@ -59,7 +63,7 @@ format = '[ $time ]($style) '
 time_format = "%H:%M:%S"
 
 [username]
-style_user = 'fg:#8fbcbb bold'
+style_user = 'fg:#88C0D0 bold'
 style_root = 'fg:#d08770 bold'
 format = '[$user]($style)'
 
