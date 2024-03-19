@@ -1,0 +1,11 @@
+---
+- name: "[ WHOIS ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure whois installed (mkpasswd included)
+      become: true
+      community.general.pacman:
+        name: whois
+        state: present

@@ -40,6 +40,7 @@
 - import_playbook: ../playbooks/tldr.yml
 - import_playbook: ../playbooks/ocr.yml
 - import_playbook: ../playbooks/zoxide.yml
+- import_playbook: ../playbooks/whois.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/brave-browser.yml
