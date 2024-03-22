@@ -9,6 +9,7 @@
     "editor.lineHeight": 1.5,
     "editor.cursorSmoothCaretAnimation": "on",
     "editor.smoothScrolling": true,
+    "git.confirmSync": false,
     "keyboard.dispatch": "keyCode",
     "workbench.tree.indent": 18,
     "workbench.tree.renderIndentGuides": "always",
