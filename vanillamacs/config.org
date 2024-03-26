@@ -44,12 +44,12 @@
 - [[#diminish][Diminish]]
 - [[#flycheck][Flycheck]]
 - [[#projectile][Projectile]]
-- [[#completions][Completions]]
-  - [[#vertico][Vertico]]
-  - [[#orderless][Orderless]]
-  - [[#save-history][Save History]]
-  - [[#consult][Consult]]
-  - [[#marginalia][Marginalia]]
+- [[#vertico][Vertico]]
+- [[#orderless][Orderless]]
+- [[#save-history][Save History]]
+- [[#consult][Consult]]
+- [[#marginalia][Marginalia]]
+- [[#embark][Embark]]
 - [[#git][Git]]
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
@@ -1081,9 +1081,8 @@ Projectile is a project interaction library for Emacs.
 )
 #+end_src
 
-* Completions
 
-** Vertico
+* Vertico
 
 [[https://github.com/minad/vertico][Vertico on github]]
 
@@ -1112,7 +1111,7 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
   (vertico-mode))
 #+end_src
 
-** Orderless
+* Orderless
 
 #+begin_src emacs-lisp
 (use-package orderless
@@ -1123,7 +1122,7 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
         completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
-** Save History
+* Save History
 
 #+begin_src emacs-lisp
 (use-package savehist
@@ -1132,7 +1131,7 @@ Vertico provides a performant and minimalistic vertical completion UI based on t
   (savehist-mode))
 #+end_src
 
-** Consult
+* Consult
 
 [[https://github.com/minad/consult][Consult on GitHub]]
 
@@ -1163,7 +1162,7 @@ Consult provides search and navigation commands based on the Emacs completion fu
   )
 #+end_src
 
-** Marginalia
+* Marginalia
 
 [[https://github.com/minad/marginalia][Marginalia on GitHub]]
 
@@ -1175,6 +1174,40 @@ Consult provides search and navigation commands based on the Emacs completion fu
   (marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil))
   :init
   (marginalia-mode))
+#+end_src
+
+* Embark
+
+ #+begin_src emacs-lisp
+(use-package embark
+  :after evil
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-," . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+  (:map vertico-map
+        ("C-x e" . embark-export))
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
 * Git
