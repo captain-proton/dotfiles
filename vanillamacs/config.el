@@ -742,7 +742,7 @@
   :diminish
   :config
   (proton/leader-keys
-    "<" '(consult-buffer :wk "Consult buffer")
+    "<" '(consult-project-buffer :wk "Consult buffer")
     "RET" '(consult-bookmark :wk "Consult bookmark")
     "f r" '(consult-recent-file :wk "Consult recent file")
     "m h" '(consult-org-heading :wk "Consult org heading")
@@ -1060,7 +1060,6 @@
   :config
   (proton/leader-keys
     "TAB" '(:ignore t :wk "Perspective")
-    "<" '(persp-switch-to-buffer* :wk "Switch buffer")
     "TAB r" '(persp-rename :wk "Rename perspective")
     "TAB s" '(persp-switch :wk "Create/Switch perspective")
     "TAB n" '(persp-next :wk "Next perspective")
