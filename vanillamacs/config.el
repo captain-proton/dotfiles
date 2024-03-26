@@ -669,10 +669,13 @@
                           (bookmarks . 3)
                           (projects . 5)
                           (registers . 3)))
+  (setq dashboard-projects-backend 'projectile)
   :custom
   (dashboard-modify-heading-icons '((recents . "file-text")
                                     (bookmarks . "book")))
   :config
+  (add-hook 'elpaca-after-init-hook #'dashboard-insert-startupify-lists)
+  (add-hook 'elpaca-after-init-hook #'dashboard-initialize)
   (dashboard-setup-startup-hook)
   (display-line-numbers-mode 0)
   )
