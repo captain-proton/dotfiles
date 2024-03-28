@@ -257,9 +257,12 @@
 
 (use-package elfeed
   :ensure t
-  :after general
-  :bind (:map elfeed-show-mode-map
-         ([remap elfeed-kill-buffer] . evil-delete-buffer))
+  :after (general perspective)
+  :bind
+  (:map elfeed-show-mode-map
+        ([remap elfeed-kill-buffer] . evil-delete-buffer))
+  (:map elfeed-search-mode-map
+        ([remap proton/persp-kill-current] . proton/quit-elfeed))
   :general
   (proton/leader-keys
     "o f" '(elfeed :wk "elfeed"))
@@ -274,15 +277,23 @@
    )
   )
 
-(add-hook 'elfeed-search-mode-hook
-      (lambda ()
-        (fontaine-set-preset 'feedreader)
-        (display-line-numbers-mode 0)
-        ))
+(defun proton/on-entering-elfeed()
+  (fontaine-set-preset 'feedreader)
+  (display-line-numbers-mode 0)
+  )
 
+(add-hook 'elfeed-search-mode-hook 'proton/on-entering-elfeed)
+
+(defun proton/quit-elfeed()
+  (interactive)
+  (proton/load-default-fontaine-preset)
+  (display-line-numbers-mode 1)
+  (elfeed-search-quit-window)
+  (persp-kill "elfeed")
+  )
 
 (general-advice-add 'elfeed
-            :before (lambda (&rest r) (persp-switch "elfeed")))
+                    :before (lambda (&rest r) (persp-switch "elfeed")))
 
 (use-package elfeed-org
   :ensure t
@@ -1004,6 +1015,9 @@
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
+
 (use-package lsp-ui
   :ensure t
   :commands lsp-ui-mode
@@ -1064,7 +1078,8 @@
     "TAB s" '(persp-switch :wk "Create/Switch perspective")
     "TAB n" '(persp-next :wk "Next perspective")
     "TAB p" '(persp-prev :wk "Previous perspective")
-    "TAB q" '(persp-kill :wk "Kill perspective")
+    ;; "TAB q" '((lambda () (interactive) (persp-kill (persp-current-name))) :wk "Kill perspective")
+    "TAB q" '(proton/persp-kill-current :wk "Kill perspective")
     "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
     "TAB A" '(persp-set-buffer :wk "Set buffer to perspective")
@@ -1080,6 +1095,11 @@
     "TAB 9" '((lambda () (interactive) (persp-switch-by-number 9)) :wk "Switch to perspective 9")
     "TAB 0" '((lambda () (interactive) (persp-switch-by-number 10)) :wk "Switch to perspective 10")
     )
+  )
+
+(defun proton/persp-kill-current()
+  (interactive)
+  (persp-kill (persp-current-name))
   )
 
 (use-package persp-projectile
