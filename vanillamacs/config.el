@@ -1078,7 +1078,6 @@
     "TAB s" '(persp-switch :wk "Create/Switch perspective")
     "TAB n" '(persp-next :wk "Next perspective")
     "TAB p" '(persp-prev :wk "Previous perspective")
-    ;; "TAB q" '((lambda () (interactive) (persp-kill (persp-current-name))) :wk "Kill perspective")
     "TAB q" '(proton/persp-kill-current :wk "Kill perspective")
     "TAB k" '(persp-remove-buffer :wk "Remove buffer from perspective")
     "TAB a" '(persp-add-buffer :wk "Add buffer to perspective")
@@ -1098,6 +1097,7 @@
   )
 
 (defun proton/persp-kill-current()
+  "Kill the current active perspective"
   (interactive)
   (persp-kill (persp-current-name))
   )
