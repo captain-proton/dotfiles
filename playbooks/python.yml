@@ -38,6 +38,7 @@
         - python-passlib
         - jupyterlab
         - python-pipx
+        - python-jmespath
 
     - name: Add ~/.local/bin to ~/.path
       ansible.builtin.lineinfile:
