@@ -153,3 +153,28 @@
         path: "{{ home }}/.xprofile"
         mode: "0644"
         line: export QT_QPA_PLATFORMTHEME="qt5ct"
+
+    - name: Stat of autorandr
+      ansible.builtin.command:
+        cmd: which autorandr
+      changed_when: false
+      failed_when: false
+      register: autorandr_output
+
+    - name: Put autorandr postswitch hook
+      when: autorandr_output.rc == 0
+      block:
+
+        - name: Postswitch dir must be present
+          ansible.builtin.file:
+            path: "{{ home }}/.config/autorandr/postswitch.d"
+            state: directory
+            mode: "0750"
+
+        - name: Add leftwm notification script
+          ansible.builtin.copy:
+            dest: "{{ home }}/.config/autorandr/postswitch.d/notify-leftwm"
+            mode: "0750"
+            content: |-
+              #!/usr/bin/env bash
+              leftwm-command SoftReload
