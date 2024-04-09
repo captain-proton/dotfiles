@@ -650,6 +650,20 @@
    '(whitespace-space ((t (:foreground "#4c566a" :background unspecified)))))
   )
 
+(use-package tab-line
+  :ensure nil
+  :init
+  (global-tab-line-mode t)
+  :bind
+  (("C-<next>" . next-buffer)
+   ("C-<prior>" . previous-buffer)
+   )
+  :config
+  (setq tab-line-new-button-show nil  ;; do not show add-new button
+        tab-line-close-button-show nil  ;; do not show close button
+        )
+  )
+
 (with-eval-after-load 'evil
   (proton/leader-keys
     "w" '(:ignore t :wk "Windows")

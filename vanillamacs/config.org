@@ -39,6 +39,7 @@
   - [[#focus-help-window][Focus help window]]
   - [[#no-tabs][No tabs]]
   - [[#indent-guides-and-whitespaces][Indent Guides and Whitespaces]]
+  - [[#tab-line][Tab-line]]
   - [[#window-management][Window management]]
 - [[#dashboard][Dashboard]]
 - [[#diminish][Diminish]]
@@ -976,6 +977,27 @@ The style is adjusted to match the used nord theme.
     whitespace-style '(face tabs tab-mark spaces space-mark trailing))
   (custom-set-faces
    '(whitespace-space ((t (:foreground "#4c566a" :background unspecified)))))
+  )
+#+end_src
+
+** Tab-line
+
+Not to mix up with =tab-bar=.
+=tab-line= displays buffers specific for the current window!
+
+#+begin_src emacs-lisp
+(use-package tab-line
+  :ensure nil
+  :init
+  (global-tab-line-mode t)
+  :bind
+  (("C-<next>" . next-buffer)
+   ("C-<prior>" . previous-buffer)
+   )
+  :config
+  (setq tab-line-new-button-show nil  ;; do not show add-new button
+        tab-line-close-button-show nil  ;; do not show close button
+        )
   )
 #+end_src
 
