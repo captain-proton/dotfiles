@@ -77,3 +77,6 @@ lsp_packages: "{{ local_lsp_packages }}"
 # Put your gpg key id (8 byte, ex. 4E1F 799A A4FF 2279) here.
 # https://github.com/ususdei/qute-keepassxc#how-it-works
 qutebrowser_kp_gpg_key: "{{ local_qutebrowser_kp_gpg_key | default(False) }}"
+
+# Define the path where ollama stores its downloaded models
+ollama_model_store: "{{ local_ollama_model_store }}"

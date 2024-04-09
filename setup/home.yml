@@ -61,3 +61,4 @@
 - import_playbook: ../playbooks/handbrake.yml
 - import_playbook: ../playbooks/veracrypt.yml
 - import_playbook: ../playbooks/virtualization.yml
+- import_playbook: ../playbooks/ollama.yml
