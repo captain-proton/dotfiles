@@ -536,11 +536,17 @@
 (add-to-list 'custom-theme-load-path (expand-file-name (concat user-emacs-directory "themes/")))
 (use-package doom-themes
   :ensure t
+  :init
   :config
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled, t by default
         doom-themes-enable-italic t) ; if nil, italics is universally disabled, t by default
+
   ;; This is the default theme
-  (load-theme 'doom-nord t))
+  (load-theme 'doom-nord t)
+  ;; Add "padding" around tabs, the color has to be set for correct coloring
+  (set-face-attribute 'tab-line-tab-current nil :box '(:line-width 8 :color "#2E3440"))
+  (set-face-attribute 'tab-line-tab-inactive nil :box '(:line-width 8 :color "#272C36"))
+)
 
 (use-package doom-modeline
   :ensure t
@@ -654,15 +660,15 @@
   :ensure nil
   :init
   (global-tab-line-mode t)
-  :bind
-  (("C-<next>" . next-buffer)
-   ("C-<prior>" . previous-buffer)
-   )
   :config
   (setq tab-line-new-button-show nil  ;; do not show add-new button
         tab-line-close-button-show nil  ;; do not show close button
         )
+  ;; do not use :bind C-<next> ... they are bound in global.el
+  (define-key (current-global-map) [remap scroll-right] 'previous-buffer)
+  (define-key (current-global-map) [remap scroll-left] 'next-buffer)
   )
+(require 'tab-line)
 
 (with-eval-after-load 'evil
   (proton/leader-keys
