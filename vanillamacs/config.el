@@ -543,7 +543,8 @@
 
   ;; This is the default theme
   (load-theme 'doom-nord t)
-  ;; Add "padding" around tabs, the color has to be set for correct coloring
+
+  ;; Add "padding" around tabs, the colour must be added to correct the colouring
   (set-face-attribute 'tab-line-tab-current nil :box '(:line-width 8 :color "#2E3440"))
   (set-face-attribute 'tab-line-tab-inactive nil :box '(:line-width 8 :color "#272C36"))
 )
@@ -1031,6 +1032,11 @@
     )
   )
 
+;; force lsp-mode to forget the workspace folders for multi root servers so the workspace folders are added on demand
+(advice-add 'lsp
+            :before (lambda (&rest _args)
+                      (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht))))
+            )
 ;; The path to lsp-mode needs to be added to load-path as well as the
 ;; path to the `clients' subdirectory.
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
