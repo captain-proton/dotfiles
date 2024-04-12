@@ -1,0 +1,54 @@
+---
+- name: "[ HTTPie ]"
+  hosts: all
+
+  vars:
+    _httpie_install_gui: "{{ httpie_install_gui | default(True) }}"
+    _httpie_version: "{{ httpie_version | default('2024.1.2') }}"
+    _httpie_download_url: "https://github.com/httpie/desktop/releases/download/v{{ _httpie_version }}/HTTPie-{{ _httpie_version }}.AppImage"
+    _httpie_sha256sum: "{{ httpie_sha256_sum | default('38e3f597b2760603b79ce3d28a9c5fc1f37f94e52c97cd14cd8301a2cc811eb3') }}"
+    _httpie_default_filename: "httpie-{{ _httpie_version }}.AppImage"
+    _httpie_filename: "{{ httpie_filename | default(_httpie_default_filename) }}"
+    _httpie_default_appimage_dest: "{{ home }}/bin/{{ _httpie_filename }}"
+    _httpie_appimage_dest: "{{ httpie_appimage_dest | default(_httpie_default_appimage_dest) }}"
+    _httpie_desktop_path: "{{ home }}/.local/share/applications/httpie.desktop"
+    _httpie_icon_color: "{{ httpie_icon_color | default('#73dc8c') }}"
+    _httpie_default_icon_path: "{{ home }}/.icons/httpie.svg"
+    _httpie_icon_path: "{{ httpie_icon_path | default(_httpie_default_icon_path) }}"
+
+  tasks:
+    - name: Install httpie cli
+      become: true
+      community.general.pacman:
+        name: httpie
+        state: present
+
+    - name: Install httpie gui
+      when: _httpie_install_gui
+      block:
+        - name: Download app image
+          ansible.builtin.get_url:
+            url: "{{ _httpie_download_url }}"
+            checksum: "sha256:{{ _httpie_sha256sum }}"
+            dest: "{{ _httpie_appimage_dest }}"
+            mode: "0750"
+
+        - name: Configure httpie icon
+          ansible.builtin.template:
+            src: ../templates/httpie.svg.j2
+            dest: "{{ _httpie_icon_path }}"
+            mode: "0644"
+
+        - name: Add contents to httpie.desktop file
+          ansible.builtin.blockinfile:
+            path: "{{ _httpie_desktop_path }}"
+            create: true
+            mode: "0640"
+            state: present
+            marker: "# {mark} ANSIBLE MANAGED BLOCK"
+            block: |
+              [Desktop Entry]
+              Exec={{ _httpie_default_appimage_dest }}
+              Name=HTTPie
+              Icon={{ _httpie_icon_path }}
+              Type=Application
