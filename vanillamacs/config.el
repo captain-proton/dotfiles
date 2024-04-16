@@ -412,13 +412,7 @@
   :ensure t
   :after evil
   :config
-  (evil-snipe-override-mode 1))
-
-(with-eval-after-load 'evil-maps
-  (evil-define-key 'normal 'global (kbd "f") 'evil-snipe-f)
-  (evil-define-key 'normal 'global (kbd "s") 'evil-snipe-s)
-  (evil-define-key 'normal 'global (kbd "F") 'evil-snipe-F)
-  (evil-define-key 'normal 'global (kbd "S") 'evil-snipe-S))
+  (evil-snipe-mode +1))
 
 (use-package evil-nerd-commenter
   :ensure t
@@ -464,17 +458,6 @@
                                 ("png" . "sxiv")
                                 ("mkv" . "vlc")
                                 ("mp4" . "vlc"))))
-
-(use-package peep-dired
-  :ensure t
-  :after dired
-  :hook (evil-normalize-keymaps . peep-dired-hook)
-  :config
-    (evil-define-key 'normal dired-mode-map (kbd "h") 'dired-up-directory)
-    (evil-define-key 'normal dired-mode-map (kbd "l") 'dired-open-file) ; use dired-find-file instead if not using dired-open package
-    (evil-define-key 'normal peep-dired-mode-map (kbd "j") 'peep-dired-next-file)
-    (evil-define-key 'normal peep-dired-mode-map (kbd "k") 'peep-dired-prev-file)
-)
 
 (use-package vscode-icon
   :ensure t
@@ -1037,6 +1020,7 @@
             :before (lambda (&rest _args)
                       (eval '(setf (lsp-session-server-id->folders (lsp-session)) (ht))))
             )
+
 ;; The path to lsp-mode needs to be added to load-path as well as the
 ;; path to the `clients' subdirectory.
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode" user-emacs-directory))
