@@ -15,6 +15,8 @@ plugins=(git
   zsh-syntax-highlighting
   zsh-completions
   zsh-autosuggestions
+  archlinux
+  alias-finder
 )
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
