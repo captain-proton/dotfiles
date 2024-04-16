@@ -23,6 +23,8 @@
   - [[#nerd-commenter][Nerd Commenter]]
 - [[#company][Company]]
 - [[#dired][Dired]]
+  - [[#dired-open][Dired Open]]
+  - [[#preview][Preview]]
   - [[#dired-sidebar][Dired Sidebar]]
 - [[#emacs-gui-tweaks][Emacs GUI Tweaks]]
   - [[#zoom-inout][Zoom In/Out]]
@@ -675,6 +677,19 @@ Taken from [[https://company-mode.github.io/][company-mode]].
 Dired is the built-in file manager of emacs.
 
 #+begin_src emacs-lisp
+(use-package dired
+  :ensure nil
+  :config
+  ;; do not flood emacs opening new buffers with navigation in dired
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  )
+#+end_src
+
+** Dired Open
+
+Open files from dired using using custom actions.
+
+#+begin_src emacs-lisp
 (use-package dired-open
   :ensure t
   :after dired
@@ -684,6 +699,20 @@ Dired is the built-in file manager of emacs.
                                 ("png" . "sxiv")
                                 ("mkv" . "vlc")
                                 ("mp4" . "vlc"))))
+#+end_src
+
+** Preview
+
+Preview file contents in a small window when navigating the file tree using dired.
+
+#+begin_src emacs-lisp
+(use-package dired-preview
+  :ensure t
+  :config
+  ;; Enable `dired-preview-mode' in a given Dired buffer or do it
+  ;; globally:
+  (dired-preview-global-mode 1)
+  )
 #+end_src
 
 ** Dired Sidebar

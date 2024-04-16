@@ -449,6 +449,13 @@
   :diminish
   :hook (company-mode . company-box-mode))
 
+(use-package dired
+  :ensure nil
+  :config
+  ;; do not flood emacs opening new buffers with navigation in dired
+  (setq dired-kill-when-opening-new-dired-buffer t)
+  )
+
 (use-package dired-open
   :ensure t
   :after dired
@@ -458,6 +465,14 @@
                                 ("png" . "sxiv")
                                 ("mkv" . "vlc")
                                 ("mp4" . "vlc"))))
+
+(use-package dired-preview
+  :ensure t
+  :config
+  ;; Enable `dired-preview-mode' in a given Dired buffer or do it
+  ;; globally:
+  (dired-preview-global-mode 1)
+  )
 
 (use-package vscode-icon
   :ensure t
