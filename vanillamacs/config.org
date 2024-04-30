@@ -21,6 +21,7 @@
 - [[#evil-mode][Evil Mode]]
   - [[#evil-snipe][Evil Snipe]]
   - [[#nerd-commenter][Nerd Commenter]]
+- [[#yas-snippets][YAS Snippets]]
 - [[#company][Company]]
 - [[#dired][Dired]]
   - [[#dired-open][Dired Open]]
@@ -633,6 +634,18 @@ For example, you can press “99,ci” to comment out 99 lines.
   ("C-/" . evilnc-comment-operator)
   :config
   (evilnc-default-hotkeys))
+#+end_src
+
+* YAS Snippets
+
+In combination with lsp-mode, company requires yasnippet to be available.
+Take a look at the [[https://github.com/emacs-lsp/lsp-mode/issues/2913][github issue]].
+
+#+begin_src emacs-lisp
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  )
 #+end_src
 
 * Company
@@ -1536,6 +1549,9 @@ Take a look at [[https://langserver.org/][langserver.org]]
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
+  (general-evil-define-key '(insert) lsp-mode-map
+    "C-." 'company-capf
+    )
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")

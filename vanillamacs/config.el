@@ -422,6 +422,11 @@
   :config
   (evilnc-default-hotkeys))
 
+(use-package yasnippet
+  :init
+  (yas-global-mode 1)
+  )
+
 (use-package company
   :ensure t
   :diminish
@@ -1020,6 +1025,9 @@
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
+  (general-evil-define-key '(insert) lsp-mode-map
+    "C-." 'company-capf
+    )
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
