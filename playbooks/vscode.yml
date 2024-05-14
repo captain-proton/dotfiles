@@ -10,14 +10,17 @@
       present:
         - arcticicestudio.nord-visual-studio-code
         - coolbear.systemd-unit-file
-        - DotJoshJohnson.xml
+        - dotjoshjohnson.xml
+        - editorconfig.editorconfig
+        - gerane.theme-zenburn
         - jebbs.plantuml
         - jmreicha.tender
+        - matthewpi.caddyfile-support
         - mechatroner.rainbow-csv
         - mkhl.direnv
         - ms-azuretools.vscode-docker
-        - MS-CEINTL.vscode-language-pack-de
-        - ms-python.black-formatter
+        - ms-ceintl.vscode-language-pack-de
+        - ms-python.debugpy
         - ms-python.isort
         - ms-python.pylint
         - ms-python.python
@@ -33,26 +36,21 @@
         - njpwerner.autodocstring
         - psioniq.psi-header
         - redhat.ansible
-        - redhat.java
         - redhat.vscode-yaml
         - rust-lang.rust-analyzer
         - shuworks.vscode-table-formatter
         - stkb.rewrap
         - tamasfe.even-better-toml
-        - VisualStudioExptTeam.intellicode-api-usage-examples
-        - VisualStudioExptTeam.vscodeintellicode
+        - vadimcn.vscode-lldb
         - vscode-icons-team.vscode-icons
         - webfreak.debug
         - yzhang.markdown-all-in-one
 
       absent:
-        - gerane.Theme-Zenburn
-        - eamodio.gitlens
-        - vscjava.vscode-java-debug
-        - vscjava.vscode-java-dependency
-        - vscjava.vscode-java-pack
-        - vscjava.vscode-java-test
-        - vscjava.vscode-maven
+        - ms-python.black-formatter
+        - redhat.java
+        - VisualStudioExptTeam.intellicode-api-usage-examples
+        - VisualStudioExptTeam.vscodeintellicode
 
   tasks:
     - name: Install visual studio code from aur
