@@ -15,6 +15,7 @@
           - docker-compose
           - docker-rootless-extras
           - docker-credential-secretservice
+          - docker-buildx
         state: present
 
     - name: Enable docker.socket as systemd user unit
