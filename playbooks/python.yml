@@ -13,8 +13,14 @@
         - pdm
       changed_when: true
 
+    - name: Install pdm completions
+      ansible.builtin.shell:
+        cmd: "pdm completion zsh > {{ zsh_custom }}/plugins/pdm/_pdm"
+      changed_when: true
+
   vars:
-    home: "{{ lookup('env', 'HOME') }}"
+    default_zsh_custom: "{{ home }}/.oh-my-zsh/custom"
+    zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(default_zsh_custom, true) }}"
     __ipython_highlighting_style: "{{ ipython_highlighting_style | default('nord') }}"
     __ipython_true_color: "{{ ipython_true_color | default(True) }}"
 
@@ -61,3 +67,10 @@
         src: ../templates/ipython_config.py.j2
         dest: "{{ home }}/.ipython/profile_default/ipython_config.py"
         mode: "0640"
+
+    - name: Ensure pdm dir exists in oh-my-zsh plugins
+      ansible.builtin.file:
+        path: "{{ home }}/.oh-my-zsh/custom/plugins/pdm"
+        mode: "0750"
+        state: directory
+      notify: Install pdm completions
