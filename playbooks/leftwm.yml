@@ -102,6 +102,7 @@
         - pavucontrol
         - lxappearance
         - pkgconf
+        - qt6ct
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
@@ -152,7 +153,7 @@
       ansible.builtin.lineinfile:
         path: "{{ home }}/.xprofile"
         mode: "0644"
-        line: export QT_QPA_PLATFORMTHEME="qt5ct"
+        line: export QT_QPA_PLATFORMTHEME="qt6ct"
 
     - name: Stat of autorandr
       ansible.builtin.command:
