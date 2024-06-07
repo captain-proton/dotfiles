@@ -1,0 +1,53 @@
+---
+- name: "[ NERDCTL ]"
+  hosts: all
+
+  vars:
+    _containerd_config_path: "{{ nerdctl_containerd_config_path | default('/etc/containerd/config.toml') }}"
+
+  tasks:
+
+    - name: Ensure nerdctl is present
+      become: true
+      yay:
+        name:
+          - nerdctl-full-bin
+        state: present
+
+    - name: Get stat of /etc/containerd
+      ansible.builtin.stat:
+        path: /etc/containerd
+      register: containerd_dir
+
+    - name: Create containerd config dir
+      become: true
+      when: not containerd_dir.stat.exists
+      ansible.builtin.file:
+        path: /etc/containerd
+        state: directory
+        mode: "0755"
+      register: containerd_confdir_create
+
+    - name: Generate containerd default config
+      when: containerd_confdir_create.skipped is not defined or not containerd_confdir_create.skipped
+      ansible.builtin.command:
+        cmd: containerd config default
+      changed_when: true
+      register: nerdctl_config
+
+    - name: Write default config
+      become: true
+      when:
+        - nerdctl_config is defined
+        - nerdctl_config.stdout is defined
+      ansible.builtin.copy:
+        dest: /etc/containerd/config.toml
+        content: "{{ nerdctl_config.stdout }}"
+        mode: "0644"
+
+    - name: Ensure SystemdCgroup is set to true (SystemdCgroup is used once)
+      become: true
+      ansible.builtin.replace:
+        path: /etc/containerd/config.toml
+        regexp: '(SystemdCgroup\s*=\s*).*'
+        replace: 'SystemdCgroup = true'
