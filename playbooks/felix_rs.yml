@@ -1,0 +1,20 @@
+- name: "[ FELIX-RS ]"
+  hosts: all
+
+  tasks:
+    - name: Install felix file manager
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - felix-rs
+        - zathura
+        - chafa
+
+
+    - name: Configure felix
+      ansible.builtin.template:
+        src: ../templates/felix-rs.yml.j2
+        dest: "{{ home }}/.config/felix/config.yml"
+        mode: "0640"

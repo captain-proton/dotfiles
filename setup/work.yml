@@ -48,6 +48,7 @@
 - import_playbook: ../playbooks/zoxide.yml
 - import_playbook: ../playbooks/whois.yml
 - import_playbook: ../playbooks/nerdctl.yml
+- import_playbook: ../playbooks/felix_rs.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/chromium.yml
