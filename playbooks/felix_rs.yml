@@ -10,6 +10,7 @@
       loop:
         - felix-rs
         - zathura
+        - zathura-pdf-mupdf
         - chafa
 
     - name: Ensure felix config dir exists
