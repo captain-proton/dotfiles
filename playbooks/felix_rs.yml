@@ -12,6 +12,11 @@
         - zathura
         - chafa
 
+    - name: Ensure felix config dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/felix"
+        state: directory
+        mode: "0755"
 
     - name: Configure felix
       ansible.builtin.template:
