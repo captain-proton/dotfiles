@@ -26,8 +26,12 @@
     max_window_width: None,
     layouts: [
         "MainAndVertStack",
+        "CodingAndVertStack",
         "EvenVertical",
         "Monocle",
+    ],
+    layout_definitions: [
+        (name: "CodingAndVertStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.4, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
     ],
     layout_mode: Tag,
     insert_behavior: Bottom,
