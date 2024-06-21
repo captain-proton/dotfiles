@@ -53,8 +53,8 @@ return {
     { key = 'UpArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Up' },
     { key = 'DownArrow', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Down' },
 
-    { key = 'S', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
-    { key = 'V', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
+    { key = '-', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' }, },
+    { key = '|', mods = 'LEADER', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' }, },
     { key = 'h', mods = 'LEADER', action = act.ActivatePaneDirection 'Left', },
     { key = 'h', mods = 'SHIFT|CTRL', action = act.ActivatePaneDirection 'Left', },
     { key = 'j', mods = 'LEADER', action = act.ActivatePaneDirection 'Down', },
