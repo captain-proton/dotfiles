@@ -74,6 +74,7 @@
 - [[#templates][Templates]]
 - [[#tldr][Tldr]]
 - [[#transparency][Transparency]]
+- [[#treemacs][Treemacs]]
 - [[#tree-sitter][Tree Sitter]]
   - [[#auto-tree-sitter][Auto tree sitter]]
   - [[#folding][Folding]]
@@ -1041,8 +1042,8 @@ Not to mix up with =tab-bar=.
   (proton/leader-keys
     "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close current window")
-    "w v" '(evil-window-vsplit :wk "Split |")
-    "w h" '(evil-window-split :wk "Split -")
+    "w |" '(evil-window-vsplit :wk "Split left/right (|)")
+    "w -" '(evil-window-split :wk "Split top/bottom (-)")
     "w w" '(evil-window-next :wk "Next window")
     "w W" '(evil-window-prev :wk "Previous window")
     )
@@ -1797,6 +1798,49 @@ This requires emacs >= 29.
 
 #+begin_src emacs-lisp
 ;; (add-to-list 'default-frame-alist '(alpha-background . 95)) 
+#+end_src
+
+* Treemacs
+
+Open treemacs either using =M-x treemacs= or =LEADER o t=.
+Use =o= to toggle the open action for a node in treemacs.
+=o o= simply opens the node.
+=o |= splits the window left/right (|).
+=o -= splits the window top/bottom (-).
+This may be counter intuitive, because evil splits vertical in left/right.
+
+#+begin_src emacs-lisp
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (:map treemacs-mode-map
+        ("o -" . treemacs-visit-node-vertical-split)
+        ("o |" . treemacs-visit-node-horizontal-split)
+        )
+  :config
+  (proton/leader-keys
+    "o t" '(treemacs :wk "Treemacs file tree"))
+  (setq treemacs-width 40
+        )
+  )
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(use-package treemacs-perspective
+  :after (treemacs perspective)
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
 #+end_src
 
 * Tree Sitter

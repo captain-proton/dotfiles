@@ -678,8 +678,8 @@
   (proton/leader-keys
     "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close current window")
-    "w v" '(evil-window-vsplit :wk "Split |")
-    "w h" '(evil-window-split :wk "Split -")
+    "w |" '(evil-window-vsplit :wk "Split left/right (|)")
+    "w -" '(evil-window-split :wk "Split top/bottom (-)")
     "w w" '(evil-window-next :wk "Next window")
     "w W" '(evil-window-prev :wk "Previous window")
     )
@@ -1210,6 +1210,38 @@
   )
 
 ;; (add-to-list 'default-frame-alist '(alpha-background . 95))
+
+(use-package treemacs
+  :ensure t
+  :defer t
+  :bind
+  (:map treemacs-mode-map
+        ("o -" . treemacs-visit-node-vertical-split)
+        ("o |" . treemacs-visit-node-horizontal-split)
+        )
+  :config
+  (proton/leader-keys
+    "o t" '(treemacs :wk "Treemacs file tree"))
+  (setq treemacs-width 40
+        )
+  )
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
+
+(use-package treemacs-magit
+  :after (treemacs magit)
+  :ensure t)
+
+(use-package treemacs-perspective
+  :after (treemacs perspective)
+  :ensure t
+  :config (treemacs-set-scope-type 'Perspectives))
 
 (setq treesit-language-source-alist
    '((bash "https://github.com/tree-sitter/tree-sitter-bash")
