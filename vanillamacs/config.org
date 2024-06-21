@@ -1818,9 +1818,10 @@ This may be counter intuitive, because evil splits vertical in left/right.
         ("o -" . treemacs-visit-node-vertical-split)
         ("o |" . treemacs-visit-node-horizontal-split)
         )
-  :config
+  :general
   (proton/leader-keys
     "o t" '(treemacs :wk "Treemacs file tree"))
+  :config
   (setq treemacs-width 40
         )
   )
