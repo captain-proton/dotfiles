@@ -21,6 +21,7 @@
 - [[#evil-mode][Evil Mode]]
   - [[#evil-snipe][Evil Snipe]]
   - [[#nerd-commenter][Nerd Commenter]]
+  - [[#multiple-cursors][Multiple cursors]]
 - [[#yas-snippets][YAS Snippets]]
 - [[#company][Company]]
 - [[#dired][Dired]]
@@ -635,6 +636,23 @@ For example, you can press “99,ci” to comment out 99 lines.
   ("C-/" . evilnc-comment-operator)
   :config
   (evilnc-default-hotkeys))
+#+end_src
+
+** Multiple cursors
+
+There are two projects (perhaps more) that implement multiple cursors for emacs.
+The first one is [[https://github.com/magnars/multiple-cursors.el][multiple-cursors.el]] which is in use by the author.
+This project should be used in a standard emacs environment.
+In contrast to this project is [[https://github.com/gabesoft/evil-mc][evil-mc]].
+It does not look to be heavily maintained, but as a evil user it is installed here.
+
+#+begin_src emacs-lisp
+(use-package evil-mc
+  :ensure t
+  :after (evil general)
+  :init
+  (global-evil-mc-mode  1)
+  )
 #+end_src
 
 * YAS Snippets

@@ -422,6 +422,13 @@
   :config
   (evilnc-default-hotkeys))
 
+(use-package evil-mc
+  :ensure t
+  :after (evil general)
+  :init
+  (global-evil-mc-mode  1)
+  )
+
 (use-package yasnippet
   :init
   (yas-global-mode 1)
