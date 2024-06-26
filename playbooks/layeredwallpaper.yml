@@ -1,0 +1,59 @@
+- name: "[ LAYERED WALLPAPER ]"
+  hosts: all
+
+  vars:
+    _lwp_version: "{{ lwp_version | default('v2.1.1') }}"
+    _lwp_checksum: "{{ lwp_checksum | default('886da7f9df7e0076684cd6299def9f2a3fbc85e6d6262882d33f14a7df46d1b2') }}"
+    _default_download_url: "https://github.com/jszczerbinsky/lwp/releases/download/{{ _lwp_version }}/Layered.WallPaper-{{ _lwp_version }}-Linux-x86_64.tar.gz"
+    _lwp_download_url: "{{ lwp_download_url | default(_default_download_url) }}"
+    _default_lwp_path: "{{ home }}/.local/share/layeredwallpaper"
+    _lwp_path: "{{ lwp_path | default(_default_lwp_path) }}"
+
+  tasks:
+
+    - name: Ensure required software is installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - sdl2
+
+    - name: Create temp download location
+      ansible.builtin.tempfile:
+        prefix: lwp
+      register: _lwp_archive
+
+    - name: Download lwp archive
+      ansible.builtin.get_url:
+        url: "{{ _lwp_download_url }}"
+        dest: "{{ _lwp_archive.path }}"
+        mode: "0644"
+        checksum: "sha256:{{ _lwp_checksum }}"
+
+    - name: Ensure lwp path is present
+      become: true
+      ansible.builtin.file:
+        path: "{{ _lwp_path }}"
+        state: directory
+        owner: "{{ ansible_facts.user_id }}"
+        mode: "0755"
+
+    - name: Extract lwp contents
+      ansible.builtin.unarchive:
+        src: "{{ _lwp_archive.path }}"
+        dest: "{{ _lwp_path }}"
+        owner: "{{ ansible_facts.user_id }}"
+
+    - name: Add lwp binary paths to shell PATH
+      ansible.builtin.lineinfile:
+        path: "{{ path_file_path }}"
+        line: "export PATH={{ item }}:$PATH"
+      loop:
+        - "{{ _lwp_path }}/bin"
+
+    - name: Configure LWP_PREFIX environment variable
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.zprofile"
+        line: "export LWP_PREFIX={{ _lwp_path }}"
+        state: present
