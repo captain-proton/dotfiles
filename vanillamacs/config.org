@@ -64,6 +64,7 @@
   - [[#babel][Babel]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
+  - [[#kanban][Kanban]]
 - [[#lsp][LSP]]
   - [[#lsp-mode][LSP-Mode]]
   - [[#ansible][Ansible]]
@@ -1372,11 +1373,25 @@ git-timemachine is a program that allows you to move backwards and forwards thro
   (proton/leader-keys
     "m" '(:ignore t :wk "Org")
     "m e" '(org-edit-special :wk "Org edit special")
+    "m t" '(org-todo :wk "Org todo")
     )
   :config
   ;; This is considered highly unsafe!
   ;; But confirm again and again does lead to the same issue
   (setq org-confirm-babel-evaluate nil)
+  (setq org-log-done 'time
+        org-todo-keywords
+        '((sequence
+           "DOING(o)"           ; Things that are currently in work (work in progress)
+           "TODO(t)"            ; Backlog items in kanban that should be executed
+           "WAIT(w)"            ; A task that can not be set as DOING
+           "|"                  ; Separate active and inactive items
+           "DONE(d)"            ; Finished work ... yeah
+           "CANCELLED(c@)"))    ; Cancelled things :(
+        org-todo-repeat-to-state "TODO"
+        org-ellipsis " ▾"
+        org-hide-emphasis-markers t
+        org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
   )
 #+end_src
 
@@ -1543,6 +1558,18 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 
 #+begin_src emacs-lisp
 (setq org-src-preserve-indentation t)
+#+end_src
+
+** Kanban
+
+=org-kanban= ([[https://github.com/gizmomogwai/org-kanban][github]]) allows the creation of kanban boards in org documents.
+Headers are used as card descriptions.
+Create a new board for example using =M-x org-kanban/initialize-at-end=.
+
+#+begin_src emacs-lisp
+(use-package org-kanban
+  :ensure t
+  )
 #+end_src
 
 * LSP

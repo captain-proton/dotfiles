@@ -892,11 +892,25 @@
   (proton/leader-keys
     "m" '(:ignore t :wk "Org")
     "m e" '(org-edit-special :wk "Org edit special")
+    "m t" '(org-todo :wk "Org todo")
     )
   :config
   ;; This is considered highly unsafe!
   ;; But confirm again and again does lead to the same issue
   (setq org-confirm-babel-evaluate nil)
+  (setq org-log-done 'time
+        org-todo-keywords
+        '((sequence
+           "DOING(o)"           ; Things that are currently in work (work in progress)
+           "TODO(t)"            ; Backlog items in kanban that should be executed
+           "WAIT(w)"            ; A task that can not be set as DOING
+           "|"                  ; Separate active and inactive items
+           "DONE(d)"            ; Finished work ... yeah
+           "CANCELLED(c@)"))    ; Cancelled things :(
+        org-todo-repeat-to-state "TODO"
+        org-ellipsis " ▾"
+        org-hide-emphasis-markers t
+        org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
   )
 
 (defvar proton/org-notes-dir (file-truename "~/Org/notes")
@@ -1021,6 +1035,10 @@
   (add-hook 'org-mode-hook 'proton/org-colors-nord))
 
 (setq org-src-preserve-indentation t)
+
+(use-package org-kanban
+  :ensure t
+  )
 
 (use-package lsp-mode
   :ensure t
