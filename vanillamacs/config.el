@@ -1092,7 +1092,9 @@
   )
 
 (use-package ansible
-  :ensure t
+  :ensure (:host gitlab
+           :repo "emacs-ansible/emacs-ansible"
+           :ref "b056f75f")
   :hook ((yaml-ts-mode . ansible)
          (ansible . ansible-auto-decrypt-encrypt))
   :config

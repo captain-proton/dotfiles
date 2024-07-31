@@ -1641,9 +1641,15 @@ Take a look at [[https://langserver.org/][langserver.org]]
 
 ** Ansible
 
+Development of emacs ansible module has moved to [[https://gitlab.com/emacs-ansible/emacs-ansible][gitlab]].
+Due to the latest changes, encrypt and decrypt using a password file no longer seems to work.
+Take a look at the issues [[https://gitlab.com/emacs-ansible/emacs-ansible/-/issues/2][2]] and [[https://gitlab.com/emacs-ansible/emacs-ansible/-/issues/3][3]].
+
 #+begin_src emacs-lisp
 (use-package ansible
-  :ensure t
+  :ensure (:host gitlab
+           :repo "emacs-ansible/emacs-ansible"
+           :ref "b056f75f")
   :hook ((yaml-ts-mode . ansible)
          (ansible . ansible-auto-decrypt-encrypt))
   :config
