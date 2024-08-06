@@ -29,6 +29,10 @@
   "config.org"
   proton/config-directory))
 
+;; Load custom variables and stuff from custom file
+;; Keeps init.el clean
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
 
 (provide 'init)
 ;;; init.el ends here
