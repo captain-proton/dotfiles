@@ -385,6 +385,28 @@ click-left = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh togmute
 scroll-up = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --volume-max 130 up
 scroll-down = ~/.config/leftwm/themes/current/utils/pulseaudio-control.sh --volume-max 130 down
 
+[module/pipewire-control]
+type = custom/script
+tail = true
+format-prefix = "󰖀 "
+format-prefix-foreground = #BF616A
+;format = %{+o} <label> %{-o}
+format = <label>
+; format-underline = ${colors.cyan}
+label-padding = 0
+label-foreground = ${color.foreground}
+
+# Icons mixed from Font Awesome 5 and Material Icons
+# You can copy-paste your options for each possible action, which is more
+# trouble-free but repetitive, or apply only the relevant ones (for example
+# --sink-blacklist is only needed for next-sink).
+exec = ~/.config/leftwm/themes/current/utils/pipewire-control.sh --format '$VOL_ICON ${VOL_LEVEL}%' listen
+click-right = exec easyeffects &
+click-left = ~/.config/leftwm/themes/current/utils/pipewire-control.sh togmute
+; click-middle = ~/.config/leftwm/themes/current/utils/pipewire-control.sh --sink-blacklist "alsa_output.pci-0000_01_00.1.hdmi-stereo-extra2" next-sink
+scroll-up = ~/.config/leftwm/themes/current/utils/pipewire-control.sh --volume-max 130 up
+scroll-down = ~/.config/leftwm/themes/current/utils/pipewire-control.sh --volume-max 130 down
+
 
 [module/spacer]
 type = custom/text
