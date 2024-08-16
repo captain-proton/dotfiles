@@ -48,7 +48,7 @@
             marker: "# {mark} ANSIBLE MANAGED BLOCK"
             block: |
               [Desktop Entry]
-              Exec={{ _httpie_default_appimage_dest }}
+              Exec={{ _httpie_appimage_dest }}
               Name=HTTPie
               Icon={{ _httpie_icon_path }}
               Type=Application
