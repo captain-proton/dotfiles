@@ -80,3 +80,5 @@ qutebrowser_kp_gpg_key: "{{ local_qutebrowser_kp_gpg_key | default(False) }}"
 
 # Define the path where ollama stores its downloaded models
 ollama_model_store: "{{ local_ollama_model_store }}"
+
+httpie_appimage_dest: "{{ local_httpie_appimage_dest }}"
