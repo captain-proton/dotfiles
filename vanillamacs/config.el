@@ -1056,7 +1056,7 @@
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
-    "c c" '(evilnc-comment-operator :wk "Recompile")
+    "c c" '(evilnc-comment-or-uncomment-lines :wk "Comment")
     "c r" '(recompile :wk "Recompile")
     "c f" '(lsp-format-region :wk "Format region")
     "c F" '(lsp-format-buffer :wk "Format buffer")
