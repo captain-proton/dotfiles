@@ -29,9 +29,14 @@
         "CodingAndVertStack",
         "EvenVertical",
         "Monocle",
+        "CenterMainFluid"
     ],
     layout_definitions: [
+        (name: "MainAndVertStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.5, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
         (name: "CodingAndVertStack", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: (count: 1, size: 0.4, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
+        (name: "EvenVertical", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: Horizontal), second_stack: None)),
+        (name: "Monocle", flip: None, rotate: North, reserve: None, columns: (flip: None, rotate: North, main: None, stack: (flip: None, rotate: North, split: None), second_stack: None)),
+        (name: "CenterMainFluid", flip: None, rotate: North, reserve: Reserve, columns: (flip: None, rotate: North, main: (count: 1, size: 0.6, flip: None, rotate: North, split: Vertical), stack: (flip: None, rotate: North, split: None), second_stack: (flip: None, rotate: North, split: Horizontal)))
     ],
     layout_mode: Tag,
     insert_behavior: Bottom,
