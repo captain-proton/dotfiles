@@ -31,7 +31,6 @@
 - import_playbook: ../playbooks/rofi.yml
 - import_playbook: ../playbooks/picom.yml
 - import_playbook: ../playbooks/gnome_keyring.yml
-- import_playbook: ../playbooks/firewall.yml
 - import_playbook: ../playbooks/magic-wormhole.yml
 - import_playbook: ../playbooks/redshift.yml
 - import_playbook: ../playbooks/dust.yml

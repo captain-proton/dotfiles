@@ -33,7 +33,6 @@
 - import_playbook: ../playbooks/gnome_keyring.yml
 - import_playbook: ../playbooks/minikube.yml
 - import_playbook: ../playbooks/autorandr.yml
-- import_playbook: ../playbooks/firewall.yml
 - import_playbook: ../playbooks/magic-wormhole.yml
 - import_playbook: ../playbooks/goss.yml
 - import_playbook: ../playbooks/dive.yml
