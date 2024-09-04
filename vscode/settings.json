@@ -27,6 +27,9 @@
     "diffEditor.ignoreTrimWhitespace": false,
     "terminal.integrated.fontFamily": "JetBrainsMono NF",
     "terminal.integrated.fontWeight": "300",
+    "vim.handleKeys": {
+        "<C-p>": false
+    },
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",
     "[python]": {

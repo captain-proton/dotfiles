@@ -11,12 +11,14 @@
         - arcticicestudio.nord-visual-studio-code
         - coolbear.systemd-unit-file
         - dotjoshjohnson.xml
+        - eamodio.gitlens
         - editorconfig.editorconfig
         - gerane.theme-zenburn
         - jebbs.plantuml
         - jmreicha.tender
         - matthewpi.caddyfile-support
         - mechatroner.rainbow-csv
+        - mhutchie.git-graph
         - mkhl.direnv
         - ms-azuretools.vscode-docker
         - ms-ceintl.vscode-language-pack-de
@@ -43,14 +45,11 @@
         - tamasfe.even-better-toml
         - vadimcn.vscode-lldb
         - vscode-icons-team.vscode-icons
+        - vscodevim.vim
         - webfreak.debug
         - yzhang.markdown-all-in-one
 
-      absent:
-        - ms-python.black-formatter
-        - redhat.java
-        - VisualStudioExptTeam.intellicode-api-usage-examples
-        - VisualStudioExptTeam.vscodeintellicode
+      absent: []
 
   tasks:
     - name: Install visual studio code from aur
