@@ -5,6 +5,20 @@
   vars:
     docker_config: "{{ home }}/.docker/config.json"
 
+  handlers:
+    - name: Enable and start docker user service
+      ansible.builtin.systemd:
+        name: docker.service
+        scope: user
+        state: started
+        enabled: true
+
+    - name: Restart docker user service
+      ansible.builtin.systemd:
+        name: docker.service
+        scope: user
+        state: restarted
+
   tasks:
 
     - name: Ensure docker rootless is present
@@ -18,12 +32,18 @@
           - docker-buildx
         state: present
 
-    - name: Enable docker.socket as systemd user unit
-      ansible.builtin.systemd:
-        name: docker.socket
-        scope: user
-        state: started
-        enabled: true
+    - name: Configure subuid and subgid
+      become: true
+      ansible.builtin.lineinfile:
+        path: "{{ item.path }}"
+        line: "{{ item.line }}"
+        create: true
+        mode: "0644"
+      loop:
+        - path: /etc/subuid
+          line: "{{ ansible_user_id }}:165536:65536"
+        - path: /etc/subgid
+          line: "{{ ansible_user_id }}:165536:65536"
 
     - name: Configure DOCKER_HOST environment variable
       ansible.builtin.lineinfile:
@@ -36,8 +56,15 @@
         path: "{{ docker_config }}"
       register: docker_conf
 
+    - name: Ensure required directory does exist
+      ansible.builtin.file:
+        path: "{{ home }}/.docker"
+        state: directory
+        mode: "0750"
+
     - name: Create new docker config
       when: not docker_conf.stat.exists
+      notify: Enable and start docker user service
       ansible.builtin.copy:
         dest: "{{ home }}/.docker/config.json"
         mode: "0640"
@@ -47,6 +74,7 @@
           }
 
     - name: Update existing docker config
+      notify: Restart docker user service
       when: docker_conf.stat.exists
       block:
 
