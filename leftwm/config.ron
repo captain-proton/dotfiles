@@ -52,7 +52,7 @@
     disable_window_snap: true,
     focus_behaviour: Sloppy,
     focus_new_windows: false,
-    sloppy_mouse_follows_focus: true,
+    sloppy_mouse_follows_focus: false,
     keybind: [
         (command: Execute, value: "rofi -show drun -theme ~/.config/rofi/launcher/launcher.rasi", modifier: ["modkey"], key: "p"),
         (command: Execute, value: "cd ~/.config/rofi/powermenu && ./powermenu.sh", modifier: ["modkey"], key: "q"),
