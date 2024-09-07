@@ -28,7 +28,9 @@
     "terminal.integrated.fontFamily": "JetBrainsMono NF",
     "terminal.integrated.fontWeight": "300",
     "vim.handleKeys": {
-        "<C-p>": false
+        "<C-p>": false,
+        "<C-n>": false,
+        "<C-w>": false
     },
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",
@@ -36,4 +38,5 @@
         "editor.formatOnType": true,
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
+    "makefile.configureOnOpen": false,
 }
