@@ -1,0 +1,40 @@
+---
+- name: "[ YAZI FILE MANAGER ]"
+  hosts: all
+
+  tasks:
+
+    - name: Install yazi file manager
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - yazi
+        - ffmpegthumbnailer
+        - p7zip
+        - jq
+        - poppler
+        - fd
+        - ripgrep
+        - fzf
+        - zoxide
+        - imagemagick
+
+    - name: Make sure yazi config dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/yazi"
+        state: directory
+        mode: "0750"
+
+    - name: Copy yazi config
+      ansible.builtin.template:
+        src: ../templates/yazi.toml.j2
+        dest: "{{ home }}/.config/yazi/yazi.toml"
+        mode: "0750"
+
+    - name: Copy yazi keymap
+      ansible.builtin.template:
+        src: ../templates/yazi.keymap.toml.j2
+        dest: "{{ home }}/.config/yazi/keymap.toml"
+        mode: "0750"
