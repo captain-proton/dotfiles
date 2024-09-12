@@ -83,7 +83,7 @@
         - Copy leftwm.desktop to xsessions
         - Clear leftwm build dir
 
-    - name: Install leftwm utils
+    - name: Install additional twm utils
       become: true
       yay:
         name: "{{ item }}"
@@ -100,6 +100,7 @@
         - lxappearance
         - pkgconf
         - qt6ct
+        - udiskie
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:

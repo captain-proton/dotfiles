@@ -43,6 +43,7 @@ nm-applet &
 pamac-tray &
 numlockx on &
 /usr/lib/polkit-kde-authentication-agent-1 &
+udiskie --tray &
 "$SCRIPTPATH"/utils/polybar.sh
 
 # [ ADJUST DISPLAY COLOR ]
