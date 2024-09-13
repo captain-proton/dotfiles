@@ -100,7 +100,6 @@
         - lxappearance
         - pkgconf
         - qt6ct
-        - udiskie
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
@@ -177,3 +176,13 @@
             content: |-
               #!/usr/bin/env bash
               leftwm-command SoftReload
+
+    - name: Configure udiskie autostart
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/autostart/udiskie.desktop"
+        content: |-
+          [Desktop Entry]
+          Exec=udiskie --tray
+          Name=Start udiskie
+          Type=Application
+        mode: "0644"
