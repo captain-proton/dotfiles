@@ -103,7 +103,7 @@
     - name: Check vagrant plugin vagrant-libvirt
       ansible.builtin.debug:
         msg: "vagrant-libvirt plugin not present"
-      when: '"vagrant-libvirt" not in vagrant_plugins.stdout'
+      changed_when: '"vagrant-libvirt" not in vagrant_plugins.stdout'
       notify: Install libvirt vagrant plugin
 
     - name: Check vagrant plugin vagrant-dns
