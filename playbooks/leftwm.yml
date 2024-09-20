@@ -186,3 +186,10 @@
           Name=Start udiskie
           Type=Application
         mode: "0644"
+
+    - name: Enable and start plasma-polkit-agent
+      ansible.builtin.systemd:
+        name: plasma-polkit-agent
+        scope: user
+        enabled: true
+        state: started
