@@ -182,7 +182,7 @@
         dest: "{{ home }}/.config/autostart/udiskie.desktop"
         content: |-
           [Desktop Entry]
-          Exec=udiskie --tray
+          Exec=udiskie --tray --no-automount
           Name=Start udiskie
           Type=Application
         mode: "0644"
