@@ -1,0 +1,6 @@
+git:
+    paging:
+        colorArg: always
+        {% if __lazygit_side_by_side -%}
+        pager: delta --dark --paging=never --syntax-theme base16-256 -s
+        {%- endif %}

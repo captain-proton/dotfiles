@@ -42,6 +42,7 @@
 - import_playbook: ../playbooks/zoxide.yml
 - import_playbook: ../playbooks/whois.yml
 - import_playbook: ../playbooks/yazi.yml
+- import_playbook: ../playbooks/lazygit.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/brave-browser.yml

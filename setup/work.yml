@@ -48,6 +48,7 @@
 - import_playbook: ../playbooks/whois.yml
 - import_playbook: ../playbooks/nerdctl.yml
 - import_playbook: ../playbooks/yazi.yml
+- import_playbook: ../playbooks/lazygit.yml
 
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/chromium.yml
