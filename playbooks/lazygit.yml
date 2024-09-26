@@ -15,6 +15,7 @@
         state: present
       loop:
         - lazygit
+        - git-delta
 
     - name: Create lazygit config dir
       ansible.builtin.file:
