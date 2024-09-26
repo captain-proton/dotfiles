@@ -18,6 +18,7 @@ plugins=(git
   archlinux
   alias-finder
   pdm
+  docker
 )
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
