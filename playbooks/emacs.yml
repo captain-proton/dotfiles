@@ -121,6 +121,12 @@
         state: directory
         mode: "750"
 
+    - name: Copy emacs icons
+      ansible.builtin.copy:
+        src: "{{ home }}/dotfiles/vanillamacs/emacs.png"
+        dest: "{{ home }}/.icons/emacs.png"
+        mode: "0644"
+
     - name: Ensure vanillamacs early-init.el is linked
       ansible.builtin.file:
         src: "{{ home }}/dotfiles/vanillamacs/{{ item }}"
