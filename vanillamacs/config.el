@@ -435,7 +435,7 @@
   )
 
 (use-package company
-  :ensure t
+  :ensure (:tag "0.10.2")
   :diminish
   :custom
   (company-minimum-prefix-length 1)
