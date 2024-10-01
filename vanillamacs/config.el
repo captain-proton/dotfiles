@@ -132,7 +132,7 @@
    "h k" '(describe-key :wk "Describe key")
    "h K" '(describe-keymap :wk "Describe keymap")
    "h m" '(describe-mode :wk "Describe mode")
-   "h p" '(describe-package :wk "Describe package")
+   "h p" '(elpaca-info :wk "Describe package")
    "h v" '(describe-variable :wk "Describe variable")
    )
 
