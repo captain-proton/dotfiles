@@ -43,6 +43,7 @@ nm-applet &
 pamac-tray &
 numlockx on &
 "$SCRIPTPATH"/utils/polybar.sh
+/usr/lib/polkit-kde-authentication-agent-1 &
 
 # [ ADJUST DISPLAY COLOR ]
 systemctl --user start redshift-gtk.service
