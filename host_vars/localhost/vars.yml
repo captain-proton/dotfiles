@@ -44,7 +44,7 @@ poetry_update: false
 # Contains a list of all aliases that should be
 # set inside $HOME/.aliases . All aliases are set using
 # the form "alias <name>='<value>'"
-aliases: []
+aliases: "{{ local_aliases | default([]) }}"
 # - name: ll
 #   value: ls -l
 # - name: la

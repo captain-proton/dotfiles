@@ -7,6 +7,8 @@
     default_zsh_custom: "{{ home }}/.oh-my-zsh/custom"
     zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(default_zsh_custom, true) }}"
     dotfiles_path: "{{ home }}/dotfiles"
+    aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
+
 
   tasks:
     - name: See if dotfiles exists
@@ -119,3 +121,11 @@
         path: "{{ home }}/.zprofile"
         state: touch
         mode: "0640"
+
+    - name: Add some aliases
+      ansible.builtin.lineinfile:
+        path: "{{ aliases_path }}"
+        line: "alias {{ item.alias }}=\"{{ item.cmd }}\""
+      loop:
+        - alias: sshl
+          cmd: grep -P \"^Host ([^*]+)$\" $HOME/.ssh/config | sed 's/Host //' | sort
