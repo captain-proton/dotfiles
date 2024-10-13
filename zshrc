@@ -19,6 +19,7 @@ plugins=(git
   alias-finder
   pdm
   docker
+  ssh
 )
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
