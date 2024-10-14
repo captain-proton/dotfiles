@@ -893,6 +893,7 @@
     "m" '(:ignore t :wk "Org")
     "m e" '(org-edit-special :wk "Org edit special")
     "m t" '(org-todo :wk "Org todo")
+    "m s" '(org-sort :wk "Org sort")
     )
   :config
   ;; This is considered highly unsafe!
@@ -1219,6 +1220,8 @@
    "t" '(:ignore t :wk "Templates")
    "t c" '(tempel-complete :wk "Complete")
    "t i" '(tempel-insert :wk "Insert")
+   "t d" '(tempel-done :wk "Done")
+   "t n" '(tempel-next :wk "Next")
    )
 )
 
