@@ -1300,35 +1300,11 @@ Consult provides search and navigation commands based on the Emacs completion fu
 
 ** Magit
 
-At the time of writing magit depends on =transient= and =seq gte 2.24=.
-Emacs comes with seq 2.23 built-in.
-Take a look at the github issues [[https://github.com/progfolio/elpaca/issues/216][216]] and [[https://github.com/progfolio/elpaca/issues/219][219]].
-
-#+begin_src emacs-lisp
-(defun +elpaca-unload-seq (e)
-  (and (featurep 'seq) (unload-feature 'seq t))
-  (elpaca--continue-build e))
-
-;; You could embed this code directly in the reicpe, I just abstracted it into a function.
-(defun +elpaca-seq-build-steps ()
-  (append (butlast (if (file-exists-p (expand-file-name "seq" elpaca-builds-directory))
-                       elpaca--pre-built-steps elpaca-build-steps))
-          (list '+elpaca-unload-seq 'elpaca--activate-package)))
-
-(use-package seq
-  :ensure `(seq :build ,(+elpaca-seq-build-steps)))
-
-(use-package transient
-  :ensure (:host github :repo "magit/transient")
-  )
-#+end_src
-
 The git client for emacs.
 
 #+begin_src emacs-lisp
 (use-package magit
   :ensure t
-  :after (seq transient)
   :init
   ;; Do not call on :config as this block
   ;; is executed after opening magit
