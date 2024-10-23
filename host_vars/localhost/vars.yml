@@ -81,4 +81,10 @@ qutebrowser_kp_gpg_key: "{{ local_qutebrowser_kp_gpg_key | default(False) }}"
 # Define the path where ollama stores its downloaded models
 ollama_model_store: "{{ local_ollama_model_store }}"
 
+# Where to store the httpie.AppImage file
 httpie_appimage_dest: "{{ local_httpie_appimage_dest }}"
+
+# Configure keyring that is used inside vs code
+# that is used to store secrets.
+# https://code.visualstudio.com/docs/editor/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
+vscode_password_store: kwallet5

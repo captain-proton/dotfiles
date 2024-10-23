@@ -50,6 +50,7 @@
         - yzhang.markdown-all-in-one
 
       absent: []
+    __vscode_password_store: "{{ vscode_password_store | default(omit) }}"
 
   tasks:
     - name: Install visual studio code from aur
@@ -112,3 +113,9 @@
         path: "{{ vscode_user_settings_file }}"
         src: "{{ home }}/dotfiles/vscode/settings.json"
         state: link
+
+    - name: Create custom desktop file
+      ansible.builtin.template:
+        src: ../templates/vscode.desktop.j2
+        dest: "{{ home }}/.local/share/applications/vscode.desktop"
+        mode: "0644"

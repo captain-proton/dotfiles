@@ -1,0 +1,28 @@
+# ANSIBLE MANAGED
+
+[Desktop Entry]
+Name=Custom VS Code
+Comment=Code Editing. Redefined.
+GenericName=Text Editor
+{% if vscode_password_store is defined %}
+Exec=/usr/bin/code --password-store="{{ __vscode_password_store }}" %F
+{% else %}
+Exec=/usr/bin/code %F
+{% endif %}
+Icon=visual-studio-code
+Type=Application
+StartupNotify=false
+StartupWMClass=Code
+Categories=TextEditor;Development;IDE;
+MimeType=application/x-code-workspace;
+Actions=new-empty-window;
+Keywords=vscode;
+
+[Desktop Action new-empty-window]
+Name=Neues leeres Fenster
+{% if vscode_password_store is defined %}
+Exec=/usr/bin/code --password-store="{{ __vscode_password_store }}" --new-window %F
+{% else %}
+Exec=/usr/bin/code --new-window %F
+{% endif %}
+Icon=visual-studio-code
