@@ -9,6 +9,7 @@
     extensions:
       present:
         - arcticicestudio.nord-visual-studio-code
+        - codeium.codeium
         - coolbear.systemd-unit-file
         - dotjoshjohnson.xml
         - eamodio.gitlens
