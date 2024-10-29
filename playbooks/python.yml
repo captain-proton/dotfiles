@@ -5,17 +5,16 @@
 
   handlers:
     - name: Install python packaging utils
-      become: true
       ansible.builtin.command:
         cmd: "pipx install --force {{ item }}"
       loop:
-        - poetry
         - pdm
       changed_when: true
 
     - name: Install pdm completions
       ansible.builtin.shell:
-        cmd: "pdm completion zsh > {{ zsh_custom }}/plugins/pdm/_pdm"
+        # use full path, pdm may not be present inside $PATH yet
+        cmd: "{{ home}}/.local/bin/pdm completion zsh > {{ zsh_custom }}/plugins/pdm/_pdm"
       changed_when: true
 
   vars:
@@ -34,6 +33,7 @@
       loop:
         - python
         - ipython
+        - tk
         - ruff
         - ruff-lsp
         - python-debugpy
@@ -73,4 +73,6 @@
         path: "{{ home }}/.oh-my-zsh/custom/plugins/pdm"
         mode: "0750"
         state: directory
-      notify: Install pdm completions
+      notify:
+        - Install python packaging utils
+        - Install pdm completions

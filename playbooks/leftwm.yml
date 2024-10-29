@@ -99,7 +99,6 @@
         - pavucontrol
         - lxappearance
         - pkgconf
-        - qt6ct
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:

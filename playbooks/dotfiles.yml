@@ -122,10 +122,18 @@
         state: touch
         mode: "0640"
 
+    - name: Ensure local applications folder is present
+      ansible.builtin.file:
+        path: "{{ home }}/.local/share/applications"
+        state: directory
+        mode: "0755"
+
     - name: Add some aliases
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
         line: "alias {{ item.alias }}=\"{{ item.cmd }}\""
+        create: true
+        mode: "0640"
       loop:
         - alias: sshl
           cmd: grep -P \"^Host ([^*]+)$\" $HOME/.ssh/config | sed 's/Host //' | sort
