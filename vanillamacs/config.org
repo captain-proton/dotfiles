@@ -56,6 +56,7 @@
 - [[#marginalia][Marginalia]]
 - [[#embark][Embark]]
 - [[#git][Git]]
+  - [[#transient][Transient]]
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
 - [[#org-mode][Org Mode]]
@@ -1298,6 +1299,17 @@ Consult provides search and navigation commands based on the Emacs completion fu
 
 * Git
 
+** Transient
+
+Provides keyboard-driven "menus" inside magit.
+There is also a built-in transient package which has nothing in common with this one.
+
+#+begin_src emacs-lisp
+(use-package transient
+  :ensure t
+  )
+#+end_src
+
 ** Magit
 
 The git client for emacs.
@@ -1305,6 +1317,7 @@ The git client for emacs.
 #+begin_src emacs-lisp
 (use-package magit
   :ensure t
+  :after (transient)
   :init
   ;; Do not call on :config as this block
   ;; is executed after opening magit

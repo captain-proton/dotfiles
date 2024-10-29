@@ -838,8 +838,13 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
+(use-package transient
+  :ensure t
+  )
+
 (use-package magit
   :ensure t
+  :after (transient)
   :init
   ;; Do not call on :config as this block
   ;; is executed after opening magit
