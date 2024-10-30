@@ -9,7 +9,6 @@
     extensions:
       present:
         - arcticicestudio.nord-visual-studio-code
-        - codeium.codeium
         - coolbear.systemd-unit-file
         - dotjoshjohnson.xml
         - eamodio.gitlens
@@ -50,7 +49,8 @@
         - webfreak.debug
         - yzhang.markdown-all-in-one
 
-      absent: []
+      absent:
+        - codeium.codeium
     __vscode_password_store: "{{ vscode_password_store | default(omit) }}"
 
   tasks:
