@@ -17,7 +17,6 @@
         - qutebrowser
         - python-pynacl
         - python-adblock
-        - qt5-webengine-widevine
 
     - name: Ensure theme is present
       ansible.builtin.git:
