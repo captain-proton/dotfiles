@@ -83,6 +83,32 @@
         - Copy leftwm.desktop to xsessions
         - Clear leftwm build dir
 
+    - name: Kvantum theming
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - kvantum
+        - kvantum-manjaro
+        - kvantum-qt5
+        - kvantum-theme-matcha
+        - kvantum-theme-materia
+
+    - name: Ensure kvantum config dir is present
+      ansible.builtin.file:
+        path: "{{ home }}/.config/Kvantum"
+        state: directory
+        mode: "0755"
+
+    - name: Set Kvantum theme
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/Kvantum/kvantum.kvconfig"
+        mode: "0644"
+        content: |
+          [General]
+          theme=Matcha-Dark
+
     - name: Install additional twm utils
       become: true
       yay:
@@ -135,21 +161,28 @@
         dest: "{{ global_up_path }}"
         state: link
 
+    - name: Ensure xdg desktop portal service directory is present
+      ansible.builtin.file:
+        dest: "{{ home }}"
+        state: directory
+        mode: "0755"
+
     - name: Pretend that LeftWM is KDE to get proper theme
-      ansible.builtin.blockinfile:
-        create: true
-        path: "{{ home }}/.xprofile"
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/systemd/user/xdg-desktop-portal.service.d/override.conf"
         mode: "0644"
-        marker: "# {mark} LEFTWM CONF USING ANSIBLE"
-        block: |
-          if [ "$XDG_CURRENT_DESKTOP" = "LeftWM" ]; then
-              export XDG_CURRENT_DESKTOP="KDE"
-          fi
-    - name: Set QT_QPA_PLATFORMTHEME
+        content: |
+          [Service]
+          Environment="XDG_CURRENT_DESKTOP=KDE"
+
+    - name: Set theme/style env vars
       ansible.builtin.lineinfile:
         path: "{{ home }}/.xprofile"
         mode: "0644"
-        line: export QT_QPA_PLATFORMTHEME="qt6ct"
+        line: "{{ item }}"
+      loop:
+        - export QT_QPA_PLATFORMTHEME="qt6ct"
+        - export QT_STYLE_OVERRIDE="kvantum"
 
     - name: Stat of autorandr
       ansible.builtin.command:
