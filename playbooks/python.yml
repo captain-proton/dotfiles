@@ -9,12 +9,13 @@
         cmd: "pipx install --force {{ item }}"
       loop:
         - pdm
+        - poetry
       changed_when: true
 
     - name: Install pdm completions
       ansible.builtin.shell:
         # use full path, pdm may not be present inside $PATH yet
-        cmd: "{{ home}}/.local/bin/pdm completion zsh > {{ zsh_custom }}/plugins/pdm/_pdm"
+        cmd: "{{ home }}/.local/bin/pdm completion zsh > {{ zsh_custom }}/plugins/pdm/_pdm"
       changed_when: true
 
   vars:
