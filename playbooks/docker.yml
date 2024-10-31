@@ -1,94 +1,27 @@
 ---
 - name: "[ DOCKER ]"
+  become: true
   hosts: all
-
-  vars:
-    docker_config: "{{ home }}/.docker/config.json"
-
-  handlers:
-    - name: Enable and start docker user service
-      ansible.builtin.systemd:
-        name: docker.service
-        scope: user
-        state: started
-        enabled: true
-
-    - name: Restart docker user service
-      ansible.builtin.systemd:
-        name: docker.service
-        scope: user
-        state: restarted
 
   tasks:
 
-    - name: Ensure docker rootless is present
+    - name: Ensure docker is present
       become: true
-      yay:
+      community.general.pacman:
         name:
           - docker
           - docker-compose
-          - docker-rootless-extras
-          - docker-credential-secretservice
           - docker-buildx
         state: present
 
-    - name: Configure subuid and subgid
-      become: true
-      ansible.builtin.lineinfile:
-        path: "{{ item.path }}"
-        line: "{{ item.line }}"
-        create: true
-        mode: "0644"
-      loop:
-        - path: /etc/subuid
-          line: "{{ ansible_user_id }}:165536:65536"
-        - path: /etc/subgid
-          line: "{{ ansible_user_id }}:165536:65536"
+    - name: Docker should not be started by default
+      ansible.builtin.systemd_service:
+        name: docker.service
+        state: stopped
+        enabled: false
 
-    - name: Configure DOCKER_HOST environment variable
-      ansible.builtin.lineinfile:
-        path: "{{ home }}/.zprofile"
-        line: export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
-        state: present
-
-    - name: Load stats for local docker config
-      ansible.builtin.stat:
-        path: "{{ docker_config }}"
-      register: docker_conf
-
-    - name: Ensure required directory does exist
-      ansible.builtin.file:
-        path: "{{ home }}/.docker"
-        state: directory
-        mode: "0750"
-
-    - name: Create new docker config
-      when: not docker_conf.stat.exists
-      notify: Enable and start docker user service
-      ansible.builtin.copy:
-        dest: "{{ home }}/.docker/config.json"
-        mode: "0640"
-        content: |
-          {
-            "credsStore": "secretservice"
-          }
-
-    - name: Update existing docker config
-      notify: Restart docker user service
-      when: docker_conf.stat.exists
-      block:
-
-        - name: Load docker config
-          ansible.builtin.include_vars:
-            file: "{{ docker_config }}"
-            name: docker_conf_data
-
-        - name: Append creds store to config
-          ansible.builtin.set_fact:
-            updated_conf: "{{ docker_conf_data | combine({'credsStore': 'secretservice'}) }}"
-
-        - name: Write docker config
-          ansible.builtin.copy:
-            dest: "{{ docker_config }}"
-            mode: "0640"
-            content: "{{ updated_conf | to_nice_json }}"
+    - name: Current user should be in the docker group
+      ansible.builtin.user:
+        name: "{{ lookup('env', 'USER') }}"
+        groups: docker
+        append: true
