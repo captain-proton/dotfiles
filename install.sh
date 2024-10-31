@@ -21,15 +21,6 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
         sudo pacman -S --needed python
     fi
 
-    pipx=$(pacman -Q python-pipx)
-    if [[ $pipx != python-pipx* ]]; then
-        sudo pacman -S --needed python-pipx
-    fi
-
-    if ! command -v poetry 1>/dev/null; then
-        pipx install poetry
-    fi
-
     # Create a python virtual environment if necessary
     if [ ! -f '.venv/bin/python' ]; then
         # This python executable points to the system installed version
@@ -41,6 +32,9 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     else
         source .venv/bin/activate
     fi
+
+    # Install dependencies, for example ansible-dev-tools
+    pip install -r requirements.txt
 
     # this needs to be done beforehand, so the yay module is available
     yay=$(pacman -Q yay)
