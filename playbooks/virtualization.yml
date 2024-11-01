@@ -3,24 +3,6 @@
   hosts: all
   gather_facts: true
 
-  handlers:
-    - name: Install libvirt vagrant plugin
-      ansible.builtin.command:
-        cmd: vagrant plugin install vagrant-libvirt
-      changed_when: true
-      environment: "{{ __vagrant_env }}"
-
-    - name: Install vagrant-dns plugin
-      ansible.builtin.command:
-        cmd: vagrant plugin install vagrant-dns
-      changed_when: true
-      environment: "{{ __vagrant_env }}"
-
-  vars:
-    __virtualization_libvirt_storage_pool_name: "{{ virtualization_libvirt_storage_pool_name | default('default') }}"
-    __vagrant_env:
-      VAGRANT_DISABLE_STRICT_DEPENDENCY_ENFORCEMENT: "1"
-
   tasks:
     - name: Install qemu/kvm, libvirt and its dependencies
       become: true
