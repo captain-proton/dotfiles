@@ -30,7 +30,8 @@
     "vim.handleKeys": {
         "<C-p>": false,
         "<C-n>": false,
-        "<C-w>": false
+        "<C-w>": false,
+        "<C-f>": false
     },
     "workbench.startupEditor": "none",
     "workbench.colorTheme": "Nord",
