@@ -1,0 +1,20 @@
+---
+- name: "[ KDE ]"
+  hosts: all
+
+  tasks:
+
+    - name: Create dbus services directory
+      ansible.builtin.file:
+        path: "{{ home }}/.local/share/dbus-1/services"
+        state: directory
+        mode: "0750"
+
+    - name: Enable kwallet automatic D-Bus activation
+      ansible.builtin.copy:
+        dest: "{{ home }}/.local/share/dbus-1/services/org.freedesktop.secrets.service"
+        mode: "0640"
+        content: |
+          [D-BUS Service]
+          Name=org.freedesktop.secrets
+          Exec=/usr/bin/kwalletd6

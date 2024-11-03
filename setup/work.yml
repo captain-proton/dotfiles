@@ -50,6 +50,7 @@
 - import_playbook: ../playbooks/yazi.yml
 - import_playbook: ../playbooks/lazygit.yml
 
+- import_playbook: ../playbooks/kde.yml
 - import_playbook: ../playbooks/emacs.yml
 - import_playbook: ../playbooks/chromium.yml
 - import_playbook: ../playbooks/brave-browser.yml
