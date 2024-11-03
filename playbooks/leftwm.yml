@@ -107,7 +107,7 @@
         mode: "0644"
         content: |
           [General]
-          theme=Matcha-Dark
+          theme=KvArcDark
 
     - name: Install additional twm utils
       become: true
@@ -125,6 +125,8 @@
         - pavucontrol
         - lxappearance
         - pkgconf
+        - qt6ct
+        - qt5ct
 
     - name: Ensure leftwm theme dir is present
       ansible.builtin.file:
@@ -182,7 +184,6 @@
         line: "{{ item }}"
       loop:
         - export QT_QPA_PLATFORMTHEME="qt6ct"
-        - export QT_STYLE_OVERRIDE="kvantum"
 
     - name: Stat of autorandr
       ansible.builtin.command:
