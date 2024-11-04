@@ -165,7 +165,7 @@
 
     - name: Ensure xdg desktop portal service directory is present
       ansible.builtin.file:
-        dest: "{{ home }}"
+        dest: "{{ home }}/.config/systemd/user/xdg-desktop-portal.service.d"
         state: directory
         mode: "0755"
 
