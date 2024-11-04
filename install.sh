@@ -27,11 +27,10 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
         # asdf-vm will be installed later on
         echo "Creating virtual env"
         python -m venv .venv
-        source .venv/bin/activate
-        poetry install
-    else
-        source .venv/bin/activate
     fi
+
+    # Activate virtual environment
+    source .venv/bin/activate
 
     # Install dependencies, for example ansible-dev-tools
     pip install -r requirements.txt
@@ -40,12 +39,12 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     yay=$(pacman -Q yay)
     if [[ $yay != yay* ]] && [[ ! -f playbooks/library/yay ]]; then
         echo "Installing yay and necessary plugins"
-        poetry run ansible-playbook playbooks/yay.yml
+        ansible-playbook playbooks/yay.yml
     fi
 
     # Install all required ansible roles and collections
     echo "Installing ansible roles and collections"
-    poetry run ansible-galaxy install -r ansible_requirements.yml
+    ansible-galaxy install -r ansible_requirements.yml
 
     # Check if a vault password file has been set
     # inside the environment and a vault.yml file exists
@@ -58,7 +57,7 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     fi
 
     echo "Executing setup"
-    poetry run ansible-playbook setup/"$1".yml $ASK_VAULT_PASS
+    ansible-playbook setup/"$1".yml $ASK_VAULT_PASS
 else
     printf "Enter '%s (" "$0"
     join_by \| "${SETUP_FILES[@]}"
