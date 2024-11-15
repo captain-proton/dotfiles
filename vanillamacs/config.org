@@ -59,6 +59,7 @@
   - [[#transient][Transient]]
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
+  - [[#diff-hl][Diff-hl]]
 - [[#org-mode][Org Mode]]
   - [[#personal-knowledge-base-using-roam][Personal Knowledge Base using Roam]]
   - [[#table-of-contents][Table of contents]]
@@ -856,6 +857,7 @@ This is only available in emacs >= 29.
   ;; Add "padding" around tabs, the colour must be added to correct the colouring
   (set-face-attribute 'tab-line-tab-current nil :box '(:line-width 8 :color "#2E3440"))
   (set-face-attribute 'tab-line-tab-inactive nil :box '(:line-width 8 :color "#272C36"))
+  (custom-set-faces `(fringe ((t (:background nil))))) ; make fringe match the bg
 )
 #+end_src
 
@@ -1348,6 +1350,21 @@ git-timemachine is a program that allows you to move backwards and forwards thro
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
 )
+#+end_src
+
+** Diff-hl
+
+Add margin to indicate version changes.
+
+#+begin_src emacs-lisp
+(use-package diff-hl
+  :ensure t
+  :init
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode)
+  )
 #+end_src
 
 * Org Mode

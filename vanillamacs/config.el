@@ -557,6 +557,7 @@
   ;; Add "padding" around tabs, the colour must be added to correct the colouring
   (set-face-attribute 'tab-line-tab-current nil :box '(:line-width 8 :color "#2E3440"))
   (set-face-attribute 'tab-line-tab-inactive nil :box '(:line-width 8 :color "#272C36"))
+  (custom-set-faces `(fringe ((t (:background nil))))) ; make fringe match the bg
 )
 
 (use-package doom-modeline
@@ -869,6 +870,26 @@
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-j") 'git-timemachine-show-previous-revision)
   (evil-define-key 'normal git-timemachine-mode-map (kbd "C-k") 'git-timemachine-show-next-revision)
 )
+
+(use-package diff-hl
+  :ensure t
+  :init
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode)
+  )
+
+(use-package git-gutter
+  :ensure t
+  :config
+  ;; (global-git-gutter-mode +1)
+  (custom-set-variables
+    '(git-gutter:window-width 2)
+    '(git-gutter:modified-sign " ")
+    '(git-gutter:added-sign " ")
+    '(git-gutter:deleted-sign " "))
+  )
 
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
