@@ -880,17 +880,6 @@
   (global-diff-hl-mode)
   )
 
-(use-package git-gutter
-  :ensure t
-  :config
-  ;; (global-git-gutter-mode +1)
-  (custom-set-variables
-    '(git-gutter:window-width 2)
-    '(git-gutter:modified-sign " ")
-    '(git-gutter:added-sign " ")
-    '(git-gutter:deleted-sign " "))
-  )
-
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
 
