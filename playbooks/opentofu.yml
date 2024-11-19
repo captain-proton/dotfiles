@@ -1,0 +1,29 @@
+---
+- name: "[ OPENTOFU ]"
+  hosts: all
+
+  vars:
+    __opentofu_version: "{{ opentofu_version | default('1.8.5') }}"
+    __opentofu_os_architecture: "{{ opentofu_os_architecture | default('linux_amd64') }}"
+
+  tasks:
+
+    - name: Download opentofu binaries
+      ansible.builtin.get_url:
+        url: https://github.com/opentofu/opentofu/releases/download/v{{ __opentofu_version }}/tofu_{{ __opentofu_version }}_{{ __opentofu_os_architecture }}.tar.gz
+        dest: /tmp/opentofu.tar.gz
+        mode: "0640"
+
+    - name: Create opentofu temp dir
+      ansible.builtin.file:
+        path: /tmp/opentofu
+        state: directory
+        mode: "0750"
+
+    - name: Extract opentofu archive
+      become: true
+      ansible.builtin.unarchive:
+        src: /tmp/opentofu.tar.gz
+        dest: /usr/local/bin
+        include:
+          - tofu
