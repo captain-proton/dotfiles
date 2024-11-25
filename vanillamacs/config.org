@@ -71,6 +71,7 @@
   - [[#lsp-mode][LSP-Mode]]
   - [[#ansible][Ansible]]
   - [[#python][Python]]
+  - [[#terraform][Terraform]]
 - [[#perspective-mode][Perspective Mode]]
 - [[#perspectiveprojectile][Perspective/Projectile]]
 - [[#shell][Shell]]
@@ -1688,6 +1689,21 @@ Take a look at the issues [[https://gitlab.com/emacs-ansible/emacs-ansible/-/iss
 (use-package python
   :ensure nil
   :hook ((python-ts-mode . lsp-deferred))
+  )
+#+end_src
+
+** Terraform
+
+Use the official terraform language server from hashicorp.
+The server should be installed using the playbook =playbooks/languageserver.yml=
+
+#+begin_src emacs-lisp
+(use-package terraform-mode
+  :ensure t
+  :hook ((terraform-mode . lsp-deferred))
+  :custom (terraform-indent-level 2)
+  :config
+  (setq lsp-terraform-ls-server (format "%s/.local/bin/terraform-ls" (getenv "HOME")))
   )
 #+end_src
 

@@ -1122,6 +1122,14 @@
   :hook ((python-ts-mode . lsp-deferred))
   )
 
+(use-package terraform-mode
+  :ensure t
+  :hook ((terraform-mode . lsp-deferred))
+  :custom (terraform-indent-level 2)
+  :config
+  (setq lsp-terraform-ls-server (format "%s/.local/bin/terraform-ls" (getenv "HOME")))
+  )
+
 (use-package perspective
   :ensure t
   :custom

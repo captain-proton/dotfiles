@@ -3,6 +3,11 @@
 
   vars:
     __lsp_packages: "{{ lsp_packages | default([]) }}"
+    __lsp_custom_servers_default:
+      - name: terraform
+        version: "0.36.0"
+    __lsp_custom_servers: "{{ lsp_custom_servers | default(__lsp_custom_servers_default) }}"
+    __lsp_server_names: "{{ __lsp_custom_servers | map(attribute='name') | list }}"
 
   tasks:
     - name: Install every configured lsp servers
@@ -11,3 +16,31 @@
         name: "{{ item }}"
         state: present
       loop: "{{ __lsp_packages }}"
+
+    - name: LSP server names
+      ansible.builtin.debug:
+        var: __lsp_server_names
+
+    - name: "[[ TERRAFORM LS ]]"
+      when: "'terraform' in __lsp_server_names"
+      block:
+        - name: Extract terraform ls version
+          ansible.builtin.set_fact:
+            __terraform_ls_version: "{{ __lsp_custom_servers | selectattr('name', 'equalto', 'terraform') | map(attribute='version') | first }}"
+
+        - name: Terraform version
+          ansible.builtin.debug:
+            var: __terraform_ls_version
+
+        - name: Download terraform ls archive
+          ansible.builtin.get_url:
+            url: "https://releases.hashicorp.com/terraform-ls/{{ __terraform_ls_version }}/terraform-ls_{{ __terraform_ls_version }}_linux_amd64.zip"
+            dest: /tmp/terraform_ls.zip
+            mode: "0644"
+
+        - name: Extract terraform binary
+          ansible.builtin.unarchive:
+            src: /tmp/terraform_ls.zip
+            include:
+              - terraform-ls
+            dest: "{{ home }}/.local/bin/"
