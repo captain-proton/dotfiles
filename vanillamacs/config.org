@@ -60,6 +60,7 @@
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
   - [[#diff-hl][Diff-hl]]
+- [[#visual-fill-column][Visual fill column]]
 - [[#org-mode][Org Mode]]
   - [[#personal-knowledge-base-using-roam][Personal Knowledge Base using Roam]]
   - [[#table-of-contents][Table of contents]]
@@ -67,6 +68,7 @@
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
   - [[#kanban][Kanban]]
+  - [[#presentations][Presentations]]
 - [[#lsp][LSP]]
   - [[#lsp-mode][LSP-Mode]]
   - [[#ansible][Ansible]]
@@ -1368,6 +1370,17 @@ Add margin to indicate version changes.
   )
 #+end_src
 
+* Visual fill column
+
+~visual-fill-column-mode~ is a small Emacs minor mode that mimics the effect of fill-column in visual-line-mode.
+Instead of wrapping lines at the window edge, which is the standard behaviour of visual-line-mode, it wraps lines at fill-column.
+
+#+begin_src emacs-lisp
+(use-package visual-fill-column
+  :ensure t
+  )
+#+end_src
+
 * Org Mode
 
 #+begin_src emacs-lisp
@@ -1580,6 +1593,89 @@ Create a new board for example using =M-x org-kanban/initialize-at-end=.
   )
 #+end_src
 
+** Presentations
+
+Use minimal style presentations using ~org-present~.
+
+#+begin_src emacs-lisp
+(use-package org-present
+  :ensure t
+  )
+#+end_src
+
+
+Define functions that should be executed entering and leaving
+org-present.
+
+#+begin_src emacs-lisp
+(defun proton/org-present-prepare-slide (buffer-name heading)
+  ;; Show only top-level headlines
+  (org-overview)
+
+  ;; Unfold the current entry
+  (org-show-entry)
+
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-show-children))
+
+(defun proton/org-present-start ()
+  ;; Use visual-line-mode here to cause lines to be wrapped within the
+  ;; centered document, otherwise you will have to horizontally scroll to see
+  ;; them all!
+  (setq visual-fill-column-width 110
+        visual-fill-column-center-text t)
+
+  ;; Center the presentation and wrap lines
+  (visual-fill-column-mode 1)
+  (visual-line-mode 1)
+  (display-line-numbers-mode 0)
+  (highlight-thing-mode 0)
+
+  ;; Tweak font sizes
+  (fontaine-set-preset 'presentation)
+
+  ;; Set a blank header line string to create blank space at the top
+  (setq header-line-format " ")
+
+  ;; Display inline images automatically
+  (org-display-inline-images)
+
+  ;; Start in normal mode so slides can be cycled immediatly
+  (evil-force-normal-state)
+  )
+
+(defun proton/org-present-end ()
+  ;; Reset visual fill column values to default
+  (setq visual-fill-column-width nil
+        visual-fill-column-center-text nil)
+
+  ;; Stop centering the document
+  (visual-fill-column-mode 0)
+  (visual-line-mode 0)
+  (display-line-numbers-mode 1)
+  (highlight-thing-mode 1)
+
+  ;; Reset font customizations, default was nil
+  (fontaine-set-preset 'regular)
+
+  ;; Clear the header line string so that it isn't displayed
+  (setq header-line-format nil)
+
+  ;; Unfold everything to show the complete content
+  (org-fold-show-all)
+
+  ;; Stop displaying inline images
+  (org-remove-inline-images)
+  )
+#+end_src
+
+Register hooks with org-present.
+
+#+begin_src emacs-lisp
+(add-hook 'org-present-mode-hook 'proton/org-present-start)
+(add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
+(add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
+#+end_src
 * LSP
 
 ** LSP-Mode

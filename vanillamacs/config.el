@@ -880,6 +880,10 @@
   (global-diff-hl-mode)
   )
 
+(use-package visual-fill-column
+  :ensure t
+  )
+
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
 
@@ -1037,6 +1041,72 @@
 (use-package org-kanban
   :ensure t
   )
+
+(use-package org-present
+  :ensure t
+  )
+
+(defun proton/org-present-prepare-slide (buffer-name heading)
+  ;; Show only top-level headlines
+  (org-overview)
+
+  ;; Unfold the current entry
+  (org-show-entry)
+
+  ;; Show only direct subheadings of the slide but don't expand them
+  (org-show-children))
+
+(defun proton/org-present-start ()
+  ;; Use visual-line-mode here to cause lines to be wrapped within the
+  ;; centered document, otherwise you will have to horizontally scroll to see
+  ;; them all!
+  (setq visual-fill-column-width 110
+        visual-fill-column-center-text t)
+
+  ;; Center the presentation and wrap lines
+  (visual-fill-column-mode 1)
+  (visual-line-mode 1)
+  (display-line-numbers-mode 0)
+  (highlight-thing-mode 0)
+
+  ;; Tweak font sizes
+  (fontaine-set-preset 'presentation)
+
+  ;; Set a blank header line string to create blank space at the top
+  (setq header-line-format " ")
+
+  ;; Display inline images automatically
+  (org-display-inline-images)
+
+  (evil-force-normal-state)
+  )
+
+(defun proton/org-present-end ()
+  ;; Reset visual fill column values to default
+  (setq visual-fill-column-width nil
+        visual-fill-column-center-text nil)
+
+  ;; Stop centering the document
+  (visual-fill-column-mode 0)
+  (visual-line-mode 0)
+  (display-line-numbers-mode 1)
+  (highlight-thing-mode 1)
+
+  ;; Reset font customizations, default was nil
+  (fontaine-set-preset 'regular)
+
+  ;; Clear the header line string so that it isn't displayed
+  (setq header-line-format nil)
+
+  (org-fold-show-all)
+
+  ;; Stop displaying inline images
+  (org-remove-inline-images)
+  )
+
+(add-hook 'org-present-mode-hook 'proton/org-present-start)
+(add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
+(add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
 
 (use-package lsp-mode
   :ensure t
