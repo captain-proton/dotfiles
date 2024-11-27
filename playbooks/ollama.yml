@@ -3,13 +3,13 @@
   hosts: all
 
   vars:
-    _ollama_default_bin: "{{ home }}/.local/bin/ollama"
-    _ollama_bin: "{{ ollama_bin | default(_ollama_default_bin) }}"
-    _ollama_version: "{{ ollama_version | default('v0.1.31') }}"
-    _ollama_github_download_url: "https://github.com/ollama/ollama/releases/download/{{ _ollama_version }}/ollama-linux-amd64"
+    _ollama_default_path: "{{ home }}/.ollama"
+    _ollama_path: "{{ ollama_path | default(_ollama_default_path) }}"
+    _ollama_version: "{{ ollama_version | default('v0.4.4') }}"
+    _ollama_github_download_url: "https://github.com/ollama/ollama/releases/download/{{ _ollama_version }}/ollama-linux-amd64.tgz"
     _ollama_download_url: "{{ ollama_download_url | default(_ollama_github_download_url) }}"
-    _ollama_bin_checksum: "sha256:9d9a24ed741bf9d88c8e9df6865371681316aee298433d0291e86295045bfa96"
-    _ollama_default_model_store: "{{ home }}/.ollama/models"
+    _ollama_archive_checksum: "sha256:c9d5966db56dd7d248085d30ee9d97ca15b0de3dfa65d0d120100b4ed0176ebe"
+    _ollama_default_model_store: "{{ _ollama_path }}/models"
     _ollama_model_store: "{{ ollama_model_store | default(_ollama_default_model_store) }}"
 
   tasks:
@@ -17,9 +17,27 @@
     - name: Download ollama binary
       ansible.builtin.get_url:
         url: "{{ _ollama_download_url }}"
-        dest: "{{ _ollama_bin }}"
+        dest: "/tmp/ollama.tgz"
+        mode: "0644"
+        checksum: "{{ _ollama_archive_checksum }}"
+
+    - name: Create ollama path
+      ansible.builtin.file:
+        path: "{{ _ollama_path }}"
+        state: directory
         mode: "0750"
-        checksum: "{{ _ollama_bin_checksum }}"
+
+    - name: Extract ollama
+      ansible.builtin.unarchive:
+        src: /tmp/ollama.tgz
+        dest: "{{ _ollama_path }}"
+        mode: "0750"
+
+    - name: Link ollama binary to path
+      ansible.builtin.file:
+        src: "{{ _ollama_path }}/bin/ollama"
+        dest: "{{ home }}/.local/bin/ollama"
+        state: link
 
     - name: Configure ollama systemd service
       ansible.builtin.template:

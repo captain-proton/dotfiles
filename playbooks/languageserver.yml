@@ -17,20 +17,12 @@
         state: present
       loop: "{{ __lsp_packages }}"
 
-    - name: LSP server names
-      ansible.builtin.debug:
-        var: __lsp_server_names
-
     - name: "[[ TERRAFORM LS ]]"
       when: "'terraform' in __lsp_server_names"
       block:
         - name: Extract terraform ls version
           ansible.builtin.set_fact:
             __terraform_ls_version: "{{ __lsp_custom_servers | selectattr('name', 'equalto', 'terraform') | map(attribute='version') | first }}"
-
-        - name: Terraform version
-          ansible.builtin.debug:
-            var: __terraform_ls_version
 
         - name: Download terraform ls archive
           ansible.builtin.get_url:
