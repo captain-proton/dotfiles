@@ -2,6 +2,7 @@
     "breadcrumbs.enabled": true,
     "editor.fontSize": 15,
     "editor.fontFamily": "JetBrainsMono NF",
+    "editor.fontLigatures": true,
     "editor.fontWeight": "300",
     "editor.formatOnPaste": true,
     "editor.renderWhitespace": "all",

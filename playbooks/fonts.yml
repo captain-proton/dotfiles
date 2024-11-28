@@ -41,6 +41,13 @@
           - "weathericons.ttf"
 
   tasks:
+
+    - name: Install font-patcher to build custom nerd fonts
+      become: true
+      yay:
+        name: font-patcher
+        state: present
+
     - name: Create font download folder
       ansible.builtin.file:
         path: "{{ font_download_path }}"
