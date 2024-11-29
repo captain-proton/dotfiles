@@ -883,6 +883,10 @@
   (global-diff-hl-mode)
   )
 
+(use-package hcl-mode
+  :ensure t
+  )
+
 (use-package visual-fill-column
   :ensure t
   )

@@ -60,6 +60,7 @@
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
   - [[#diff-hl][Diff-hl]]
+- [[#hcl--hashicorp-language][HCL / Hashicorp Language]]
 - [[#visual-fill-column][Visual fill column]]
 - [[#org-mode][Org Mode]]
   - [[#personal-knowledge-base-using-roam][Personal Knowledge Base using Roam]]
@@ -1370,6 +1371,17 @@ Add margin to indicate version changes.
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   :config
   (global-diff-hl-mode)
+  )
+#+end_src
+
+* HCL / Hashicorp Language
+
+Used by different projects provided by hashicorp.
+[[https://www.packer.io][Packer]] and [[*Terraform][Terraform]]/OpenTofu use the language.
+
+#+begin_src emacs-lisp
+(use-package hcl-mode
+  :ensure t
   )
 #+end_src
 
