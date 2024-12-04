@@ -15,6 +15,7 @@ return {
   use_dead_keys = false,
   -- How many lines of scrollback you want to retain per tab
   scrollback_lines = 5000,
+  enable_scroll_bar = true,
 
   -- Controls the appearance of the tab bar
   window_frame = {
