@@ -67,3 +67,4 @@
 - import_playbook: ../playbooks/virtualization.yml
 - import_playbook: ../playbooks/pidgin.yml
 - import_playbook: ../playbooks/httpie.yml
+- import_playbook: ../playbooks/kanri.yml
