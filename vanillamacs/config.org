@@ -684,7 +684,7 @@ Taken from [[https://company-mode.github.io/][company-mode]].
 
 #+begin_src emacs-lisp
 (use-package company
-  :ensure (:tag "0.10.2")
+  :ensure (:tag "1.0.2")
   :diminish
   :custom
   (company-minimum-prefix-length 1)
