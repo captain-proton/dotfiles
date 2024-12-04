@@ -35,10 +35,11 @@
         - python
         - ipython
         - tk
-        - ruff
-        - ruff-lsp
+        - python-mccabe
         - python-debugpy
         - python-pytest
+        - python-pyflakes
+        - python-rope
         - python-isort
         - python-black
         - python-cookiecutter
@@ -46,6 +47,9 @@
         - jupyterlab
         - python-pipx
         - python-jmespath
+        - yapf
+        - python-whatthepatch
+        - python-lsp-server
 
     - name: Add ~/.local/bin to ~/.path
       ansible.builtin.lineinfile:
