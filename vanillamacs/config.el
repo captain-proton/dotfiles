@@ -1152,7 +1152,15 @@
 (add-to-list 'load-path (expand-file-name "lib/lsp-mode/clients" user-emacs-directory))
 
 (with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'"))
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.venv\\'")
+  (defun proton/lsp-ignore-semgrep-rulesRefreshed (workspace notification)
+    "Ignore semgrep/rulesRefreshed notification."
+    (when (equal (gethash "method" notification) "semgrep/rulesRefreshed")
+      (lsp--info "Ignored semgrep/rulesRefreshed notification")
+      t)) ;; Return t to indicate the notification is handled
+
+  (advice-add 'lsp--on-notification :before-until #'proton/lsp-ignore-semgrep-rulesRefreshed)
+  )
 
 (use-package lsp-ui
   :ensure t
@@ -1169,10 +1177,8 @@
   )
 
 (use-package ansible
-  :ensure (:host gitlab
-           :repo "emacs-ansible/emacs-ansible"
-           :ref "b056f75f")
-  :hook ((yaml-ts-mode . ansible)
+  :ensure t
+  :hook ((yaml-ts-mode . ansible-mode)
          (ansible . ansible-auto-decrypt-encrypt))
   :config
   (setq ansible-section-face 'font-lock-variable-name-face
@@ -1191,7 +1197,7 @@
   :ensure t
   :hook (
          (yaml-ts-mode . lsp-deferred)
-         (yaml-ts-mode . company-mode)
+         ;; (yaml-ts-mode . company-mode)
          (yaml-ts-mode . whitespace-mode)
          )
   )
