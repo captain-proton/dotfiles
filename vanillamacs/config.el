@@ -891,6 +891,18 @@
   :ensure t
   )
 
+(use-package writeroom-mode
+  :ensure t
+  :init
+  (proton/leader-keys
+    "z" '(:ignore t :wk "Zen")
+    "z z" '(writeroom-mode :wk "Toggle zen")
+    "z >" '(writeroom-increase-width :wk "Increase width")
+    "z <" '(writeroom-decrease-width :wk "Decrease width")
+    "z =" '(writeroom-adjust-width :wk "Adjust width")
+    )
+  )
+
 (setq org-return-follows-link t)
 (setq org-hide-emphasis-markers t)
 
@@ -1197,7 +1209,7 @@
   :ensure t
   :hook (
          (yaml-ts-mode . lsp-deferred)
-         ;; (yaml-ts-mode . company-mode)
+         (yaml-ts-mode . company-mode)
          (yaml-ts-mode . whitespace-mode)
          )
   )

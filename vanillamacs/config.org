@@ -62,6 +62,7 @@
   - [[#diff-hl][Diff-hl]]
 - [[#hcl--hashicorp-language][HCL / Hashicorp Language]]
 - [[#visual-fill-column][Visual fill column]]
+- [[#writeroom-mode][Writeroom mode]]
 - [[#org-mode][Org Mode]]
   - [[#personal-knowledge-base-using-roam][Personal Knowledge Base using Roam]]
   - [[#table-of-contents][Table of contents]]
@@ -1393,6 +1394,26 @@ Instead of wrapping lines at the window edge, which is the standard behaviour of
 #+begin_src emacs-lisp
 (use-package visual-fill-column
   :ensure t
+  )
+#+end_src
+
+* Writeroom mode
+
+#+BEGIN_QUOTE
+writeroom-mode is a minor mode for Emacs that implements a distraction-free writing mode similar to the famous Writeroom editor for OS X
+#+END_QUOTE
+
+#+begin_src emacs-lisp
+(use-package writeroom-mode
+  :ensure t
+  :init
+  (proton/leader-keys
+    "z" '(:ignore t :wk "Zen")
+    "z z" '(writeroom-mode :wk "Toggle zen")
+    "z >" '(writeroom-increase-width :wk "Increase width")
+    "z <" '(writeroom-decrease-width :wk "Decrease width")
+    "z =" '(writeroom-adjust-width :wk "Adjust/Reset width")
+    )
   )
 #+end_src
 
