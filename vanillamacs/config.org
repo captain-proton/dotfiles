@@ -73,6 +73,8 @@
   - [[#presentations][Presentations]]
 - [[#lsp][LSP]]
   - [[#lsp-mode][LSP-Mode]]
+  - [[#lsp-ui][LSP-UI]]
+  - [[#sideline-lsp][Sideline LSP]]
   - [[#ansible][Ansible]]
   - [[#python][Python]]
   - [[#terraform][Terraform]]
@@ -1735,6 +1737,7 @@ Take a look at [[https://langserver.org/][langserver.org]]
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (bash-ts-mode . lsp)
          (lsp-mode . lsp-ui-mode)
+         (lsp-mode . sideline-mode)
          )
   :commands (lsp lsp-deferred)
   :config
@@ -1792,7 +1795,7 @@ Take a look at [[https://langserver.org/][langserver.org]]
   )
 #+end_src
 
-#+RESULTS:
+** LSP-UI
 
 #+begin_src emacs-lisp
 (use-package lsp-ui
@@ -1812,13 +1815,23 @@ Take a look at [[https://langserver.org/][langserver.org]]
     "c D" '(lsp-ui-doc-hide :wk "Close doc")
     )
   :config
-  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-position 'at-point
+        lsp-ui-sideline-enable nil)
   (general-define-key
    :keymaps 'lsp-mode-map
    [remap lsp-find-definitions] 'lsp-ui-peek-find-definitions
    [remap lsp-find-references] 'lsp-ui-peek-find-references
    )
   )
+#+end_src
+
+
+** Sideline LSP
+
+#+begin_src emacs-lisp
+(use-package sideline-lsp
+  :init
+  (setq sideline-backends-right '(sideline-lsp)))
 #+end_src
 
 ** Ansible

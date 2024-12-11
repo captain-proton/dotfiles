@@ -1137,6 +1137,7 @@
   :hook ((lsp-mode . lsp-enable-which-key-integration)
          (bash-ts-mode . lsp)
          (lsp-mode . lsp-ui-mode)
+         (lsp-mode . sideline-mode)
          )
   :commands (lsp lsp-deferred)
   :config
@@ -1210,13 +1211,18 @@
     "c D" '(lsp-ui-doc-hide :wk "Close doc")
     )
   :config
-  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-position 'at-point
+        lsp-ui-sideline-enable nil)
   (general-define-key
    :keymaps 'lsp-mode-map
    [remap lsp-find-definitions] 'lsp-ui-peek-find-definitions
    [remap lsp-find-references] 'lsp-ui-peek-find-references
    )
   )
+
+(use-package sideline-lsp
+  :init
+  (setq sideline-backends-right '(sideline-lsp)))
 
 (use-package ansible
   :ensure t
