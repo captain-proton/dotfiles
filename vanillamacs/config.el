@@ -1295,6 +1295,7 @@
   (when buffer-file-name
     (setq-local buffer-save-without-query t))
   (add-hook 'before-save-hook 'lsp-format-buffer nil t)
+  (lsp-ui-sideline-enable nil)
   )
 
 (use-package perspective
