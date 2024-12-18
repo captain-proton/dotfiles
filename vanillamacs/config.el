@@ -899,8 +899,10 @@
     "z z" '(writeroom-mode :wk "Toggle zen")
     "z >" '(writeroom-increase-width :wk "Increase width")
     "z <" '(writeroom-decrease-width :wk "Decrease width")
-    "z =" '(writeroom-adjust-width :wk "Adjust width")
+    "z =" '(writeroom-adjust-width :wk "Adjust/Reset width")
     )
+  :config
+  (setq writeroom-width 110)
   )
 
 (setq org-return-follows-link t)

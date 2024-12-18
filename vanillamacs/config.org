@@ -1414,6 +1414,8 @@ writeroom-mode is a minor mode for Emacs that implements a distraction-free writ
     "z <" '(writeroom-decrease-width :wk "Decrease width")
     "z =" '(writeroom-adjust-width :wk "Adjust/Reset width")
     )
+  :config
+  (setq writeroom-width 110)
   )
 #+end_src
 
