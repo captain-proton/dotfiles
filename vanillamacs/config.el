@@ -378,8 +378,8 @@
   :config
   (evil-set-undo-system 'undo-redo)
   (proton/leader-keys
-   "b N" '(evil-buffer-new :wk "Open a new empty buffer")
-   "b k" '(evil-delete-buffer :wk "Evil delete buffer")
+    "b N" '(evil-buffer-new :wk "Open a new empty buffer")
+    "b k" '(evil-delete-buffer :wk "Evil delete buffer")
    )
 )
 
@@ -1137,18 +1137,38 @@
   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
   (setq lsp-keymap-prefix "C-c l")
   :hook ((lsp-mode . lsp-enable-which-key-integration)
-         (bash-ts-mode . lsp))
+         (bash-ts-mode . lsp)
+         (lsp-mode . lsp-ui-mode)
+         (lsp-mode . sideline-mode)
+         )
   :commands (lsp lsp-deferred)
   :config
   (setq lsp-enable-snippet nil)
-  (general-evil-define-key '(insert) lsp-mode-map
+  (lsp-enable-which-key-integration t)
+  (general-evil-define-key 'insert lsp-mode-map
     "C-." 'company-capf
     )
+  :custom
+  ;; general stuff
+  (lsp-eldoc-render-all t)
+  (lsp-idle-delay 0.6)
+  ;; enable / disable the hints as you prefer:
+  (lsp-inlay-hint-enable t)
+  ;; rust
+  ;; what to use when checking on-save. "check" is default, I prefer clippy
+  (lsp-rust-analyzer-cargo-watch-command "clippy")
+  ;; These are optional configurations. See https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer/#lsp-rust-analyzer-display-chaining-hints for a full list
+  (lsp-rust-analyzer-display-lifetime-elision-hints-enable "skip_trivial")
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-lifetime-elision-hints-use-parameter-names nil)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-parameter-hints nil)
+  (lsp-rust-analyzer-display-reborrow-hints nil)
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
-    "c c" '(evilnc-comment-or-uncomment-lines :wk "Comment")
-    "c r" '(recompile :wk "Recompile")
+    "c c" '(compile :wk "Compile")
+    "c r" '(lsp-rename :wk "Rename")
     "c f" '(lsp-format-region :wk "Format region")
     "c F" '(lsp-format-buffer :wk "Format buffer")
     )
@@ -1180,15 +1200,31 @@
   :ensure t
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
-              ("C-c d" . lsp-ui-doc-toggle))
+              ("C-c d" . lsp-ui-doc-toggle)
+              ("M-j" . lsp-ui-imenu)
+              )
+  :custom
+  (lsp-ui-peek-always-show t)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-doc-enable nil)
   :general
   (proton/leader-keys
     "c d" '(lsp-ui-doc-show :wk "Document that")
-    "c D" '(lsp-ui-doc-show :wk "Close doc")
+    "c D" '(lsp-ui-doc-hide :wk "Close doc")
     )
   :config
-  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-position 'at-point
+        lsp-ui-sideline-enable nil)
+  (general-define-key
+   :keymaps 'lsp-mode-map
+   [remap lsp-find-definitions] 'lsp-ui-peek-find-definitions
+   [remap lsp-find-references] 'lsp-ui-peek-find-references
+   )
   )
+
+(use-package sideline-lsp
+  :init
+  (setq sideline-backends-right '(sideline-lsp)))
 
 (use-package ansible
   :ensure t
@@ -1227,6 +1263,41 @@
   :custom (terraform-indent-level 2)
   :config
   (setq lsp-terraform-ls-server (format "%s/.local/bin/terraform-ls" (getenv "HOME")))
+  )
+
+(use-package rustic
+  :ensure t
+  :custom
+  (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
+  :bind (:map rustic-mode-map
+              ("M-j" . lsp-ui-imenu)
+              ("M-?" . lsp-find-references)
+              ("C-c C-c l" . flycheck-list-errors)
+              ("C-c C-c a" . lsp-execute-code-action)
+              ("C-c C-c r" . lsp-rename)
+              ("C-c C-c q" . lsp-workspace-restart)
+              ("C-c C-c Q" . lsp-workspace-shutdown)
+              ("C-c C-c s" . lsp-rust-analyzer-status))
+  :hook ((rustic-mode . proton/rustic-mode-hook))
+  :config
+  ;; uncomment for less flashiness
+  ;; (setq lsp-eldoc-hook nil)
+  ;; (setq lsp-enable-symbol-highlighting nil)
+  ;; (setq lsp-signature-auto-activate nil)
+
+  ;; comment to disable rustfmt on save
+  (setq rustic-format-on-save t)
+  )
+
+(defun proton/rustic-mode-hook ()
+  ;; so that run C-c C-c C-r works without having to confirm, but don't try to
+  ;; save rust buffers that are not file visiting. Once
+  ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
+  ;; no longer be necessary.
+  (when buffer-file-name
+    (setq-local buffer-save-without-query t))
+  (add-hook 'before-save-hook 'lsp-format-buffer nil t)
+  (lsp-ui-sideline-enable nil)
   )
 
 (use-package perspective
@@ -1415,7 +1486,15 @@
   :custom
   (treesit-auto-install 'prompt)
   :config
+  (setq my-rust-tsauto-config
+      (make-treesit-auto-recipe
+       :lang 'rust
+       :ts-mode 'rustic-mode
+       :remap '(rust-mode rust-ts-mode)
+       :ext "\\.rs\\'")
+      )
   (treesit-auto-add-to-auto-mode-alist 'all)
+  (add-to-list 'treesit-auto-recipe-list my-rust-tsauto-config)
   (global-treesit-auto-mode))
 
 ;; (use-package ts-fold
