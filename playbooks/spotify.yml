@@ -1,0 +1,14 @@
+---
+- name: "[ SPOTIFY ]"
+  hosts: all
+  # See https://github.com/Spotifyd/spotifyd/issues/1293 before use of spotifyd
+
+  tasks:
+
+    - name: Ensure required packages are installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - spotify-launcher
