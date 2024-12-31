@@ -1284,9 +1284,6 @@
   ;; (setq lsp-eldoc-hook nil)
   ;; (setq lsp-enable-symbol-highlighting nil)
   ;; (setq lsp-signature-auto-activate nil)
-
-  ;; comment to disable rustfmt on save
-  (setq rustic-format-on-save t)
   )
 
 (defun proton/rustic-mode-hook ()
@@ -1295,7 +1292,8 @@
   ;; https://github.com/brotzeit/rustic/issues/253 has been resolved this should
   ;; no longer be necessary.
   (when buffer-file-name
-    (setq-local buffer-save-without-query t))
+    (setq-local buffer-save-without-query t)
+    (setq-local compilation-ask-about-save nil))
   (add-hook 'before-save-hook 'lsp-format-buffer nil t)
   (lsp-ui-sideline-enable nil)
   )
