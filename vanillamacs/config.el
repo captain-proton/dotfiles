@@ -81,6 +81,12 @@
     :prefix "SPC"
     :global-prefix "M-SPC") ;; access leader key in insert mode
 
+  (general-create-definer proton/local-leader-keys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
+    :prefix "SPC m"
+    :global-prefix "M-SPC m") ;; access leader key in insert mode
+
   (defun proton/edit-config ()
     (interactive)
     (find-file (expand-file-name "config.org" proton/config-directory))
@@ -89,6 +95,11 @@
     (interactive)
     (switch-to-buffer "*Messages*")
     )
+  (general-define-key
+    :prefix "SPC"
+    :keymaps 'normal
+    ;; bind nothing but give SPC m a description for which-key
+    "m" '(:ignore t :which-key "Local leader"))
 
   (proton/leader-keys
    "." '(find-file :wk "Find file")
@@ -134,11 +145,6 @@
    "h m" '(describe-mode :wk "Describe mode")
    "h p" '(elpaca-info :wk "Describe package")
    "h v" '(describe-variable :wk "Describe variable")
-   )
-
-  (proton/leader-keys
-   "m" '(:ignore t :wk "Org")
-   "m l" '(org-insert-link :wk "Insert link")
    )
 
   (proton/leader-keys
@@ -911,11 +917,11 @@
 (use-package org
   :ensure nil
   :init
-  (proton/leader-keys
-    "m" '(:ignore t :wk "Org")
-    "m e" '(org-edit-special :wk "Org edit special")
-    "m t" '(org-todo :wk "Org todo")
-    "m s" '(org-sort :wk "Org sort")
+  (proton/local-leader-keys
+    "e" '(org-edit-special :wk "Org edit special")
+    "l" '(org-insert-link :wk "Insert link")
+    "t" '(org-todo :wk "Org todo")
+    "s" '(org-sort :wk "Org sort")
     )
   :config
   ;; This is considered highly unsafe!
