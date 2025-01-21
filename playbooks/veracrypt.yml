@@ -27,6 +27,15 @@
         dest: "{{ umount_veracrypt_service }}"
         mode: "0644"
 
+    - name: Make 'veracrypt' command available to user without asking for password
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/suoders.d/{{ ansible_env.USER }}"
+        create: true
+        mode: "0600"
+        owner: root
+        line: "{{ ansible_env.USER }} ALL=NOPASSWD: /usr/bin/veracrypt"
+
     - name: Enable unmount systemd user unit
       ansible.builtin.systemd:
         name: umount_veracrypt_volumes.service
