@@ -4,9 +4,9 @@
 
   vars:
     _httpie_install_gui: "{{ httpie_install_gui | default(True) }}"
-    _httpie_version: "{{ httpie_version | default('2024.1.2') }}"
+    _httpie_version: "{{ httpie_version | default('2025.1.0') }}"
     _httpie_download_url: "https://github.com/httpie/desktop/releases/download/v{{ _httpie_version }}/HTTPie-{{ _httpie_version }}.AppImage"
-    _httpie_sha256sum: "{{ httpie_sha256_sum | default('38e3f597b2760603b79ce3d28a9c5fc1f37f94e52c97cd14cd8301a2cc811eb3') }}"
+    _httpie_sha256sum: "{{ httpie_sha256_sum | default('f0471a9b0fab998de2ba7f32b4cb095b78061cb35ccae67b5643a235f8831329') }}"
     _httpie_default_filename: "httpie-{{ _httpie_version }}.AppImage"
     _httpie_filename: "{{ httpie_filename | default(_httpie_default_filename) }}"
     _httpie_default_appimage_dest: "{{ home }}/bin/{{ _httpie_filename }}"
