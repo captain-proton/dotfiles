@@ -231,6 +231,7 @@ require('lazy').setup({
 vim.o.hlsearch = false
 
 -- Make relative line numbers default
+vim.wo.number = true
 vim.wo.relativenumber = true
 
 -- Enable mouse mode
