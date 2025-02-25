@@ -5,10 +5,10 @@
   vars:
     _ollama_default_path: "{{ home }}/.ollama"
     _ollama_path: "{{ ollama_path | default(_ollama_default_path) }}"
-    _ollama_version: "{{ ollama_version | default('v0.5.7') }}"
+    _ollama_version: "{{ ollama_version | default('v0.5.11') }}"
     _ollama_github_download_url: "https://github.com/ollama/ollama/releases/download/{{ _ollama_version }}/ollama-linux-amd64.tgz"
     _ollama_download_url: "{{ ollama_download_url | default(_ollama_github_download_url) }}"
-    _ollama_archive_checksum: "sha256:8d4e054bc512d53115074c19de5a7915df78180f89c014abbae4497e4a813a3c"
+    _ollama_archive_checksum: "sha256:aa386ce1c314686133f7abe9b561f3ef230f03f88bbdd1f583c951c4ab5378ad"
     _ollama_default_model_store: "{{ _ollama_path }}/models"
     _ollama_model_store: "{{ ollama_model_store | default(_ollama_default_model_store) }}"
 
