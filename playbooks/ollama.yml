@@ -11,6 +11,7 @@
     _ollama_archive_checksum: "sha256:aa386ce1c314686133f7abe9b561f3ef230f03f88bbdd1f583c951c4ab5378ad"
     _ollama_default_model_store: "{{ _ollama_path }}/models"
     _ollama_model_store: "{{ ollama_model_store | default(_ollama_default_model_store) }}"
+    _ollama_cuda_visible_devices: "{{ ollama_cuda_visible_devices | default(0) }}"
 
   tasks:
 

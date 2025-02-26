@@ -895,7 +895,7 @@
   :ensure t
   :config
   (let ((ollama-host (or (getenv "OLLAMA_HOST") "localhost:11434"))
-        (default-model (or (getenv "GPTEL_MODEL") "mistral:latest")))
+        (default-model (intern (or (getenv "GPTEL_MODEL") "mistral:latest"))))
     (setq gptel-model default-model
           gptel-backend (gptel-make-ollama "Ollama"
                           :host ollama-host

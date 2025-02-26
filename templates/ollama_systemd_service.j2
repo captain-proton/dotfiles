@@ -5,6 +5,7 @@ After=network-online.target
 [Service]
 ExecStart={{ _ollama_path }}/bin/ollama serve
 Environment="OLLAMA_MODELS={{ _ollama_model_store }}"
+Environment="CUDA_VISIBLE_DEVICES={{ _ollama_cuda_visible_devices }}"
 Restart=always
 RestartSec=3
 
