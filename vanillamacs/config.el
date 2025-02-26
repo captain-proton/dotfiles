@@ -15,7 +15,7 @@
 (when (file-exists-p local-settings-file)
   (load local-settings-file))
 
-(defvar elpaca-installer-version 0.9)
+(defvar elpaca-installer-version 0.10)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -30,7 +30,7 @@
   (add-to-list 'load-path (if (file-exists-p build) build repo))
   (unless (file-exists-p repo)
     (make-directory repo t)
-    (when (< emacs-major-version 28) (require 'subr-x))
+    (when (<= emacs-major-version 28) (require 'subr-x))
     (condition-case-unless-debug err
         (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
                   ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
@@ -423,8 +423,10 @@
 (use-package evil-nerd-commenter
   :ensure t
   :after evil
-  :bind
-  ("C-/" . evilnc-comment-operator)
+  :general
+  ("C-/" 'evilnc-comment-operator)
+  (:keymaps 'evil-normal-state-map
+    ", c i" 'evilnc-comment-or-uncomment-lines)
   :config
   (evilnc-default-hotkeys))
 
@@ -889,6 +891,17 @@
   (global-diff-hl-mode)
   )
 
+(use-package gptel
+  :ensure t
+  :config
+  (let ((ollama-host (or (getenv "OLLAMA_HOST") "localhost:11434"))
+        (default-model (or (getenv "GPTEL_MODEL") "mistral:latest")))
+    (setq gptel-model default-model
+          gptel-backend (gptel-make-ollama "Ollama"
+                          :host ollama-host
+                          :stream t
+                          :models (list default-model)))))
+
 (use-package hcl-mode
   :ensure t
   )
@@ -917,7 +930,7 @@
 (use-package org
   :ensure nil
   :init
-  (proton/local-leader-keys
+  (proton/local-leader-keys 'normal org-mode-map
     "e" '(org-edit-special :wk "Org edit special")
     "l" '(org-insert-link :wk "Insert link")
     "t" '(org-todo :wk "Org todo")
@@ -1156,7 +1169,10 @@
     )
   :custom
   ;; general stuff
-  (lsp-eldoc-render-all t)
+  (lsp-eldoc-render-all nil)
+  (lsp-eldoc-enable-hover nil)
+  (lsp-signature-auto-activate t)
+  (lsp-signature-render-documentation nil)
   (lsp-idle-delay 0.6)
   ;; enable / disable the hints as you prefer:
   (lsp-inlay-hint-enable t)
@@ -1173,6 +1189,7 @@
   :general
   (proton/leader-keys
     "c" '(:ignore t :wk "Code")
+    "c a" '(lsp-execute-code-action :wk "Code action")
     "c c" '(compile :wk "Compile")
     "c r" '(lsp-rename :wk "Rename")
     "c f" '(lsp-format-region :wk "Format region")
@@ -1234,6 +1251,12 @@
 
 (use-package ansible
   :ensure t
+
+  :init
+  (proton/local-leader-keys 'normal ansible-key-map
+    "d" '(ansible-decrypt-buffer :wk "Decrypt vault")
+    "e" '(ansible-encrypt-buffer :wk "Encrypt vault")
+    )
   :hook ((yaml-ts-mode . ansible-mode)
          (ansible . ansible-auto-decrypt-encrypt))
   :config
@@ -1362,6 +1385,11 @@
       eshell-scroll-to-bottom-on-input t
       eshell-destroy-buffer-when-process-dies t
       eshell-visual-commands'("bash" "btm" "htop" "ssh" "top" "zsh"))
+
+(use-package smartparens
+  :ensure t
+  :hook (prog-mode text-mode markdown-mode)
+  )
 
 ;; Configure Tempel
 (use-package tempel
