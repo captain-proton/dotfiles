@@ -12,6 +12,7 @@
     _ollama_default_model_store: "{{ _ollama_path }}/models"
     _ollama_model_store: "{{ ollama_model_store | default(_ollama_default_model_store) }}"
     _ollama_cuda_visible_devices: "{{ ollama_cuda_visible_devices | default(0) }}"
+    _ollama_host: "{{ ollama_host | default('localhost:11434') }}"
 
   tasks:
 
