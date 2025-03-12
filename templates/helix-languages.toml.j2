@@ -1,0 +1,19 @@
+[[language]]
+name = "ansible"
+scope = "source.yml"
+roots = []
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "ansible-language-server" ]
+injection-regex = "ansible"
+formatter = { command = "prettier" , args = ["--stdin"] }
+comment-token = "#"
+file-types = [
+  { glob = "playbooks/*.{yaml,yml}" },
+  { glob = "{group_vars,host_vars,vars,defaults,tasks,handlers,meta}/*.{yaml,yml}" }
+]
+grammar = "yaml"
+
+[[language]]
+name = "yaml"
+formatter = { command = "yamlfmt", args = ["-"] }
+language-servers = ["yaml-language-server"]

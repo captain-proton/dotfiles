@@ -4,11 +4,17 @@
 
   tasks:
 
-    - name: Ensure helix is installed
+    - name: Ensure packages are installed
       become: true
       community.general.pacman:
-        name: helix
+        name: "{{ item }}"
         state: present
+      loop:
+        - helix
+        - ansible-language-server
+        - yaml-language-server
+        - yamlfmt
+        - prettier
 
     - name: Ensure helix config dir exists
       ansible.builtin.file:
@@ -21,6 +27,47 @@
         src: ../templates/helix-config.toml.j2
         dest: "{{ home }}/.config/helix/config.toml"
         mode: "0600"
+
+    - name: Configure languages
+      ansible.builtin.template:
+        src: ../templates/helix-languages.toml.j2
+        dest: "{{ home }}/.config/helix/languages.toml"
+        mode: "0600"
+
+    - name: Ensure runtime dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/helix/runtime"
+        state: directory
+        mode: "0755"
+
+    - name: Ensure queries dirs for various languages exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/helix/runtime/queries/{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - ansible
+
+    - name: Configure ansible highlights
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/helix/runtime/queries/ansible/highlights.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
+
+    - name: Configure ansible injections
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/helix/runtime/queries/ansible/injections.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
+
+    - name: Configure ansible text object queries
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/helix/runtime/queries/ansible/textobjects.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
 
     - name: Export emacs.d/bin to path
       ansible.builtin.lineinfile:
