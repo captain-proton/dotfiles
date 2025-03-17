@@ -31,6 +31,7 @@
 - [[#emacs-gui-tweaks][Emacs GUI Tweaks]]
   - [[#zoom-inout][Zoom In/Out]]
   - [[#yes-no-maybe][Yes no (maybe)]]
+  - [[#diff][Diff]]
   - [[#disable-the-bars][Disable the bars]]
   - [[#highlight-thing][Highlight thing]]
   - [[#theme][Theme]]
@@ -830,6 +831,25 @@ This is only available in emacs >= 29.
 
 #+begin_src emacs-lisp
 (setq use-short-answers t)
+#+end_src
+
+** Diff
+
+Configure ediff.
+=golden-ratio= is very distracting when diffing files, so disable it.
+Also like diff side by side instead of top-bottom.
+There is also an issue with =perspective.el= (see [[https://github.com/nex3/perspective-el/issues/196][github]]).
+A perspective might be killed, when quitting the ediff session.
+Therefore a plain setup, adding the additional frame in emacs, is required.
+
+#+begin_src emacs-lisp
+(use-package ediff
+  :ensure nil
+  :hook (ediff-mode . (lambda () (golden-ratio-mode 0)))
+  :config
+  (setq ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function #'ediff-setup-windows-plain)
+  )
 #+end_src
 
 ** Disable the bars

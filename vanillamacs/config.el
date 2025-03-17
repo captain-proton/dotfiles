@@ -533,6 +533,14 @@
 
 (setq use-short-answers t)
 
+(use-package ediff
+  :ensure nil
+  :hook (ediff-mode . (lambda () (golden-ratio-mode 0)))
+  :config
+  (setq ediff-split-window-function 'split-window-horizontally
+        ediff-window-setup-function #'ediff-setup-windows-plain)
+  )
+
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
