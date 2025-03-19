@@ -7,3 +7,12 @@
       community.general.pacman:
         name: wireguard-tools
         state: present
+
+    - name: Make 'wg-quick' command available to user without asking for password
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/sudoers.d/{{ ansible_env.USER }}"
+        create: true
+        mode: "0600"
+        owner: root
+        line: "{{ ansible_env.USER }} ALL=NOPASSWD: /usr/bin/wg-quick"

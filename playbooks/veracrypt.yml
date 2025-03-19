@@ -30,7 +30,7 @@
     - name: Make 'veracrypt' command available to user without asking for password
       become: true
       ansible.builtin.lineinfile:
-        path: "/etc/suoders.d/{{ ansible_env.USER }}"
+        path: "/etc/sudoers.d/{{ ansible_env.USER }}"
         create: true
         mode: "0600"
         owner: root
