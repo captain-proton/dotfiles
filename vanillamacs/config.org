@@ -1091,8 +1091,8 @@ Not to mix up with =tab-bar=.
         tab-line-close-button-show nil  ;; do not show close button
         )
   ;; do not use :bind C-<next> ... they are bound in global.el
-  (define-key (current-global-map) [remap scroll-right] 'previous-buffer)
-  (define-key (current-global-map) [remap scroll-left] 'next-buffer)
+  (define-key (current-global-map) [remap scroll-right] 'tab-line-switch-to-prev-tab)
+  (define-key (current-global-map) [remap scroll-left] 'tab-line-switch-to-next-tab)
   )
 (require 'tab-line)
 
