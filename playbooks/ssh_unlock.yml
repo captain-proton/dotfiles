@@ -5,13 +5,12 @@
 
   vars:
     home: "{{ lookup('env', 'HOME') }}"
-    ssh_unlock_script: "/etc/profile.d/ssh_unlock.sh"
     ssh_config: "{{ home }}/.ssh/config"
     ssh_agent_service: "{{ systemd_user_dir }}/ssh-agent.service"
     ssh_add_desktop_filename: ssh-add.desktop
     ssh_add_desktop_path: "{{ home }}/.local/share/applications/{{ ssh_add_desktop_filename }}"
     ssh_autostart_entry: "{{ home }}/.config/autostart/{{ ssh_add_desktop_filename }}"
-    ssh_askpass_envvar_conf: "{{ home }}/.config/environment.d/ssh_askpass.conf"
+    systemd_user_envvars: "{{ home }}/.config/environment.d/envvars.conf"
 
   tasks:
     - name: Ensure 'keychain' is installed
@@ -25,18 +24,6 @@
       community.general.pacman:
         name: x11-ssh-askpass
         state: present
-
-
-    - name: Export SSH_AUTH_SOCK environment variable
-      become: true
-      ansible.builtin.blockinfile:
-        path: "{{ ssh_unlock_script }}"
-        mode: "0644"
-        create: true
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
-        block: |
-          # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
-          export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 
     - name: Configure user ssh settings
       ansible.builtin.lineinfile:
@@ -71,13 +58,15 @@
         dest: "{{ ssh_autostart_entry }}"
         state: link
 
-    - name: Export SSH_ASKPASS environment variable
+    - name: Export required environment variables
+      # https://wiki.archlinux.org/title/SSH_keys#Start_ssh-agent_with_systemd_user
       ansible.builtin.lineinfile:
-        path: "{{ ssh_askpass_envvar_conf }}"
+        path: "{{ systemd_user_envvars }}"
         mode: "0640"
         state: present
         create: true
         line: "{{ item }}"
       loop:
+        - "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket"
         - "SSH_ASKPASS='/usr/bin/ksshaskpass'"
         - "SSH_ASKPASS_REQUIRE=prefer"
