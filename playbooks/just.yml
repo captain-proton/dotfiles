@@ -1,0 +1,12 @@
+---
+- name: "[ JUST ]"
+  hosts: all
+
+  tasks:
+    - name: Install just
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - just
