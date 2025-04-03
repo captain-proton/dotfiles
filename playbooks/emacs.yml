@@ -7,7 +7,6 @@
     emacsd_doom: "{{ home }}/.config/emacs.d/doom"
     emacsd_spacemacs: "{{ home }}/.config/emacs.d/spacemacs"
     emacsd_vanillamacs: "{{ home }}/.config/emacs.d/vanillamacs"
-    chemacs2d: "{{ home }}/.emacs.d"
     envvars: "{{ emacsd_doom }}/.local/env"
     doomdir: "{{ home }}/dotfiles/emacs"
     spacemacsdir: "{{ home }}/dotfiles/spacemacs"
@@ -65,6 +64,7 @@
       ansible.builtin.lineinfile:
         path: "{{ home }}/.zprofile"
         line: 'export {{ item.key }}="{{ item.value }}"'
+        state: absent
       loop:
         - key: DOOMDIR
           value: "{{ doomdir }}"
@@ -95,25 +95,37 @@
         cmd: "{{ emacsd_doom }}/bin/doom env -o {{ envvars }}"
       changed_when: true
 
-    - name: Get chemacs2
-      ansible.builtin.git:
-        repo: https://github.com/plexus/chemacs2
-        dest: "{{ home }}/.emacs.d"
-        version: main
+    - name: Remove chemacs2 if present
+      ansible.builtin.file:
+        path: "{{ home }}/.emacs.d"
+        state: absent
+
+    - name: Build emacs desktop files
+      ansible.builtin.template:
+        src: "../templates/emacs.desktop.j2"
+        dest: "{{ home }}/.local/share/applications/{{ item.desktop_filename }}.desktop"
+        mode: "0644"
+      loop:
+        - user_emacs_dir: "{{ emacsd_doom }}"
+          config_dir: "{{ doomdir }}"
+          env_key: "DOOMDIR"
+          name: "Doom emacs"
+          desktop_filename: doom_emacs
+        - user_emacs_dir: "{{ emacsd_spacemacs }}"
+          config_dir: "{{ spacemacsdir }}"
+          env_key: "SPACEMACSDIR"
+          name: Spacemacs
+          desktop_filename: spacemacs
+        - user_emacs_dir: "{{ emacsd_vanillamacs }}"
+          config_dir: "{{ vanillamacsdir }}"
+          env_key: "VANILLAMACSDIR"
+          name: Vanillamacs
+          desktop_filename: vanillamacs
 
     - name: Build ~/.emacs-profiles.el
-      ansible.builtin.copy:
-        mode: "0644"
-        dest: "{{ home }}/.emacs-profiles.el"
-        content: |
-          (("default" . ((user-emacs-directory   . "{{ emacsd_doom }}")))
-            ("doom"        . ((user-emacs-directory     . "{{ emacsd_doom }}")
-                              (env . (("DOOMDIR"        . "{{ doomdir }}")))))
-            ("spacemacs"   . ((user-emacs-directory     . "{{ emacsd_spacemacs }}")
-                              (env . (("SPACEMACSDIR"   . "{{ spacemacsdir }}")))))
-            ("vanillamacs" . ((user-emacs-directory     . "{{ emacsd_vanillamacs }}")
-                              (env . (("VANILLAMACSDIR" . "{{ vanillamacsdir }}")))))
-          )
+      ansible.builtin.file:
+        path: "{{ home }}/.emacs-profiles.el"
+        state: absent
 
     - name: Ensure vanillamacs user-emacs-directory exists
       ansible.builtin.file:
