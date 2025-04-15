@@ -39,7 +39,7 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     yay=$(pacman -Q yay)
     if [[ $yay != yay* ]] && [[ ! -f playbooks/library/yay ]]; then
         echo "Installing yay and necessary plugins"
-        ansible-playbook playbooks/yay.yml
+        ansible-playbook --ask-become-pass playbooks/yay.yml
     fi
 
     # Install all required ansible roles and collections
@@ -57,7 +57,7 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     fi
 
     echo "Executing setup"
-    ansible-playbook setup/"$1".yml $ASK_VAULT_PASS
+    ansible-playbook --ask-become-pass setup/"$1".yml $ASK_VAULT_PASS
 else
     printf "Enter '%s (" "$0"
     join_by \| "${SETUP_FILES[@]}"
