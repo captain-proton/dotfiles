@@ -4,16 +4,21 @@
 
   vars:
     asdf_home: "{{ lookup('env', 'HOME') }}/.asdf"
+    asdf_version: 0.16.7
+    asdf_checksum: md5:964dbb60c8cf1c8b94f0161c7ffd1cb1
+    asdf_target_arch: linux-amd64
 
   tasks:
-    - name: Check if asdf-vm is already installed
-      ansible.builtin.stat:
-        path: "{{ asdf_home }}"
-      register: asdfvm
+    - name: Download asdf binary
+      ansible.builtin.get_url:
+        url: "https://github.com/asdf-vm/asdf/releases/download/v{{ asdf_version }}/asdf-v{{ asdf_version }}-{{ asdf_target_arch }}.tar.gz"
+        checksum: "{{ asdf_checksum }}"
+        dest: /tmp/asdf.tar.gz
+        mode: "0644"
 
-    - name: Clone the asdf-vm repo
-      ansible.builtin.git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: "{{ asdf_home }}"
-        version: v0.10.2
-      when: not asdfvm.stat.exists
+    - name: Unarchive binary
+      ansible.builtin.unarchive:
+        src: /tmp/asdf.tar.gz
+        dest: "{{ home }}/.local/bin"
+        include:
+          - asdf
