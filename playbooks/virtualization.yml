@@ -3,18 +3,6 @@
   hosts: all
   gather_facts: true
 
-  handlers:
-
-    - name: Install vagrant-dns plugin
-      ansible.builtin.command:
-        cmd: vagrant plugin install vagrant-dns
-      changed_when: true
-      environment: "{{ __vagrant_env }}"
-
-  vars:
-    __vagrant_env:
-      VAGRANT_DISABLE_STRICT_DEPENDENCY_ENFORCEMENT: "1"
-
   tasks:
     - name: Install qemu/kvm, libvirt and its dependencies
       become: true
@@ -67,29 +55,3 @@
       ansible.builtin.lineinfile:
         path: "{{ home }}/.xprofile"
         line: "export LIBVIRT_DEFAULT_URI='qemu:///system'"
-
-    - name: Install vagrant if necessary
-      become: true
-      community.general.pacman:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - vagrant
-
-    - name: List vagrant plugins
-      ansible.builtin.command:
-        cmd: vagrant plugin list
-      environment: "{{ __vagrant_env }}"
-      changed_when: false
-      register: vagrant_plugins
-
-    - name: Check vagrant plugin vagrant-dns
-      ansible.builtin.command:
-        cmd: vagrant plugin list
-      changed_when: '"vagrant-dns" not in vagrant_plugins.stdout'
-      notify: Install vagrant-dns plugin
-
-    - name: Make libvirt the default provider for vagrant
-      ansible.builtin.lineinfile:
-        path: "{{ home }}/.zprofile"
-        line: 'export VAGRANT_DEFAULT_PROVIDER=docker'
