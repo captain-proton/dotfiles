@@ -56,15 +56,6 @@
             state: absent
     # END OH MY ZSH
 
-    # ZSH THEMES
-    - name: Get powerlevel10k theme
-      ansible.builtin.git:
-        repo: https://github.com/romkatv/powerlevel10k.git
-        depth: 1
-        dest: "{{ zsh_custom }}/themes/powerlevel10k"
-        version: master
-    # END ZSH THEMES
-
     # ZSH USER PLUGINS
     - name: Get zsh-users plugins
       ansible.builtin.git:
@@ -90,8 +81,6 @@
           path: "{{ home }}/.zsh"
         - src: "{{ home }}/dotfiles/gitconfig"
           path: "{{ home }}/.gitconfig"
-        - src: "{{ home }}/dotfiles/zsh/configs/p10k.zsh"
-          path: "{{ home }}/.p10k.zsh"
     # END CONFIGURATION LINKS
 
     # STARSHIP PROMPT
