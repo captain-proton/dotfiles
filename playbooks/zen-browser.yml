@@ -1,0 +1,60 @@
+---
+- name: "[ ZEN BROWSER ]"
+  hosts: all
+
+  vars:
+    _zenb_version: "{{ zenb_version | default('1.11.3b') }}"
+    _zenb_checksum: "{{ zenb_checksum | default('sha256:4f3545963c78b8c86f9e7e338748bc213bb6d4d1f193dcacefcef3524c3302c7') }}"
+    _zenb_filename: "{{ zenb_filename | default('zen.linux-x86_64.tar.xz') }}"
+    _zenb_is_archive: "{{ zenb_is_archive | default(true) }}"
+    _zenb_default_download_url: "https://github.com/zen-browser/desktop/releases/download/{{ _zenb_version }}/{{ _zenb_filename }}"
+    _zenb_download_url: "{{ zenb_download_url | default(_zenb_default_download_url) }}"
+    _zenb_default_path: "{{ home }}/.zen"
+    _zenb_path: "{{ zenb_path | default(_zenb_default_path) }}"
+
+  tasks:
+    - name: Check zen path
+      ansible.builtin.stat:
+        path: "{{ _zenb_path }}"
+      register: _zen_path_meta
+
+    - name: Get zen browser
+      when: not _zen_path_meta.stat.exists
+      block:
+        - name: Create temp download file
+          ansible.builtin.tempfile:
+            state: file
+          register:
+            _zenb_download_tempfile
+
+        - name: Download zen browser archive
+          when: _zenb_filename.endswith('.tar.xz')
+          ansible.builtin.get_url:
+            url: "{{ _zenb_download_url }}"
+            dest: "{{ _zenb_download_tempfile.path }}"
+            checksum: "{{ _zenb_checksum }}"
+            mode: "0644"
+
+        - name: Ensure zen path exists
+          ansible.builtin.file:
+            path: "{{ _zenb_path }}"
+            state: directory
+            mode: "0755"
+
+        - name: Extract zen browser archive
+          when: _zenb_is_archive
+          ansible.builtin.unarchive:
+            src: "{{ _zenb_download_tempfile.path }}"
+            dest: "{{ _zenb_path }}"
+            mode: "0755"
+
+    - name: Configure desktop entry
+      ansible.builtin.copy:
+        dest: "{{ home }}/.local/share/applications/zen-browser.desktop"
+        mode: "0644"
+        content: |
+          [Desktop Entry]
+          Exec={{ _zenb_path }}/zen/zen
+          Icon={{ _zenb_path }}/zen/browser/chrome/icons/default/default128.png
+          Name=Zen Browser
+          Type=Application
