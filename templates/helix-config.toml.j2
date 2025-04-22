@@ -1,16 +1,23 @@
 theme = "nord"
 
 [editor]
+# Show currently open buffers, only when more than one exists.
+bufferline = "multiple"
+color-modes = true
+
+# Minimum severity to show a diagnostic after the end of a line
+end-of-line-diagnostics = "hint"
+
+# Highlight all lines with a cursor
+cursorline = true
 line-number = "relative"
+
+# Enable mouse mode
 mouse = false
 rulers = [80, 120]
-color-modes = true
-true-color = true
 
-[editor.statusline]
-mode.normal = "󰰓"
-mode.insert = "󰰄"
-mode.select = "󰰢"
+# Override automatic truecolor detection
+true-color = true
 
 [editor.cursor-shape]
 insert = "bar"
@@ -19,6 +26,24 @@ select = "underline"
 
 [editor.file-picker]
 hidden = false
+
+[editor.inline-diagnostics]
+# Show inline diagnostics when the cursor is on the line
+cursor-line = "error" 
+# Do not expand diagnostics unless the cursor is on the line
+other-lines = "disable" 
+
+[editor.lsp]
+# Disable automatically popups of signature parameter help
+auto-signature-help = false
+# Show LSP messages in the status line
+display-messages = true
+
+[editor.statusline]
+left = ["mode", "spinner", "version-control", "file-name"]
+mode.normal = "󰰓"
+mode.insert = "󰰄"
+mode.select = "󰰢"
 
 [editor.whitespace.render]
 space = "all"

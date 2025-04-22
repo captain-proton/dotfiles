@@ -27,12 +27,14 @@
         src: ../templates/helix-config.toml.j2
         dest: "{{ home }}/.config/helix/config.toml"
         mode: "0600"
+      tags: ['config']
 
     - name: Configure languages
       ansible.builtin.template:
         src: ../templates/helix-languages.toml.j2
         dest: "{{ home }}/.config/helix/languages.toml"
         mode: "0600"
+      tags: ['config']
 
     - name: Ensure runtime dir exists
       ansible.builtin.file:
@@ -69,7 +71,7 @@
           ; inherits: yaml
         mode: "0640"
 
-    - name: Export emacs.d/bin to path
+    - name: Export helix to path
       ansible.builtin.lineinfile:
         path: "{{ path_file_path }}"
         line: "export PATH=/usr/lib/helix:$PATH"
