@@ -52,7 +52,7 @@
         name: redshift-gtk
         daemon_reload: true
         state: stopped
-        enabled: true
+        enabled: false
         scope: user
 
     - name: Put brightness script to the redshift hooks
