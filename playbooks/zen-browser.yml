@@ -54,7 +54,9 @@
         mode: "0644"
         content: |
           [Desktop Entry]
-          Exec={{ _zenb_path }}/zen/zen
+          Exec={{ _zenb_path }}/zen/zen %u
           Icon={{ _zenb_path }}/zen/browser/chrome/icons/default/default128.png
           Name=Zen Browser
           Type=Application
+          Categories=Network;WebBrowser;
+          MimeType=x-scheme-handler/http;x-scheme-handler/https;
