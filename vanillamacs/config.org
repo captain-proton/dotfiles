@@ -71,8 +71,9 @@
   - [[#babel][Babel]]
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
-  - [[#kanban][Kanban]]
   - [[#presentations][Presentations]]
+  - [[#ox-hugo][Ox-Hugo]]
+- [[#just][Just]]
 - [[#lsp][LSP]]
   - [[#lsp-mode][LSP-Mode]]
   - [[#lsp-ui][LSP-UI]]
@@ -144,7 +145,7 @@ This project offers some nice features like:
 The following block initializes the package manager
 
 #+begin_src emacs-lisp
-(defvar elpaca-installer-version 0.10)
+(defvar elpaca-installer-version 0.11)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
 (defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
@@ -179,7 +180,7 @@ The following block initializes the package manager
   (unless (require 'elpaca-autoloads nil t)
     (require 'elpaca)
     (elpaca-generate-autoloads "elpaca" repo)
-    (load "./elpaca-autoloads")))
+    (let ((load-source-file-function nil)) (load "./elpaca-autoloads"))))
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 #+end_src
@@ -1676,18 +1677,6 @@ In addition the =org-indent-mode= is activated to automatically indent the conte
 (setq org-src-preserve-indentation t)
 #+end_src
 
-** Kanban
-
-=org-kanban= ([[https://github.com/gizmomogwai/org-kanban][github]]) allows the creation of kanban boards in org documents.
-Headers are used as card descriptions.
-Create a new board for example using =M-x org-kanban/initialize-at-end=.
-
-#+begin_src emacs-lisp
-(use-package org-kanban
-  :ensure t
-  )
-#+end_src
-
 ** Presentations
 
 Use minimal style presentations using ~org-present~.
@@ -1770,6 +1759,27 @@ Register hooks with org-present.
 (add-hook 'org-present-mode-hook 'proton/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
+#+end_src
+
+** Ox-Hugo
+
+=ox-hugo= is an Org exporter backend that exports Org to Hugo-compatible Markdown and also generates the front-matter
+
+#+begin_src emacs-lisp
+(use-package ox-hugo
+  :ensure t
+;;   :pin melpa ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
+  :after ox)
+#+end_src
+
+* Just
+
+~just~ is a handy way to save and run project-specific commands.
+The mode provides syntax highlighting and auto indentation.
+
+#+begin_src emacs-lisp
+(use-package just-mode
+  :ensure t)
 #+end_src
 
 * LSP
