@@ -139,12 +139,9 @@
 
   (proton/leader-keys
    "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
-   "h f" '(describe-function :wk "Describe function")
-   "h k" '(describe-key :wk "Describe key")
    "h K" '(describe-keymap :wk "Describe keymap")
    "h m" '(describe-mode :wk "Describe mode")
    "h p" '(elpaca-info :wk "Describe package")
-   "h v" '(describe-variable :wk "Describe variable")
    )
 
   (proton/leader-keys
@@ -751,6 +748,20 @@
   :defer t
   :diminish
   :config (global-flycheck-mode))
+
+(use-package helpful
+  :ensure t
+  :config
+  (proton/leader-keys
+   "h" '(:ignore t :wk "Help") ;; just a prefix, no real key binding
+   "h d" '(helpful-at-point :wk "Describe at point")
+   "h f" '(helpful-callable :wk "Describe function")
+   "h k" '(helpful-key :wk "Describe key")
+   "h v" '(helpful-variable :wk "Describe variable")
+   "h x" '(helpful-command :wk "Describe command")
+   )
+
+  )
 
 (use-package projectile
   :ensure t
