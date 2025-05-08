@@ -179,6 +179,7 @@
     "f f" '(fontaine-set-preset :wk "Set font preset")
     )
   :config
+  (fontaine-mode 1)
   (setq fontaine-presets
         '((regular
            :default-height 110
@@ -191,11 +192,17 @@
           (presentation
            :default-height 180
            :line-spacing 0.16)
+          (zen
+           :default-family "Fira Sans"
+           :default-height 140
+           :fixed-pitch-family "JetBrainsMono Nerd Font"
+           :fixed-pitch-height 110
+           :variable-pitch-height 110
+           :line-spacing 0.16)
           (t
            :default-family "JetBrainsMono Nerd Font"
            :default-height 100
            :default-weight regular
-           :fixed-pitch-family "JetBrainsMono Nerd Font"
            :variable-pitch-family "Fira Sans"
            :variable-pitch-height 120
            :variable-pitch-weight regular
@@ -814,13 +821,14 @@
   :ensure t
   :diminish
   :config
+  (setq consult-narrow-key "C-+") ;; "<"
   (proton/leader-keys
     "<" '(consult-project-buffer :wk "Consult buffer")
     "RET" '(consult-bookmark :wk "Consult bookmark")
     "f r" '(consult-recent-file :wk "Consult recent file")
-    "m h" '(consult-org-heading :wk "Consult org heading")
     "s" '(:ignore t :wk "Search")
     "s r" '(consult-ripgrep :wk "Consult rg")
+    "s h" '(consult-org-heading :wk "Consult org heading")
     "s g" '(consult-grep :wk "Consult grep")
     "s G" '(consult-git-grep :wk "Consult git grep")
     "s f" '(consult-find :wk "Consult find")
@@ -939,8 +947,43 @@
     "z <" '(writeroom-decrease-width :wk "Decrease width")
     "z =" '(writeroom-adjust-width :wk "Adjust/Reset width")
     )
+  :hook (
+         (writeroom-mode-enable . proton/writeroom-enabled)
+         (writeroom-mode-disable . proton/writeroom-disabled)
+         )
   :config
-  (setq writeroom-width 110)
+  (setq writeroom-width 120)
+  )
+
+(defun proton/writeroom-enabled()
+  (message "writeroom enabled")
+  (when (derived-mode-p 'org-mode)
+    (fontaine-set-preset 'zen)
+
+    (set-face-attribute 'line-number nil :family "JetBrains Mono" :height 100)
+    (set-face-attribute 'line-number-current-line nil :family "JetBrains Mono" :height 100)
+
+    ;; For org source blocks
+    (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+    )
+  )
+
+(defun proton/writeroom-disabled ()
+  (message "writeroom disabled")
+  (when (derived-mode-p 'org-mode)
+    (message "Resetting font")
+
+    (fontaine-set-preset 'regular)
+
+    (set-face-attribute 'line-number nil :family nil :height 110)
+    (set-face-attribute 'line-number-current-line nil :family nil :height 110)
+
+    (set-face-attribute 'org-block nil :inherit nil)
+    (set-face-attribute 'org-code nil :inherit nil)
+    (set-face-attribute 'org-table nil :inherit nil)
+    )
   )
 
 (setq org-return-follows-link t)
@@ -971,7 +1014,7 @@
         org-todo-repeat-to-state "TODO"
         org-ellipsis " ▾"
         org-hide-emphasis-markers t
-        org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+        )
   )
 
 (defvar proton/org-notes-dir (file-truename "~/Org/notes")
@@ -992,7 +1035,7 @@
     org-todo-repeat-to-state "TODO"
     org-ellipsis " ▾"
     org-hide-emphasis-markers t
-    org-superstar-headline-bullets-list '("⁖" "◉" "○" "✸" "✿"))
+    )
    (define-key org-src-mode-map (kbd "C-c C-c") 'org-edit-src-exit)
   )
 
@@ -1049,6 +1092,8 @@
 (add-hook 'org-mode-hook 'org-indent-mode)
 (use-package org-bullets
   :ensure t
+  :config
+  (setq org-bullets-bullet-list '("" "" "✸" "✿"))
   )
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -1066,13 +1111,13 @@
   (interactive)
   (dolist
       (face
-       '((org-level-1 1.7 "#81a1c1" bold)
-         (org-level-2 1.6 "#b48ead" bold)
-         (org-level-3 1.5 "#a3be8c" semi-bold)
-         (org-level-4 1.4 "#ebcb8b" normal)
-         (org-level-5 1.3 "#bf616a" light)
-         (org-level-6 1.2 "#88c0d0" light)
-         (org-level-7 1.1 "#81a1c1" light)
+       '((org-level-1 1.4 "#81a1c1" bold)
+         (org-level-2 1.3 "#b48ead" bold)
+         (org-level-3 1.2 "#a3be8c" semi-bold)
+         (org-level-4 1.1 "#ebcb8b" normal)
+         (org-level-5 1.0 "#bf616a" light)
+         (org-level-6 1.0 "#88c0d0" light)
+         (org-level-7 1.0 "#81a1c1" light)
          (org-level-8 1.0 "#b48ead" light)))
     (let ((face-name (car face))
           (height (nth 1 face))
