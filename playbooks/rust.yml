@@ -32,7 +32,7 @@
 
     - name: Build path to default rust toolchain
       ansible.builtin.shell:
-        cmd: set -o pipefail && rustup toolchain list -v | sed 's/\s/\n/g' | sed -n '3p'
+        cmd: set -o pipefail && rustup toolchain list -v | awk '{print $NF}'
       register: rustup_default_toolchain_path_cmd
       changed_when: false
 
