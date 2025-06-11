@@ -1,16 +1,12 @@
 # A minimal left prompt
 format = """
-[╭─ ](bold #88C0D0)$all $fill[─╮ ](#5E81AC)
-[╰─ ](bold #88C0D0)$character"""
+[  ](bold #88C0D0)$all
+[ ](bold #88C0D0)$character"""
 
 # Inserts a blank line between shell prompts
 add_newline = true
 
-right_format = """$battery$time[─╯](#5E81AC)"""
-
-[fill]
-symbol = ''
-style = '#5E81AC'
+right_format = """$battery$time(#5E81AC)"""
 
 # Replace the "❯" symbol in the prompt with "➜"
 [character] # The name of the module we are configuring is "character"
