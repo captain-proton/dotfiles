@@ -1,0 +1,63 @@
+---
+- name: "[ HYPRLAND ]"
+  hosts: all
+
+  vars:
+    _hypr_config_dir_default: "{{ home }}/.config/hypr"
+    _hypr_config_dir: "{{ hypr_config_dir | default(_hypr_config_dir_default)}}"
+    _hypr_kb_layout: "{{ hypr_kb_layout | default('de') }}"
+    _hypr_kb_variant: "{{ hypr_kb_variant | default('deadacute') }}"
+    _tofi_font: "{{ tofi_font | default('/usr/share/fonts/TTF/FiraSans-Regular.ttf') }}"
+
+  tasks:
+
+    - name: Ensure required packages are installed
+      become: true
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - hyprland
+        - xdg-desktop-portal-hyprland
+        - xdg-desktop-portal-gtk
+        - dunst
+        - manjaro-pipewire
+        - waybar
+        - hyprpaper
+        - tofi
+
+    - name: Ensure xdg desktop portal dir exists
+      ansible.builtin.file:
+        dest: "{{ home }}/.config/xdg-desktop-portal"
+        state: directory
+        mode: "0755"
+
+    - name: Ensure hyprland config dir exists
+      ansible.builtin.file:
+        path: "{{ _hypr_config_dir_default }}"
+        state: directory
+        mode: "0750"
+      tags: ["config", "hyprland"]
+
+    - name: Configure hyprland
+      ansible.builtin.template:
+        src: ../templates/hyprland.conf.j2
+        dest: "{{ _hypr_config_dir }}/hyprland.conf"
+        mode: "0644"
+      tags: ["config", "hyprland"]
+
+    - name: Configure KDE file chooser
+      ansible.builtin.copy:
+        content: |-
+          [preferred]
+          default=hyprland;gtk
+          org.freedesktop.impl.portal.FileChooser=dolphin
+        dest: "{{ home }}/.config/xdg-desktop-portal/hyprland-portals.conf"
+        mode: "0644"
+      tags: ["config"]
+
+    - name: Make sure plasma polkit agent is started
+      ansible.builtin.systemd_service:
+        name: plasma-polkit-agent.service
+        state: started
+        scope: user
