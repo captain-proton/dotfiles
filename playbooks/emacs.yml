@@ -36,7 +36,6 @@
         - prettier  # required for module json, yaml ...
         - python-grip  # required for markdown +grip
         - the_silver_searcher
-        - ack
 
     - name: Check for emacs.d directory
       ansible.builtin.stat:
