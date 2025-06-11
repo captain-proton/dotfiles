@@ -5,6 +5,7 @@
 - import_playbook: ../playbooks/fonts.yml
 - import_playbook: ../playbooks/aliases.yml
 - import_playbook: ../playbooks/wezterm.yml
+- import_playbook: ../playbooks/ghostty.yml
 - import_playbook: ../playbooks/git.yml
 - import_playbook: ../playbooks/curl.yml
 - import_playbook: ../playbooks/vscode.yml

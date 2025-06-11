@@ -1,0 +1,23 @@
+---
+- name: "[ GHOSTTY ]"
+  hosts: all
+
+  tasks:
+    - name: Ensure ghostty package is present
+      become: true
+      community.general.pacman:
+        name: ghostty
+        state: present
+
+    - name: Ensure ghostty config dir is present
+      ansible.builtin.file:
+        path: "{{ home }}/.config/ghostty"
+        state: directory
+        mode: "0750"
+
+    - name: Configure ghostty
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/ghostty.config.j2
+        dest: "{{ home }}/.config/ghostty/config"
+        mode: "0644"
