@@ -1,0 +1,109 @@
+{
+    // General bar settings
+    "layer": "top",
+    "position": "top",
+    "height": 39,
+    "spacing": 0, // Spacing between modules
+
+    // Module configuration
+    // Modules defined here can be used in modules-left/center/right
+    // See https://github.com/Alexays/Waybar/wiki/Module-Configuration
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "custom/reboot",
+        "custom/power"
+    ],
+    "modules-center": [
+        "hyprland/window"
+    ],
+    // "modules-right": [
+        // "tray",
+        // "pipewire",
+        // "memory",
+        // "cpu",
+        // "disk",
+        // "clock"
+    // ],
+
+    // Module specifics
+    "hyprland/workspaces": {
+        "on-click": "activate",
+        "disable-scroll": true,
+        "all-outputs": true,
+        "warp-on-scroll": false,
+        "format": "{icon}",
+        "format-icons": {
+            "default": "",
+            "1": "",
+            "2": "",
+            "3": "󰖟",
+            "4": "",
+            "5": "󰍺",
+            "6": "󰍡",
+            "7": "󰇮",
+            "8": "󰎄",
+            "9": "󰕧",
+        },
+        "persistent_workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": [],
+            "6": [],
+            "7": [],
+            "8": [],
+            "9": []
+        }
+    },
+    "custom/reboot": {
+        "format": "  ",
+        "on-click": "systemctl reboot",
+        "tooltip": true,
+    },
+    "custom/power": {
+        "format": "  ",
+        "on-click": "systemctl poweroff",
+        "tooltip": true,
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 120
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "clock": {
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "format-alt": "{:%Y-%m-%d}",
+        "format": " {:%H:%M}"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": true,
+        "on-click": "ghostty -e btop"
+    },
+    "memory": {
+        "format": " {}%",
+        "on-click": "ghostty -e btop"
+    },
+    "disk": {
+        // Shows usage of /
+        "interval": 30,
+        "format": " {percentage_used}%",
+        "path": "/",
+        "tooltip": true,
+        "tooltip-format": "{used} GiB used out of {total} GiB on {path} ({percentage_used}%)",
+        "on-click": "ghostty -e btop"
+    },
+    "pipewire": {
+        "scroll-step": 5, // A scroll of 5%
+        "format": "{icon} {volume}%",
+        "format-muted": " Muted",
+        "format-icons": ["", "", ""],
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", // Toggles mute on click
+        "on-click-right": "helvum" // Or use "qpwgraph" or your preferred mixer
+    }
+}

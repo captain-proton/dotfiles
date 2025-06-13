@@ -24,6 +24,7 @@ monitor=,preferred,auto,1
 $terminal = ghostty
 $fileManager = dolphin
 $menu = tofi-drun --drun-launch=true --font {{ _tofi_font }}
+$termmenu = tofi-run --drun-launch=true
 
 
 #################
@@ -34,6 +35,7 @@ $menu = tofi-drun --drun-launch=true --font {{ _tofi_font }}
 # Or execute your favorite apps at launch like this:
 
 # exec-once = $terminal
+# exec-once = waybar
 exec-once = nm-applet &
 # exec-once = waybar & hyprpaper
 exec-once=hyprctl setcursor Nordzy-cursors 16
@@ -74,13 +76,13 @@ env = HYPRCURSOR_SIZE,24
 
 # https://wiki.hyprland.org/Configuring/Variables/#general
 general {
-    gaps_in = 8
-    gaps_out = 8
+    gaps_in = 4
+    gaps_out = 4
 
     border_size = 1
 
     # https://wiki.hyprland.org/Configuring/Variables/#variable-types for info about colors
-    col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
+    col.active_border = rgba(8fbcbbee) rgba(5e81acee) 45deg
     col.inactive_border = rgba(595959aa)
 
     # Set to true enable resizing windows by clicking and dragging on borders and gaps
@@ -224,6 +226,7 @@ bind = $mainMod, M, exit,
 bind = $mainMod, E, exec, $fileManager
 bind = $mainMod, V, togglefloating,
 bind = $mainMod, p, exec, $menu
+bind = $mainMod + SHIFT, p, exec, $termmenu | xargs -I _ ghostty -e _
 # bind = $mainMod, P, pseudo, # dwindle
 # bind = $mainMod, J, togglesplit, # dwindle
 

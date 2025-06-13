@@ -1,0 +1,68 @@
+/* Nord Color Palette */
+/* Polar Night */
+@define-color nord0 #2E3440; /* Darkest */
+@define-color nord1 #3B4252;
+@define-color nord2 #434C5E;
+@define-color nord3 #4C566A; /* Lightest dark */
+
+/* Snow Storm */
+@define-color nord4 #D8DEE9; /* Darkest light */
+@define-color nord5 #E5E9F0;
+@define-color nord6 #ECEFF4; /* Lightest */
+
+/* Frost */
+@define-color nord7 #8FBCBB;
+@define-color nord8 #88C0D0;
+@define-color nord9 #81A1C1;
+@define-color nord10 #5E81AC;
+
+/* Aurora */
+@define-color nord11 #BF616A; /* Red */
+@define-color nord12 #D08770; /* Orange */
+@define-color nord13 #EBCB8B; /* Yellow */
+@define-color nord14 #A3BE8C; /* Green */
+@define-color nord15 #B48EAD; /* Purple */
+
+
+/* General Bar Styling */
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "CaskaydiaCove Nerd Font", FontAwesome, sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+#waybar {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  box-shadow: none;
+}
+
+#workspaces,
+#window,
+#custom-power,
+#custom-reboot,
+#tray {
+  background-color: rgba(46, 52, 64, 0.9);
+  padding: 4px 6px; 
+  margin-top: 4px; 
+  margin-left: 4px; 
+  margin-right: 4px; 
+  border-radius: 4px;
+  border-width: 1px;
+  border-color: rgba(143, 188, 187, 0.9);
+  border-style: solid;
+}
+
+#workspaces button.active {
+  color: @nord7;
+}
+
+#custom-power {
+  color: @nord11;
+}
+
+#custom-reboot {
+  color: @nord12;
+}
