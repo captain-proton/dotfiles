@@ -29,7 +29,7 @@
     border: none;
     border-radius: 0;
     font-family: "CaskaydiaCove Nerd Font", FontAwesome, sans-serif;
-    font-size: 13px;
+    font-size: 14px;
     min-height: 0;
 }
 
@@ -43,7 +43,8 @@
 #window,
 #custom-power,
 #custom-reboot,
-#tray {
+.modules-right
+{
   background-color: rgba(46, 52, 64, 0.9);
   padding: 4px 6px; 
   margin-top: 4px; 
@@ -56,7 +57,7 @@
 }
 
 #workspaces button.active {
-  color: @nord7;
+  color: @nord8;
 }
 
 #custom-power {
@@ -65,4 +66,12 @@
 
 #custom-reboot {
   color: @nord12;
+}
+
+.modules-right * {
+  padding: 0 6px;
+}
+
+#wireplumber.muted {
+  color: @nord11;
 }

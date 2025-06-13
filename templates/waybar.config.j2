@@ -8,7 +8,6 @@
     // Module configuration
     // Modules defined here can be used in modules-left/center/right
     // See https://github.com/Alexays/Waybar/wiki/Module-Configuration
-
     "modules-left": [
         "hyprland/workspaces",
         "custom/reboot",
@@ -17,14 +16,16 @@
     "modules-center": [
         "hyprland/window"
     ],
-    // "modules-right": [
-        // "tray",
-        // "pipewire",
-        // "memory",
-        // "cpu",
-        // "disk",
-        // "clock"
-    // ],
+    "modules-right": [
+        "tray",
+        "wireplumber",
+        "bluetooth",
+        "battery",
+        "memory",
+        "cpu",
+        "disk",
+        "clock"
+    ],
 
     // Module specifics
     "hyprland/workspaces": {
@@ -34,7 +35,7 @@
         "warp-on-scroll": false,
         "format": "{icon}",
         "format-icons": {
-            "default": "",
+            "default": "",
             "1": "",
             "2": "",
             "3": "󰖟",
@@ -45,16 +46,8 @@
             "8": "󰎄",
             "9": "󰕧",
         },
-        "persistent_workspaces": {
-            "1": [],
-            "2": [],
-            "3": [],
-            "4": [],
-            "5": [],
-            "6": [],
-            "7": [],
-            "8": [],
-            "9": []
+        "persistent-workspaces": {
+            "*":[1,2,3]
         }
     },
     "custom/reboot": {
@@ -75,35 +68,44 @@
         "icon-size": 18,
         "spacing": 10
     },
+    "battery": {
+        "states": {
+        "warning": 30,
+        "critical": 15
+        },
+        "format": "<span color='#8fbcbb'> {icon} </span>{capacity}% ",
+        "format-charging": " 󱐋{capacity}%",
+        "interval": 1,
+        "format-icons": ["", "", "", "", ""],
+        "tooltip": true
+    },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%Y-%m-%d}",
         "format": " {:%H:%M}"
     },
     "cpu": {
-        "format": " {usage}%",
+        "format": "<span color='#D8DEE9'></span> {usage}%",
         "tooltip": true,
         "on-click": "ghostty -e btop"
     },
     "memory": {
-        "format": " {}%",
+        "format": "<span color='#D8DEE9'></span> {}%",
         "on-click": "ghostty -e btop"
     },
     "disk": {
         // Shows usage of /
         "interval": 30,
-        "format": " {percentage_used}%",
+        "format": "<span color='#D8DEE9'></span> {percentage_used}%",
         "path": "/",
         "tooltip": true,
         "tooltip-format": "{used} GiB used out of {total} GiB on {path} ({percentage_used}%)",
-        "on-click": "ghostty -e btop"
+        "on-click": "filelight"
     },
-    "pipewire": {
-        "scroll-step": 5, // A scroll of 5%
-        "format": "{icon} {volume}%",
-        "format-muted": " Muted",
-        "format-icons": ["", "", ""],
-        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle", // Toggles mute on click
-        "on-click-right": "helvum" // Or use "qpwgraph" or your preferred mixer
+    "wireplumber": {
+        "format": "{volume}% {icon}",
+        "format-muted": "",
+        "on-click": "helvum",
+        "format-icons": ["", "", ""]
     }
 }

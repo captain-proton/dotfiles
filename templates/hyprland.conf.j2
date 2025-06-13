@@ -35,9 +35,11 @@ $termmenu = tofi-run --drun-launch=true
 # Or execute your favorite apps at launch like this:
 
 # exec-once = $terminal
-# exec-once = waybar
+
+exec-once = /usr/lib/polkit-kde-authentication-agent-1 &
+exec-once = /usr/lib/pam_kwallet_init &
+exec-once = waybar &
 exec-once = nm-applet &
-# exec-once = waybar & hyprpaper
 exec-once=hyprctl setcursor Nordzy-cursors 16
 
 
