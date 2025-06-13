@@ -45,6 +45,7 @@
   - [[#no-tabs][No tabs]]
   - [[#indent-guides-and-whitespaces][Indent Guides and Whitespaces]]
   - [[#tab-line][Tab-line]]
+  - [[#transparency][Transparency]]
   - [[#window-management][Window management]]
 - [[#dashboard][Dashboard]]
 - [[#diminish][Diminish]]
@@ -90,7 +91,7 @@
 - [[#smartparens][Smartparens]]
 - [[#templates][Templates]]
 - [[#tldr][Tldr]]
-- [[#transparency][Transparency]]
+- [[#transparency-1][Transparency]]
 - [[#treemacs][Treemacs]]
 - [[#tree-sitter][Tree Sitter]]
   - [[#auto-tree-sitter][Auto tree sitter]]
@@ -1106,6 +1107,28 @@ Not to mix up with =tab-bar=.
 
 #+end_src
 
+** Transparency
+
+Add transparent background for emacs windows.
+This requires emacs >= 29.
+
+#+begin_src emacs-lisp
+(set-frame-parameter nil 'alpha-background 90)
+(add-to-list 'default-frame-alist '(alpha-background . 90))
+
+(defun proton/toggle-transparency ()
+   (interactive)
+   (let ((alpha (frame-parameter nil 'alpha-background)))
+     (set-frame-parameter
+      nil 'alpha-background
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ;; Also handle undocumented (<active> <inactive>) form.
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          90 100))))
+#+end_src
+
 ** Window management
 
 #+begin_src emacs-lisp
@@ -1115,6 +1138,7 @@ Not to mix up with =tab-bar=.
     "w c" '(evil-window-delete :wk "Close current window")
     "w |" '(evil-window-vsplit :wk "Split left/right (|)")
     "w -" '(evil-window-split :wk "Split top/bottom (-)")
+    "w t" '(proton/toggle-transparency :wk "Toggle transparency")
     "w w" '(evil-window-next :wk "Next window")
     "w W" '(evil-window-prev :wk "Previous window")
     )
@@ -2248,12 +2272,6 @@ tldr $CMD
 
 * Transparency
 
-Add transparent background for emacs windows.
-This requires emacs >= 29.
-
-#+begin_src emacs-lisp
-;; (add-to-list 'default-frame-alist '(alpha-background . 95)) 
-#+end_src
 
 * Treemacs
 

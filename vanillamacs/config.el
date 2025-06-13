@@ -705,12 +705,28 @@
   )
 (require 'tab-line)
 
+(set-frame-parameter nil 'alpha-background 90)
+(add-to-list 'default-frame-alist '(alpha-background . 90))
+
+(defun proton/toggle-transparency ()
+   (interactive)
+   (let ((alpha (frame-parameter nil 'alpha-background)))
+     (set-frame-parameter
+      nil 'alpha-background
+      (if (eql (cond ((numberp alpha) alpha)
+                     ((numberp (cdr alpha)) (cdr alpha))
+                     ;; Also handle undocumented (<active> <inactive>) form.
+                     ((numberp (cadr alpha)) (cadr alpha)))
+               100)
+          90 100))))
+
 (with-eval-after-load 'evil
   (proton/leader-keys
     "w" '(:ignore t :wk "Windows")
     "w c" '(evil-window-delete :wk "Close current window")
     "w |" '(evil-window-vsplit :wk "Split left/right (|)")
     "w -" '(evil-window-split :wk "Split top/bottom (-)")
+    "w t" '(proton/toggle-transparency :wk "Toggle transparency")
     "w w" '(evil-window-next :wk "Next window")
     "w W" '(evil-window-prev :wk "Previous window")
     )
@@ -1515,8 +1531,6 @@
   (proton/leader-keys
     "s t" '(tldr :wk "Lookup tldr for command help"))
   )
-
-;; (add-to-list 'default-frame-alist '(alpha-background . 95))
 
 (use-package treemacs
   :ensure t
