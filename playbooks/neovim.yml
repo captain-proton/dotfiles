@@ -5,6 +5,7 @@
   vars:
     aliases_path: "{{ home }}/.aliases"
     neovim_config_path: "{{ home }}/.config/nvim"
+    _terminal_emulator: "{{ terminal_emulator | default('ghostty') }}"
 
   tasks:
     - name: Install neovim and required packages
@@ -36,3 +37,35 @@
       ansible.builtin.lineinfile:
         path: "{{ aliases_path }}"
         line: "alias vim='nvim'"
+
+    - name: Build custom neovim-ui.desktop non terminal version
+      ansible.builtin.copy:
+        dest: "{{ home }}/.local/share/applications/nvim-ui.desktop"
+        mode: "0644"
+        content: |
+          [Desktop Entry]
+          Name=Neovim UI
+          GenericName=Text Editor
+          Comment=Edit text files
+          TryExec=nvim
+          Exec={{ _terminal_emulator }} -e nvim %F
+          Terminal=false
+          Type=Application
+          Keywords=Text;editor;
+          Icon=nvim
+          Categories=Utility;TextEditor;
+          StartupNotify=false
+          MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+
+    - name: Ensure custom mimeapps.list exists
+      ansible.builtin.file:
+        path: "{{ home }}/.local/share/applications/mimeapps.list"
+        state: touch
+        mode: "0644"
+
+    - name: Set nvim-ui as default on xdg-mime - text/plain
+      ansible.builtin.blockinfile:
+        path: "{{ home }}/.local/share/applications/mimeapps.list"
+        block: |
+          [Default Applications]
+          text/plain=nvim-ui.desktop
