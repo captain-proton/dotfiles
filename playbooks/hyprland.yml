@@ -27,6 +27,7 @@
         - tofi
         - btop
         - helvum
+        - bluetui
 
     - name: Ensure xdg desktop portal dir exists
       ansible.builtin.file:
@@ -82,3 +83,11 @@
           dest: config.jsonc
         - src: ../templates/waybar.style.j2
           dest: style.css
+
+    - name: Copy bash utils to local bin
+      ansible.builtin.copy:
+        src: "../scripts/{{ item }}"
+        dest: "{{ home }}/.local/bin"
+        mode: "0750"
+      loop:
+        - change-volume.sh
