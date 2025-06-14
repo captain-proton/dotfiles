@@ -1,0 +1,27 @@
+---
+- name: "[ DUNST ]"
+  hosts: all
+
+  tasks:
+
+    - name: Ensure required packages are installed
+      become: true
+      yay:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - dunst
+
+    - name: Ensure dunst config dir exists
+      tags: ["config"]
+      ansible.builtin.file:
+        name: "{{ home }}/.config/dunst"
+        state: directory
+        mode: "0750"
+
+    - name: Configure dunst
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/dunst.config.j2
+        dest: "{{ home }}/.config/dunst/dunstrc"
+        mode: "0644"
