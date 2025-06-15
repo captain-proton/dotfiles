@@ -28,6 +28,7 @@
         - btop
         - helvum
         - bluetui
+        - pacman-contrib
 
     - name: Ensure xdg desktop portal dir exists
       ansible.builtin.file:
@@ -65,10 +66,10 @@
         state: started
         scope: user
 
-    - name: Ensure waybar config path exists
+    - name: Ensure waybar config paths exists
       tags: ["config"]
       ansible.builtin.file:
-        path: "{{ home }}/.config/waybar"
+        path: "{{ home }}/.config/waybar/scripts"
         state: directory
         mode: "0750"
 
@@ -87,7 +88,9 @@
     - name: Copy bash utils to local bin
       ansible.builtin.copy:
         src: "../scripts/{{ item }}"
-        dest: "{{ home }}/.local/bin"
+        dest: "{{ home }}/.config/waybar/scripts"
         mode: "0750"
       loop:
         - change-volume.sh
+        - check-arch-updates.sh
+        - check-aur-updates.sh
