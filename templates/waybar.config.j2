@@ -18,6 +18,8 @@
     ],
     "modules-right": [
         "tray",
+        "custom/arch-updates",
+        "custom/aur-updates",
         "wireplumber",
         "bluetooth",
         "battery",
@@ -60,6 +62,20 @@
         "on-click": "systemctl poweroff",
         "tooltip": true,
     },
+    "custom/arch-updates": {
+	"format": "<span color='#8fbcbb'>{icon}</span> {text}",
+	"interval": "once",
+	"exec": "$HOME/.config/waybar/scripts/check-arch-updates.sh",
+	"on-click": "pamac-manager",
+	"signal": 8
+    },
+    "custom/aur-updates": {
+	"format": "<span color='#86b6b9'>{icon}</span> {text}",
+	"interval": "once",
+	"exec": "$HOME/.config/waybar/scripts/check-aur-updates.sh",
+	"on-click": "pamac-manager",
+	"signal": 8
+    },
     "hyprland/window": {
         "format": "{}",
         "max-length": 120
@@ -73,46 +89,46 @@
         "warning": 30,
         "critical": 15
         },
-        "format": "<span color='#8fbcbb'> {icon} </span>{capacity}% ",
-        "format-charging": " 󱐋{capacity}%",
+        "format": "<span color='#6ea4b5'>{icon}</span> {capacity}% ",
+        "format-charging": "<span color='#6ea4b5'>󱐋</span> {capacity}%",
         "interval": 1,
         "format-icons": ["", "", "", "", ""],
         "tooltip": true
     },
     "clock": {
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        "format-alt": "{:%Y-%m-%d}",
-        "format": " {:%H:%M}"
+        "format-alt": "{:%d.%m.%Y}",
+        "format": "<span color='#5e88af'></span> {:%H:%M}",
     },
     "cpu": {
-        "format": "<span color='#D8DEE9'></span> {usage}%",
+        "format": "<span color='#6396b3'></span> {usage}%",
         "tooltip": true,
         "on-click": "ghostty -e btop"
     },
     "memory": {
-        "format": "<span color='#D8DEE9'></span> {}%",
+        "format": "<span color='#689db4'></span> {}%",
         "on-click": "ghostty -e btop"
     },
     "disk": {
         // Shows usage of /
         "interval": 30,
-        "format": "<span color='#D8DEE9'></span> {percentage_used}%",
+        "format": "<span color='#608fb1'></span> {percentage_used}%",
         "path": "/",
         "tooltip": true,
         "tooltip-format": "{used} GiB used out of {total} GiB on {path} ({percentage_used}%)",
         "on-click": "filelight"
     },
     "wireplumber": {
-        "format": "{icon} {volume}%",
+        "format": "<span color='#7db0b8'>{icon}</span> {volume}%",
         "format-muted": "",
         "on-click": "helvum",
         "format-icons": ["", "", ""]
     },
     "bluetooth": {
-        "format": "󰂯 {status}",
-        "format-disabled": "󰂲 {status}",
-        "format-connected": "󰂱 {device_alias}",
-        "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+        "format": "<span color='#75aab6'>󰂯</span> {status}",
+        "format-disabled": "<span color='#75aab6'>󰂲</span> {status}",
+        "format-connected": "<span color='#75aab6'>󰂱</span> {device_alias}",
+        "format-connected-battery": "<span color='#75aab6'></span> {device_alias} {device_battery_percentage}%",
         // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
         "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
         "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
