@@ -7,6 +7,8 @@
     _hypr_config_dir: "{{ hypr_config_dir | default(_hypr_config_dir_default)}}"
     _hypr_kb_layout: "{{ hypr_kb_layout | default('de') }}"
     _hypr_kb_variant: "{{ hypr_kb_variant | default('deadacute') }}"
+    _wallpaper_default_path: "{{ home }}/.wallpapers"
+    _wallpaper_path: "{{ wallpaper_path | default(_wallpaper_default_path) }}"
     _tofi_font: "{{ tofi_font | default('/usr/share/fonts/TTF/FiraSans-Regular.ttf') }}"
 
   tasks:
@@ -18,17 +20,34 @@
         state: present
       loop:
         - hyprland
+        - qt6-wayland
+        - qt5-wayland
         - xdg-desktop-portal-hyprland
         - xdg-desktop-portal-gtk
         - dunst
         - manjaro-pipewire
         - waybar
         - hyprpaper
+        - waypaper
         - tofi
         - btop
         - helvum
         - bluetui
         - pacman-contrib
+        - qt5ct
+        - qt6ct
+
+    - name: Kvantum theming
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - kvantum
+        - kvantum-manjaro
+        - kvantum-qt5
+        - kvantum-theme-matcha
+        - kvantum-theme-materia
 
     - name: Ensure xdg desktop portal dir exists
       ansible.builtin.file:
@@ -38,7 +57,7 @@
 
     - name: Ensure hyprland config dir exists
       ansible.builtin.file:
-        path: "{{ _hypr_config_dir_default }}"
+        path: "{{ _hypr_config_dir }}"
         state: directory
         mode: "0750"
       tags: ["config", "hyprland"]
@@ -48,6 +67,29 @@
         src: ../templates/hyprland.conf.j2
         dest: "{{ _hypr_config_dir }}/hyprland.conf"
         mode: "0644"
+      tags: ["config", "hyprland"]
+
+    - name: Stats for hyprpaper config
+      ansible.builtin.stat:
+        path: "{{ _hypr_config_dir }}/hyprpaper.conf"
+      register: _hyprpaper_conf
+      tags: ["config", "hyprland"]
+
+    - name: Touch hyprpaper config
+      when: not _hyprpaper_conf.stat.exists
+      ansible.builtin.file:
+        path: "{{ _hypr_config_dir }}/hyprpaper.conf"
+        state: touch
+        mode: "0644"
+      tags: ["config", "hyprland"]
+
+    - name: Configure hyprpaper
+      ansible.builtin.copy:
+        dest: "{{ _hypr_config_dir }}/hyprpaper.conf"
+        mode: "0644"
+        content: |
+          splash = false
+          icp = on
       tags: ["config", "hyprland"]
 
     - name: Configure KDE file chooser
@@ -67,14 +109,14 @@
         scope: user
 
     - name: Ensure waybar config paths exists
-      tags: ["config"]
+      tags: ["config", "waybar"]
       ansible.builtin.file:
         path: "{{ home }}/.config/waybar/scripts"
         state: directory
         mode: "0750"
 
     - name: Configure waybar
-      tags: ["config"]
+      tags: ["config", "waybar"]
       ansible.builtin.template:
         src: "{{ item.src }}"
         dest: "{{ home }}/.config/waybar/{{ item.dest }}"
@@ -86,6 +128,7 @@
           dest: style.css
 
     - name: Copy bash utils to local bin
+      tags: ["config", "waybar"]
       ansible.builtin.copy:
         src: "../scripts/{{ item }}"
         dest: "{{ home }}/.config/waybar/scripts"

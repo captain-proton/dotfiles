@@ -26,11 +26,12 @@
 
 /* General Bar Styling */
 * {
-    border: none;
-    border-radius: 0;
-    font-family: "CaskaydiaCove Nerd Font", FontAwesome, sans-serif;
-    font-size: 14px;
-    min-height: 0;
+  border: none;
+  border-radius: 0;
+  font-family: "CaskaydiaCove Nerd Font", FontAwesome, sans-serif;
+  font-size: 14px;
+  color: @nord6;
+  min-height: 0;
 }
 
 #waybar {
@@ -56,8 +57,12 @@
   border-style: solid;
 }
 
-#workspaces button.active {
+#workspaces button.active label {
   color: @nord8;
+}
+
+#workspaces button:hover {
+  background: rgba(0, 0, 0, 0.2);
 }
 
 #custom-power {
