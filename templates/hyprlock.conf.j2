@@ -1,0 +1,43 @@
+$accent = rgb(5e81ac)
+$surface0 = rgb(eceff4)
+$placeholder = 4c566a
+$text = rgb(2e3440)
+$labelAlpha = 4c566a
+$red = rgb(bf616a)
+
+background {
+    monitor =
+    color = rgba(25, 20, 20, 1.0)
+    blur_passes = 2
+    path = screenshot
+}
+
+label {
+    text = <span foreground="##$labelAlpha">  <i>$USER</i></span>
+    position = 0, 50
+    font_family = Fira Sans
+    font_size = 22
+}
+
+input-field {
+    monitor =
+    size = 300, 60
+    outline_thickness = 4
+    dots_size = 0.2
+    dots_spacing = 0.2
+    dots_center = true
+    outer_color = $accent
+    inner_color = $surface0
+    font_family = Agave Nerd Font 
+    font_color = $text
+    fade_on_empty = false
+    placeholder_text = <span foreground="##$placeholder">Enter password...</span>
+    hide_input = false
+    check_color = $accent
+    fail_color = $red
+    fail_text = <i>$FAIL <b>($ATTEMPTS)</b></i>
+    position = 0, -35
+    halign = center
+    valign = center
+}
+

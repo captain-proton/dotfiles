@@ -37,12 +37,14 @@ $termmenu = tofi-run --drun-launch=true
 # exec-once = $terminal
 
 exec-once = /usr/lib/polkit-kde-authentication-agent-1 &
+exec-once = systemctl --user start hyprland-session.target
 exec-once = waybar &
 exec-once = nm-applet &
 exec-once = dunst &
 exec-once = hyprctl setcursor Nordzy-cursors 16
 exec-once = hyprpaper
 exec-once = waypaper --restore
+exec-once = hypridle
 
 
 #############################
@@ -242,6 +244,7 @@ bind = $mainMod, E, exec, $fileManager
 bind = $mainMod, V, togglefloating,
 bind = $mainMod, p, exec, $menu
 bind = $mainMod + SHIFT, p, exec, $termmenu | xargs -I _ ghostty -e _
+bind = $mainMod + SHIFT, l, exec, hyprlock
 # bind = $mainMod, P, pseudo, # dwindle
 # bind = $mainMod, J, togglesplit, # dwindle
 

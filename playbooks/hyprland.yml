@@ -29,6 +29,8 @@
         - waybar
         - hyprpaper
         - waypaper
+        - hyprlock
+        - hypridle
         - tofi
         - btop
         - helvum
@@ -137,3 +139,28 @@
         - change-volume.sh
         - check-arch-updates.sh
         - check-aur-updates.sh
+
+    - name: Configure xdg autostart
+      tags: ["config"]
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/systemd/user/hyprland-session.target"
+        mode: "0644"
+        content: |
+          [Unit]
+          Description=Hyprland session target
+          BindsTo=graphical-session.target
+          Wants=xdg-desktop-autostart.target
+
+    - name: Configure hyprlock
+      tags: ["config", "hyprland"]
+      ansible.builtin.template:
+        src: ../templates/hyprlock.conf.j2
+        dest: "{{ home }}/.config/hypr/hyprlock.conf"
+        mode: "0644"
+
+    - name: Configure hypridle
+      tags: ["config", "hyprland"]
+      ansible.builtin.template:
+        src: ../templates/hypridle.conf.j2
+        dest: "{{ home }}/.config/hypr/hypridle.conf"
+        mode: "0644"
