@@ -37,7 +37,6 @@ $termmenu = tofi-run --drun-launch=true
 # exec-once = $terminal
 
 exec-once = /usr/lib/polkit-kde-authentication-agent-1 &
-exec-once = /usr/lib/pam_kwallet_init &
 exec-once = waybar &
 exec-once = nm-applet &
 exec-once = dunst &
@@ -64,6 +63,7 @@ env = QT_STYLE_OVERRIDE,kvantum
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_TYPE,wayland
 env = XDG_SESSION_DESKTOP,Hyprland
+env = XDG_MENU_PREFIX,plasma-
 
 
 ###################
