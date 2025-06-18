@@ -49,7 +49,7 @@
             "9": "󰕧",
         },
         "persistent-workspaces": {
-            "*":[1,2,3]
+            "*":[1,2,3,4]
         }
     },
     "custom/reboot": {
@@ -86,19 +86,20 @@
     },
     "battery": {
         "states": {
-        "warning": 30,
-        "critical": 15
+            "warning": 30,
+            "critical": 15
         },
         "format": "<span color='#6ea4b5'>{icon}</span> {capacity}% ",
         "format-charging": "<span color='#6ea4b5'>󱐋</span> {capacity}%",
         "interval": 1,
-        "format-icons": ["", "", "", "", ""],
+        "format-icons": ["󰁺", "󰁺", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
         "tooltip": true
     },
     "clock": {
-        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "tooltip-format": "<big>{:%d.%m.%Y}</big>\n<tt><small>{calendar}</small></tt>",
         "format-alt": "{:%d.%m.%Y}",
         "format": "<span color='#5e88af'></span> {:%H:%M}",
+        "timezone": "Europe/Berlin"
     },
     "cpu": {
         "format": "<span color='#6396b3'></span> {usage}%",
