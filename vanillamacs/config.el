@@ -383,6 +383,7 @@
   (setq evil-want-keybinding nil)  ;; do not load default evil keybindings
   (setq evil-vsplit-window-right t)
   (setq evil-split-window-below t)
+  (setq evil-kill-on-visual-paste nil)
   (evil-mode)
   (add-hook 'with-editor-mode-hook 'evil-insert-state)
   :config
