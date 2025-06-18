@@ -132,7 +132,7 @@
     - name: Copy bash utils to local bin
       tags: ["config", "waybar"]
       ansible.builtin.copy:
-        src: "../scripts/{{ item }}"
+        src: "../files/{{ item }}"
         dest: "{{ home }}/.config/waybar/scripts"
         mode: "0750"
       loop:
