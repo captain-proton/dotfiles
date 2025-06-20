@@ -148,6 +148,7 @@
         - change-volume.sh
         - check-arch-updates.sh
         - check-aur-updates.sh
+        - toggle-bluetooth.sh
 
     - name: Configure xdg autostart
       tags: ["config"]
