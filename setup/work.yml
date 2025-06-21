@@ -19,7 +19,6 @@
 - import_playbook: ../playbooks/arandr.yml
 - import_playbook: ../playbooks/X.yml
 - import_playbook: ../playbooks/network.yml
-- import_playbook: ../playbooks/herbstluftwm.yml
 - import_playbook: ../playbooks/ssh_unlock.yml
 - import_playbook: ../playbooks/fido2.yml
 - import_playbook: ../playbooks/bluetooth.yml
