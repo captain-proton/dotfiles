@@ -26,6 +26,7 @@
         "memory",
         "cpu",
         "disk",
+        "network",
         "clock"
     ],
 
@@ -104,12 +105,12 @@
         "timezone": "Europe/Berlin"
     },
     "cpu": {
-        "format": "<span color='#6396b3'></span> {usage}%",
+        "format": "<span color='#6396b3'></span> {usage:>2}%",
         "tooltip": true,
         "on-click": "ghostty -e btop"
     },
     "memory": {
-        "format": "<span color='#689db4'></span> {}%",
+        "format": "<span color='#689db4'></span> {:>2}%",
         "on-click": "ghostty -e btop"
     },
     "disk": {
@@ -138,5 +139,17 @@
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
         "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
         "on-click": "{{ home }}/.config/waybar/scripts/toggle-bluetooth.sh"
+    },
+    "network": {
+        "format-ethernet": "<span foreground='#75aab6'>󰈀</span> {ifname}",
+        "format-wifi": "<span foreground='#75aab6'>󰖩</span> {essid}",
+        "tooltip": true,
+        "rotate": 0,
+        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󱚵 ",
+        "tooltip-format-disconnected": "Disconnected",
+        "format-alt": "<span foreground='#75aab6'></span> {bandwidthDownBytes} <span foreground='#75aab6'></span> {bandwidthUpBytes}",
+        "interval": 2
     }
 }
