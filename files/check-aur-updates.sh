@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-icon="󰣇"
 class="aur-updates"
 
 # if ! updates_aur=$(paru -Qum 2> /dev/null | wc -l); then
@@ -12,7 +11,7 @@ if ! updates_aur=$(yay -Qum 2> /dev/null | wc -l); then
 fi
 
 if [ "$updates_aur" -gt 0 ]; then
-    echo "{\"text\": \"AUR: $updates_aur\", \"icon\":\"$icon\", \"class\":\"$class\"}"
+    echo "{\"text\": \"AUR: $updates_aur\", \"class\": \"$class\"}"
 else
     echo ""
 fi

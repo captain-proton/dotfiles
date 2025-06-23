@@ -66,14 +66,16 @@
         "tooltip-format": "Power off"
     },
     "custom/arch-updates": {
-	"format": "<span color='#8fbcbb'>{icon}</span> {text}",
+	"format": "<span color='#8fbcbb'>󱘊</span> {text}",
+        "return-type": "json",
 	"interval": "once",
 	"exec": "$HOME/.config/waybar/scripts/check-arch-updates.sh",
 	"on-click": "pamac-manager",
 	"signal": 8
     },
     "custom/aur-updates": {
-	"format": "<span color='#86b6b9'>{icon}</span> {text}",
+	"format": "<span color='#86b6b9'>󰣇</span> {text}",
+        "return-type": "json",
 	"interval": "once",
 	"exec": "$HOME/.config/waybar/scripts/check-aur-updates.sh",
 	"on-click": "pamac-manager",
@@ -145,7 +147,8 @@
         "format-wifi": "<span foreground='#75aab6'>󰖩</span> {essid}",
         "tooltip": true,
         "rotate": 0,
-        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>",
+        "tooltip-format-ethernet": "IP: <big><b>{ipaddr}/{cidr}</b></big>\nInterface: <b>{ifname}</b>",
+        "tooltip-format-wifi": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nIP: <big><b>{ipaddr}/{cidr}</b></big>\nInterface: <b>{ifname}</b>",
         "format-linked": "󰈀 {ifname} (No IP)",
         "format-disconnected": "󱚵 ",
         "tooltip-format-disconnected": "Disconnected",
