@@ -37,6 +37,7 @@ $termmenu = tofi-run --drun-launch=true
 
 # exec-once = $terminal
 
+exec-once = /usr/lib/pam_kwallet_init
 exec-once = systemctl --user start hyprpolkitagent
 exec-once = systemctl --user start hyprland-session.target
 exec-once = waybar &

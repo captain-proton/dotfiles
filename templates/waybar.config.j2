@@ -33,8 +33,7 @@
     // Module specifics
     "hyprland/workspaces": {
         "on-click": "activate",
-        "disable-scroll": true,
-        "all-outputs": true,
+        "all-outputs": false,
         "warp-on-scroll": false,
         "format": "{icon}",
         "format-icons": {
@@ -47,10 +46,7 @@
             "6": "󰍡",
             "7": "󰇮",
             "8": "󰎄",
-            "9": "󰕧",
-        },
-        "persistent-workspaces": {
-            "*":[1,2,3,4]
+            "9": "󰕧"
         }
     },
     "custom/reboot": {
@@ -83,7 +79,8 @@
     },
     "hyprland/window": {
         "format": "{}",
-        "max-length": 120
+        "max-length": 120,
+        "separate-outputs": true
     },
     "tray": {
         "icon-size": 18,
