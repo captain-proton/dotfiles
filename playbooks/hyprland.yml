@@ -47,6 +47,7 @@
         - jq
         - grim
         - slurp
+        - nwg-displays
 
     - name: Kvantum theming
       become: true
@@ -78,6 +79,21 @@
         src: ../templates/hyprland.conf.j2
         dest: "{{ _hypr_config_dir }}/hyprland.conf"
         mode: "0644"
+      tags: ["config", "hyprland"]
+
+    - name: Check stats of monitors config
+      ansible.builtin.stat:
+        path: "{{ _hypr_config_dir }}/monitors.conf"
+      register: _hypr_monitors
+      tags: ["config", "hyprland"]
+
+    - name: Configure monitors if no config is present
+      when: not _hypr_monitors.stat.exists
+      ansible.builtin.copy:
+        dest: "{{ _hypr_config_dir }}/monitors.conf"
+        mode: "0644"
+        content: |
+          monitor=,preferred,auto,1
       tags: ["config", "hyprland"]
 
     - name: Stats for hyprpaper config
