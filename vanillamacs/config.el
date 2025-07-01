@@ -559,6 +559,7 @@
   :ensure t
   :init
   (global-highlight-thing-mode)
+  (global-hl-line-mode 1)
   :hook (highlight-thing-mode . proton/set-highlight-thing-colors)
   :config
   (setq highlight-thing-what-thing 'sexp) ;; sexp = symbol expression (https://en.wikipedia.org/wiki/S-expression)
@@ -1617,6 +1618,7 @@
 (use-package treesit-fold
   :ensure (:host github :repo "emacs-tree-sitter/treesit-fold")
   :config
+  (setq treesit-fold-indicators-fringe 'right-fringe)
   (global-treesit-fold-mode)
   (proton/leader-keys
     "f t" '(treesit-fold-toggle :wk "Treesit fold toggle")
