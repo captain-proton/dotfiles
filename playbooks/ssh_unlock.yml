@@ -70,3 +70,14 @@
         - "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket"
         - "SSH_ASKPASS='/usr/bin/ksshaskpass'"
         - "SSH_ASKPASS_REQUIRE=prefer"
+
+    - name: Export required environment variables to zprofile
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.zprofile"
+        mode: "0640"
+        state: present
+        line: "{{ item }}"
+      loop:
+        - "export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket"
+        - "export SSH_ASKPASS='/usr/bin/ksshaskpass'"
+        - "export SSH_ASKPASS_REQUIRE=prefer"
