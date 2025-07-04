@@ -125,7 +125,7 @@
           [preferred]
           default=hyprland;gtk
           org.freedesktop.impl.portal.FileChooser=kde
-        dest: "{{ home }}/.config/xdg-desktop-portal/hyprland-portals.conf"
+        dest: "{{ home }}/.config/xdg-desktop-portal/portals.conf"
         mode: "0644"
       tags: ["config"]
 
