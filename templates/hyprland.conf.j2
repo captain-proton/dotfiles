@@ -39,6 +39,7 @@ $termmenu = tofi-run --drun-launch=true
 
 exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec-once = /usr/lib/pam_kwallet_init
+exec-once = kbuildsycoca6 --noincremental
 exec-once = systemctl --user start hyprpolkitagent
 exec-once = systemctl --user start hyprland-session.target
 exec-once = waybar &
@@ -69,6 +70,7 @@ env = QT_STYLE_OVERRIDE,kvantum-dark
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_TYPE,wayland
 env = XDG_SESSION_DESKTOP,Hyprland
+env = XDG_MENU_PREFIX,plasma-
 
 
 ###################
