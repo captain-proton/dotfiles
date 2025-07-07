@@ -65,6 +65,7 @@
   - [[#diff-hl][Diff-hl]]
 - [[#gptel][GPTel]]
 - [[#hcl--hashicorp-language][HCL / Hashicorp Language]]
+- [[#plantuml][PlantUML]]
 - [[#visual-fill-column][Visual fill column]]
 - [[#writeroom-mode][Writeroom mode]]
 - [[#org-mode][Org Mode]]
@@ -1500,6 +1501,27 @@ Used by different projects provided by hashicorp.
 (use-package hcl-mode
   :ensure t
   )
+#+end_src
+
+* PlantUML
+
+#+begin_src emacs-lisp
+(use-package plantuml-mode
+  :ensure t
+  :init
+  (proton/local-leader-keys 'normal plantuml-mode-map
+    "p" '(plantuml-preview :wk "Preview")
+    )
+  :config
+  (setq plantuml-executable-path "plantuml"
+        plantuml-default-exec-mode 'executable
+        plantuml-indent-level 4
+        plantuml-output-type "png")
+  ;; Enable plantuml-mode for PlantUML files
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  )
+
 #+end_src
 
 * Visual fill column
