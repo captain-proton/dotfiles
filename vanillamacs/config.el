@@ -951,6 +951,22 @@
   :ensure t
   )
 
+(use-package plantuml-mode
+  :ensure t
+  :init
+  (proton/local-leader-keys 'normal plantuml-mode-map
+    "p" '(plantuml-preview :wk "Preview")
+    )
+  :config
+  (setq plantuml-executable-path "plantuml"
+        plantuml-default-exec-mode 'executable
+        plantuml-indent-level 4
+        plantuml-output-type "png")
+  ;; Enable plantuml-mode for PlantUML files
+  (add-to-list 'auto-mode-alist '("\\.plantuml\\'" . plantuml-mode))
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  )
+
 (use-package visual-fill-column
   :ensure t
   )
