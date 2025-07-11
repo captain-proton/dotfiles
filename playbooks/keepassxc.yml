@@ -1,9 +1,50 @@
 ---
 - name: "[ KEEPASSXC ]"
   hosts: all
+
+  vars:
+    _keepassxc_ssh_agent_enabled: "{{ keepassxc_ssh_agent_enabled | default('false') }}"
+    _keepassxc_config_version: "{{ keepassxc_config_version | default(2) }}"
+    _keepassxc_trayicon_appearance: "{{ keepassxc_trayicon_appearance | default('monochrome-light') }}"
+    _keepassxc_hide_toolbar: "{{ keepassxc_hide_toolbar | default('false') }}"
+    _keepassxc_show_tray_icon: "{{ keepassxc_show_tray_icon | default('true') }}"
+
   tasks:
     - name: Install keepassxc
       become: true
       community.general.pacman:
         name: keepassxc
         state: present
+
+    - name: Ensure config dir is present
+      tags: ["config"]
+      ansible.builtin.file:
+        path: "{{ home }}/.config/keepassxc"
+        state: directory
+        mode: "0755"
+
+    - name: Configure general settings
+      tags: ["config"]
+      community.general.ini_file:
+        path: "{{ home }}/.config/keepassxc/keepassxc.ini"
+        mode: "0644"
+        no_extra_spaces: true
+        section: "{{ item.section }}"
+        option: "{{ item.option }}"
+        value: "{{ item.value }}"
+      loop:
+        - section: General
+          option: ConfigVersion
+          value: "{{ _keepassxc_config_version }}"
+        - section: GUI
+          option: HideToolbar
+          value: "{{ _keepassxc_hide_toolbar }}"
+        - section: GUI
+          option: ShowTrayIcon
+          value: "{{ _keepassxc_show_tray_icon }}"
+        - section: GUI
+          option: TrayIconAppearance
+          value: "{{ _keepassxc_trayicon_appearance }}"
+        - section: SSHAgent
+          option: Enabled
+          value: "{{ _keepassxc_ssh_agent_enabled }}"
