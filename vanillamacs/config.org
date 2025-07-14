@@ -75,7 +75,6 @@
   - [[#bullets][Bullets]]
   - [[#headerlevel-size][Header/Level size]]
   - [[#presentations][Presentations]]
-  - [[#ox-hugo][Ox-Hugo]]
 - [[#just][Just]]
 - [[#lsp][LSP]]
   - [[#lsp-mode][LSP-Mode]]
@@ -1876,17 +1875,6 @@ Register hooks with org-present.
 (add-hook 'org-present-mode-hook 'proton/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
-#+end_src
-
-** Ox-Hugo
-
-=ox-hugo= is an Org exporter backend that exports Org to Hugo-compatible Markdown and also generates the front-matter
-
-#+begin_src emacs-lisp
-(use-package ox-hugo
-  :ensure t
-;;   :pin melpa ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
-  :after ox)
 #+end_src
 
 * Just
