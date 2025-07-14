@@ -90,3 +90,8 @@ httpie_appimage_dest: "{{ local_httpie_appimage_dest }}"
 # that is used to store secrets.
 # https://code.visualstudio.com/docs/editor/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
 vscode_password_store: kwallet5
+
+# Enable keepassxc ssh agent integration
+# Check settings => ssh agent => ssh agent integration
+# use a string here!
+keepassxc_ssh_agent_enabled: 'true'
