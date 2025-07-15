@@ -16,6 +16,7 @@
     himalaya_aliases: "{{ vault_himalaya_aliases | default([]) }}"
     himalaya_display_name: "{{ vault_himalaya_display_name }}"
     himalaya_email: "{{ vault_himalaya_email }}"
+    himalaya_overwrite_config: "{{ vault_himalaya_overwrite_config | default(False)}}"
     mbsync_account_name: "{{ vault_mbsync_account_name }}"
     mbsync_host: "{{ vault_mbsync_host }}"
     mbsync_user: "{{ vault_mbsync_user }}"
@@ -23,6 +24,7 @@
     mbsync_patterns: "{{ vault_mbsync_patterns | default('*') }}"
     _default_path_inbox: "{{ mbsync_path }}Inbox"
     mbsync_path_inbox: "{{ vault_mbsync_path_inbox | default (_default_path_inbox)}}"
+    mbsync_overwrite_config: "{{ vault_mbsync_overwrite_config | default(False)}}"
 
   tasks:
     - name: Ensure packages are installed
@@ -44,8 +46,15 @@
         - "{{ home }}/.config/himalaya"
         - "{{ himalaya_db_path }}"
 
+    - name: Stats of himalaya config
+      tags: ["config"]
+      ansible.builtin.stat:
+        path: "{{ home }}/.config/himalaya/config.toml"
+      register: himalaya_conf_meta
+
     - name: Configure himalaya
       tags: ["config"]
+      when: himalaya_overwrite_config or not himalaya_conf_meta.stat.exists
       ansible.builtin.template:
         src: ../templates/himalaya.toml.j2
         dest: "{{ home }}/.config/himalaya/config.toml"
@@ -61,8 +70,15 @@
         - "{{ mbsync_path }}"
         - "{{ mbsync_path_inbox }}"
 
+    - name: Stats of mbsync config
+      tags: ["config"]
+      ansible.builtin.stat:
+        path: "{{ home }}/.mbsyncrc"
+      register: mbsync_conf_meta
+
     - name: Configure mbsyncrc
       tags: ["mbsync", "config"]
+      when: mbsync_overwrite_config or not mbsync_conf_meta.stat.exists
       ansible.builtin.template:
         src: ../templates/mbsyncrc.j2
         dest: "{{ home }}/.mbsyncrc"
