@@ -1,0 +1,69 @@
+---
+- name: "[ MAIL ]"
+  hosts: all
+
+  vars:
+    himalaya_downloads_dir: "{{ vault_himalaya_downloads_dir }}"
+    himalaya_backend_type: "{{ vault_himalaya_backend_type }}"
+    himalaya_db_path: "{{ vault_himalaya_db_path }}"
+    himalaya_message_backend_type: "{{ vault_himalaya_message_backend_type }}"
+    himalaya_smtp_host: "{{ vault_himalaya_smtp_host }}"
+    himalaya_smtp_port: "{{ vault_himalaya_smtp_port }}"
+    himalaya_backend_login: "{{ vault_himalaya_backend_login }}"
+    himalaya_backend_encryption_type: "{{ vault_himalaya_backend_encryption_type }}"
+    himalaya_backend_auth_type: "{{ vault_himalaya_backend_auth_type }}"
+    himalaya_backend_auth_command: "{{ vault_himalaya_backend_auth_command }}"
+    himalaya_aliases: "{{ vault_himalaya_aliases | default([]) }}"
+    himalaya_display_name: "{{ vault_himalaya_display_name }}"
+    himalaya_email: "{{ vault_himalaya_email }}"
+    mbsync_account_name: "{{ vault_mbsync_account_name }}"
+    mbsync_host: "{{ vault_mbsync_host }}"
+    mbsync_user: "{{ vault_mbsync_user }}"
+    mbsync_path: "{{ vault_mbsync_path }}"  # trailing / is important!
+    mbsync_patterns: "{{ vault_mbsync_patterns | default('*') }}"
+    _default_path_inbox: "{{ mbsync_path }}Inbox"
+    mbsync_path_inbox: "{{ vault_mbsync_path_inbox | default (_default_path_inbox)}}"
+
+  tasks:
+    - name: Ensure packages are installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - himalaya
+        - isync
+
+    - name: Make sure required dirs are present
+      tags: ["config"]
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0750"
+      loop:
+        - "{{ home }}/.config/himalaya"
+        - "{{ himalaya_db_path }}"
+
+    - name: Configure himalaya
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/himalaya.toml.j2
+        dest: "{{ home }}/.config/himalaya/config.toml"
+        mode: "0640"
+
+    - name: Ensure mbsync paths exist
+      tags: ["mbsync", "config"]
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0750"
+      loop:
+        - "{{ mbsync_path }}"
+        - "{{ mbsync_path_inbox }}"
+
+    - name: Configure mbsyncrc
+      tags: ["mbsync", "config"]
+      ansible.builtin.template:
+        src: ../templates/mbsyncrc.j2
+        dest: "{{ home }}/.mbsyncrc"
+        mode: "0600"

@@ -1,0 +1,25 @@
+IMAPAccount {{ mbsync_account_name }}
+Host {{ mbsync_host }}
+User {{ mbsync_user }}
+PassCmd "{{ himalaya_backend_auth_command }}"
+TLSType IMAPS
+AuthMechs LOGIN
+
+IMAPStore {{ mbsync_account_name }}-remote
+Account {{ mbsync_account_name }}
+
+MaildirStore {{ mbsync_account_name }}-local
+Subfolders Verbatim
+Path {{ mbsync_path }}
+Inbox {{ mbsync_path_inbox }}
+
+Channel {{ mbsync_account_name }}
+Far :{{ mbsync_account_name }}-remote:
+Near :{{ mbsync_account_name }}-local:
+Patterns {{ mbsync_patterns }}
+# Automatically create missing mailboxes, locally. "Both" for Near and Far
+Create Both
+# Sync the movement of messages between folders and deletions, add after making sure the sync works
+Expunge Both
+# Save the synchronization state files in the relevant directory
+SyncState *

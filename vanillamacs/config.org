@@ -18,6 +18,9 @@
   - [[#elfeed][Elfeed]]
   - [[#elfeed-org][Elfeed Org]]
   - [[#elfeed-goodies][Elfeed Goodies]]
+- [[#mail][Mail]]
+  - [[#notmuch][Notmuch]]
+  - [[#himalaya][Himalaya]]
 - [[#evil-mode][Evil Mode]]
   - [[#evil-snipe][Evil Snipe]]
   - [[#nerd-commenter][Nerd Commenter]]
@@ -583,6 +586,27 @@ You can have multiple editorconfig files that are applied, as it stops only when
             )
         (insert (propertize title 'face title-faces 'kbd-help title)))))
   (setq elfeed-search-print-entry-function 'cp/elfeed-entry-line-draw)
+  )
+#+end_src
+
+* Mail
+
+** Notmuch
+
+#+begin_src emacs-lisp
+(use-package notmuch
+  :ensure t
+  :config
+  (setq notmuch-search-oldest-first nil)
+  )
+#+end_src
+
+** Himalaya
+
+#+begin_src emacs-lisp
+(use-package himalaya
+  :ensure t
+  :config
   )
 #+end_src
 
