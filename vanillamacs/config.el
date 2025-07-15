@@ -1255,11 +1255,6 @@
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
 (add-hook 'org-present-after-navigate-functions 'proton/org-present-prepare-slide)
 
-(use-package ox-hugo
-  :ensure t
-;;   :pin melpa ;`package-archives' should already have ("melpa" . "https://melpa.org/packages/")
-  :after ox)
-
 (use-package just-mode
   :ensure t)
 
