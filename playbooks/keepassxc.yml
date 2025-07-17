@@ -8,6 +8,7 @@
     _keepassxc_trayicon_appearance: "{{ keepassxc_trayicon_appearance | default('monochrome-light') }}"
     _keepassxc_hide_toolbar: "{{ keepassxc_hide_toolbar | default('false') }}"
     _keepassxc_show_tray_icon: "{{ keepassxc_show_tray_icon | default('true') }}"
+    _keepassxc_application_theme: "{{ keepassxc_application_theme | default('classic') }}"
 
   tasks:
     - name: Install keepassxc
@@ -45,6 +46,9 @@
         - section: GUI
           option: TrayIconAppearance
           value: "{{ _keepassxc_trayicon_appearance }}"
+        - section: GUI
+          option: ApplicationTheme
+          value: "{{ _keepassxc_application_theme }}"
         - section: SSHAgent
           option: Enabled
           value: "{{ _keepassxc_ssh_agent_enabled }}"

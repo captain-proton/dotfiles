@@ -13,6 +13,7 @@
     _grimblast_checksum: "{{ grimblast_checksum | default('sha256:dda4e1d64848049996af52723f634e33a4b0a554ac7b026db098b043be1ab1af') }}"
     _default_grimblast_download_url: "https://github.com/hyprwm/contrib/raw/refs/heads/main/grimblast/grimblast"
     _grimblast_download_url: "{{ grimblast_download_url | default(_default_grimblast_download_url) }}"
+    _freedesktop_secret_service: "{{ freedesktop_secret_service | default('kwallet')}}"
 
   tasks:
 

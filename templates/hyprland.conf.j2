@@ -39,6 +39,11 @@ $termmenu = tofi-run --drun-launch=true
 
 exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec-once = kbuildsycoca6 --noincremental
+{% if _freedesktop_secret_service == 'kwallet' %}
+exec-once = /usr/lib/pam_kwallet_init
+{% if _freedesktop_secret_service == 'keepassxc' %}
+exec-once = keepassxc
+{% endif %}
 exec-once = systemctl --user start hyprpolkitagent
 exec-once = systemctl --user start hyprland-session.target
 exec-once = waybar &
