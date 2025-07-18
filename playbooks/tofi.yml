@@ -30,7 +30,14 @@
           padding-top = 35%
           result-spacing = 25
           num-results = 5
-          font = Vollkorn
+          font = /usr/share/fonts/TTF/FiraSansCondensed-Regular.ttf
           background-color = #000C
           text-color = #e5e9f0
           selection-color = #a3be8c
+
+    - name: Put custom script to run file search using tofi
+      tags: ["config"]
+      ansible.builtin.copy:
+        src: ../files/open_file.sh
+        dest: "{{ home }}/.local/bin/open_file.sh"
+        mode: "0750"
