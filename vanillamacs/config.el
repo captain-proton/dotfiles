@@ -374,12 +374,6 @@
   (setq elfeed-search-print-entry-function 'cp/elfeed-entry-line-draw)
   )
 
-(use-package notmuch
-  :ensure t
-  :config
-  (setq notmuch-search-oldest-first nil)
-  )
-
 (use-package himalaya
   :ensure t
   :config

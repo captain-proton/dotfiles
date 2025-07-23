@@ -5,7 +5,7 @@
   vars:
     himalaya_downloads_dir: "{{ vault_himalaya_downloads_dir }}"
     himalaya_backend_type: "{{ vault_himalaya_backend_type }}"
-    himalaya_db_path: "{{ vault_himalaya_db_path }}"
+    himalaya_root_dir: "{{ vault_himalaya_root_dir }}"
     himalaya_message_backend_type: "{{ vault_himalaya_message_backend_type }}"
     himalaya_smtp_host: "{{ vault_himalaya_smtp_host }}"
     himalaya_smtp_port: "{{ vault_himalaya_smtp_port }}"
@@ -44,7 +44,7 @@
         mode: "0750"
       loop:
         - "{{ home }}/.config/himalaya"
-        - "{{ himalaya_db_path }}"
+        - "{{ himalaya_root_dir }}"
 
     - name: Stats of himalaya config
       tags: ["config"]

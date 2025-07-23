@@ -4,9 +4,9 @@ email = "{{ himalaya_email }}"
 display-name = "{{ himalaya_display_name }}"
 downloads-dir = "{{ himalaya_downloads_dir }}"
 
-{% if himalaya_backend_type == 'notmuch' %}
-backend.type = "notmuch"
-backend.database-path = "{{ himalaya_db_path }}"
+{% if himalaya_backend_type == 'maildir' %}
+backend.type = 'maildir'
+backend.root-dir = "{{ himalaya_root_dir }}"
 backend.maildirpp = false
 {% endif %}
 
