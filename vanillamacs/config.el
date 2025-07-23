@@ -182,11 +182,11 @@
   (fontaine-mode 1)
   (setq fontaine-presets
         '((regular
-           :default-height 110
+           :default-height 105
            :line-spacing 0.16)
           (feedreader
            :default-family "JetBrainsMono Nerd Font"
-           :default-height 140
+           :default-height 135
            :default-weight regular
            :line-spacing 0.12)
           (presentation
