@@ -89,9 +89,12 @@ httpie_appimage_dest: "{{ local_httpie_appimage_dest }}"
 # Configure keyring that is used inside vs code
 # that is used to store secrets.
 # https://code.visualstudio.com/docs/editor/settings-sync#_recommended-configure-the-keyring-to-use-with-vs-code
-vscode_password_store: kwallet5
+vscode_password_store: gnome-libsecret
 
 # Enable keepassxc ssh agent integration
 # Check settings => ssh agent => ssh agent integration
 # use a string here!
 keepassxc_ssh_agent_enabled: 'true'
+
+# Use keepassxc as secret service
+freedesktop_secret_service: keepassxc

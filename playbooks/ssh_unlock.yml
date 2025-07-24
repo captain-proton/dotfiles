@@ -53,6 +53,7 @@
           Type=Application
 
     - name: Link ssh add desktop file to autostart
+      when: freedesktop_secret_service == kwallet
       ansible.builtin.file:
         src: "{{ ssh_add_desktop_path }}"
         dest: "{{ ssh_autostart_entry }}"

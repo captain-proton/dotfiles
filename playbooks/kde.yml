@@ -11,6 +11,7 @@
         mode: "0750"
 
     - name: Enable kwallet automatic D-Bus activation
+      when: freedesktop_secret_service == kwallet
       ansible.builtin.copy:
         dest: "{{ home }}/.local/share/dbus-1/services/org.freedesktop.secrets.service"
         mode: "0640"
