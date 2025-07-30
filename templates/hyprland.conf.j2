@@ -25,7 +25,7 @@ source = ~/.config/hypr/monitors.conf
 $terminal = ghostty
 $fileManager = dolphin
 $menu = wofi --show drun
-$termmenu = wofi --show run
+$termmenu = fd . $(echo $PATH | tr ':' ' ') -a -t f | sed 's|.*/||' | wofi --show dmenu | xargs -I_ ghostty -e _
 $searchmenu = fd -I -t f . ~ | wofi --show dmenu | xargs -I_ xdg-open _
 
 
