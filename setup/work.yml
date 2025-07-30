@@ -51,6 +51,8 @@
 - import_playbook: ../playbooks/lazygit.yml
 - import_playbook: ../playbooks/opentofu.yml
 - import_playbook: ../playbooks/just.yml
+- import_playbook: ../playbooks/hyprland.yml
+- import_playbook: ../playbooks/wofi.yml
 
 - import_playbook: ../playbooks/kde.yml
 - import_playbook: ../playbooks/emacs.yml

@@ -24,8 +24,9 @@ source = ~/.config/hypr/monitors.conf
 # Set programs that you use
 $terminal = ghostty
 $fileManager = dolphin
-$menu = tofi-drun --drun-launch=true --font {{ _tofi_font }}
-$termmenu = tofi-run --drun-launch=true
+$menu = wofi --show drun
+$termmenu = fd . $(echo $PATH | tr ':' ' ') -a -t f | sed 's|.*/||' | wofi --show dmenu | xargs -I_ ghostty -e _
+$searchmenu = fd -I -t f . ~ | wofi --show dmenu | xargs -I_ xdg-open _
 
 
 #################
@@ -255,6 +256,7 @@ bind = $mainMod, E, exec, $fileManager
 bind = $mainMod, V, togglefloating,
 bind = $mainMod, p, exec, $menu
 bind = $mainMod SHIFT, p, exec, $termmenu | xargs -I _ ghostty -e _
+bind = $mainMod CTRL, p, exec, $searchmenu
 bind = $mainMod CTRL, l, exec, hyprlock
 bind = , Print, exec, grimblast --notify copysave active
 bind = SHIFT, Print, exec, grimblast --notify copysave area

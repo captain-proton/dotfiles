@@ -43,6 +43,8 @@
 - import_playbook: ../playbooks/whois.yml
 - import_playbook: ../playbooks/yazi.yml
 - import_playbook: ../playbooks/lazygit.yml
+- import_playbook: ../playbooks/hyprland.yml
+- import_playbook: ../playbooks/wofi.yml
 
 - import_playbook: ../playbooks/kde.yml
 - import_playbook: ../playbooks/emacs.yml
