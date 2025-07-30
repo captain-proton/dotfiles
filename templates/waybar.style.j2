@@ -84,6 +84,11 @@
 
 #battery.discharging.critical {
   color: @nord11;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
 }
 
 #tray:hover,
