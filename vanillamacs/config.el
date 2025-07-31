@@ -182,31 +182,30 @@
   (fontaine-mode 1)
   (setq fontaine-presets
         '((regular
-           :default-height 105
-           :line-spacing 0.16)
+           )
           (feedreader
            :default-family "JetBrainsMono Nerd Font"
            :default-height 135
            :default-weight regular
-           :line-spacing 0.12)
+           )
           (presentation
            :default-height 180
-           :line-spacing 0.16)
+           )
           (zen
            :default-family "Fira Sans"
            :default-height 140
            :fixed-pitch-family "JetBrainsMono Nerd Font"
            :fixed-pitch-height 110
            :variable-pitch-height 110
-           :line-spacing 0.16)
+           )
           (t
            :default-family "JetBrainsMono Nerd Font"
-           :default-height 100
+           :default-height 110
            :default-weight regular
            :variable-pitch-family "Fira Sans"
            :variable-pitch-height 120
            :variable-pitch-weight regular
-           :line-spacing nil)))
+           :line-spacing 0.16)))
     )
 
 ;; Makes commented text and keywords italics.
