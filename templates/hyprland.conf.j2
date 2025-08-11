@@ -38,7 +38,7 @@ $searchmenu = fd -I -t f . ~ | wofi --matching=fuzzy --show dmenu | xargs -I_ xd
 
 # exec-once = $terminal
 
-exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+exec-once = dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XAUTHORITY DISPLAY
 exec-once = kbuildsycoca6 --noincremental
 {% if _freedesktop_secret_service == 'kwallet' %}
 exec-once = /usr/lib/pam_kwallet_init

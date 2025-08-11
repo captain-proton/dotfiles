@@ -96,5 +96,5 @@ vscode_password_store: gnome-libsecret
 # use a string here!
 keepassxc_ssh_agent_enabled: 'true'
 
-# Use keepassxc as secret service
-freedesktop_secret_service: keepassxc
+# Use gnome keyring as secret service
+freedesktop_secret_service: gnome-keyring

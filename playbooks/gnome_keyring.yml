@@ -11,3 +11,12 @@
       loop:
         - gnome-keyring
         - seahorse
+
+    - name: Configure pam sddm
+      become: true
+      ansible.builtin.lineinfile:
+        path: "/etc/pam.d/sddm"
+        line: "{{ item }}"
+      loop:
+        - "auth        optional    pam_gnome_keyring.so"
+        - "session     optional    pam_gnome_keyring.so auto_start"
