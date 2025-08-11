@@ -26,7 +26,7 @@ $terminal = ghostty
 $fileManager = dolphin
 $menu = wofi --show drun
 $termmenu = fd . $(echo $PATH | tr ':' ' ') -a -t f | sed 's|.*/||' | wofi --show dmenu | xargs -I_ ghostty -e _
-$searchmenu = fd -I -t f . ~ | wofi --show dmenu | xargs -I_ xdg-open _
+$searchmenu = fd -I -t f . ~ | wofi --matching=fuzzy --show dmenu | xargs -I_ xdg-open _
 
 
 #################
