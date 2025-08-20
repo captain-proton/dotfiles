@@ -16,7 +16,7 @@
 *** [[https://www.heise.de/rss/heise-atom.xml][heise online News]] :h:
 *** [[https://netzpolitik.org/feed][netzpolitik.org]] :np:
 *** [[https://www.basicthinking.de/blog/feed/][basicthinking]] :mg:
-*** [[https://blog.binaergewitter.de/podcast_feed/all/m4a/rss.xml][binaergewitter]] :bg:
+*** [[http://blog.binaergewitter.de/podcast_feed/all/opus/rss.xml][binaergewitter]] :bg:
 *** [[https://correctiv.org/feed/][correctiv]] :c:
 
 ** IT Security :sec:
