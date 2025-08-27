@@ -9,7 +9,6 @@
     _hypr_kb_variant: "{{ hypr_kb_variant | default('deadacute') }}"
     _wallpaper_default_path: "{{ home }}/.wallpapers"
     _wallpaper_path: "{{ wallpaper_path | default(_wallpaper_default_path) }}"
-    _tofi_font: "{{ tofi_font | default('/usr/share/fonts/TTF/FiraSansCondensed-Regular.ttf') }}"
     _grimblast_checksum: "{{ grimblast_checksum | default('sha256:dda4e1d64848049996af52723f634e33a4b0a554ac7b026db098b043be1ab1af') }}"
     _default_grimblast_download_url: "https://github.com/hyprwm/contrib/raw/refs/heads/main/grimblast/grimblast"
     _grimblast_download_url: "{{ grimblast_download_url | default(_default_grimblast_download_url) }}"
@@ -36,7 +35,6 @@
         - waypaper
         - hyprlock
         - hypridle
-        - tofi
         - btop
         - helvum
         - bluetui
