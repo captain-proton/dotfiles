@@ -35,6 +35,7 @@
         - waypaper
         - hyprlock
         - hypridle
+        - hyprsunset
         - btop
         - helvum
         - bluetui
@@ -188,6 +189,13 @@
       ansible.builtin.template:
         src: ../templates/hypridle.conf.j2
         dest: "{{ home }}/.config/hypr/hypridle.conf"
+        mode: "0644"
+
+    - name: Configure hypsunset
+      tags: ["config", "hyprland"]
+      ansible.builtin.template:
+        src: ../templates/hyprsunset.conf.j2
+        dest: "{{ home }}/.config/hypr/hyprsunset.conf"
         mode: "0644"
 
     - name: Download grimblast script
