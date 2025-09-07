@@ -19,10 +19,10 @@
         name: keychain
         state: present
 
-    - name: Ensure 'x11-ssh-askpass' is installed
+    - name: Ensure a 'ssh-askpass' application is installed
       become: true
       community.general.pacman:
-        name: x11-ssh-askpass
+        name: "{{ ssh_askpass_provider }}"
         state: present
 
     - name: Configure user ssh settings
@@ -53,7 +53,7 @@
           Type=Application
 
     - name: Link ssh add desktop file to autostart
-      when: freedesktop_secret_service == kwallet
+      when: freedesktop_secret_service == 'kwallet'
       ansible.builtin.file:
         src: "{{ ssh_add_desktop_path }}"
         dest: "{{ ssh_autostart_entry }}"
@@ -69,7 +69,7 @@
         line: "{{ item }}"
       loop:
         - "SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket"
-        - "SSH_ASKPASS='/usr/bin/ksshaskpass'"
+        - "SSH_ASKPASS='{{ ssh_askpass_bin }}'"
         - "SSH_ASKPASS_REQUIRE=prefer"
 
     - name: Export required environment variables to zprofile
@@ -80,5 +80,5 @@
         line: "{{ item }}"
       loop:
         - "export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket"
-        - "export SSH_ASKPASS='/usr/bin/ksshaskpass'"
+        - "export SSH_ASKPASS='{{ ssh_askpass_bin }}'"
         - "export SSH_ASKPASS_REQUIRE=prefer"

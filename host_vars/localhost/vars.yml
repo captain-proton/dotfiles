@@ -96,5 +96,14 @@ vscode_password_store: gnome-libsecret
 # use a string here!
 keepassxc_ssh_agent_enabled: 'true'
 
+# which application provides the `ssh-askpass` binary
+# take a look at the ssh_unlock.yml playbook
+ssh_askpass_provider: gnome-keyring
+
+# which program to use when ssh asks for input
+# this may be a password for a key file
+# or yes/no/fingerprint in case of a host key validation
+ssh_askpass_bin: /usr/lib/seahorse/ssh-askpass
+
 # Use gnome keyring as secret service
 freedesktop_secret_service: gnome-keyring
