@@ -49,6 +49,7 @@
         - python-jmespath
         - yapf
         - python-whatthepatch
+        - uv
 
     - name: Check pylsp command
       ansible.builtin.stat:

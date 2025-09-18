@@ -20,6 +20,7 @@ plugins=(git
   pdm
   docker
   ssh
+  uv
 )
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post
