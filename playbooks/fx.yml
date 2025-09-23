@@ -1,0 +1,10 @@
+---
+- name: "[ FX ]"
+  hosts: all
+
+  tasks:
+    - name: Ensure packages are installed
+      become: true
+      community.general.pacman:
+        name: fx
+        state: present
