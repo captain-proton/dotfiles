@@ -22,7 +22,7 @@ source = ~/.config/hypr/monitors.conf
 # See https://wiki.hyprland.org/Configuring/Keywords/
 
 # Set programs that you use
-$terminal = ghostty
+$terminal = ghostty +new-window
 $fileManager = dolphin
 $menu = wofi --show drun
 $termmenu = fd . $(echo $PATH | tr ':' ' ') -a -t f | sed 's|.*/||' | wofi --show dmenu | xargs -I_ ghostty -e _
@@ -230,9 +230,7 @@ input {
 }
 
 # https://wiki.hyprland.org/Configuring/Variables/#gestures
-gestures {
-    workspace_swipe = false
-}
+gesture = 3, horizontal, workspace
 
 # Example per-device config
 # See https://wiki.hyprland.org/Configuring/Keywords/#per-device-input-configs for more

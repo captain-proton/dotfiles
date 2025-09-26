@@ -1,13 +1,17 @@
-theme = nord
+theme = Nord
+cursor-style = block
 font-family = "JetBrainsMono NF Medium"
 font-size = 11
 scrollback-limit = 4294967295
 adjust-cell-height = 20%
 background-opacity = 0.95
 background-blur = 5
+unfocused-split-opacity = 0.8
+quit-after-last-window-closed = false
+shell-integration-features = ssh-env
 
 keybind = ctrl+a>n=new_tab
-keybind = ctrl+shift+r=reload_config
+keybind = global:unconsumed:ctrl+shift+r=reload_config
 keybind = ctrl+a><=new_split:right
 keybind = ctrl+a>-=new_split:down
 keybind = ctrl+a>h=goto_split:left
