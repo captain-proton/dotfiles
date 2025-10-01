@@ -31,6 +31,7 @@
   - [[#preview][Preview]]
   - [[#dired-sidebar][Dired Sidebar]]
 - [[#emacs-gui-tweaks][Emacs GUI Tweaks]]
+  - [[#ansi-colors][Ansi colors]]
   - [[#zoom-inout][Zoom In/Out]]
   - [[#yes-no-maybe][Yes no (maybe)]]
   - [[#diff][Diff]]
@@ -314,6 +315,11 @@ Add support for =use-package=.
    "o e" '(eshell :wk "Open Eshell")
    )
 
+  (proton/leader-keys
+    "p" '(:ignore t :wk "Project/Package")
+    "p u" '(elpaca-update-all :wk "Update packages")
+    "p r" '(elpaca-delete :wk "Remove package")
+    )
   )
 (elpaca-wait)
 #+end_src
@@ -833,6 +839,18 @@ Additional integration with magit, projectile and evil is great.
 
 * Emacs GUI Tweaks
 
+** Ansi colors
+
+So that terminal logs don't look nasty.
+
+#+begin_src emacs-lisp
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  )
+#+end_src
+
 ** Zoom In/Out
 
 #+begin_src emacs-lisp
@@ -1270,12 +1288,11 @@ Projectile is a project interaction library for Emacs.
   :config
   (projectile-mode +1)
   (proton/leader-keys
-    "p" '(:ignore t :wk "Project")
+    "p" '(:ignore t :wk "Project/Package")
     "p d" '(projectile-discover-projects-in-search-path :wk "Discover projects")
     "p e" '(projectile-edit-dir-locals :wk "Edit project .dir-locals.el")
     "p i" '(projectile-invalidate-cache :wk "Invalidate project cache")
     "p p" '(projectile-switch-project :wk "Switch project")
-    "p r" '(projectile-recentf :wk "Recent project files")
     "SPC" '(projectile-find-file :wk "Find file in project")
   )
 )

@@ -157,6 +157,11 @@
    "o e" '(eshell :wk "Open Eshell")
    )
 
+  (proton/leader-keys
+    "p" '(:ignore t :wk "Project/Package")
+    "p u" '(elpaca-update-all :wk "Update packages")
+    "p r" '(elpaca-delete :wk "Remove package")
+    )
   )
 (elpaca-wait)
 
@@ -532,6 +537,12 @@
   (setq dired-sidebar-use-custom-font t)
   )
 
+(require 'ansi-color)
+(defun display-ansi-colors ()
+  (interactive)
+  (ansi-color-apply-on-region (point-min) (point-max))
+  )
+
 (setq text-scale-mode-step 1.05)
 (defun proton/text-scale-reset ()
   (interactive)
@@ -798,12 +809,11 @@
   :config
   (projectile-mode +1)
   (proton/leader-keys
-    "p" '(:ignore t :wk "Project")
+    "p" '(:ignore t :wk "Project/Package")
     "p d" '(projectile-discover-projects-in-search-path :wk "Discover projects")
     "p e" '(projectile-edit-dir-locals :wk "Edit project .dir-locals.el")
     "p i" '(projectile-invalidate-cache :wk "Invalidate project cache")
     "p p" '(projectile-switch-project :wk "Switch project")
-    "p r" '(projectile-recentf :wk "Recent project files")
     "SPC" '(projectile-find-file :wk "Find file in project")
   )
 )
