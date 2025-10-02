@@ -20,6 +20,8 @@
         - fzf
         - zoxide
         - imagemagick
+        - gvfs
+        - glib2
 
     - name: Make sure yazi config dir exists
       ansible.builtin.file:

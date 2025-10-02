@@ -20,12 +20,6 @@
         state: present
       loop: "{{ network_packages | list }}"
 
-    - name: Enable systemd-resolved
-      ansible.builtin.systemd:
-        name: systemd-resolved
-        state: started
-        enabled: true
-
     - name: Configure systemd-resolved for networkmanager
       become: true
       ansible.builtin.copy:
@@ -35,3 +29,9 @@
           [main]
           dns=systemd-resolved
       when: '"networkmanager" in network_packages'
+
+    - name: Enable systemd-resolved
+      ansible.builtin.systemd:
+        name: systemd-resolved
+        state: started
+        enabled: true
