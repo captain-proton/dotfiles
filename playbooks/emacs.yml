@@ -137,3 +137,16 @@
       loop:
         - early-init.el
         - init.el
+
+    - name: Configure vanillamacs systemd user service
+      ansible.builtin.template:
+        src: ../templates/vanillamacs.service.j2
+        dest: "{{ home }}/.config/systemd/user/vanillamacs.service"
+        mode: "0644"
+
+    - name: Enable and start vanillamacs systemd user service
+      ansible.builtin.systemd_service:
+        name: vanillamacs.service
+        scope: user
+        enabled: true
+        state: started

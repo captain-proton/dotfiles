@@ -2084,6 +2084,8 @@ Take a look at the issues [[https://gitlab.com/emacs-ansible/emacs-ansible/-/iss
 (use-package python
   :ensure nil
   :hook ((python-ts-mode . lsp-deferred))
+  :config
+  (setq lsp-pylsp-plugins-flake8-max-line-length 120)
   )
 #+end_src
 

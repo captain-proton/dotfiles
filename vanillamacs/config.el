@@ -1395,6 +1395,8 @@
 (use-package python
   :ensure nil
   :hook ((python-ts-mode . lsp-deferred))
+  :config
+  (setq lsp-pylsp-plugins-flake8-max-line-length 120)
   )
 
 (use-package terraform-mode
