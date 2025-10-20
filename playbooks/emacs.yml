@@ -5,11 +5,9 @@
 
   vars:
     emacsd_doom: "{{ home }}/.config/emacs.d/doom"
-    emacsd_spacemacs: "{{ home }}/.config/emacs.d/spacemacs"
     emacsd_vanillamacs: "{{ home }}/.config/emacs.d/vanillamacs"
     envvars: "{{ emacsd_doom }}/.local/env"
     doomdir: "{{ home }}/dotfiles/emacs"
-    spacemacsdir: "{{ home }}/dotfiles/spacemacs"
     vanillamacsdir: "{{ home }}/dotfiles/vanillamacs"
 
   handlers:
@@ -67,8 +65,6 @@
       loop:
         - key: DOOMDIR
           value: "{{ doomdir }}"
-        - key: SPACEMACSDIR
-          value: "{{ spacemacsdir }}"
         - key: VANILLAMACSDIR
           value: "{{ vanillamacsdir }}"
 
@@ -110,11 +106,6 @@
           env_key: "DOOMDIR"
           name: "Doom emacs"
           desktop_filename: doom_emacs
-        - user_emacs_dir: "{{ emacsd_spacemacs }}"
-          config_dir: "{{ spacemacsdir }}"
-          env_key: "SPACEMACSDIR"
-          name: Spacemacs
-          desktop_filename: spacemacs
         - user_emacs_dir: "{{ emacsd_vanillamacs }}"
           config_dir: "{{ vanillamacsdir }}"
           env_key: "VANILLAMACSDIR"
