@@ -1285,6 +1285,7 @@
   (lsp-signature-auto-activate t)
   (lsp-signature-render-documentation nil)
   (lsp-idle-delay 0.6)
+  (lsp-keep-workspace-alive nil)
   ;; enable / disable the hints as you prefer:
   (lsp-inlay-hint-enable t)
   ;; rust
@@ -1478,6 +1479,96 @@
   (interactive)
   (persp-kill (persp-current-name))
   )
+
+(require 'cl-lib)
+
+(defun proton--frame-perspective-names (frame)
+  "Return names of all perspectives on FRAME without selecting it."
+  (when (and (frame-live-p frame)
+             (fboundp 'persp-names))
+    ;; Use FRAME argument to avoid selecting frames (prevents recursion via hooks)
+    (condition-case nil
+        (persp-names frame)
+      (error nil))))
+
+(defun proton--frame-persp-buffers (frame)
+  "Return the union of buffers in all perspectives on FRAME.
+Uses `persp-get-buffers' with FRAME (no frame selection)."
+  (let ((bufs nil))
+    (dolist (nm (proton--frame-perspective-names frame))
+      (dolist (b (persp-get-buffers nm frame))
+        (when (buffer-live-p b)
+          (push b bufs))))
+    (cl-delete-duplicates bufs :test #'eq)))
+
+(defun proton--buffer-present-in-other-frame-persps-p (buffer frame)
+  "Non-nil if BUFFER is in any perspective on any other frame than FRAME."
+  (catch 'present
+    (dolist (fr (frame-list))
+      (when (and (frame-live-p fr) (not (eq fr frame)))
+        (dolist (nm (proton--frame-perspective-names fr))
+          (when (memq buffer (persp-get-buffers nm fr))
+            (throw 'present t))))))
+  nil)
+
+(defun proton--kill-frame-perspectives (frame)
+  "Best-effort kill all perspectives on FRAME.
+The last perspective may persist until FRAME is deleted."
+  (when (and (frame-live-p frame) (fboundp 'persp-kill))
+    ;; Copy names first since killing mutates the list
+    (let ((names (copy-sequence (proton--frame-perspective-names frame))))
+      (dolist (nm names)
+        (ignore-errors (persp-kill nm frame))))))
+
+(defun proton--cleanup-frame-state (frame &optional kill-shared force)
+  "Kill buffers and perspectives associated with FRAME.
+
+If KILL-SHARED is non-nil, also kill buffers that are present in
+perspectives on other frames. If FORCE is non-nil, do not prompt
+about modified buffers or processes.
+
+Suppress lsp-mode prompts/restarts while cleaning."
+  (when (frame-live-p frame)
+    (let* ((candidate-bufs (proton--frame-persp-buffers frame))
+           (to-kill (if kill-shared
+                        candidate-bufs
+                      (cl-remove-if
+                       (lambda (b)
+                         (proton--buffer-present-in-other-frame-persps-p b frame))
+                       candidate-bufs))))
+      ;; Suppress prompts and lsp restarts
+      (let ((lsp-restart nil)                 ;; don't prompt/restart servers
+            (lsp-keep-workspace-alive nil)    ;; shut down when last buffer closes
+            (confirm-kill-processes (not force))
+            (kill-buffer-query-functions (unless force kill-buffer-query-functions)))
+        ;; Kill buffers first so that perspective teardown has less to do
+        (dolist (b to-kill)
+          (when (buffer-live-p b)
+            (when force
+              (with-current-buffer b
+                (set-buffer-modified-p nil)))
+            (ignore-errors (kill-buffer b))))
+        ;; Then kill perspectives (best effort)
+        (proton--kill-frame-perspectives frame)))))
+
+(defun proton/delete-frame-cleanly (&optional frame kill-shared force)
+  "Kill FRAME's perspective buffers, kill its perspectives, then delete the frame.
+
+- FRAME defaults to the selected frame.
+- If KILL-SHARED is non-nil (use prefix argument), also kill buffers even if
+  they are present in perspectives on other frames.
+- If FORCE is non-nil (C-u C-u), suppress prompts for modified buffers/processes."
+  (interactive
+   (list (selected-frame)
+         current-prefix-arg
+         (and (consp current-prefix-arg) (consp (cdr current-prefix-arg)))))
+  (let ((fr (or frame (selected-frame))))
+    (proton--cleanup-frame-state fr kill-shared force)
+    (when (frame-live-p fr)
+      (delete-frame fr t))))
+
+(proton/leader-keys
+  "v k" '(proton/delete-frame-cleanly :wk "Kill buffers and frame"))
 
 (use-package persp-projectile
   :ensure t
