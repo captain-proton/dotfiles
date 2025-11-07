@@ -312,6 +312,27 @@ bind = $mainMod SHIFT, S, movetoworkspace, special:magic
 bind = $mainMod, mouse_down, workspace, e+1
 bind = $mainMod, mouse_up, workspace, e-1
 
+# SUBMAPS
+# https://wiki.hypr.land/Configuring/Binds/#submaps
+
+# Hyprland submap
+bind = $mainMod ALT, H, submap, hyprland
+submap = hyprland
+
+# resize windows
+binde = , right, resizeactive, 10 0
+binde = , left, resizeactive, -10 0
+binde = , up, resizeactive, 0 -10
+binde = , down, resizeactive, 0 10
+
+# systemctl power commands
+bind = , S, exec, systemctl poweroff
+bind = , R, exec, systemctl reboot
+
+# Go back to global map, important!
+bind = , escape, submap, reset
+submap = reset
+
 # Move/resize windows with mainMod + LMB/RMB and dragging
 bindm = $mainMod, mouse:272, movewindow
 bindm = $mainMod, mouse:273, resizewindow
