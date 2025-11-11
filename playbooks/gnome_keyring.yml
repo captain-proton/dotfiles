@@ -20,3 +20,18 @@
       loop:
         - "auth        optional    pam_gnome_keyring.so"
         - "session     optional    pam_gnome_keyring.so auto_start"
+
+    - name: Disable gcr-ssh-agent
+      ansible.builtin.systemd_service:
+        name: gcr-ssh-agent
+        scope: user
+        state: stopped
+        enabled: false
+
+    - name: Disable and mask gcr-ssh-agent.socket
+      become: true
+      ansible.builtin.systemd_service:
+        name: gcr-ssh-agent.socket
+        scope: global
+        enabled: false
+        masked: true
