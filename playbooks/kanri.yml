@@ -3,9 +3,9 @@
   hosts: all
 
   vars:
-    __kanri_version: "{{ kanri_version | default('0.8.0') }}"
+    __kanri_version: "{{ kanri_version | default('0.8.2') }}"
     __kanri_download_url: "https://github.com/kanriapp/kanri/releases/download/app-v{{ __kanri_version }}/kanri_{{ __kanri_version }}_amd64.AppImage"
-    __kanri_checksum: "{{ kanri_checksum | default('sha256:3a45e1a682e6afffc0c41a63547e89c7bd254fa627bea10fcf9e85178c9df3fa') }}"
+    __kanri_checksum: "{{ kanri_checksum | default('sha256:38ac548eb9c9bbb576ebb9a5626a9d2c98993a8a9845f014a17e317b54cef43f') }}"
     __kanri_desktop_path: "{{ home }}/.local/share/applications/kanri.desktop"
     __kanri_default_filename: "kanri-{{ __kanri_version }}.AppImage"
     __kanri_filename: "{{ kanri_filename | default(__kanri_default_filename) }}"
