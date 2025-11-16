@@ -1,0 +1,50 @@
+---
+- name: "[ LOCALSEND ]"
+  hosts: all
+
+  vars:
+    _localsend_version: "{{ localsend_version | default('1.17.0') }}"
+    _localsend_checksum: "{{ localsend_checksum | default('sha256:6f05e851b72dbeaac764d3446b5a61c34db22f6278baa92607d5b080997f8c81') }}"
+    _localsend_default_dest: "{{ home }}/.local/share/localsend"
+    _localsend_dest: "{{ localsend_dest | default(_localsend_default_dest) }}"
+    _localsend_default_desktop_path: "{{ home }}/.local/share/applications/localsend.desktop"
+    _localsend_desktop_path: "{{ localsend_desktop_path | default(_localsend_default_desktop_path)}}"
+
+  tasks:
+    - name: Download localsend
+      ansible.builtin.get_url:
+        url: "https://github.com/localsend/localsend/releases/download/v{{ _localsend_version }}/LocalSend-{{ _localsend_version }}-linux-x86-64.tar.gz"
+        checksum: "{{ _localsend_checksum }}"
+        dest: /tmp/localsend.tar.gz
+        mode: "0644"
+
+    - name: Create unarchive dir
+      ansible.builtin.file:
+        path: "{{ _localsend_dest }}"
+        state: directory
+        mode: "0750"
+
+    - name: Unarchive downloaded file
+      ansible.builtin.unarchive:
+        src: /tmp/localsend.tar.gz
+        dest: "{{ _localsend_dest }}"
+
+    - name: Link binary to local path
+      ansible.builtin.file:
+        src: "{{ _localsend_dest }}/localsend_app"
+        dest: "{{ home }}/.local/bin/localsend"
+        state: link
+
+    - name: Add contents to localsend.desktop file
+      ansible.builtin.blockinfile:
+        path: "{{ _localsend_desktop_path }}"
+        create: true
+        mode: "0640"
+        state: present
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+        block: |
+          [Desktop Entry]
+          Exec={{ _localsend_dest }}/localsend_app
+          Name=LocalSend
+          Icon={{ _localsend_dest }}/data/flutter_assets/assets/img/logo-256.png
+          Type=Application

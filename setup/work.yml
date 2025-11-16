@@ -72,3 +72,4 @@
 - import_playbook: ../playbooks/httpie.yml
 - import_playbook: ../playbooks/kanri.yml
 - import_playbook: ../playbooks/zen-browser.yml
+- import_playbook: ../playbooks/localsend.yml

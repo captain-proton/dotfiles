@@ -68,3 +68,4 @@
 - import_playbook: ../playbooks/virtualization.yml
 - import_playbook: ../playbooks/ollama.yml
 - import_playbook: ../playbooks/zen-browser.yml
+- import_playbook: ../playbooks/localsend.yml
