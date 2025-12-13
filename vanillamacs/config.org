@@ -66,7 +66,6 @@
   - [[#magit][Magit]]
   - [[#timemachine][Timemachine]]
   - [[#diff-hl][Diff-hl]]
-- [[#gptel][GPTel]]
 - [[#hcl--hashicorp-language][HCL / Hashicorp Language]]
 - [[#plantuml][PlantUML]]
 - [[#visual-fill-column][Visual fill column]]
@@ -1495,30 +1494,6 @@ Add margin to indicate version changes.
   :config
   (global-diff-hl-mode)
   )
-#+end_src
-
-* GPTel
-
-Configure =gptel= as llm client.
-By default ollama with the latest mistral model is used.
-To customize these values use something like the following inside the ~local.el~ file.
-
-#+begin_example
-(setenv "OLLAMA_HOST" "100.64.0.5:11434")
-(setenv "GPTEL_MODEL" "deepseek-r1:14b")
-#+end_example
-
-#+begin_src emacs-lisp
-(use-package gptel
-  :ensure t
-  :config
-  (let ((ollama-host (or (getenv "OLLAMA_HOST") "localhost:11434"))
-        (default-model (intern (or (getenv "GPTEL_MODEL") "mistral:latest"))))
-    (setq gptel-model default-model
-          gptel-backend (gptel-make-ollama "Ollama"
-                          :host ollama-host
-                          :stream t
-                          :models (list default-model)))))
 #+end_src
 
 * HCL / Hashicorp Language
