@@ -1,0 +1,30 @@
+---
+- name: "[ GRYPE ]"
+  hosts: all
+
+  vars:
+    _grype_version: "{{ grype_version | default('0.104.2') }}"
+    _grype_os_architecture: "{{ grype_os_architecture | default('linux_amd64') }}"
+    _grype_checksum: "{{ grype_checksum | default('sha256:8d5c86303693340a7e8c1131c683092dbd6ff1e1f138387c3c94a60f90e66882') }}"
+
+  tasks:
+    - name: Download grype binaries
+      ansible.builtin.get_url:
+        url: https://github.com/anchore/grype/releases/download/v{{ _grype_version }}/grype_{{ _grype_version }}_{{ _grype_os_architecture }}.tar.gz
+        dest: /tmp/grype.tar.gz
+        checksum: "{{ _grype_checksum }}"
+        mode: "0640"
+
+    - name: Create grype temp dir
+      ansible.builtin.file:
+        path: /tmp/grype
+        state: directory
+        mode: "0750"
+
+    - name: Extract grype archive
+      become: true
+      ansible.builtin.unarchive:
+        src: /tmp/grype.tar.gz
+        dest: /usr/local/bin
+        include:
+          - grype

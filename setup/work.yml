@@ -53,6 +53,7 @@
 - ansible.builtin.import_playbook: ../playbooks/hyprland.yml
 - ansible.builtin.import_playbook: ../playbooks/wofi.yml
 - ansible.builtin.import_playbook: ../playbooks/fx.yml
+- ansible.builtin.import_playbook: ../playbooks/grype.yml
 
 - ansible.builtin.import_playbook: ../playbooks/kde.yml
 - ansible.builtin.import_playbook: ../playbooks/emacs.yml
