@@ -1358,8 +1358,7 @@
     "d" '(ansible-decrypt-buffer :wk "Decrypt vault")
     "e" '(ansible-encrypt-buffer :wk "Encrypt vault")
     )
-  :hook ((yaml-ts-mode . ansible-mode)
-         (ansible . ansible-auto-decrypt-encrypt))
+  :hook ((yaml-ts-mode . ansible-mode))
   :config
   (setq ansible-section-face 'font-lock-variable-name-face
         ansible-task-label-face 'font-lock-doc-face
