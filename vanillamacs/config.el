@@ -1191,7 +1191,11 @@
   (org-show-entry)
 
   ;; Show only direct subheadings of the slide but don't expand them
-  (org-show-children))
+  (org-show-children)
+
+  ;; Update doom modeline to show slide relevant information
+  (force-mode-line-update)
+  )
 
 (defun proton/org-present-start ()
   ;; Use visual-line-mode here to cause lines to be wrapped within the
@@ -1217,6 +1221,9 @@
 
   ;; Start in normal mode so slides can be cycled immediatly
   (evil-force-normal-state)
+
+  ;; Enable custom modeline information
+  (proton/org-present-enable-modeline)
   )
 
 (defun proton/org-present-end ()
@@ -1241,7 +1248,49 @@
 
   ;; Stop displaying inline images
   (org-remove-inline-images)
+
+  ;; Disbale custom modeline information
+  (proton/org-present-disable-modeline)
   )
+
+(defun proton/org-present-mode-line ()
+  "Return org-present slide info for mode line."
+  (when (bound-and-true-p org-present-mode)
+    (format " 󰐨 %d/%d"
+            (proton/org-present--current-slide-number)
+            (proton/org-present--total-slides))))
+
+(defun proton/org-present-enable-modeline ()
+  "Show custom slide information on doom-modeline `mode-line-misc-info`"
+  (setq-local mode-line-misc-info
+              (append mode-line-misc-info
+                      '((:eval (proton/org-present-mode-line)))))
+  (force-mode-line-update)
+  )
+
+(defun proton/org-present-disable-modeline ()
+  "Remove custom slide information on doom-modeline `mode-line-misc-info`"
+  (kill-local-variable 'mode-line-misc-info)
+  (force-mode-line-update)
+  )
+
+
+(defun proton/org-present--level-1-headings ()
+  "Return a list of buffer positions of level-1 headings."
+  (org-map-entries
+   (lambda () (point))
+   "LEVEL=1"
+   'file))
+
+(defun proton/org-present--current-slide-number ()
+  "Return the current slide number (1-based)."
+  (let* ((heads (proton/org-present--level-1-headings))
+         (pos (point)))
+    (1+ (cl-position-if (lambda (p) (<= p pos)) heads :from-end t))))
+
+(defun proton/org-present--total-slides ()
+  "Return total number of slides."
+  (length (proton/org-present--level-1-headings)))
 
 (add-hook 'org-present-mode-hook 'proton/org-present-start)
 (add-hook 'org-present-mode-quit-hook 'proton/org-present-end)
