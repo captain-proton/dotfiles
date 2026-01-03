@@ -63,6 +63,19 @@ aliases: "{{ local_aliases | default([]) }}"
 # rclone sync -v /home/foo/Documents gdrive:Documents
 rclone_sync_config: "{{ local_rclone_sync_config | default([]) }}"
 
+# Cli command, that is used to decrypt the rclone config
+# This maybe something like `secret-tool lookup rclone-config pw`
+# It is highly recommended to encrypt the rclone configuration
+# as passwords are only obfuscated (base64)
+rclone_password_command: "{{ local_rclone_password_command | default(None) }}"
+
+# A mount config must contain the following:
+# - name: <rclone config name>
+#   mount_point: <path to mount the target>
+#   vfs_cache_mode: <Cache mode off|minimal|writes|full>
+#   remote_path: <path on the remote>
+rclone_mount_config: "{{ local_rclone_mount_config | default([]) }}"
+
 # Installation directory of miniconda
 miniconda_home: "{{ local_miniconda_home }}"
 

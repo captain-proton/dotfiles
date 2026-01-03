@@ -1,0 +1,23 @@
+[Unit]
+Description={{ item.name }} (rclone)
+AssertPathIsDirectory={{ item.mount_point }}
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+
+ExecStart=/usr/bin/rclone mount \
+    "{{ item.name }}:{{ item.remote_path }}" {{ item.mount_point }} \
+{% if rclone_password_command %}
+    --password-command "{{ rclone_password_command }}" \
+{% endif %}
+    --vfs-cache-mode {{ item.vfs_cache_mode | default('full') }} \
+    --log-level INFO \
+    --log-systemd
+
+# Perform unmount
+ExecStop=fusermount -zu {{ item.mount_point }}
+
+# Restart the service whenever rclone exists with non-zero exit code
+Restart=on-failure

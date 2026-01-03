@@ -5,6 +5,16 @@
   vars:
     systemd_user_dir: "{{ home }}/.config/systemd/user"
 
+  handlers:
+
+    - name: Restart mount
+      ansible.builtin.systemd_service:
+        name: "rclone_mount_{{ item.name | lower }}.service"
+        state: restarted
+        daemon_reload: true
+        scope: user
+      loop: "{{ systemd_mounts.results | selectattr('changed', 'equalto', true) | map(attribute='item') | list }}"
+
   tasks:
     - name: Ensure rclone and needed utils are present
       become: true
@@ -17,6 +27,7 @@
 
     - name: Create sync daemon if configured
       when: rclone_sync_config is defined
+      tags: ["config", "sync"]
       block:
 
         - name: Copy daemon script to path
@@ -45,5 +56,31 @@
             scope: user
             daemon_reload: true
           loop: "{{ rclone_sync_config }}"
+          loop_control:
+            label: "{{ item.name }}"
+
+    - name: Create mount unit if configured
+      when: rclone_mount_config is defined
+      tags: ["config", "mount"]
+      block:
+
+        - name: Ensure the systemd user unit is present
+          ansible.builtin.template:
+            src: ../templates/rclone_mount.service.j2
+            dest: "{{ systemd_user_dir }}/rclone_mount_{{ item.name | lower }}.service"
+            mode: "0644"
+          loop: "{{ rclone_mount_config }}"
+          loop_control:
+            label: "{{ item.name }}"
+
+        - name: Start systemd service
+          notify: Restart mount
+          ansible.builtin.systemd:
+            name: "rclone_mount_{{ item.name | lower }}.service"
+            state: started
+            enabled: true
+            scope: user
+            daemon_reload: true
+          loop: "{{ rclone_mount_config }}"
           loop_control:
             label: "{{ item.name }}"
