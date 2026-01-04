@@ -73,7 +73,7 @@
           loop_control:
             label: "{{ item.name }}"
 
-        - name: Start systemd service
+        - name: Enable systemd service
           notify: Restart mount
           ansible.builtin.systemd:
             name: "rclone_mount_{{ item.name | lower }}.service"
@@ -84,3 +84,4 @@
           loop: "{{ rclone_mount_config }}"
           loop_control:
             label: "{{ item.name }}"
+          register: systemd_mounts

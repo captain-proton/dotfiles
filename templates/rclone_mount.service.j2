@@ -1,8 +1,8 @@
 [Unit]
 Description={{ item.name }} (rclone)
 AssertPathIsDirectory={{ item.mount_point }}
-After=network-online.target
-Wants=network-online.target
+After=network.target
+Wants=network.target
 
 [Service]
 Type=notify
@@ -21,3 +21,6 @@ ExecStop=fusermount -zu {{ item.mount_point }}
 
 # Restart the service whenever rclone exists with non-zero exit code
 Restart=on-failure
+
+[Install]
+WantedBy=default.target
