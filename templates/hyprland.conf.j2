@@ -53,7 +53,9 @@ exec-once = dunst &
 exec-once = hyprctl setcursor Nordzy-cursors 16
 exec-once = hyprpaper
 exec-once = hyprsunset
-exec-once = waypaper --restore
+# broken after hyprland 0.53.x update
+# https://github.com/anufrievroman/waypaper/issues/237
+# exec-once = waypaper --restore
 exec-once = hypridle
 exec-once = udiskie
 
@@ -385,7 +387,7 @@ windowrule {
 windowrule {
     name = zen-file-picker
     size = 60% 60%
-    float = 1
+    match:float = true
     match:class = ^zen$
 }
 

@@ -117,6 +117,9 @@
         content: |
           splash = false
           icp = on
+          wallpaper {
+              path = ~/.wallpaper/current
+          }
       tags: ["config", "hyprland"]
 
     - name: Configure KDE file chooser
