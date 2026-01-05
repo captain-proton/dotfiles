@@ -7,7 +7,7 @@
     _hypr_config_dir: "{{ hypr_config_dir | default(_hypr_config_dir_default)}}"
     _hypr_kb_layout: "{{ hypr_kb_layout | default('de') }}"
     _hypr_kb_variant: "{{ hypr_kb_variant | default('deadacute') }}"
-    _wallpaper_default_path: "{{ home }}/.wallpapers"
+    _wallpaper_default_path: "{{ home }}/.wallpaper"
     _wallpaper_path: "{{ wallpaper_path | default(_wallpaper_default_path) }}"
     _grimblast_checksum: "{{ grimblast_checksum | default('sha256:dda4e1d64848049996af52723f634e33a4b0a554ac7b026db098b043be1ab1af') }}"
     _default_grimblast_download_url: "https://github.com/hyprwm/contrib/raw/refs/heads/main/grimblast/grimblast"
@@ -118,7 +118,8 @@
           splash = false
           icp = on
           wallpaper {
-              path = ~/.wallpaper/current
+              monitor =
+              path = {{ _wallpaper_path }}/current
           }
       tags: ["config", "hyprland"]
 
