@@ -1,6 +1,6 @@
 # A minimal left prompt
 format = """
-[  ](bold #88C0D0)$all
+[ 󱘊 ](bold #88C0D0)$all
 [ ](bold #88C0D0)$character"""
 
 # Inserts a blank line between shell prompts
@@ -66,6 +66,7 @@ format = '[$user]($style)'
 ## nerd font symbols
 [aws]
 symbol = "  "
+disabled = true
 
 [buf]
 symbol = " "
