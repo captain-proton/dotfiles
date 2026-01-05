@@ -2,24 +2,24 @@
   hosts: all
 
   vars:
-    goss_version: "{{ local_goss_version | default('v0.3.20') }}"
-    goss_checksum: "{{ local_goss_version | default('sha256:459bc14662967d07795234374a04d611cd2f821140eb4225e7d9ba4572630e11') }}"
-    dgoss_checksum: "{{ local_dgoss_version | default('sha256:aad5f0c71a8e26d8e6db1c40a0559ef0c854c0bf48073b828fd61eae79f6305e') }}"
+    __goss_version: "{{ goss_version | default('v0.4.9') }}"
+    __goss_checksum: "{{ goss_version | default('sha256:87dd36cfa1b8b50554e6e2ca29168272e26755b19ba5438341f7c66b36decc19') }}"
+    __dgoss_checksum: "{{ dgoss_version | default('sha256:7ee35d6ccbe1440eb2a08984a43e8b3742f2e849abdc0d7384ac08de55682d7c') }}"
 
   tasks:
 
     - name: Download goss
       become: true
       ansible.builtin.get_url:
-        url: "https://github.com/goss-org/goss/releases/download/{{ goss_version }}/goss-linux-amd64"
+        url: "https://github.com/goss-org/goss/releases/download/{{ __goss_version }}/goss-linux-amd64"
         dest: /usr/local/bin/goss
-        checksum: "{{ goss_checksum }}"
+        checksum: "{{ __goss_checksum }}"
         mode: "0755"
 
     - name: Download dgoss
       become: true
       ansible.builtin.get_url:
-        url: "https://github.com/goss-org/goss/releases/download/{{ goss_version }}/dgoss"
+        url: "https://github.com/goss-org/goss/releases/download/{{ __goss_version }}/dgoss"
         dest: /usr/local/bin/dgoss
-        checksum: "{{ dgoss_checksum }}"
+        checksum: "{{ __dgoss_checksum }}"
         mode: "0755"
