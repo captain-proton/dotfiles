@@ -50,7 +50,6 @@ exec-once = systemctl --user start hyprland-session.target
 exec-once = waybar &
 exec-once = nm-applet &
 exec-once = dunst &
-exec-once = hyprctl setcursor Nordzy-cursors 16
 exec-once = hyprpaper
 exec-once = hyprsunset
 # broken after hyprland 0.53.x update
@@ -67,6 +66,7 @@ exec-once = udiskie
 # See https://wiki.hyprland.org/Configuring/Environment-variables/
 
 env = XCURSOR_SIZE,24
+env = HYPRCURSOR_THEME,Nordzy-cursors
 env = HYPRCURSOR_SIZE,24
 
 env = QT_QPA_PLATFORM,wayland
