@@ -1,0 +1,10 @@
+---
+- name: "[ AGE ]"
+  hosts: all
+
+  tasks:
+    - name: Ensure required packages are installed
+      become: true
+      ansible.builtin.package:
+        name: age
+        state: present

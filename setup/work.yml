@@ -54,6 +54,7 @@
 - ansible.builtin.import_playbook: ../playbooks/wofi.yml
 - ansible.builtin.import_playbook: ../playbooks/fx.yml
 - ansible.builtin.import_playbook: ../playbooks/grype.yml
+- ansible.builtin.import_playbook: ../playbooks/age.yml
 
 - ansible.builtin.import_playbook: ../playbooks/kde.yml
 - ansible.builtin.import_playbook: ../playbooks/emacs.yml
