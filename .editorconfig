@@ -7,7 +7,7 @@ root = true
 indent_style = space
 
 # 4 space indentation
-[*.{py,sh}]
+[*.{py,sh,kdl}]
 indent_size = 4
 
 [*.{el,yml,lua}]
