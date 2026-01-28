@@ -2,11 +2,21 @@
 - name: "[ SYNCTHING ]"
   hosts: all
 
+  vars:
+    _syncthing_tray: "{{ syncthing_tray | default(true) }}"
+
   tasks:
     - name: Ensure packages are installed
       become: true
       ansible.builtin.package:
         name: syncthing
+        state: present
+
+    - name: Enable syncthing tray
+      become: true
+      when: _syncthing_tray
+      yay:
+        name: syncthingtray-qt6
         state: present
 
     - name: Start and enable syncthing systemd user unit
