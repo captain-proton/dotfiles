@@ -3,9 +3,9 @@
   hosts: all
 
   vars:
-    _grype_version: "{{ grype_version | default('0.104.2') }}"
+    _grype_version: "{{ grype_version | default('0.107.1') }}"
     _grype_os_architecture: "{{ grype_os_architecture | default('linux_amd64') }}"
-    _grype_checksum: "{{ grype_checksum | default('sha256:8d5c86303693340a7e8c1131c683092dbd6ff1e1f138387c3c94a60f90e66882') }}"
+    _grype_checksum: "{{ grype_checksum | default('sha256:a434ecfd1b3aff9c5a8f9186a57c3c09b34bdbeeeeb00769313568be17af6297') }}"
 
   tasks:
     - name: Download grype binaries
