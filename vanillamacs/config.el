@@ -954,6 +954,10 @@
   :ensure t
   )
 
+(use-package kdl-mode
+  :ensure t
+  )
+
 (use-package plantuml-mode
   :ensure t
   :init
@@ -1730,6 +1734,7 @@ Suppress lsp-mode prompts/restarts while cleaning."
      (html "https://github.com/tree-sitter/tree-sitter-html")
      (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
      (json "https://github.com/tree-sitter/tree-sitter-json")
+     (kdl "https://github.com/tree-sitter/tree-sitter-kdl")
      (make "https://github.com/alemuller/tree-sitter-make")
      (markdown "https://github.com/ikatyang/tree-sitter-markdown")
      (org "https://github.com/milisims/tree-sitter-org")
