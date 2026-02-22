@@ -18,18 +18,21 @@
         - git-delta
 
     - name: Create lazygit config dir
+      tags: ["config"]
       ansible.builtin.file:
         path: "{{ home }}/.config/lazygit"
         state: directory
         mode: "0750"
 
     - name: Configure lazygit
+      tags: ["config"]
       ansible.builtin.template:
         src: ../templates/lazygit.yml.j2
         dest: "{{ home }}/.config/lazygit/config.yml"
         mode: "0640"
 
     - name: Configure lazygit aliases
+      tags: ["config"]
       ansible.builtin.lineinfile:
         path: "{{ __aliases_path }}"
         line: "alias {{ item.alias }}='{{ item.value }}'"
