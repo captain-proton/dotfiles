@@ -378,11 +378,6 @@
   (setq elfeed-search-print-entry-function 'cp/elfeed-entry-line-draw)
   )
 
-(use-package himalaya
-  :ensure t
-  :config
-  )
-
 ;; Expands to: (elpaca evil (use-package evil :demand t))
 ;;(use-package evil :demand t)
 (use-package evil
