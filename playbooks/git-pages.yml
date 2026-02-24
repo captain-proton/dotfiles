@@ -1,0 +1,20 @@
+---
+- name: "[ GIT PAGES ]"
+  hosts: all
+
+  vars:
+    _git_pages_version: "{{ git_pages_version | default('0.4.0') }}"
+    _git_pages_checksum: "{{ git_pages_checksum | default('sha256:af3dd1b1fdee6e379bb6233d88d8cf0daa8d484fac38d256fcf4b5ee17f17ed7') }}"
+    _git_pages_url: "https://codeberg.org/git-pages/git-pages/releases/download/v{{ _git_pages_version }}/git-pages.linux-amd64"
+    _git_pages_default_path: "{{ home }}/.local/bin/git-pages"
+    _git_pages_path: "{{ git_pages_path | default(_git_pages_default_path) }}"
+
+  tasks:
+    - name: Download git pages binary
+      become: true
+      ansible.builtin.get_url:
+        url: "{{ _git_pages_url }}"
+        dest: "{{ _git_pages_path }}"
+        mode: "0755"
+        owner: "{{ ansible_facts.user_id }}"
+        checksum: "{{ _git_pages_checksum }}"
