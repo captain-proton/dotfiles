@@ -48,6 +48,7 @@
   - [[#tab-line][Tab-line]]
   - [[#transparency][Transparency]]
   - [[#window-management][Window management]]
+- [[#asciidoc][AsciiDoc]]
 - [[#dashboard][Dashboard]]
 - [[#diminish][Diminish]]
 - [[#flycheck][Flycheck]]
@@ -1173,6 +1174,16 @@ Used to gain better resizing rather than just split windows in half.
   :init
   (golden-ratio-mode 1)
   )
+#+end_src
+
+* AsciiDoc
+
+A tree-sitter-based major mode for editing AsciiDoc files.
+Take a look at the [[https://github.com/bbatsov/asciidoc-mode][git repo]] for details.
+
+#+begin_src emacs-lisp
+(use-package asciidoc-mode
+  :ensure t)
 #+end_src
 
 * Dashboard

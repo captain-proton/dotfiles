@@ -750,6 +750,9 @@
   (golden-ratio-mode 1)
   )
 
+(use-package asciidoc-mode
+  :ensure t)
+
 (use-package dashboard
   :ensure t
   :init
