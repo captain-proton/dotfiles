@@ -1797,15 +1797,6 @@ Suppress lsp-mode prompts/restarts while cleaning."
   (global-treesit-fold-indicators-mode 1)
   )
 
-(use-package sudo-edit
-  :ensure t
-  :config
-  (proton/leader-keys
-    "f u" '(sudo-edit-find-file :wk "Sudo find file")
-    "f U" '(sudo-edit :wk "Sudo edit file")
-  )
-)
-
 (use-package which-key
   :ensure t
   :init

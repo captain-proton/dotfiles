@@ -52,10 +52,10 @@
         dest: "{{ home }}/.icons"
 
     - name: Configure cursor using ~/.Xresources
-      ansible.builtin.blockinfile:
+      ansible.builtin.lineinfile:
         path: "{{ home }}/.Xresources"
         create: true
         mode: "0644"
-        content: |
-          Xcursor.theme: {{ cursor_name }}
-          Xcursor.size: {{ cursor_size }}
+      loop:
+        - "Xcursor.theme: {{ cursor_name }}"
+        - "Xcursor.size: {{ cursor_size }}"

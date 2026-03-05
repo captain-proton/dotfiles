@@ -9,17 +9,16 @@
     extensions:
       present:
         - arcticicestudio.nord-visual-studio-code
-        - coolbear.systemd-unit-file
+        - docker.docker
         - dotjoshjohnson.xml
-        - eamodio.gitlens
         - editorconfig.editorconfig
-        - gerane.theme-zenburn
         - jebbs.plantuml
         - jmreicha.tender
         - matthewpi.caddyfile-support
         - mechatroner.rainbow-csv
         - mhutchie.git-graph
         - mkhl.direnv
+        - ms-azuretools.vscode-containers
         - ms-azuretools.vscode-docker
         - ms-ceintl.vscode-language-pack-de
         - ms-python.debugpy
@@ -27,12 +26,7 @@
         - ms-python.pylint
         - ms-python.python
         - ms-python.vscode-pylance
-        - ms-toolsai.jupyter
-        - ms-toolsai.jupyter-keymap
-        - ms-toolsai.jupyter-renderers
-        - ms-toolsai.vscode-jupyter-cell-tags
-        - ms-toolsai.vscode-jupyter-slideshow
-        - ms-vscode.cpptools
+        - ms-python.vscode-python-envs
         - ms-vscode-remote.remote-containers
         - naumovs.color-highlight
         - njpwerner.autodocstring
@@ -50,7 +44,15 @@
         - yzhang.markdown-all-in-one
 
       absent:
-        - codeium.codeium
+        - coolbear.systemd-unit-file
+        - eamodio.gitlens
+        - gerane.theme-zenburn
+        - ms-toolsai.jupyter
+        - ms-toolsai.jupyter-keymap
+        - ms-toolsai.jupyter-renderers
+        - ms-toolsai.vscode-jupyter-cell-tags
+        - ms-toolsai.vscode-jupyter-slideshow
+        - ms-vscode.cpptools
     __vscode_password_store: "{{ vscode_password_store | default(omit) }}"
 
   tasks:

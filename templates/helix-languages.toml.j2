@@ -3,7 +3,7 @@ name = "ansible"
 scope = "source.yml"
 roots = []
 indent = { tab-width = 2, unit = "  " }
-language-servers = [ "ansible-language-server" ]
+language-servers = [ "yaml-language-server", "ansible-language-server" ]
 injection-regex = "ansible"
 formatter = { command = "prettier" , args = ["--stdin"] }
 comment-token = "#"
@@ -17,3 +17,7 @@ grammar = "yaml"
 name = "yaml"
 formatter = { command = "yamlfmt", args = ["-"] }
 language-servers = ["yaml-language-server"]
+
+[language-server.ansible-language-server]
+command = "ansible-language-server"
+args = ["--stdio"]
