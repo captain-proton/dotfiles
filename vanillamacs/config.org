@@ -2532,6 +2532,14 @@ Take a look at the [[https://tree-sitter.github.io/tree-sitter/#parsers][tree-si
            (python-mode . python-ts-mode)
            (yaml-mode . yaml-ts-mode)))
   (add-to-list 'major-mode-remap-alist mapping))
+
+(defun proton/update-all-treesit-grammars ()
+  "Update all tree-sitter grammars defined in `treesit-language-source-alist'."
+  (interactive)
+  (dolist (lang treesit-language-source-alist)
+    (let ((language (car lang)))
+      (message "Updating grammar for %s..." language)
+      (treesit-install-language-grammar language))))
 #+end_src
 
 ** Auto tree sitter

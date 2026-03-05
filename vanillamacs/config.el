@@ -1757,6 +1757,14 @@ Suppress lsp-mode prompts/restarts while cleaning."
            (yaml-mode . yaml-ts-mode)))
   (add-to-list 'major-mode-remap-alist mapping))
 
+(defun proton/update-all-treesit-grammars ()
+  "Update all tree-sitter grammars defined in `treesit-language-source-alist'."
+  (interactive)
+  (dolist (lang treesit-language-source-alist)
+    (let ((language (car lang)))
+      (message "Updating grammar for %s..." language)
+      (treesit-install-language-grammar language))))
+
 (use-package treesit-auto
   :ensure t
   :custom
