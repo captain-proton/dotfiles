@@ -13,7 +13,11 @@
       community.general.pacman:
         name: "{{ item }}"
         state: present
-      loop: ["neovim", "xclip", "luarocks"]
+      loop:
+        - neovim
+        - wl-clipboard
+        - luarocks
+        - stylua
 
     - name: Check if neovim dir is already present
       ansible.builtin.stat:
