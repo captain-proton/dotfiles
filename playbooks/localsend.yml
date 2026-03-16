@@ -7,7 +7,7 @@
     _localsend_checksum: "{{ localsend_checksum | default('sha256:c1a1e7bc7bb7eebdf6c365a30cef0d4ba3e6bb79961c3b94edf918920f8e36f0') }}"
     _localsend_default_filename: "localsend-{{ _localsend_version }}.AppImage"
     _localsend_filename: "{{ localsend_filename | default(_localsend_default_filename) }}"
-    _localsend_default_appimage_dest: "{{ home }}/bin/{{ _localsend_filename }}"
+    _localsend_default_appimage_dest: "{{ home }}/.local/bin/{{ _localsend_filename }}"
     _localsend_appimage_dest: "{{ localsend_appimage_dest | default(_localsend_default_appimage_dest) }}"
     _localsend_default_icon_path: "{{ home }}/.icons/localsend.svg"
     _localsend_icon_path: "{{ localsend_icon_path | default(_localsend_default_icon_path) }}"

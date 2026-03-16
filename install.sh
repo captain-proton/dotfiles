@@ -20,6 +20,9 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     if [[ $python != python* ]]; then
         sudo pacman -S --needed python
     fi
+    # Create common base directories
+    mkdir -p ~/.icons
+    mkdir -p ~/.local/bin
 
     # Create a python virtual environment if necessary
     if [ ! -f '.venv/bin/python' ]; then

@@ -9,7 +9,7 @@
     __kanri_desktop_path: "{{ home }}/.local/share/applications/kanri.desktop"
     __kanri_default_filename: "kanri-{{ __kanri_version }}.AppImage"
     __kanri_filename: "{{ kanri_filename | default(__kanri_default_filename) }}"
-    __kanri_default_appimage_dest: "{{ home }}/bin/{{ __kanri_filename }}"
+    __kanri_default_appimage_dest: "{{ home }}/.local/bin/{{ __kanri_filename }}"
     __kanri_appimage_dest: "{{ kanri_appimage_dest | default(__kanri_default_appimage_dest) }}"
     __kanri_default_icon_path: "{{ home }}/.icons/kanri.svg"
     __kanri_icon_path: "{{ kanri_icon_path | default(__kanri_default_icon_path) }}"

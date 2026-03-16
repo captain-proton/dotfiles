@@ -9,7 +9,7 @@
     _httpie_sha256sum: "{{ httpie_sha256_sum | default('a850e215741b60087079086061f656fe550cb66c34f6da93f6dfc63c946d654f') }}"
     _httpie_default_filename: "httpie-{{ _httpie_version }}.AppImage"
     _httpie_filename: "{{ httpie_filename | default(_httpie_default_filename) }}"
-    _httpie_default_appimage_dest: "{{ home }}/bin/{{ _httpie_filename }}"
+    _httpie_default_appimage_dest: "{{ home }}/.local/bin/{{ _httpie_filename }}"
     _httpie_appimage_dest: "{{ httpie_appimage_dest | default(_httpie_default_appimage_dest) }}"
     _httpie_desktop_path: "{{ home }}/.local/share/applications/httpie.desktop"
     _httpie_icon_color: "{{ httpie_icon_color | default('#73dc8c') }}"
