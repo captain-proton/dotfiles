@@ -12,9 +12,3 @@
         - pkgconf
         - base-devel
         - make
-
-    - name: Install ansible yay module
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/mnussbaum/ansible-yay/master/yay
-        dest: ./library/yay
-        mode: "0755"
