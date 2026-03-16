@@ -14,10 +14,12 @@
 
     - name: Enable syncthing tray
       become: true
+      become_user: "{{ aur_builder_user }}"
       when: _syncthing_tray
-      yay:
+      kewlfft.aur.aur:
         name: syncthingtray-qt6
         state: present
+        use: "{{ aur_helper }}"
 
     - name: Start and enable syncthing systemd user unit
       ansible.builtin.systemd_service:

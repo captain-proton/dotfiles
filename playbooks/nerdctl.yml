@@ -9,10 +9,12 @@
 
     - name: Ensure nerdctl is present
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name:
           - nerdctl-full-bin
         state: present
+        use: "{{ aur_helper }}"
 
     - name: Get stat of /etc/containerd
       ansible.builtin.stat:

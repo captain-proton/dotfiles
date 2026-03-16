@@ -1,9 +1,0 @@
----
-- name: "[ DROPBOX ]"
-  hosts: all
-  tasks:
-    - name: Install dropbox from aur
-      become: true
-      yay:
-        name: dropbox
-        state: present

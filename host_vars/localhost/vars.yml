@@ -9,6 +9,14 @@ shell: "{{ lookup('env', 'SHELL') }}"
 path_file_path: "{{ home }}/.local/bin/path"
 # [END COMMONS]
 
+# [ AUR BUILDER ]
+# Use the following util to install packages from aur
+# The module from https://github.com/kewlfft/ansible-aur
+# is used to install packages. At this time it is fixed
+# to yay as several other scripts use this
+aur_helper: yay
+aur_builder_user: aur_builder
+
 # [BORG]
 # path to the borg repo directory
 # example:

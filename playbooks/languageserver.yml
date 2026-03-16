@@ -12,9 +12,11 @@
   tasks:
     - name: Install every configured lsp servers
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name: "{{ item }}"
         state: present
+        use: "{{ aur_helper }}"
       loop: "{{ __lsp_packages }}"
 
     - name: "[[ TERRAFORM LS ]]"

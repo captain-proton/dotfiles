@@ -62,9 +62,11 @@
 
     - name: Ensure leftwm is not installed via package manager
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name: leftwm
         state: absent
+        use: "{{ aur_helper }}"
 
     - name: Ensure leftwm src path exists
       ansible.builtin.file:
@@ -110,10 +112,12 @@
           theme=KvArcDark
 
     - name: Install additional twm utils
+      become_user: "{{ aur_builder_user }}"
       become: true
-      yay:
+      kewlfft.aur.aur:
         name: "{{ item }}"
         state: present
+        use: "{{ aur_helper }}"
       loop:
         - i3lock
         - polybar

@@ -35,7 +35,6 @@
         - redhat.vscode-yaml
         - rust-lang.rust-analyzer
         - shuworks.vscode-table-formatter
-        - stkb.rewrap
         - tamasfe.even-better-toml
         - vadimcn.vscode-lldb
         - vscode-icons-team.vscode-icons
@@ -58,9 +57,11 @@
   tasks:
     - name: Install visual studio code from aur
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name: visual-studio-code-bin
         state: present
+        use: "{{ aur_helper }}"
 
     - name: Select installed extensions
       ansible.builtin.command:

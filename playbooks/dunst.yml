@@ -6,7 +6,7 @@
 
     - name: Ensure required packages are installed
       become: true
-      yay:
+      community.general.pacman:
         name: "{{ item }}"
         state: present
       loop:

@@ -5,6 +5,8 @@
   tasks:
     - name: Install dxvk from aur
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name: dxvk-bin
         state: present
+        use: "{{ aur_helper }}"

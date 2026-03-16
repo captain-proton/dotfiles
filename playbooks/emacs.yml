@@ -19,9 +19,11 @@
   tasks:
     - name: Ensure emacs and doom required software is installed
       become: true
-      yay:
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
         name: "{{ item }}"
         state: present
+        use: "{{ aur_helper }}"
       loop:
         - emacs
         - cmake
