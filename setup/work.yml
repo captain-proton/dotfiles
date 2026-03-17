@@ -38,7 +38,7 @@
 - ansible.builtin.import_playbook: ../playbooks/dust.yml
 - ansible.builtin.import_playbook: ../playbooks/wireguard.yml
 - ansible.builtin.import_playbook: ../playbooks/pandoc.yml
-- ansible.builtin.import_playbook: ../playbooks/tldr.yml
+- ansible.builtin.import_playbook: ../playbooks/tealdeer.yml
 - ansible.builtin.import_playbook: ../playbooks/ocr.yml
 - ansible.builtin.import_playbook: ../playbooks/docker.yml
 - ansible.builtin.import_playbook: ../playbooks/openapi.yml

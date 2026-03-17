@@ -1,0 +1,29 @@
+---
+- name: "[ TLDR/TEALDEER ]"
+  hosts: all
+
+  vars:
+    _tealdeer_auto_update: "{{ tealdeer_auto_update | default(true) }}"
+    _tealdeer_auto_update_interval: "{{ tealdeer_auto_update_interval | default(720) }}"
+
+  tasks:
+
+    - name: Ensure tealdeer is installed
+      become: true
+      community.general.pacman:
+        name: tealdeer
+        state: present
+
+    - name: Ensure tealdeer configuration dir is present
+      tags: ["config"]
+      ansible.builtin.file:
+        path: "{{ home }}/.config/tealdeer"
+        state: directory
+        mode: "0755"
+
+    - name: Configure tealdeer
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/tealdeer.config.toml.j2
+        dest: "{{ home }}/.config/tealdeer/config.toml"
+        mode: "0644"
