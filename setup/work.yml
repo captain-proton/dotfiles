@@ -69,7 +69,6 @@
 - ansible.builtin.import_playbook: ../playbooks/rclone.yml
 - ansible.builtin.import_playbook: ../playbooks/veracrypt.yml
 - ansible.builtin.import_playbook: ../playbooks/virtualization.yml
-- ansible.builtin.import_playbook: ../playbooks/pidgin.yml
 - ansible.builtin.import_playbook: ../playbooks/httpie.yml
 - ansible.builtin.import_playbook: ../playbooks/kanri.yml
 - ansible.builtin.import_playbook: ../playbooks/zen-browser.yml
