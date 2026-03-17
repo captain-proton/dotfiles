@@ -12,7 +12,6 @@
 
     - name: Install rofi
       become: true
-      become_user: "{{ aur_builder_user }}"
       community.general.pacman:
         name: "{{ item }}"
         state: present
