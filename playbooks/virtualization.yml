@@ -16,7 +16,6 @@
         - iptables-nft
         - dnsmasq
         - dmidecode
-        - bridge-utils
         - guestfs-tools
         - swtpm
 
