@@ -26,7 +26,6 @@
 - ansible.builtin.import_playbook: ../playbooks/duf.yml
 - ansible.builtin.import_playbook: ../playbooks/rust.yml
 - ansible.builtin.import_playbook: ../playbooks/shfmt.yml
-- ansible.builtin.import_playbook: ../playbooks/leftwm.yml
 - ansible.builtin.import_playbook: ../playbooks/rofi.yml
 - ansible.builtin.import_playbook: ../playbooks/picom.yml
 - ansible.builtin.import_playbook: ../playbooks/gnome_keyring.yml
