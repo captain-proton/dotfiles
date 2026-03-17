@@ -62,7 +62,6 @@
       loop:
         - kvantum
         - kvantum-qt5
-        - kvantum-theme-matcha
         - kvantum-theme-materia
 
     - name: Ensure xdg desktop portal dir exists
@@ -212,6 +211,12 @@
         checksum: "{{ _grimblast_checksum }}"
         mode: "0750"
         dest: "{{ home }}/.local/bin/grimblast"
+
+    - name: Ensure dbus-1 services dir is present
+      ansible.builtin.file:
+        path: "{{ home }}/.local/share/dbus-1/services"
+        state: directory
+        mode: "0755"
 
     - name: Enable gnome keyring automatic D-Bus activation
       tags: ["config"]
