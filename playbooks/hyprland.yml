@@ -31,7 +31,10 @@
         - xdg-desktop-portal-hyprland
         - xdg-desktop-portal-gtk
         - dunst
-        - manjaro-pipewire
+        - gst-plugin-pipewire
+        - pipewire
+        - pipewire-alsa
+        - pipewire-pulse
         - waybar
         - hyprpaper
         - waypaper
@@ -58,7 +61,6 @@
         state: present
       loop:
         - kvantum
-        - kvantum-manjaro
         - kvantum-qt5
         - kvantum-theme-matcha
         - kvantum-theme-materia

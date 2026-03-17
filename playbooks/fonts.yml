@@ -59,7 +59,7 @@
         label: "{{ item.1 }}"
       notify: Run fc-cache
 
-    - name: Install fonts from manjaro/arch repos
+    - name: Install fonts from arch repos
       become: true
       community.general.pacman:
         name: "{{ repo_fonts }}"
