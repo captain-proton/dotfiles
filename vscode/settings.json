@@ -41,4 +41,5 @@
         "editor.defaultFormatter": "ms-python.black-formatter"
     },
     "makefile.configureOnOpen": false,
+    "ansible.lightspeed.enabled": false,
 }
