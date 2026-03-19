@@ -1,0 +1,50 @@
+- name: "[ FLUFFY CHAT ]"
+  hosts: all
+
+  vars:
+    _fluffychat_version: "{{ fluffychat_version | default('2.4.1') }}"
+    _fluffychat_checksum: "{{ fluffychat_checksum | default('sha256:12359366fd9cbc1bbd0210af7d43a8677040c8136e064725ce8e0bad2639ae17') }}"
+    _fluffychat_default_path: /opt/fluffychat
+    _fluffychat_path: "{{ fluffychat_path | default(_fluffychat_default_path) }}"
+
+  tasks:
+    - name: Download fluffy chat
+      ansible.builtin.get_url:
+        url: "https://github.com/krille-chan/fluffychat/releases/download/v{{ _fluffychat_version }}/fluffychat-linux-x64.tar.gz"
+        checksum: "{{ _fluffychat_checksum }}"
+        dest: /tmp/fluffychat.tar.gz
+        mode: "0755"
+    
+    - name: Create fluffychat path
+      become: true
+      ansible.builtin.file:
+        path: "{{ _fluffychat_path }}"
+        mode: "0755"
+        state: directory
+        owner: "{{ ansible_env.USER }}"
+
+    - name: Decompress fluffy chat
+      become: true
+      ansible.builtin.unarchive:
+        src: /tmp/fluffychat.tar.gz
+        dest: "{{ _fluffychat_path }}"
+        mode: "0755"
+        owner: "{{ ansible_env.USER }}"
+
+    - name: Create desktop entry
+      ansible.builtin.copy:
+        dest: "{{ home }}/.local/share/applications/fluffychat.desktop"
+        mode: "0644"
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Name=FluffyChat
+          Comment=The cutest instant messenger in the [matrix]
+          Exec={{ _fluffychat_path }}/fluffychat
+          Icon={{ _fluffychat_path }}/data/flutter_assets/assets/logo.png
+          SingleMainWindow=true
+          StartupWMClass=chat.fluffy.fluffychat
+          Terminal=false
+          StartupNotify=false
+          Categories=Network;InstantMessaging;Chat;MatrixClient
+          X-Purism-FormFactor=Workstation;Mobile;
