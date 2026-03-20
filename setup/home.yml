@@ -1,5 +1,6 @@
 ---
 - ansible.builtin.import_playbook: ../playbooks/path.yml
+- ansible.builtin.import_playbook: ../playbooks/aur_builder.yml
 - ansible.builtin.import_playbook: ../playbooks/yay.yml
 - ansible.builtin.import_playbook: ../playbooks/dotfiles.yml
 - ansible.builtin.import_playbook: ../playbooks/fonts.yml
@@ -66,6 +67,5 @@
 - ansible.builtin.import_playbook: ../playbooks/handbrake.yml
 - ansible.builtin.import_playbook: ../playbooks/veracrypt.yml
 - ansible.builtin.import_playbook: ../playbooks/virtualization.yml
-- ansible.builtin.import_playbook: ../playbooks/ollama.yml
 - ansible.builtin.import_playbook: ../playbooks/zen-browser.yml
 - ansible.builtin.import_playbook: ../playbooks/localsend.yml
