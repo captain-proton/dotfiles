@@ -50,6 +50,7 @@
         - yapf
         - python-whatthepatch
         - uv
+        - ty
 
     - name: Check pylsp command
       ansible.builtin.stat:
