@@ -26,6 +26,7 @@
 - ansible.builtin.import_playbook: ../playbooks/eza.yml
 - ansible.builtin.import_playbook: ../playbooks/duf.yml
 - ansible.builtin.import_playbook: ../playbooks/rust.yml
+- ansible.builtin.import_playbook: ../playbooks/golang.yml
 - ansible.builtin.import_playbook: ../playbooks/shfmt.yml
 - ansible.builtin.import_playbook: ../playbooks/rofi.yml
 - ansible.builtin.import_playbook: ../playbooks/picom.yml
