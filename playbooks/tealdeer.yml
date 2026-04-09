@@ -3,7 +3,7 @@
   hosts: all
 
   vars:
-    _tealdeer_auto_update: "{{ tealdeer_auto_update | default(true) }}"
+    _tealdeer_auto_update: "{{ tealdeer_auto_update | default('true') }}"
     _tealdeer_auto_update_interval: "{{ tealdeer_auto_update_interval | default(720) }}"
 
   tasks:
