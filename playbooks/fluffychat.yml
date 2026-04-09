@@ -14,7 +14,7 @@
         checksum: "{{ _fluffychat_checksum }}"
         dest: /tmp/fluffychat.tar.gz
         mode: "0755"
-    
+
     - name: Create fluffychat path
       become: true
       ansible.builtin.file:
