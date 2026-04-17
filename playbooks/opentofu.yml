@@ -3,14 +3,17 @@
   hosts: all
 
   vars:
-    __opentofu_version: "{{ opentofu_version | default('1.8.5') }}"
-    __opentofu_os_architecture: "{{ opentofu_os_architecture | default('linux_amd64') }}"
+    _opentofu_version: "{{ opentofu_version | default('1.11.6') }}"
+    _opentofu_checksum: "{{ opentofu_checksum | default('sha256:02800fafa2753a9f50c38483e2fdf5bc353fd62895eb9e25eec9a5145df3a69e') }}"
+    _opentofu_os_architecture: "{{ opentofu_os_architecture | default('linux_amd64') }}"
+    _opentofu_default_url: "https://github.com/opentofu/opentofu/releases/download/v{{ _opentofu_version }}/tofu_{{ _opentofu_version }}_{{ _opentofu_os_architecture }}.tar.gz"
+    _opentofu_url: "{{ opentofu_url | default(_opentofu_default_url) }}"
 
   tasks:
 
     - name: Download opentofu binaries
       ansible.builtin.get_url:
-        url: https://github.com/opentofu/opentofu/releases/download/v{{ __opentofu_version }}/tofu_{{ __opentofu_version }}_{{ __opentofu_os_architecture }}.tar.gz
+        url: "{{ _opentofu_default_url }}"
         dest: /tmp/opentofu.tar.gz
         mode: "0640"
 
