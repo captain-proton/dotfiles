@@ -1,2 +1,4 @@
+# This file contains ignores rule violations for ansible-lint
+playbooks/opentofu.yml yaml[line-length] skip
 setup/home.yml name[play] skip
 setup/work.yml name[play] skip

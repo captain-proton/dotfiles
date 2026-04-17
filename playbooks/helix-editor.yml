@@ -2,19 +2,79 @@
 - name: "[ HELIX EDITOR ]"
   hosts: all
 
+  vars:
+    _helix_install_src: "{{ helix_install_src | default('os') }}"
+    _helix_src_repo: "{{ helix_src_repo | default('https://github.com/helix-editor/helix') }}"
+    _helix_src_branch: "{{ helix_src_branch | default('master') }}"
+    _helix_default_src_dest: "{{ home }}/.helix"
+    _helix_src_dest: "{{ helix_src_dest | default(_helix_default_src_dest) }}"
+    _helix_src_default_build_command: >
+      cargo install
+      --profile opt
+      --config 'build.rustflags="-C target-cpu=native"'
+      --path helix-term
+      --locked
+    _helix_src_build_command: "{{ helix_src_build_command | default(_helix_src_default_build_command) }}"
+    _zsh_default_custom: "{{ home }}/.oh-my-zsh/custom"
+    _zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(_zsh_default_custom, true) }}"
+
   tasks:
 
-    - name: Ensure packages are installed
-      become: true
-      community.general.pacman:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - helix
-        - ansible-language-server
-        - yaml-language-server
-        - yamlfmt
-        - prettier
+    - name: Check helix install src
+      ansible.builtin.assert:
+        that:
+          - _helix_install_src in ["os", "src"]
+        fail_msg: "helix_install_src must be one of ('os', 'src')"
+
+    - name: Install and configure helix using os packages
+      when: _helix_install_src == 'os'
+      block:
+
+        - name: Ensure packages are installed
+          become: true
+          community.general.pacman:
+            name: "{{ item }}"
+            state: present
+          loop:
+            - helix
+            - ansible-language-server
+            - yaml-language-server
+            - yamlfmt
+            - prettier
+
+        - name: Export helix to path
+          ansible.builtin.lineinfile:
+            path: "{{ path_file_path }}"
+            line: "export PATH=/usr/lib/helix:$PATH"
+
+        - name: Export required environment variables
+          ansible.builtin.file:
+            path: "{{ _zsh_custom }}/helix.zsh"
+            state: absent
+
+    - name: Install and configure helix using source code
+      when: _helix_install_src == 'src'
+      block:
+
+        - name: Clone helix sources
+          ansible.builtin.git:
+            repo: "{{ _helix_src_repo }}"
+            version: "{{ _helix_src_branch }}"
+            dest: "{{ _helix_src_dest }}"
+          register: _helix_git
+
+        - name: Build helix
+          when: _helix_git.before != _helix_git.after
+          changed_when: true
+          ansible.builtin.command:
+            cmd: "{{ _helix_src_build_command }}"
+            chdir: "{{ _helix_src_dest }}"
+
+        - name: Export required environment variables
+          ansible.builtin.copy:
+            dest: "{{ _zsh_custom }}/helix.zsh"
+            mode: "0640"
+            content: "export HELIX_RUNTIME={{ _helix_src_dest }}/runtime"
 
     - name: Ensure helix config dir exists
       ansible.builtin.file:
@@ -71,7 +131,9 @@
           ; inherits: yaml
         mode: "0640"
 
-    - name: Export helix to path
-      ansible.builtin.lineinfile:
-        path: "{{ path_file_path }}"
-        line: "export PATH=/usr/lib/helix:$PATH"
+    - name: Configure ansible indent queries
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/helix/runtime/queries/ansible/indents.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
