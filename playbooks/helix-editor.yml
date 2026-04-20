@@ -52,6 +52,12 @@
             path: "{{ _zsh_custom }}/helix.zsh"
             state: absent
 
+        - name: Configure sudo alias
+          ansible.builtin.lineinfile:
+            path: "{{ home }}/.aliases"
+            line: "alias suhx='sudo --preserve-env=HELIX_RUNTIME hx -c {{ home }}/.config/helix/config.toml'"
+            regexp: "^alias suhx"
+
     - name: Install and configure helix using source code
       when: _helix_install_src == 'src'
       block:
@@ -75,6 +81,12 @@
             dest: "{{ _zsh_custom }}/helix.zsh"
             mode: "0640"
             content: "export HELIX_RUNTIME={{ _helix_src_dest }}/runtime"
+
+        - name: Configure sudo alias
+          ansible.builtin.lineinfile:
+            path: "{{ home }}/.aliases"
+            line: "alias suhx='sudo --preserve-env=HELIX_RUNTIME {{ home }}/.cargo/bin/hx -c {{ home }}/.config/helix/config.toml'"
+            regexp: "^alias suhx"
 
     - name: Ensure helix config dir exists
       ansible.builtin.file:
