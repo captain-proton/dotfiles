@@ -15,6 +15,7 @@
       - ttf-cascadia-code-nerd
       - ttf-fira-sans
       - ttf-agave-nerd
+      - ttf-mononoki-nerd
 
     # Change only in case the url changed
     fonts:
