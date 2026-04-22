@@ -128,3 +128,9 @@ ssh_askpass_bin: /usr/lib/seahorse/ssh-askpass
 
 # Use gnome keyring as secret service
 freedesktop_secret_service: gnome-keyring
+
+# Use either waybar (default) or noctalia
+# both work using hyprland at the moment
+# be sure to run hyprland playbook after noctalia was
+# installed
+bar_package: noctalia

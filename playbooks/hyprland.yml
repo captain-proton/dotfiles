@@ -13,6 +13,7 @@
     _default_grimblast_download_url: "https://github.com/hyprwm/contrib/raw/refs/heads/main/grimblast/grimblast"
     _grimblast_download_url: "{{ grimblast_download_url | default(_default_grimblast_download_url) }}"
     _freedesktop_secret_service: "{{ freedesktop_secret_service | default('gnome-keyring')}}"
+    _bar_package: "{{ bar_package | default('waybar') }}"
 
   tasks:
 

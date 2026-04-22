@@ -1,0 +1,55 @@
+---
+- name: "[ NOCTALIA SHELL ]"
+  hosts: all
+
+  vars:
+    _noctalia_version: "{{ noctalia_version | default('4.7.6') }}"
+    _noctalia_checksum: "{{ noctalia_checksum | default('sha256:775ffea886a5287d450c4346f45792baee8a24efc17c3e3a018df88fb67edc8d') }}"
+    _noctalia_default_url: "https://github.com/noctalia-dev/noctalia-shell/releases/download/v{{ _noctalia_version }}/noctalia-v{{ _noctalia_version }}.tar.gz"
+    _noctalia_url: "{{ noctalia_url | default(_noctalia_default_url) }}"
+    _noctalia_config_path: "{{ home }}/.config/quickshell/noctalia-shell"
+
+  tasks:
+
+    - name: Ensure required dependencies are installed
+      become: true
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
+        name: "{{ item }}"
+        state: present
+        use: "{{ aur_helper }}"
+      loop:
+        - noctalia-qs
+        - brightnessctl
+        - git
+        - imagemagick
+        - python
+        - ddcutil
+        - wlsunset
+
+    - name: Ensure noctalia shell config dir is present
+      ansible.builtin.file:
+        path: "{{ _noctalia_config_path }}"
+        state: directory
+        mode: "0755"
+
+    - name: Create temp file to download noctalia to
+      ansible.builtin.tempfile:
+        prefix: noctalia
+        suffix: tar.gz
+      register: noctalia_dl
+
+    - name: Download noctalia
+      ansible.builtin.get_url:
+        url: "{{ _noctalia_url }}"
+        checksum: "{{ _noctalia_checksum }}"
+        mode: "0644"
+        dest: "{{ noctalia_dl.path }}"
+
+    - name: Unarchive noctalia component
+      ansible.builtin.unarchive:
+        src: "{{ noctalia_dl.path }}"
+        dest: "{{ _noctalia_config_path }}"
+        mode: "0755"
+        extra_opts:
+          - "--strip-components=1"
