@@ -23,8 +23,7 @@ source = ~/.config/hypr/monitors.conf
 
 # Set programs that you use
 $terminal = ghostty +new-window
-$fileManager = dolphin
-$menu = wofi --show drun
+$fileManager = ghostty -e yazi
 $termmenu = fd . $(echo $PATH | tr ':' ' ') -a -t f | sed 's|.*/||' | wofi --show dmenu | xargs -I_ ghostty -e _
 $searchmenu = fd -I -t f . ~ | wofi --matching=fuzzy --show dmenu | xargs -I_ xdg-open _
 
@@ -271,7 +270,7 @@ bind = $mainMod SHIFT, R, exec, hyprctl reload && killall -SIGUSR2 waybar
 {% if _bar_package == 'waybar' %}
 bind = $mainMod CTRL, l, exec, hyprlock
 bind = $mainMod CTRL, p, exec, $searchmenu
-bind = $mainMod, p, exec, $menu
+bind = $mainMod, p, exec, qs -c noctalia-shell ipc call launcher toggle
 {% elif _bar_package == 'noctalia' %}
 bind = $mainMod CTRL, l, exec, qs -c noctalia-shell ipc call lockScreen lock
 bind = $mainMod CTRL, p, exec, $searchmenu
