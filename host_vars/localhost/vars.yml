@@ -134,3 +134,10 @@ freedesktop_secret_service: gnome-keyring
 # be sure to run hyprland playbook after noctalia was
 # installed
 bar_package: noctalia
+
+# Install helix from source, as the last release
+# at the time of writing is 25.07.01
+# This release does not support some lsp commands
+# for example used by the ansible-language-server
+# Therefor installing from source here
+helix_install_src: src

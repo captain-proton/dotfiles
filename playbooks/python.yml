@@ -51,6 +51,7 @@
         - python-whatthepatch
         - uv
         - ty
+        - ruff
 
     - name: Check pylsp command
       ansible.builtin.stat:

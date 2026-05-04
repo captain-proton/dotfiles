@@ -1,0 +1,39 @@
+---
+- name: "[ EILMELDUNG ]"
+  hosts: all
+
+  vars:
+
+    _eilmeldung_version: "{{ eilmeldung_version | default('1.4.4') }}"
+    _eilmeldung_src_repo: "https://github.com/christo-auer/eilmeldung"
+    _eilmeldung_default_src_dest: "{{ home }}/.eilmeldung"
+    _eilmeldung_src_dest: "{{ eilmeldung_src_dest | default(_eilmeldung_default_src_dest) }}"
+    _eilmeldung_default_src_build_command: cargo install --locked --path .
+    _eilmeldung_src_build_command: "{{ eilmeldung_src_build_command | default(_eilmeldung_default_src_build_command) }}"
+
+  tasks:
+
+    - name: Get eilmeldung sources
+      ansible.builtin.git:
+        repo: "{{ _eilmeldung_src_repo }}"
+        version: "{{ _eilmeldung_version }}"
+        dest: "{{ _eilmeldung_src_dest }}"
+      register: _eilmeldung_git
+
+    - name: Build eilmeldung
+      when: _eilmeldung_git.before != _eilmeldung_git.after
+      changed_when: true
+      ansible.builtin.command:
+        cmd: "{{ _eilmeldung_src_build_command }}"
+        chdir: "{{ _eilmeldung_src_dest }}"
+
+    - name: Remove eilmeldung sources as they are no longer required
+      ansible.builtin.file:
+        path: "{{ _eilmeldung_src_dest }}"
+        state: absent
+
+    - name: Configure desktop entry
+      ansible.builtin.template:
+        src: ../templates/eilmeldung.desktop.j2
+        dest: "{{ home }}/.local/share/applications/eilmeldung.desktop"
+        mode: "0644"
