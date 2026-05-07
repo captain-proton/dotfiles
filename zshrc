@@ -21,6 +21,7 @@ plugins=(git
   docker
   ssh
   uv
+  mise
 )
 
 # extra files in $HOME/.zsh/configs/pre , $HOME/.zsh/configs , and $HOME/.zsh/configs/post

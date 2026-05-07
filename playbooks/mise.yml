@@ -1,0 +1,46 @@
+---
+- name: "[ MISE ]"
+  hosts: all
+
+  vars:
+    _mise_version: "{{ mise_version | default('2026.5.2') }}"
+    _mise_arch: "{{ mise_arch | default('linux-x64') }}"
+    _mise_download_ext: "{{ mise_download_ext | default('') }}"
+    _mise_checksum: "{{ mise_checksum | default('sha256:23e21feb6a561a2c2923c49473f9f21820f1cf3b9b2e5e8f8d7fafab80854dff') }}"
+    _mise_default_download_url: "https://github.com/jdx/mise/releases/download/v{{ _mise_version }}/mise-v{{ _mise_version }}-{{ _mise_arch }}{{ _mise_download_ext }}"
+    _mise_download_url: "{{ mise_download_url | default(_mise_default_download_url) }}"
+    _mise_default_dest: "{{ home }}/.local/bin/mise"
+    _mise_dest: "{{ mise_dest | default(_mise_default_dest) }}"
+
+  tasks:
+
+    - name: Ensure requirements are installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - usage
+
+    - name: Download mise archive
+      when: _mise_download_ext | length > 0
+      block:
+        - name: Download to tmp
+          ansible.builtin.get_url:
+            url: "{{ _mise_download_url }}"
+            dest: "/tmp/mise{{ _mise_download_ext }}"
+            checksum: "{{ _mise_checksum }}"
+            mode: "0644"
+
+        - name: Unarchive mise
+          ansible.builtin.unarchive:
+            src: "/tmp/mise{{ _mise_download_ext }}"
+            dest: "{{ _mise_dest }}"
+            mode: "0755"
+
+    - name: Download mise
+      ansible.builtin.get_url:
+        url: "{{ _mise_download_url }}"
+        dest: "{{ _mise_dest }}"
+        checksum: "{{ _mise_checksum }}"
+        mode: "0755"

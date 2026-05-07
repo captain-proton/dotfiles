@@ -27,7 +27,7 @@ if [[ -n "$1" && ${SETUP_FILES[*]} =~ $1 ]]; then
     # Create a python virtual environment if necessary
     if [ ! -f '.venv/bin/python' ]; then
         # This python executable points to the system installed version
-        # asdf-vm will be installed later on
+        # mise will be installed later on
         echo "Creating virtual env"
         python -m venv .venv
     fi
