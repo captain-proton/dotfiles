@@ -37,3 +37,9 @@
         src: ../templates/eilmeldung.desktop.j2
         dest: "{{ home }}/.local/share/applications/eilmeldung.desktop"
         mode: "0644"
+
+    - name: Configure eilmeldung
+      ansible.builtin.template:
+        src: ../templates/eilmeldung.config.toml.j2
+        dest: "{{ home }}/.config/eilmeldung/config.toml"
+        mode: "0644"
