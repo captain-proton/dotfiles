@@ -53,38 +53,43 @@ You can set these variables inside the file ~host_vars/localhost/vault.yml~ to k
 
 You can use ~ansible-vault~ if you wish to encrypt these variables.
 Ansible does need a password with which the file will be encrypted.
-Create a ansible password file to prevent ansible from asking the password everytime.
+The `ANSIBLE_VAULT_PASSWORD_FILE` is a neat choice to lookup the password.
+The file may contain the clear text password, which I don't recommend.
+Instead provide a path to an executable file, that looks up the password.
+
+**** Store the ansible password
+
+~secret-tool~ can be used to store a password inside a local password storage like =gnome-keyring=.
+Using ~playbooks/gnome_keyring.yml~ takes care of installing, if you wish to.
 
 #+begin_src sh
-export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible/vault_pass
-if [ ! -f "$ANSIBLE_VAULT_PASSWORD_FILE" ]; then
-    openssl rand -base64 21 > $ANSIBLE_VAULT_PASSWORD_FILE
-    chmod 400 $ANSIBLE_VAULT_PASSWORD_FILE
-fi
+secret-tool store --label "dotfiles vault" dotfiles vault
 #+end_src
 
-Export the environment variable using direnv.
-Add the following line to ~.envrc~.
+Enter the password, and your good to go.
 
-#+begin_src conf
-export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.ansible/vault_pass
+**** Lookup the password
+
+Create a ~mise.local.toml~ file with the following content.
+
+#+begin_src shell
+[env]
+ANSIBLE_VAULT_PASSWORD_FILE = ".lookup_vault_pw"
 #+end_src
 
-Finally allow direnv to load the environment file.
+The file must be executable in order to have ansible run it.
+Using the command from storing the password, it must have the following content.
 
-#+begin_src sh
-direnv allow
-#+end_src
+#+begin_example
+#!/usr/bin/env sh
+secret-tool lookup dotfiles vault
+#+end_example
 
-And create the vault.yml file.
+Ansible will lookup the password and you can use ~ansible-vault~ command to crud your custom settings.
 
 #+begin_src sh
 VAULT_CONF=host_vars/localhost/vault.yml
 if [ ! -f "$VAULT_CONF" ]; then
-    poetry run ansible-vault create $VAULT_CONF
+    ansible-vault create $VAULT_CONF
 fi
 #+end_src
-
-* Third party
-
-Some ansible playbooks use the [[https://github.com/mnussbaum/ansible-yay][yay module]] of Michael Nussbaum.

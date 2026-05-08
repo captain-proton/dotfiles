@@ -338,3 +338,9 @@ elpaca/
 
 # Don't share native compiled elisp
 eln-cache/
+
+# Custom mise config
+mise.local.toml
+
+# Use this file to provide a command to lookup an ansible vault password
+.lookup_vault_pw

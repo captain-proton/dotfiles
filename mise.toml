@@ -1,2 +1,8 @@
 [tools]
 python = "3.12.3"
+
+[settings]
+env_shell_expand = true
+
+[env]
+ANSIBLE_VAULT_PASSWORD_FILE = { required = true }
