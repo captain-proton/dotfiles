@@ -2,8 +2,8 @@
   hosts: all
 
   vars:
-    _fluffychat_version: "{{ fluffychat_version | default('2.4.1') }}"
-    _fluffychat_checksum: "{{ fluffychat_checksum | default('sha256:12359366fd9cbc1bbd0210af7d43a8677040c8136e064725ce8e0bad2639ae17') }}"
+    _fluffychat_version: "{{ fluffychat_version | default('2.5.0') }}"
+    _fluffychat_checksum: "{{ fluffychat_checksum | default('sha256:5bad47a6a1275065777a3a829eae25de78a7e1f4c51e531938411c029d4b658e') }}"
     _fluffychat_default_path: /opt/fluffychat
     _fluffychat_path: "{{ fluffychat_path | default(_fluffychat_default_path) }}"
 
@@ -21,7 +21,7 @@
         path: "{{ _fluffychat_path }}"
         mode: "0755"
         state: directory
-        owner: "{{ ansible_env.USER }}"
+        owner: "{{ ansible_facts['env']['USER'] }}"
 
     - name: Decompress fluffy chat
       become: true
@@ -29,7 +29,7 @@
         src: /tmp/fluffychat.tar.gz
         dest: "{{ _fluffychat_path }}"
         mode: "0755"
-        owner: "{{ ansible_env.USER }}"
+        owner: "{{ ansible_facts['env']['USER'] }}"
 
     - name: Create desktop entry
       ansible.builtin.copy:
