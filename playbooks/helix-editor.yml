@@ -155,9 +155,3 @@
         path: "{{ home }}/.config/helix/themes"
         mode: "0755"
         state: directory
-
-    - name: Configure theme
-      ansible.builtin.template:
-        src: ../templates/helix-proton-theme.toml.j2
-        dest: "{{ home }}/.config/helix/themes/proton.toml"
-        mode: "0644"
