@@ -212,7 +212,13 @@ Add support for =use-package=.
 
 ;; Block until current queue processed.
 (elpaca-wait)
+#+end_src
 
+Install compat, emacs may be outdated.
+
+#+begin_src emacs-lisp
+(use-package compat
+  :ensure t)
 #+end_src
 
 * General Keybindings
