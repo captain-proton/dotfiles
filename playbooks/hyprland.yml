@@ -78,26 +78,24 @@
         mode: "0750"
       tags: ["config", "hyprland"]
 
-    - name: Configure hyprland
-      ansible.builtin.template:
-        src: ../templates/hyprland.conf.j2
-        dest: "{{ _hypr_config_dir }}/hyprland.conf"
-        mode: "0644"
-      tags: ["config", "hyprland"]
-
     - name: Check stats of monitors config
       ansible.builtin.stat:
-        path: "{{ _hypr_config_dir }}/monitors.conf"
+        path: "{{ _hypr_config_dir }}/monitors.lua"
       register: _hypr_monitors
       tags: ["config", "hyprland"]
 
     - name: Configure monitors if no config is present
       when: not _hypr_monitors.stat.exists
       ansible.builtin.copy:
-        dest: "{{ _hypr_config_dir }}/monitors.conf"
+        dest: "{{ _hypr_config_dir }}/monitors.lua"
         mode: "0644"
         content: |
-          monitor=,preferred,auto,1
+          hl.monitor({
+              output = "",
+              mode = "preferred",
+              position = "auto",
+              scale = 1
+          })
       tags: ["config", "hyprland"]
 
     - name: Stats for hyprpaper config
@@ -185,26 +183,34 @@
           BindsTo=graphical-session.target
           Wants=xdg-desktop-autostart.target
 
-    - name: Configure hyprlock
+    - name: Ensure hyprland config dir exists
+      ansible.builtin.file:
+        path: "{{ _hypr_config_dir }}"
+        state: directory
+        mode: "0750"
       tags: ["config", "hyprland"]
-      ansible.builtin.template:
-        src: ../templates/hyprlock.conf.j2
-        dest: "{{ home }}/.config/hypr/hyprlock.conf"
-        mode: "0644"
 
-    - name: Configure hypridle
+    - name: Configure templates
       tags: ["config", "hyprland"]
       ansible.builtin.template:
-        src: ../templates/hypridle.conf.j2
-        dest: "{{ home }}/.config/hypr/hypridle.conf"
-        mode: "0644"
-
-    - name: Configure hypsunset
-      tags: ["config", "hyprland"]
-      ansible.builtin.template:
-        src: ../templates/hyprsunset.conf.j2
-        dest: "{{ home }}/.config/hypr/hyprsunset.conf"
-        mode: "0644"
+        src: "../templates/{{ item.src }}"
+        dest: "{{ _hypr_config_dir }}/{{ item.dest }}"
+        mode: "{{ item.mode | default('0644') }}"
+      loop:
+        - src: hyprland.lua.j2
+          dest: hyprland.lua
+        - src: hyprland.look-and-feel.lua.j2
+          dest: look-and-feel.lua
+        - src: hyprland.autostart.lua.j2
+          dest: autostart.lua
+        - src: hyprland.keybindings.lua.j2
+          dest: keybindings.lua
+        - src: hyprlock.conf.j2
+          dest: hyprlock.conf
+        - src: hypridle.conf.j2
+          dest: hypridle.conf
+        - src: hyprsunset.conf.j2
+          dest: hyprsunset.conf
 
     - name: Download grimblast script
       ansible.builtin.get_url:

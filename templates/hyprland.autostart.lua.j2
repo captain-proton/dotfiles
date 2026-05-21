@@ -1,0 +1,24 @@
+hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XAUTHORITY DISPLAY")
+hl.exec_cmd("kbuildsycoca6 --noincremental")
+{% if _freedesktop_secret_service == 'kwallet' %}
+hl.exec_cmd("/usr/lib/pam_kwallet_init")
+{% elif _freedesktop_secret_service == 'keepassxc' %}
+hl.exec_cmd("keepassxc")
+{% endif %}
+hl.exec_cmd("systemctl --user start hyprpolkitagent")
+hl.exec_cmd("systemctl --user start hyprland-session.target")
+{% if _bar_package == 'waybar' %}
+hl.exec_cmd("waybar &")"
+hl.exec_cmd("hyprpaper")
+hl.exec_cmd("hyprsunset")
+# broken after hyprland 0.53.x update
+# https://github.com/anufrievroman/waypaper/issues/237
+# hl.exec_cmd("waypaper --restore")
+hl.exec_cmd("hypridle")
+hl.exec_cmd("dunst &")"
+hl.exec_cmd("nm-applet &")"
+{% elif _bar_package == 'noctalia' %}
+hl.exec_cmd("qs -c noctalia-shell")
+{% endif %}
+hl.exec_cmd("udiskie")
+
