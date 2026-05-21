@@ -21,7 +21,7 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 
 [opener]
 edit = [
-    { run = '${EDITOR:-nvim} "$@"', desc = "$EDITOR", block = true, for = "unix" }
+    { run = '${EDITOR:-vim} "$@"', desc = "$EDITOR", block = true, for = "unix" }
 ]
 open = [
     { run = 'xdg-open "$1"', desc = "Open", for = "linux" },
@@ -39,7 +39,7 @@ play = [
 [open]
 rules = [
     # Folder
-    { name = "*/", use = [ "edit", "open", "reveal" ] },
+    { url = "*/", use = [ "edit", "open", "reveal" ] },
     # Text
     { mime = "text/*", use = [ "edit", "reveal" ] },
     # Image
@@ -54,5 +54,5 @@ rules = [
     # Empty file
     { mime = "inode/x-empty", use = [ "edit", "reveal" ] },
     # Fallback
-    { name = "*", use = [ "open", "reveal" ] },
+    { url = "*", use = [ "open", "reveal" ] },
 ]
