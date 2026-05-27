@@ -29,9 +29,22 @@ name = "markdown"
 formatter = { command = 'prettier', args = ["--parser", "markdown"] }
 
 [[language]]
+name = "xml"
+formatter = { command = "xmllint", args = ["--format", "%{buffer_name}"] }
+
+[[language]]
 name = "yaml"
 formatter = { command = 'prettier', args = ["--parser", "yaml"] }
 
 [[language]]
 name = "python"
 formatter = { command = "ruff", args = ["format", "-"] }
+
+[[language]]
+name = "json"
+language-servers = ["json-lsp"]
+formatter = { command = 'prettier', args = ["--parser", "json"] }
+
+[language-server.json-lsp]
+command = "vscode-json-languageserver"
+args = ["--stdio"]
