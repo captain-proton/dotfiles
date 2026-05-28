@@ -211,6 +211,8 @@
           dest: hypridle.conf
         - src: hyprsunset.conf.j2
           dest: hyprsunset.conf
+        - src: hyprland.workspaces.lua.j2
+          dest: workspaces.lua
 
     - name: Download grimblast script
       ansible.builtin.get_url:
