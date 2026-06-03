@@ -41,6 +41,7 @@
             - yaml-language-server
             - yamlfmt
             - prettier
+            - docbook-xml
 
         - name: Export helix to path
           ansible.builtin.lineinfile:
