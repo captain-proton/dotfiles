@@ -5,7 +5,7 @@ hl.bind(mainMod .. " + return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd(termmenu .. " | xargs -I _ ghostty -e _"))
+hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd(termmenu))
 hl.bind(mainMod .. " + Print", hl.dsp.exec_cmd("grimblast --notify copysave active"))
 hl.bind(mainMod .. " + SHIFT + Print", hl.dsp.exec_cmd("grimblast --notify copysave area"))
 
