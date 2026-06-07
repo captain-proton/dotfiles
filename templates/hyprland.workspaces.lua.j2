@@ -1,1 +1,6 @@
+local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
+hl.workspace_rule({ workspace = "1", layout = "scrolling" })
+
+hl.bind(mainMod .. " + period", hl.dsp.layout("move +col"))
+hl.bind(mainMod .. " + comma", hl.dsp.layout("move -col"))
