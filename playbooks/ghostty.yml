@@ -2,6 +2,9 @@
 - name: "[ GHOSTTY ]"
   hosts: all
 
+  vars:
+    _ghostty_theme: "{{ ghostty_theme | default('Nord') }}"
+
   tasks:
     - name: Ensure ghostty package is present
       become: true

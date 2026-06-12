@@ -15,6 +15,7 @@
       --path helix-term
       --locked
     _helix_src_build_command: "{{ helix_src_build_command | default(_helix_src_default_build_command) }}"
+    _helix_theme: "{{ helix_theme | default('nord-night') }}"
     _zsh_default_custom: "{{ home }}/.oh-my-zsh/custom"
     _zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(_zsh_default_custom, true) }}"
 
