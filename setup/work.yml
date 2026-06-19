@@ -41,6 +41,7 @@
 - ansible.builtin.import_playbook: ../playbooks/tealdeer.yml
 - ansible.builtin.import_playbook: ../playbooks/ocr.yml
 - ansible.builtin.import_playbook: ../playbooks/docker.yml
+- ansible.builtin.import_playbook: ../playbooks/docker-credential-secretservice.yml
 - ansible.builtin.import_playbook: ../playbooks/openapi.yml
 - ansible.builtin.import_playbook: ../playbooks/zoxide.yml
 - ansible.builtin.import_playbook: ../playbooks/whois.yml
