@@ -2,8 +2,8 @@
   hosts: all
 
   vars:
-    _fluffychat_version: "{{ fluffychat_version | default('2.7.0') }}"
-    _fluffychat_checksum: "{{ fluffychat_checksum | default('sha256:3908fc1a22f49a8be915e95222c008f6f9983ded7dd380b155f450bdda42fdd4') }}"
+    _fluffychat_version: "{{ fluffychat_version | default('2.7.1') }}"
+    _fluffychat_checksum: "{{ fluffychat_checksum | default('sha256:5279fe7ee56996702cd0a95ca3542df672096dc40fe981eec51d652b0023b90c') }}"
     _fluffychat_default_path: /opt/fluffychat
     _fluffychat_path: "{{ fluffychat_path | default(_fluffychat_default_path) }}"
 
