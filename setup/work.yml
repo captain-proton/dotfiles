@@ -74,3 +74,4 @@
 - ansible.builtin.import_playbook: ../playbooks/kanri.yml
 - ansible.builtin.import_playbook: ../playbooks/zen-browser.yml
 - ansible.builtin.import_playbook: ../playbooks/localsend.yml
+- ansible.builtin.import_playbook: ../playbooks/zoom.yml

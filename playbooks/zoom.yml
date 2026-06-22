@@ -1,0 +1,39 @@
+---
+- name: "[ ZOOM ]"
+  hosts: all
+
+  vars:
+    _zoom_state: "{{ zoom_state | default('present') }}"
+    _zoom_pkg_name: zoom
+    _zoom_pkg_version: "{{ zoom_pkg_version | default('7.0.5') }}"
+    _zoom_pkg_subversion: "{{ zoom_pkg_subversion | default('3034') }}"
+    _zoom_checksum: "{{ zoom_checksum | default('0efdd1917bea8bb49157a7de1c3bc7700a9ca5c93dad7dd19dc9593e9db4e6c3fd3443209eacf04d14c8fb9df52bb118b4d1654c46ee4938a32b0054beb67dcb') }}"
+    _zoom_build_dir: "/tmp/zoom-build"
+
+  tasks:
+
+    - name: Ensure zoom build dir is present
+      ansible.builtin.file:
+        path: "{{ _zoom_build_dir }}"
+        state: directory
+        mode: "0755"
+
+    - name: Copy PKGBUILD to build dir
+      ansible.builtin.template:
+        src: ../templates/zoom.pkgbuild.j2
+        dest: "{{ _zoom_build_dir }}/PKGBUILD"
+        mode: "0644"
+
+    - name: Execute makepkg from local PKGBUILD
+      become: true
+      become_user: "{{ aur_builder_user }}"
+      kewlfft.aur.aur:
+        name: "{{ _zoom_pkg_name }}"
+        state: "{{ _zoom_state }}"
+        use: makepkg
+        local_pkgbuild: "{{ _zoom_build_dir }}"
+
+    - name: Clean up zoom build dir
+      ansible.builtin.file:
+        path: "{{ _zoom_build_dir }}"
+        state: absent
