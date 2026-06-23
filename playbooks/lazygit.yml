@@ -3,8 +3,21 @@
   hosts: all
 
   vars:
-    __lazygit_side_by_side: "{{ lazygit_side_by_side | default(true) }}"
-    __aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
+    _lazygit_side_by_side: "{{ lazygit_side_by_side | default(true) }}"
+    _aliases_path: "{{ lookup('env', 'HOME') }}/.aliases"
+    # Use one from https://github.com/catppuccin
+    _lazygit_theme_active_border_color: "#89b4fa"
+    _lazygit_theme_inactive_border_color: "#a6adc8"
+    _lazygit_theme_searching_active_border_color: "#f9e2af"
+    _lazygit_theme_options_text_color: "#89b4fa"
+    _lazygit_theme_selected_line_bg_color: "#313244"
+    _lazygit_theme_inactive_view_selected_line_bg_color: "#6c7086"
+    _lazygit_theme_cherry_picked_commit_fg_color: "#89b4fa"
+    _lazygit_theme_cherry_picked_commit_bg_color: "#45475a"
+    _lazygit_theme_marked_base_commit_fg_color: "#89b4fa"
+    _lazygit_theme_marked_base_commit_bg_color: "#f9e2af"
+    _lazygit_theme_unstaged_changes_color: "#f38ba8"
+    _lazygit_theme_default_fg_color: "#cdd6f4"
 
   tasks:
 
@@ -34,7 +47,7 @@
     - name: Configure lazygit aliases
       tags: ["config"]
       ansible.builtin.lineinfile:
-        path: "{{ __aliases_path }}"
+        path: "{{ _aliases_path }}"
         line: "alias {{ item.alias }}='{{ item.value }}'"
       loop:
         - alias: lg

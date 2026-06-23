@@ -1,13 +1,42 @@
 gui:
   sidePanelWidth: 0.2
   nerdFontsVersion: 3
+  theme:
+    activeBorderColor:
+      - '{{ _lazygit_theme_active_border_color }}'
+      - bold
+    inactiveBorderColor:
+      - '{{ _lazygit_theme_inactive_border_color }}'
+    searchingActiveBorderColor:
+      - '{{ _lazygit_theme_searching_active_border_color }}'
+    opionsTextColor:
+      - '{{ _lazygit_theme_options_text_color }}'
+    selectedLineBgColor:
+      - '{{ _lazygit_theme_selected_line_bg_color }}'
+    inactiveViewSelectedLineBgColor:
+      - '{{ _lazygit_theme_inactive_view_selected_line_bg_color }}'
+    cherryPickedCommitFgColor:
+      - '{{ _lazygit_theme_cherry_picked_commit_fg_color }}'
+    cherryPickedCommitBgColor:
+      - '{{ _lazygit_theme_cherry_picked_commit_bg_color }}'
+    markedBaseCommitFgColor:
+      - '{{ _lazygit_theme_marked_base_commit_fg_color }}'
+    markedBaseCommitBgColor:
+      - '{{ _lazygit_theme_marked_base_commit_bg_color }}'
+    unstagedChangesColor:
+      - '{{ _lazygit_theme_unstaged_changes_color }}'
+    defaultFgColor:
+      - '{{ _lazygit_theme_default_fg_color }}'
+
+    authorColors:
+      '*': '#b4befe'
 git:
   autoFetch: false
-  paging:
-    colorArg: always
-    {% if __lazygit_side_by_side -%}
-    pager: delta --dark --paging=never --syntax-theme base16-256 -s
-    {%- endif %}
+  pagers:
+    - colorArg: always
+      {% if _lazygit_side_by_side -%}
+      pager: delta --dark --paging=never --syntax-theme base16-256 -s
+      {%- endif %}
 {% raw %}
 customCommands:
   - key: '<c-p>'
