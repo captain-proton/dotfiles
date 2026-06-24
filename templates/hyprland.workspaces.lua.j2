@@ -8,5 +8,7 @@ end
 hl.bind(mainMod .. " + period", hl.dsp.layout("swapcol r"))
 hl.bind(mainMod .. " + comma", hl.dsp.layout("swapcol l"))
 
-hl.bind(mainMod .. " + plus", hl.dsp.layout("colresize 1.0"))
-hl.bind(mainMod .. " + minus", hl.dsp.layout("colresize 0.5"))
+hl.bind(mainMod .. " + plus", hl.dsp.layout("colresize +0.1"))
+hl.bind(mainMod .. " + minus", hl.dsp.layout("colresize -0.1"))
+
+hl.bind(mainMod .. " + numbersign", hl.dsp.layout("colresize 1.0"))
