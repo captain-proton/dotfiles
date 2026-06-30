@@ -6,5 +6,13 @@
     - name: Install git
       become: true
       community.general.pacman:
-        name: git
+        name:
+          - git
+          - git-delta
         state: present
+
+    - name: Link gitconfig
+      ansible.builtin.file:
+        state: link
+        src: "{{ home }}/dotfiles/gitconfig"
+        path: "{{ home }}/.gitconfig"

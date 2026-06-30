@@ -85,8 +85,6 @@
           path: "{{ home }}/.zshrc"
         - src: "{{ home }}/dotfiles/zsh"
           path: "{{ home }}/.zsh"
-        - src: "{{ home }}/dotfiles/gitconfig"
-          path: "{{ home }}/.gitconfig"
     # END CONFIGURATION LINKS
 
     # STARSHIP PROMPT
