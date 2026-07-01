@@ -12,6 +12,8 @@
           - docker
           - docker-compose
           - docker-buildx
+          - skopeo
+          - lazydocker
         state: present
 
     - name: Docker should not be started by default
