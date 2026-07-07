@@ -55,11 +55,10 @@ hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_THEME", "Nordic-cursors")
 hl.env("HYPRCURSOR_SIZE", "24")
 
-hl.env("QT_QPA_PLATFORM", "wayland")
+hl.env("QT_QPA_PLATFORM", "wayland;xcb")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 hl.env("QT_WAYLAND_DISABLE_WINDOWDECORATION", "1")
 hl.env("QT_AUTO_SCREEN_SCALE_FACTOR", "0")
-hl.env("QT_STYLE_OVERRIDE", "kvantum-dark")
 
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
 hl.env("XDG_SESSION_TYPE", "wayland")
@@ -215,6 +214,15 @@ hl.window_rule({
     float = true,
     size = {"(monitor_w*0.5)", "(monitor_h*0.5)"},
     center = true
+})
+
+hl.window_rule({
+    name = "maximize jetbrains",
+    match = {
+        class = "^jetbrains-\\w+$",
+        float = false
+    },
+    maximize = true
 })
 
 {% if _bar_package == 'noctalia' %}
