@@ -1,7 +1,30 @@
 ---
 - name: "[ DOCKER ]"
-  become: true
   hosts: all
+
+  vars:
+    _docker_sbx_version: "{{ docker_sbx_version | default('0.34.0') }}"
+    _docker_sbx_checksum: "{{ docker_sbx_checksum | default('sha256:e47f4b3b22a2d3f481549d2577a3a470fd61f6bf5e1eb01be1fb1555574cbac8') }}"
+    # look at the assets available on https://github.com/docker/sbx-releases/releases/
+    _docker_sbx_file_suffix: "{{ docker_sbx_arch | default('linux.tar.gz') }}"
+    _docker_sbx_default_download_url: "https://github.com/docker/sbx-releases/releases/download/v{{ _docker_sbx_version }}/DockerSandboxes-{{ _docker_sbx_file_suffix }}"
+    _docker_sbx_download_url: "{{ docker_sbx_download_url | default(_docker_sbx_default_download_url) }}"
+    _docker_sbx_default_prefix: "{{ home }}/.docker/sbx"
+    _docker_sbx_default_archive_files:
+      - src: sbx
+        dest: bin
+      - src: containerd-shim-nerdbox-v1
+        dest: libexec
+      - src: mkfs.erofs
+        dest: libexec
+      - src: nerdbox-initrd-x86_64
+        dest: libexec
+      - src: nerdbox-kernel-x86_64
+        dest: libexec
+      - src: libsailor.so
+        dest: libexec/lib
+    _docker_sbx_archive_files: "{{ docker_sbx_archive_files | default(_docker_sbx_default_archive_files) }}"
+    _docker_sbx_prefix: "{{ docker_sbx_prefix | default(_docker_sbx_default_prefix) }}"
 
   tasks:
 
@@ -12,6 +35,7 @@
           - docker
           - docker-compose
           - docker-buildx
+          - e2fsprogs
           - skopeo
           - lazydocker
         state: present
@@ -27,3 +51,46 @@
         name: "{{ lookup('env', 'USER') }}"
         groups: docker
         append: true
+
+    - name: Download docker sandboxes
+      tags: ["sbx"]
+      ansible.builtin.get_url:
+        url: "{{ _docker_sbx_download_url }}"
+        dest: "/tmp/{{ _docker_sbx_file_suffix }}"
+        mode: "0644"
+
+    - name: Extract and install docker sandboxes
+      tags: ["sbx"]
+      when: _docker_sbx_file_suffix.endswith('tar.gz')
+      block:
+
+        - name: Unarchive docker sandboxes
+          ansible.builtin.unarchive:
+            src: "/tmp/{{ _docker_sbx_file_suffix }}"
+            dest: /tmp
+            mode: "0755"
+            owner: "{{ ansible_facts['env']['USER'] }}"
+
+        - name: Create necessary directories
+          ansible.builtin.file:
+            path: "{{ item }}"
+            state: directory
+            mode: "0755"
+          loop:
+            - "{{ _docker_sbx_prefix }}"
+            - "{{ _docker_sbx_prefix }}/bin"
+            - "{{ _docker_sbx_prefix }}/libexec"
+            - "{{ _docker_sbx_prefix }}/libexec/lib"
+
+        # Take a look at install.sh to get the layout
+        - name: Copy files to desired directory
+          ansible.builtin.copy:
+            src: "/tmp/docker-sbx/{{ item.src }}"
+            dest: "{{ _docker_sbx_prefix }}/{{ item.dest }}"
+            mode: "{{ item.mode | default('0755') }}"
+          loop: "{{ _docker_sbx_archive_files }}"
+
+        - name: Add docker sgx prefix bin dir to ~/.path
+          ansible.builtin.lineinfile:
+            path: "{{ path_file_path }}"
+            line: "export PATH={{ _docker_sbx_prefix }}/bin:$PATH"
