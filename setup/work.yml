@@ -75,3 +75,4 @@
 - ansible.builtin.import_playbook: ../playbooks/zen-browser.yml
 - ansible.builtin.import_playbook: ../playbooks/localsend.yml
 - ansible.builtin.import_playbook: ../playbooks/zoom.yml
+- ansible.builtin.import_playbook: ../playbooks/logseq.yml

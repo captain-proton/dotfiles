@@ -1,0 +1,46 @@
+---
+- name: "[ LOGSEQ ]"
+  hosts: all
+
+  vars:
+    _logseq_version: "{{ logseq_version | default('0.10.15') }}"
+    _logseq_checksum: "{{ logseq_checksum | default('sha256:8b911052f496d62c7ef0d4fc9c2b3a9861f607dc45ec6e2607bbc184327b25d1') }}"
+    _logseq_default_download_url: "https://github.com/logseq/logseq/releases/download/{{ _logseq_version }}/Logseq-linux-x64-{{ _logseq_version }}.AppImage"
+    _logseq_download_url: "{{ logseq_download_url | default(_logseq_default_download_url) }}"
+    _logseq_default_download_dest: "{{ home }}/.local/bin/Logseq.AppImage"
+    _logseq_download_dest: "{{ logseq_download_dest | default(_logseq_default_download_dest) }}"
+    _logseq_icon_download_url: "{{ logseq_icon_download_url | default('https://github.com/logseq/logseq/blob/master/assets/icon.png?raw=true') }}"
+    _logseq_icon_checksum: "{{ logseq_icon_checksum | default('sha256:e7307320de1bc5d75a6e68cb890447832a412726bfae2fa6f5885a84e225e2c9') }}"
+
+  tasks:
+
+    - name: Download logseq
+      ansible.builtin.get_url:
+        url: "{{ _logseq_download_url }}"
+        mode: "0755"
+        dest: "{{ _logseq_download_dest }}"
+        checksum: "{{ _logseq_checksum }}"
+
+    - name: Download logseq icon
+      ansible.builtin.get_url:
+        url: "{{ _logseq_icon_download_url }}"
+        mode: "0644"
+        dest: "{{ home }}/.icons/logseq.png"
+        checksum: "{{ _logseq_icon_checksum }}"
+
+    - name: Configure desktop file
+      ansible.builtin.copy:
+        dest: "{{ home }}/.local/share/applications/logseq.desktop"
+        mode: "0640"
+        content: |
+          [Desktop Entry]
+          Type=Application
+          Name=Logseq
+          Comment=Privacy-first, open-source platform for knowledge sharing and management
+          Exec={{ _logseq_download_dest }}
+          Icon={{ home }}/.icons/logseq.png
+          Terminal=false
+          StartupNotify=true
+          Categories=Office;
+          MimeType=x-scheme-handler/logseq;
+          StartupWMClass=Logseq
