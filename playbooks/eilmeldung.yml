@@ -4,7 +4,7 @@
 
   vars:
 
-    _eilmeldung_version: "{{ eilmeldung_version | default('1.5.4') }}"
+    _eilmeldung_version: "{{ eilmeldung_version | default('1.6.1') }}"
     _eilmeldung_src_repo: "https://github.com/christo-auer/eilmeldung"
     _eilmeldung_default_src_dest: "{{ home }}/.eilmeldung"
     _eilmeldung_src_dest: "{{ eilmeldung_src_dest | default(_eilmeldung_default_src_dest) }}"

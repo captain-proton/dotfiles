@@ -3,10 +3,10 @@
   hosts: all
 
   vars:
-    _mise_version: "{{ mise_version | default('2026.5.2') }}"
+    _mise_version: "{{ mise_version | default('2026.7.5') }}"
     _mise_arch: "{{ mise_arch | default('linux-x64') }}"
     _mise_download_ext: "{{ mise_download_ext | default('') }}"
-    _mise_checksum: "{{ mise_checksum | default('sha256:23e21feb6a561a2c2923c49473f9f21820f1cf3b9b2e5e8f8d7fafab80854dff') }}"
+    _mise_checksum: "{{ mise_checksum | default('sha256:5f7ab76afdf0780d12edeaa67e908094e9ccf7924cfe203e415c1cfb87bbf778') }}"
     _mise_default_download_url: "https://github.com/jdx/mise/releases/download/v{{ _mise_version }}/mise-v{{ _mise_version }}-{{ _mise_arch }}{{ _mise_download_ext }}"
     _mise_download_url: "{{ mise_download_url | default(_mise_default_download_url) }}"
     _mise_default_dest: "{{ home }}/.local/bin/mise"
