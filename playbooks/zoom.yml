@@ -5,9 +5,9 @@
   vars:
     _zoom_state: "{{ zoom_state | default('present') }}"
     _zoom_pkg_name: zoom
-    _zoom_pkg_version: "{{ zoom_pkg_version | default('7.1.0') }}"
-    _zoom_pkg_subversion: "{{ zoom_pkg_subversion | default('3715') }}"
-    _zoom_checksum: "{{ zoom_checksum | default('df795f55bcfbd26c1a6c2cc79dc6a251f9011ca097efcd43f75422652e0ee0f017539f8624aa7e51b7092b66962f24e32454a69c93b7faaaaea8f01b6c4b4463') }}"
+    _zoom_pkg_version: "{{ zoom_pkg_version | default('7.1.5') }}"
+    _zoom_pkg_subversion: "{{ zoom_pkg_subversion | default('4332') }}"
+    _zoom_checksum: "{{ zoom_checksum | default('d5ca18a754565c569825606646488f9b51b757685fb5788b2b327356a00489812f66582c6f6d8d4ea8d03ca1c6f036b271f74f1b97f3dc2dcc54a115e13aa484') }}"
     _zoom_build_dir: "/tmp/zoom-build"
 
   tasks:
