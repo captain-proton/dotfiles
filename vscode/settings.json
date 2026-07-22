@@ -1,5 +1,6 @@
 {
     "breadcrumbs.enabled": true,
+    "chat.agent.enabled": false,
     "editor.fontSize": 15,
     "editor.fontFamily": "JetBrainsMono NF",
     "editor.fontLigatures": true,
