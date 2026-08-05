@@ -1,0 +1,28 @@
+---
+- name: "[ LAZY JOURNAL ]"
+  hosts: all
+
+  vars:
+    _lazyjournal_version: "{{ lazyjournal_version | default('0.8.6') }}"
+    _lazyjournal_os_architecture: "{{ lazyjournal_os_architecture | default('linux-amd64') }}"
+    _lazyjournal_checksum: "{{ lazyjournal_checksum | default('sha256:c264bbcb6b30fa6418bbfce2087d0e1ecdc7ad17421772c0f002e4cbf8cf4bd7') }}"
+
+  tasks:
+    - name: Download lazyjournal binary
+      ansible.builtin.get_url:
+        url: https://github.com/Lifailon/lazyjournal/releases/download/{{ _lazyjournal_version }}/lazyjournal-{{ _lazyjournal_version }}-{{ _lazyjournal_os_architecture }}
+        dest: "{{ home }}/.local/bin/lazyjournal"
+        checksum: "{{ _lazyjournal_checksum }}"
+        mode: "0750"
+
+    - name: Ensure config dir is present
+      ansible.builtin.file:
+        path: "{{ home }}/.config/lazyjournal"
+        state: directory
+        mode: "0750"
+
+    - name: Configure lazyjournal
+      ansible.builtin.template:
+        src: ../templates/lazyjournal.yml.j2
+        dest: "{{ home }}/.config/lazyjournal/config.yml"
+        mode: "0640"
