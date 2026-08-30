@@ -1,4 +1,5 @@
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local ipc = "noctalia msg "
 
 -- see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + return", hl.dsp.exec_cmd(terminal))
@@ -14,9 +15,8 @@ hl.bind(mainMod .. " + CTRL + l", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + CTRL + p", hl.dsp.exec_cmd(searchmenu))
 hl.bind(mainMod .. " + p", hl.dsp.exec_cmd(menu))
 {% elif _bar_package == 'noctalia' %}
-hl.bind(mainMod .. " + CTRL + l", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call lockScreen lock"))
 hl.bind(mainMod .. " + CTRL + p", hl.dsp.exec_cmd(searchmenu))
-hl.bind(mainMod .. " + p", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call launcher toggle"))
+hl.bind(mainMod .. " + p", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher"))
 {% endif %}
 
 -- Move focus with mainMod + hjkl
@@ -49,7 +49,7 @@ hl.define_submap("hyprland", function()
 
     hl.bind("S", hl.dsp.exec_cmd("systemctl poweroff"))
     hl.bind("R", hl.dsp.exec_cmd("systemctl reboot"))
-    hl.bind("L", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call lockScreen lock"))
+    hl.bind("L", hl.dsp.exec_cmd(ipc .. "session lock"))
     hl.bind("M", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.exit()'"))
 
     -- Use `reset` to go back to the global submap
@@ -71,8 +71,8 @@ hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Laptop multimedia keys for volume and LCD brightness
 {% if _bar_package == 'noctalia' %}
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call volume increase"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("qs -c noctalia-shell ipc call volume decrease"), { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd(ipc .. "volume-up"), { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd(ipc .. "volume-down"), { locked = true, repeating = true })
 {% else %}
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 2%+"), { locked = true, repeating = true })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 2%-"),      { locked = true, repeating = true })
