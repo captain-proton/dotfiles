@@ -15,6 +15,7 @@ hl.bind(mainMod .. " + CTRL + l", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + CTRL + p", hl.dsp.exec_cmd(searchmenu))
 hl.bind(mainMod .. " + p", hl.dsp.exec_cmd(menu))
 {% elif _bar_package == 'noctalia' %}
+hl.bind(mainMod .. " + CTRL + l", hl.dsp.exec_cmd(ipc .. "session lock"))
 hl.bind(mainMod .. " + CTRL + p", hl.dsp.exec_cmd(searchmenu))
 hl.bind(mainMod .. " + p", hl.dsp.exec_cmd(ipc .. "panel-toggle launcher"))
 {% endif %}
@@ -49,7 +50,6 @@ hl.define_submap("hyprland", function()
 
     hl.bind("S", hl.dsp.exec_cmd("systemctl poweroff"))
     hl.bind("R", hl.dsp.exec_cmd("systemctl reboot"))
-    hl.bind("L", hl.dsp.exec_cmd(ipc .. "session lock"))
     hl.bind("M", hl.dsp.exec_cmd("hyprctl dispatch 'hl.dsp.exit()'"))
 
     -- Use `reset` to go back to the global submap
