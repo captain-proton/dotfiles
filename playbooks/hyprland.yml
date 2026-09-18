@@ -9,7 +9,7 @@
     _hypr_kb_variant: "{{ hypr_kb_variant | default('deadacute') }}"
     _wallpaper_default_path: "{{ home }}/.wallpaper"
     _wallpaper_path: "{{ wallpaper_path | default(_wallpaper_default_path) }}"
-    _grimblast_checksum: "{{ grimblast_checksum | default('sha256:1497967a29510c9e9edfc7c29659a0341167192a369c0a4d08b15d80aca22a9d') }}"
+    _grimblast_checksum: "{{ grimblast_checksum | default('sha256:889ed7aea6a9caf35ea5adaa20471e13e1455a364d48d85a68e4e3ae34c47d55') }}"
     _default_grimblast_download_url: "https://github.com/hyprwm/contrib/raw/refs/heads/main/grimblast/grimblast"
     _grimblast_download_url: "{{ grimblast_download_url | default(_default_grimblast_download_url) }}"
     _freedesktop_secret_service: "{{ freedesktop_secret_service | default('gnome-keyring')}}"
