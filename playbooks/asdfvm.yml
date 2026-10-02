@@ -4,8 +4,8 @@
 
   vars:
     asdf_home: "{{ lookup('env', 'HOME') }}/.asdf"
-    asdf_version: 0.18.1
-    asdf_checksum: md5:6c68f29f7cf16bf4a0cd2d50f464ccf0
+    asdf_version: 0.20.2
+    asdf_checksum: sha256:6d45e6fab12f50a259b5643adf06a2e77af30a87300b4402440eda09af467a6d
     asdf_target_arch: linux-amd64
 
   tasks:
