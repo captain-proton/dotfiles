@@ -1,0 +1,63 @@
+---
+- name: "[ HISTER]"
+  hosts: all
+
+  vars:
+    _hister_version: "{{ hister_version | default('0.20.0') }}"
+    _hister_arch: "{{ hister_arch | default('linux_amd64') }}"
+    _hister_checksum: "{{ hister_checksum | default('sha256:28c453cd3fe383dac936f91450c0bd6d3be4944079670aa607f38e01215844fe') }}"
+    _hister_default_download_url: "https://github.com/asciimoo/hister/releases/download/v{{ _hister_version }}/hister_{{ _hister_version }}_{{ _hister_arch }}"
+    _hister_download_url: "{{ hister_download_url | default(_hister_default_download_url) }}"
+    _hister_bin_path: "{{ home }}/.local/bin/hister"
+    _hister_default_data_dir: "{{ home }}/.local/share/hister"
+    _hister_config_dir: "{{ home }}/.config/hister"
+    _hister_state_dir: "{{ home }}/.local/state/hister"
+    _hister_data_dir: "{{ hister_data_dir | default(_hister_default_data_dir) }}"
+
+  handlers:
+    - name: Reload hister service
+      ansible.builtin.systemd_service:
+        name: hister.service
+        state: restarted
+        scope: user
+        daemon_reload: true
+
+  tasks:
+    - name: Download hister
+      ansible.builtin.get_url:
+        url: "{{ _hister_download_url }}"
+        dest: "{{ _hister_bin_path }}"
+        checksum: "{{ _hister_checksum }}"
+        mode: "0750"
+
+    - name: Ensure required directories are present
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0750"
+      loop:
+        - "{{ _hister_data_dir }}"
+        - "{{ _hister_config_dir }}"
+        - "{{ _hister_state_dir }}"
+
+    - name: Configure hister
+      notify: Reload hister service
+      ansible.builtin.template:
+        src: ../templates/hister.config.yml.j2
+        dest: "{{ home }}/.config/hister/config.yml"
+        mode: "0640"
+
+    - name: Configure systemd service
+      notify: Reload hister service
+      ansible.builtin.template:
+        src: ../templates/hister.service.j2
+        dest: "{{ home }}/.config/systemd/user/hister.service"
+        mode: "0644"
+
+    - name: Enable systemd service
+      ansible.builtin.systemd_service:
+        name: hister.service
+        scope: user
+        enabled: true
+        state: started
+        daemon_reload: true

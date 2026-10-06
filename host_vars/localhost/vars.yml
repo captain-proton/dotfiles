@@ -141,3 +141,8 @@ bar_package: noctalia
 # for example used by the ansible-language-server
 # Therefor installing from source here
 helix_install_src: src
+
+# Use items in the form of
+# - <name>: <value>
+# that will be used inside histers config.yml
+hister_sensitive_content_patterns: []
