@@ -11,7 +11,6 @@
     _hister_bin_path: "{{ home }}/.local/bin/hister"
     _hister_default_data_dir: "{{ home }}/.local/share/hister"
     _hister_config_dir: "{{ home }}/.config/hister"
-    _hister_state_dir: "{{ home }}/.local/state/hister"
     _hister_data_dir: "{{ hister_data_dir | default(_hister_default_data_dir) }}"
 
   handlers:
@@ -38,7 +37,6 @@
       loop:
         - "{{ _hister_data_dir }}"
         - "{{ _hister_config_dir }}"
-        - "{{ _hister_state_dir }}"
 
     - name: Configure hister
       notify: Reload hister service

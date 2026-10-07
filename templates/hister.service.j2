@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User={{ ansible_facts['env']['USER'] }}
 Group={{ ansible_facts['env']['USER'] }}
-StateDirectory={{ _hister_state_dir }}
+StateDirectory=hister
 Environment=HISTER_DATA_DIR={{ _hister_data_dir }}
 ExecStart={{ _hister_bin_path }} listen
 Restart=on-failure
@@ -32,7 +32,8 @@ RestrictRealtime=true
 RestrictSUIDSGID=true
 RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
 SystemCallArchitectures=native
-SystemCallFilter=@system-service ~@privileged
+SystemCallFilter=@system-service
+SystemCallFilter=~@privileged
 MemoryDenyWriteExecute=true
 UMask=0077
 
