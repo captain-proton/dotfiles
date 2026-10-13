@@ -4,38 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-User={{ ansible_facts['env']['USER'] }}
-Group={{ ansible_facts['env']['USER'] }}
 StateDirectory=hister
 Environment=HISTER_DATA_DIR={{ _hister_data_dir }}
 ExecStart={{ _hister_bin_path }} listen
 Restart=on-failure
 
-# For privileged ports (< 1024), set both values to CAP_NET_BIND_SERVICE.
-AmbientCapabilities=
-CapabilityBoundingSet=
-
-NoNewPrivileges=true
-ProtectSystem=strict
-PrivateTmp=true
-PrivateDevices=true
-ProtectKernelTunables=true
-ProtectKernelModules=true
-ProtectControlGroups=true
-ProtectClock=true
-ProtectHostname=true
-ProtectProc=invisible
-ProcSubset=pid
-LockPersonality=true
-RestrictNamespaces=true
-RestrictRealtime=true
-RestrictSUIDSGID=true
-RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
-SystemCallArchitectures=native
-SystemCallFilter=@system-service
-SystemCallFilter=~@privileged
-MemoryDenyWriteExecute=true
-UMask=0077
 
 [Install]
 WantedBy=default.target
