@@ -1,0 +1,58 @@
+---
+- name: "[ PHOTOCRAFT ]"
+  hosts: all
+
+  vars:
+    _photocraft_version: "{{ photocraft_version | default('0.8.2') }}"
+    _photocraft_arch: "{{ photocraft_arch | default('linux-x86_64') }}"
+    _photocraft_file_ext: "{{ photocraft_file_ext | default('tar.gz') }}"
+    _photocraft_checksum: "{{ photocraft_checksum | default('sha256:16c3089976eee2d290dbe73986db4835c1ec5a043c5c16b017b24848ff5ea827') }}"
+    _photocraft_default_download_url: "https://github.com/storytold/photocraft/releases/download/v{{ _photocraft_version }}/photocraft-{{ _photocraft_version }}-{{ _photocraft_arch }}.{{ _photocraft_file_ext }}"
+    _photocraft_download_url: "{{ photocraft_download_url | default(_photocraft_default_download_url) }}"
+    _photocraft_default_target_dir: "{{ home }}/.photocraft"
+    _photocraft_target_dir: "{{ photocraft_target_dir | default(_photocraft_default_target_dir) }}"
+    _photocraft_icon_download_url: "{{ photocraft_icon_download_url | default('https://raw.githubusercontent.com/storytold/photocraft/refs/heads/main/assets/app-icon/photocraft.svg') }}"
+    _photocraft_icon_checksum: "{{ photocraft_icon_checksum | default('sha256:a48333b7b794b70158da93a262d84fb82f5fbbf7442db60f235a0a69136a1ce2') }}"
+
+  tasks:
+    - name: Install via archive
+      when: _photocraft_file_ext in ('tar.gz', 'zip')
+      block:
+
+        - name: Download archive
+          ansible.builtin.get_url:
+            url: "{{ _photocraft_download_url }}"
+            dest: "/tmp/photocraft.{{ _photocraft_file_ext }}"
+            mode: "0644"
+            checksum: "{{ _photocraft_checksum }}"
+
+        - name: Ensure base dir is present
+          ansible.builtin.file:
+            path: "{{ _photocraft_target_dir }}"
+            mode: "0755"
+            state: directory
+
+        - name: Extract photocraft
+          ansible.builtin.unarchive:
+            src: "/tmp/photocraft.{{ _photocraft_file_ext }}"
+            dest: "{{ _photocraft_target_dir }}"
+            extra_opts: ['--strip-components=1']
+
+        - name: Link photocraft executable
+          ansible.builtin.file:
+            state: link
+            src: "{{ _photocraft_target_dir }}/bin/photocraft"
+            dest: "{{ home }}/.local/bin/photocraft"
+
+        - name: Configure photocraft desktop file
+          ansible.builtin.template:
+            src: ../templates/photocraft.desktop.j2
+            dest: "{{ home }}/.local/share/applications/photocraft.desktop"
+            mode: "0644"
+
+        - name: Download photocraft icon
+          ansible.builtin.get_url:
+            url: "{{ _photocraft_icon_download_url }}"
+            dest: "{{ home }}/.icons/photocraft.svg"
+            mode: "0644"
+            checksum: "{{ _photocraft_icon_checksum }}"
