@@ -1,0 +1,34 @@
+---
+- name: "[ GITLAB CI LOCAL ]"
+  hosts: all
+
+  vars:
+    _gitlab_ci_local_version: "{{ gitlab_ci_local_version | default('4.76.1') }}"
+    _gitlab_ci_local_arch: "{{ gitlab_ci_local_arch | default('linux-amd64') }}"
+    _gitlab_ci_local_file_ext: "{{ gitlab_ci_local_file_ext | default('tar.gz') }}"
+    _gitlab_ci_local_checksum: "{{ gitlab_ci_local_checksum | default('sha256:c4a857c578924df96bffdf2d0f0270fdb0a4cb396a114401e2ae52e96bbe6da4') }}"
+    _gitlab_ci_local_default_download_url: "https://github.com/firecow/gitlab-ci-local/releases/download/{{ _gitlab_ci_local_version }}/gitlab-ci-local-{{ _gitlab_ci_local_arch }}.{{ _gitlab_ci_local_file_ext}}"
+    _gitlab_ci_local_download_url: "{{ gitlab_ci_local_download_url | default(_gitlab_ci_local_default_download_url) }}"
+    _gitlab_ci_local_default_target_dir: "{{ home }}/.gitlab_ci_local"
+    _gitlab_ci_local_target_dir: "{{ gitlab_ci_local_target_dir | default(_gitlab_ci_local_default_target_dir) }}"
+
+  tasks:
+
+    - name: Download archive
+      ansible.builtin.get_url:
+        url: "{{ _gitlab_ci_local_download_url }}"
+        dest: "/tmp/gitlab_ci_local.{{ _gitlab_ci_local_file_ext }}"
+        mode: "0644"
+        checksum: "{{ _gitlab_ci_local_checksum }}"
+
+    - name: Ensure base dir is present
+      ansible.builtin.file:
+        path: "{{ _gitlab_ci_local_target_dir }}"
+        mode: "0755"
+        state: directory
+
+    - name: Extract gitlab-ci-local
+      ansible.builtin.unarchive:
+        src: "/tmp/gitlab_ci_local.{{ _gitlab_ci_local_file_ext }}"
+        dest: "{{ home }}/.local/bin"
+        mode: "0750"

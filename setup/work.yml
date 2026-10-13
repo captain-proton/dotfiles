@@ -55,6 +55,7 @@
 - ansible.builtin.import_playbook: ../playbooks/grype.yml
 - ansible.builtin.import_playbook: ../playbooks/age.yml
 - ansible.builtin.import_playbook: ../playbooks/lazyjournal.yml
+- ansible.builtin.import_playbook: ../playbooks/gitlab-ci-local.yml
 
 - ansible.builtin.import_playbook: ../playbooks/kde.yml
 - ansible.builtin.import_playbook: ../playbooks/emacs.yml
