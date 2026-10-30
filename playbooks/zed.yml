@@ -1,0 +1,36 @@
+---
+- name: "[ ZED ]"
+  hosts: all
+
+  vars:
+    # should be an object of
+    # {"provider": "Foo", "model": "Bar"}
+    _zed_inline_assistant_model: "{{ zed_inline_assistant_model | default(None) }}"
+    _zed_default_model: "{{ zed_default_model | default(None) }}"
+    _zed_theme_mode: "{{ zed_theme_mode | default('dark') }}"
+    _zed_language_models: "{{ zed_language_models | default(None) }}"
+
+  tasks:
+    - name: Ensure zed and so on is installed
+      become: true
+      community.general.pacman:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - zed
+
+    - name: Configure zed settings
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/zed.settings.json.j2
+        dest: "{{ home }}/.config/zed/settings.json"
+        mode: "0600"
+        backup: true
+
+    - name: Configure zed keymap
+      tags: ["config"]
+      ansible.builtin.template:
+        src: ../templates/zed.keymap.json.j2
+        dest: "{{ home }}/.config/zed/keymap.json"
+        mode: "0644"
+        backup: true

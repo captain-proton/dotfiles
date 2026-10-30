@@ -1,0 +1,126 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette
+{
+  "buffer_font_size": 15.0,
+  "cli_default_open_behavior": "existing_window",
+  "helix_mode": true,
+  "which_key": {
+    "delay_ms": 700,
+    "enabled": true
+  },
+  "project_panel": {
+    "dock": "left",
+  },
+  "outline_panel": {
+    "dock": "left",
+  },
+  "collaboration_panel": {
+    "dock": "left",
+  },
+  "git_panel": {
+    "tree_view": true,
+    "dock": "left",
+  },
+  "buffer_font_family": "Mononoki Nerd Font",
+  "show_whitespaces": "all",
+  "auto_update": false,
+  "telemetry": {
+    "diagnostics": false,
+    "metrics": false,
+  },
+  "relative_line_numbers": "enabled",
+  "agent": {
+    "dock": "right",
+{% if _zed_inline_assistant_model %}
+    "inline_assistant_model": {
+      "provider": "{{ _zed_inline_assistant_model.provider }}",
+      "model": "{{ _zed_inline_assistant_model.model }}",
+    },
+{% endif %}
+{% if _zed_default_model %}
+    "default_model": {
+      "provider": "{{ _zed_default_model.provider }}",
+      "model": "{{ _zed_default_model.model }}",
+    },
+{% endif %}
+    "favorite_models": [],
+    "model_parameters": [],
+  },
+  "ui_font_size": 15,
+  "ui_font_family": "Fira Sans",
+  "theme": {
+    "mode": "{{ _zed_theme_mode }}",
+    "light": "Nord Light",
+    "dark": "Catppuccin Mocha",
+  },
+{% if _zed_theme_mode == 'dark' %}
+  "experimental.theme_overrides": {
+    "background.appearance": "blurred",
+
+    "background": "#09090bcc",
+    "panel.background": "#00000040",
+    "editor.background": "#00000050",
+    "terminal.background": "#00000030",
+    "toolbar.background": "#00000040",
+
+    "tab_bar.background": "#00000040",
+    "tab.inactive_background": "#00000020",
+    "tab.active_background": "#3f3f4660",
+
+    "status_bar.background": "#09090bcc",
+    "title_bar.background": "#09090bcc",
+
+    "border": "#00000000",
+    "border.variant": "#00000000",
+
+    "scrollbar.track.background": "#52525b20",
+    "scrollbar.thumb.background": "#52525b40",
+
+    "editor.gutter.background": "#00000000",
+    "editor.active_line.background": "#3f3f4640",
+
+    "editor.line_number": "#ffffff70",
+    "editor.active_line_number": "#ffffffcc",
+
+    "editor.indent_guide": "#ffffff25",
+    "editor.indent_guide_active": "#ffffff70",
+
+    "surface.background": "#ffffff08",
+    "elevated_surface.background": "#09090bcc",
+  },
+{% endif %}
+  "file_types": {
+    "Ansible": [
+      "**.ansible.yml",
+      "**.ansible.yaml",
+      "**/defaults/*.yml",
+      "**/defaults/*.yaml",
+      "**/meta/*.yml",
+      "**/meta/*.yaml",
+      "**/tasks/*.yml",
+      "**/tasks/*.yaml",
+      "**/handlers/*.yml",
+      "**/handlers/*.yaml",
+      "**/group_vars/*.yml",
+      "**/group_vars/*.yaml",
+      "**/host_vars/*.yml",
+      "**/host_vars/*.yaml",
+      "**/playbooks/*.yml",
+      "**/playbooks/*.yaml",
+      "**playbook*.yml",
+      "**playbook*.yaml",
+      "**/ansible/*.yml",
+      "**/ansible/*.yaml",
+    ],
+  },
+{% if _zed_language_models %}
+  "language_models":
+    {{ _zed_language_models | to_nice_json(indent=2, sort_keys=false) | indent(4) }}
+{% endif %}
+}

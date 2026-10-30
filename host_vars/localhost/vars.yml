@@ -146,3 +146,19 @@ helix_install_src: src
 # - <name>: <value>
 # that will be used inside histers config.yml
 hister_sensitive_content_patterns: []
+
+# Example:
+# zed_language_models:
+#   "<provider name>":
+#     "api_url": "<the url>"
+#     "available_models": [
+#       {
+#         "name": "<model_id>"
+#         "max_tokens": <some number>
+#       }
+#     ]
+#
+# api_url and model data is normally available
+# after calling a models endpoint on the api_url
+zed_language_models: "{{ local_zed_language_models }}"
+zed_default_model: "{{ local_zed_default_model }}"
