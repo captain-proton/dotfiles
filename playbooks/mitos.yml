@@ -6,7 +6,7 @@
     _mitos_version: "{{ mitos_version | default('0.1.3') }}"
     _mitos_arch: "{{ mitos_arch | default('x84_64-linux') }}"
     _mitos_checksum: "{{ mitos_checksum | default('sha256:dfd0bb60074c3a38e5d1991fa7680f3cb9eec0b7889b5cbc9cc0ead8d8bc995d') }}"
-    _mitos_default_download_url: "https://github.com/mitos-editor/mitos/releases/download/v{{ _mitos_version }}/mitos-v{{ _mitos_version }}-{{ _mitos_arch }}.tar.xz"
+    _mitos_default_download_url: "https://github.com/mitos-editor/mitos/releases/download/v{{ _mitos_version }}/mitos-v{{ _mitos_version }}-{{ _mitos_arch }}.tar.xz" # noqa: yaml[line-length]
     _mitos_download_url: "{{ mitos_download_url | default(_mitos_default_download_url) }}"
     _mitos_default_path: "{{ home }}/.mitos"
     _mitos_path: "{{ mitos_path | default(_mitos_default_path) }}"
@@ -20,6 +20,7 @@
         url: "{{ _mitos_download_url }}"
         dest: "/tmp/mitos.tar.xz"
         checksum: "{{ _mitos_checksum }}"
+        mode: "0644"
 
     - name: Ensure mitos path exists
       ansible.builtin.file:
