@@ -1,0 +1,124 @@
+---
+- name: "[ MITOS ]"
+  hosts: all
+
+  vars:
+    _mitos_version: "{{ mitos_version | default('0.1.3') }}"
+    _mitos_arch: "{{ mitos_arch | default('x84_64-linux') }}"
+    _mitos_checksum: "{{ mitos_checksum | default('sha256:dfd0bb60074c3a38e5d1991fa7680f3cb9eec0b7889b5cbc9cc0ead8d8bc995d') }}"
+    _mitos_default_download_url: "https://github.com/mitos-editor/mitos/releases/download/v{{ _mitos_version }}/mitos-v{{ _mitos_version }}-{{ _mitos_arch }}.tar.xz"
+    _mitos_download_url: "{{ mitos_download_url | default(_mitos_default_download_url) }}"
+    _mitos_default_path: "{{ home }}/.mitos"
+    _mitos_path: "{{ mitos_path | default(_mitos_default_path) }}"
+    _mitos_theme: "{{ mitos_theme | default('catppuccin_mocha') }}"
+    _zsh_default_custom: "{{ home }}/.oh-my-zsh/custom"
+    _zsh_custom: "{{ lookup('env', 'ZSH_CUSTOM') | default(_zsh_default_custom, true) }}"
+
+  tasks:
+    - name: Download mitos archive
+      ansible.builtin.get_url:
+        url: "{{ _mitos_download_url }}"
+        dest: "/tmp/mitos.tar.xz"
+        checksum: "{{ _mitos_checksum }}"
+
+    - name: Ensure mitos path exists
+      ansible.builtin.file:
+        path: "{{ _mitos_path }}"
+        state: directory
+        mode: "0755"
+
+    - name: Extract mitos
+      ansible.builtin.unarchive:
+        src: /tmp/mitos.tar.xz
+        dest: "{{ _mitos_path }}"
+        mode: "0755"
+        extra_opts: ['--strip-components=1']
+
+    - name: Configure path
+      ansible.builtin.file:
+        state: link
+        src: "{{ _mitos_path }}/ms"
+        dest: "{{ home }}/.local/bin/ms"
+
+    - name: Export required environment variables
+      ansible.builtin.copy:
+        dest: "{{ _zsh_custom }}/mitos_runtime.zsh"
+        mode: "0640"
+        content: "export MITOS_RUNTIME={{ _mitos_path }}/runtime"
+
+    - name: Configure completions
+      tags: ['config']
+      ansible.builtin.file:
+        state: link
+        src: "{{ _mitos_path }}/contrib/completion/ms.zsh"
+        dest: "{{ _zsh_custom }}/ms.zsh"
+
+    - name: Configure sudo alias
+      tags: ['config']
+      ansible.builtin.lineinfile:
+        path: "{{ home }}/.aliases"
+        line: "alias sums='sudo --preserve-env=MITOS_RUNTIME {{ _mitos_path }}/ms -c {{ home }}/.config/mitos/config.toml'"
+        regexp: "^alias sums"
+
+    - name: Ensure mitos config dir is present
+      tags: ['config']
+      ansible.builtin.file:
+        state: directory
+        path: "{{ home }}/.config/mitos"
+        mode: "0750"
+
+    - name: Configure mitos
+      tags: ['config']
+      ansible.builtin.template:
+        src: ../templates/mitos-config.toml.j2
+        dest: "{{ home }}/.config/mitos/config.toml"
+        mode: "0640"
+
+    - name: Configure languages
+      tags: ['config']
+      ansible.builtin.template:
+        src: ../templates/mitos-languages.toml.j2
+        dest: "{{ home }}/.config/mitos/languages.toml"
+        mode: "0600"
+
+    - name: Ensure default runtime dir exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/mitos/runtime"
+        state: directory
+        mode: "0755"
+
+    - name: Ensure queries dirs for various languages exists
+      ansible.builtin.file:
+        path: "{{ home }}/.config/mitos/runtime/queries/{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - ansible
+
+    - name: Configure ansible highlights
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/mitos/runtime/queries/ansible/highlights.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
+
+    - name: Configure ansible injections
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/mitos/runtime/queries/ansible/injections.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
+
+    - name: Configure ansible text object queries
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/mitos/runtime/queries/ansible/textobjects.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"
+
+    - name: Configure ansible indent queries
+      ansible.builtin.copy:
+        dest: "{{ home }}/.config/mitos/runtime/queries/ansible/indents.scm"
+        content: |
+          ; inherits: yaml
+        mode: "0640"

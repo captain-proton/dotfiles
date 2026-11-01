@@ -1,0 +1,50 @@
+use-grammars = { only = ["bash","caddyfile","docker","dockerfile","hcl","html","jinja2","json","kdl","protobuf","python","rust-compose","toml","yaml"]}
+
+[[language]]
+name = "ansible"
+scope = "source.yml"
+roots = []
+indent = { tab-width = 2, unit = "  " }
+language-servers = [ "yaml-language-server", "ansible-language-server" ]
+injection-regex = "ansible"
+formatter = { command = "prettier" , args = ["--stdin"] }
+comment-token = "#"
+file-types = [
+  { glob = "playbooks/*.{yaml,yml}" },
+  { glob = "{group_vars,host_vars,vars,defaults,tasks,handlers,meta}/*.{yaml,yml}" }
+]
+grammar = "yaml"
+
+[[language]]
+name = "yaml"
+formatter = { command = "yamlfmt", args = ["-"] }
+language-servers = ["yaml-language-server"]
+
+[language-server.ansible-language-server]
+command = "ansible-language-server"
+args = ["--stdio"]
+
+[[language]]
+name = "markdown"
+formatter = { command = 'prettier', args = ["--parser", "markdown"] }
+
+[[language]]
+name = "xml"
+formatter = { command = "xmllint", args = ["--format", "%{buffer_name}"] }
+
+[[language]]
+name = "yaml"
+formatter = { command = 'prettier', args = ["--parser", "yaml"] }
+
+[[language]]
+name = "python"
+formatter = { command = "ruff", args = ["format", "-"] }
+
+[[language]]
+name = "json"
+language-servers = ["json-lsp"]
+formatter = { command = 'prettier', args = ["--parser", "json"] }
+
+[language-server.json-lsp]
+command = "vscode-json-languageserver"
+args = ["--stdio"]
