@@ -3,11 +3,13 @@
   hosts: all
 
   vars:
+    _docker_default_config_path: "{{ home }}/.docker/config.json"
+    _docker_config_path: "{{ docker_config_path | default(_docker_default_config_path) }}"
     _docker_sbx_version: "{{ docker_sbx_version | default('0.34.0') }}"
     _docker_sbx_checksum: "{{ docker_sbx_checksum | default('sha256:e47f4b3b22a2d3f481549d2577a3a470fd61f6bf5e1eb01be1fb1555574cbac8') }}"
     # look at the assets available on https://github.com/docker/sbx-releases/releases/
     _docker_sbx_file_suffix: "{{ docker_sbx_arch | default('linux.tar.gz') }}"
-    _docker_sbx_default_download_url: "https://github.com/docker/sbx-releases/releases/download/v{{ _docker_sbx_version }}/DockerSandboxes-{{ _docker_sbx_file_suffix }}"
+    _docker_sbx_default_download_url: "https://github.com/docker/sbx-releases/releases/download/v{{ _docker_sbx_version }}/DockerSandboxes-{{ _docker_sbx_file_suffix }}" # noqa: yaml[line-length]
     _docker_sbx_download_url: "{{ docker_sbx_download_url | default(_docker_sbx_default_download_url) }}"
     _docker_sbx_default_prefix: "{{ home }}/.docker/sbx"
     _docker_sbx_default_archive_files:
@@ -25,6 +27,13 @@
         dest: libexec/lib
     _docker_sbx_archive_files: "{{ docker_sbx_archive_files | default(_docker_sbx_default_archive_files) }}"
     _docker_sbx_prefix: "{{ docker_sbx_prefix | default(_docker_sbx_default_prefix) }}"
+    _docker_scout_version: "{{ docker_scout_version | default('1.29.0') }}"
+    _docker_scout_checksum: "{{ docker_scout_checksum | default('sha256:9157cdc9372b478a8cd51dd53f5e9c74a7e34056ea291c65520bf76016fa72f4') }}"
+    _docker_scout_arch: "{{ docker_scout_arch | default('linux_amd64') }}"
+    _docker_scout_default_download_url: "https://github.com/docker/scout-cli/releases/download/v{{ _docker_scout_version }}/docker-scout_{{ _docker_scout_version }}_{{ _docker_scout_arch }}.tar.gz"
+    _docker_scout_download_url: "{{ docker_scout_download_url | default(_docker_scout_default_download_url) }}"
+    _docker_scout_default_path: "{{ home }}/.docker/scout"
+    _docker_scout_path: "{{ docker_scout_path | default(_docker_scout_default_path) }}"
 
   tasks:
 
@@ -94,3 +103,56 @@
           ansible.builtin.lineinfile:
             path: "{{ path_file_path }}"
             line: "export PATH={{ _docker_sbx_prefix }}/bin:$PATH"
+
+    - name: Ensure docker scout path is present
+      tags: ["scout"]
+      ansible.builtin.file:
+        path: "{{ _docker_scout_path }}"
+        state: directory
+        mode: "0750"
+
+    - name: Download docker scout
+      tags: ["scout"]
+      ansible.builtin.get_url:
+        url: "{{ _docker_scout_download_url }}"
+        checksum: "{{ _docker_scout_checksum }}"
+        dest: "/tmp/docker-scout.tar.gz"
+        mode: "0644"
+
+    - name: Unarchive docker scout binary
+      tags: ["scout"]
+      ansible.builtin.unarchive:
+        src: /tmp/docker-scout.tar.gz
+        dest: "{{ _docker_scout_path }}"
+        include:
+          - docker-scout
+
+    - name: Stat of docker config
+      tags: ["scout"]
+      ansible.builtin.stat:
+        path: "{{ _docker_config_path }}"
+      register: _docker_config
+
+    - name: Create docker config
+      tags: ["scout"]
+      when: not _docker_config.stat.exists
+      ansible.builtin.copy:
+        content: {}
+        dest: "{{ _docker_config_path }}"
+        mode: "0640"
+
+    - name: Load docker config
+      tags: ["scout"]
+      ansible.builtin.set_fact:
+        _docker_config_data: "{{ lookup('ansible.builtin.file', _docker_config_path) | from_json }}"
+        _docker_config_cli_plugin_extra_dirs:
+          cliPluginsExtraDirs: ["{{ _docker_scout_path }}"]
+
+    - name: Update docker config
+      tags: ["scout"]
+      vars:
+        _docker_config_updated: "{{ _docker_config_data | combine(_docker_config_cli_plugin_extra_dirs) }}"
+      ansible.builtin.copy:
+        content: "{{ _docker_config_updated | to_nice_json }}"
+        dest: "{{ _docker_config_path }}"
+        mode: "0640"
