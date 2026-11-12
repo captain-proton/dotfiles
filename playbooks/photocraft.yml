@@ -3,10 +3,10 @@
   hosts: all
 
   vars:
-    _photocraft_version: "{{ photocraft_version | default('0.18.0') }}"
+    _photocraft_version: "{{ photocraft_version | default('0.23.1') }}"
     _photocraft_arch: "{{ photocraft_arch | default('linux-x86_64') }}"
     _photocraft_file_ext: "{{ photocraft_file_ext | default('tar.gz') }}"
-    _photocraft_checksum: "{{ photocraft_checksum | default('sha256:4b8ac8e1146ac9a97e7bfdef16b267d5396a77809fd4e2329b83dad78086574f') }}"
+    _photocraft_checksum: "{{ photocraft_checksum | default('sha256:4383aef67a07cc370ad250a6ed60015205d3e6c463faf3ff4b0f67b8178ccfc8') }}"
     _photocraft_default_download_url: "https://github.com/storytold/photocraft/releases/download/v{{ _photocraft_version }}/photocraft-{{ _photocraft_version }}-{{ _photocraft_arch }}.{{ _photocraft_file_ext }}"
     _photocraft_download_url: "{{ photocraft_download_url | default(_photocraft_default_download_url) }}"
     _photocraft_default_target_dir: "{{ home }}/.photocraft"
